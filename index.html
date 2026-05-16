@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/deltarune@main/">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #credits-box {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 2px 17px 12px 10px;
+      gap: 0px; 
+      border: 2px solid #ffffff;
+      font-family: inherit;
+      background: rgba(0,0,0,0.5);
+      width: 200px; 
+    }
+
+    .credit-link {
+      font-size: 1rem;
+      color: #ffffff;
+      transition: color 0.1s ease;
+      cursor: pointer;
+      display: block;
+      text-align: right;
+      line-height: 1;
+    }
+
+    .credit-link:hover {
+      color: #ffff00 !important;
+    }
+
+    .update-tag {
+      font-size: 1rem;
+      color: #ffffff;
+      transition: color 0.1s ease;
+      cursor: pointer;
+      display: block;
+      text-align: right;
+      line-height: 1;
+    }
+
+    #credits-box:hover .update-tag {
+      color: #b156ff;
+    }
+
+    a.update-tag:hover {
+      color: #b156ff !important;
+    }
+
+    #watermark {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 9999;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    #watermark img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    #data-toolbar {
+      position: fixed;
+      bottom: 18px;
+      left: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .data-btn {
+      background: #000000;
+      border: 2px solid transparent;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 1.1rem;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      transition: all 0.1s ease;
+      width: auto;
+      min-width: 180px;
+      justify-content: flex-start;
+    }
+    
+	    #undertale-btn {
+      position: fixed;
+      top: 130px; 
+      right: 14px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 286px; 
+    }
+
+    #undertale-btn:hover {
+      filter: sepia(1) saturate(20) hue-rotate(10deg) brightness(1.2);
+    }
+
+    #undertale-btn img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain; 
+    }
+
+    .data-btn:hover {
+      color: #ffff00;
+      border: 2px solid #ffffff;
+    }
+    
+    .data-btn svg {
+      flex-shrink: 0;
+      stroke: currentColor;
+    }
+
+    .row.selected {
+      color: #ffff00 !important;
+    }
+
+    #importData { display: none; }
+  </style>
+</head>
+<body>
+
+  <div id="credits-box">
+    <a href="https://truffled.lol" target="_blank" class="credit-link row">port by bog :o</a>
+    <a href="https://www.youtube.com/@Camzzz_VR" target="_blank" class="credit-link update-tag">updated by camzzz</a>
+  </div>
+
+  <button id="undertale-btn" onclick="loadUndertale()">
+    <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+  </button>
+
+  <div class="logo-container">
+    <img src="logo.png" alt="Logo" class="logo">
+  </div>
+  
+  <div class="menu">
+    <a href="javascript:loadChapter(1)" class="row">
+      <span class="chapter">Chapter 1</span>
+      <span class="title">The Beginning</span>
+      <img src="icons/1.png">
+    </a>
+    
+    <a href="javascript:loadChapter(2)" class="row">
+      <span class="chapter">Chapter 2</span>
+      <span class="title">A Cyber's World</span>
+      <img src="icons/2.png">
+    </a>
+    
+    <a href="javascript:loadChapter(3)" class="row">
+      <span class="chapter">Chapter 3</span>
+      <span class="title">Late Night</span>
+      <img src="icons/3.png">
+    </a>
+    
+    <a href="javascript:loadChapter(4)" class="row">
+      <span class="chapter">Chapter 4</span>
+      <span class="title">Prophecy</span>
+      <img src="icons/4.png">
+    </a>
+    
+    <a href="javascript:alert('Chapter 5 coming soon!')" class="disabled-row">
+      <span class="chapter">Chapter 5</span>
+      <span class="disabled-title">--</span>
+      <img src="icons/0.png">
+    </a>
+    
+    <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
+      <span class="chapter">Chapter 6</span>
+      <span class="disabled-title">--</span>
+      <img src="icons/0.png">
+    </a>
+    
+    <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
+      <span class="chapter">Chapter 7</span>
+      <span class="disabled-title">--</span>
+      <img src="icons/0.png">
+    </a>
+  </div>
+
+  <audio id="drone" loop hidden>
+    <source src="audios/AUDIO_DRONE.ogg" type="audio/ogg">
+  </audio>
+
+  <input type="file" id="importData" onchange="loadData(event)">
+  
+  <div id="data-toolbar">
+    <button class="data-btn" onclick="toggleAudio()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path id="audio-path" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      </svg>
+      Audio
+    </button>
+    <button class="data-btn" onclick="saveData()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Export Save
+    </button>
+    <button class="data-btn" onclick="document.getElementById('importData').click()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Import Save
+    </button>
+  </div>
+
+  <div id="watermark">
+    <img src="https://codehs.com/uploads/9af4a6069afc6e7899677a677436f2b9" alt="Logo">
+    <img src="https://codehs.com/uploads/2d4b044e98185bea6ed33429afa59ce1" alt="Logo">
+  </div>
+
+  <script>
+    const audio = document.getElementById('drone');
+    const menumoveaudio = new Audio('audios/snd_menumove.mp3');
+    const menuselectaudio = new Audio('audios/snd_select.mp3');
+    
+    let gamestarted = false;
+    let audioStarted = false;
+    let selectedChapter = null;
+
+    function startAudio() {
+      if (!audioStarted && audio) {
+        audio.play().catch(() => {});
+        audioStarted = true;
+      }
+    }
+    document.addEventListener('click', startAudio);
+    document.addEventListener('keydown', startAudio);
+
+    function toggleAudio() {
+      audio.muted = !audio.muted;
+      const path = document.getElementById('audio-path');
+      if (audio.muted) {
+        path.setAttribute('d', 'M23 9l-6 6m0-6l6 6'); 
+      } else {
+        path.setAttribute('d', 'M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07');
+      }
+    }
+
+    function loadChapter(chapter) {
+      fetch('chapter' + chapter + '/index.html').then(res => res.text()).then(html => {
+        gamestarted = true;
+        document.body.innerHTML = html;
+        Array.from(document.body.querySelectorAll('script')).forEach(oldScript => {
+          const newScript = document.createElement('script');
+          if (oldScript.src) newScript.src = oldScript.src;
+          else newScript.textContent = oldScript.textContent;
+          document.body.appendChild(newScript);
+        });
+      });
+    }
+
+    function loadUndertale() {
+      fetch('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/rg@8625abb/camzzzundertale.html')
+        .then(res => res.text())
+        .then(html => {
+          gamestarted = true;
+          document.body.innerHTML = html;
+          Array.from(document.body.querySelectorAll('script')).forEach(oldScript => {
+            const newScript = document.createElement('script');
+            if (oldScript.src) newScript.src = oldScript.src;
+            else newScript.textContent = oldScript.textContent;
+            document.body.appendChild(newScript);
+          });
+        });
+    }
+
+    function attachEvents() {
+      const rows = document.querySelectorAll('.row');
+      rows.forEach((row, index) => {
+        row.addEventListener('mouseenter', () => {
+          if (!gamestarted) {
+            menumoveaudio.play();
+            rows.forEach(r => r.classList.remove("selected"));
+            selectedChapter = index;
+            row.classList.add("selected");
+          }
+        });
+        
+        row.addEventListener('mouseleave', () => {
+          if (!gamestarted) {
+            row.classList.remove("selected");
+            selectedChapter = null;
+          }
+        });
+
+        row.addEventListener('click', () => {
+          if (!gamestarted) menuselectaudio.play();
+        });
+      });
+
+      document.querySelectorAll('#undertale-btn, .update-tag, .data-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => { if (!gamestarted) menumoveaudio.play(); });
+        btn.addEventListener('click', () => { if (!gamestarted) menuselectaudio.play(); });
+      });
+    }
+    attachEvents();
+
+    document.addEventListener('keydown', function(event) {
+      if (gamestarted) return;
+      const rows = document.querySelectorAll('.row');
+      
+      if (event.key === 'ArrowUp') {
+        if (selectedChapter === null) selectedChapter = rows.length - 1;
+        else {
+          rows[selectedChapter].classList.remove("selected");
+          selectedChapter = (selectedChapter - 1 + rows.length) % rows.length;
+        }
+        rows[selectedChapter].classList.add("selected");
+        menumoveaudio.play();
+      } 
+      else if (event.key === 'ArrowDown') {
+        if (selectedChapter === null) selectedChapter = 0;
+        else {
+          rows[selectedChapter].classList.remove("selected");
+          selectedChapter = (selectedChapter + 1) % rows.length;
+        }
+        rows[selectedChapter].classList.add("selected");
+        menumoveaudio.play();
+      } 
+      else if (event.key === 'Enter') {
+        if (selectedChapter !== null) {
+          menuselectaudio.play();
+          rows[selectedChapter].click();
+        }
+      }
+    });
+
+    function saveData() {
+      let data = JSON.stringify(localStorage) + "\n\n|\n\n" + document.cookie;
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
+      link.download = `dr_save_${Date.now()}.data`;
+      link.click();
+    }
+
+    function loadData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const parts = e.target.result.split("\n\n|\n\n");
+        try {
+          const parsed = JSON.parse(parts[0]);
+          for (let key in parsed) localStorage.setItem(key, parsed[key]);
+          if (parts[1]) {
+            parts[1].split("; ").forEach(c => { if (c) document.cookie = c; });
+          }
+          alert("Data loaded! Refreshing...");
+          location.reload();
+        } catch(err) { alert("Error loading save file."); }
+      };
+      reader.readAsText(file);
+    }
+  </script>
+
+</body>
+</html>
