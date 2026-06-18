@@ -111,11 +111,25 @@
       width: 286px; 
     }
 
-    #undertale-btn:hover {
+    #badtimesim-btn {
+      position: fixed;
+      top: 178px;
+      right: 14px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 120px;
+    }
+
+    #undertale-btn:hover,
+    #badtimesim-btn:hover {
       filter: sepia(1) saturate(20) hue-rotate(10deg) brightness(1.2);
     }
 
-    #undertale-btn img {
+    #undertale-btn img,
+    #badtimesim-btn img {
       width: 100%;
       height: auto;
       display: block;
@@ -125,6 +139,11 @@
     .data-btn:hover {
       color: #ffff00;
       border: 2px solid #ffffff;
+    }
+
+    .wipe-btn:hover {
+      color: #ff4040;
+      border: 2px solid #ff4040;
     }
     
     .data-btn svg {
@@ -148,6 +167,10 @@
 
   <button id="undertale-btn" onclick="loadUndertale()">
     <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+  </button>
+
+  <button id="badtimesim-btn" onclick="loadBadTimeSim()">
+    <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
   </button>
 
   <div class="logo-container">
@@ -220,6 +243,10 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Import Save
     </button>
+    <button class="data-btn wipe-btn" onclick="wipeData()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      Wipe Save
+    </button>
   </div>
 
   <div id="watermark">
@@ -255,32 +282,34 @@
       }
     }
 
-    function loadChapter(chapter) {
-      fetch('chapter' + chapter + '/index.html').then(res => res.text()).then(html => {
-        gamestarted = true;
-        document.documentElement.innerHTML = html;
-        document.documentElement.querySelectorAll('script').forEach(oldScript => {
-          const newScript = document.createElement('script');
-          if (oldScript.src) newScript.src = oldScript.src;
-          else newScript.textContent = oldScript.textContent;
-          document.body.appendChild(newScript);
+    function loadRemotePage(url) {
+      gamestarted = true;
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error('Could not load ' + url);
+          return res.text();
+        })
+        .then(html => {
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch(err => {
+          gamestarted = false;
+          alert('Sorry, that chapter could not load.\n\n' + err.message);
         });
-      });
+    }
+
+    function loadChapter(chapter) {
+      loadRemotePage('chapter' + chapter + '/index.html');
     }
 
     function loadUndertale() {
-      fetch('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/rg@8625abb/camzzzundertale.html')
-        .then(res => res.text())
-        .then(html => {
-          gamestarted = true;
-          document.documentElement.innerHTML = html;
-          document.documentElement.querySelectorAll('script').forEach(oldScript => {
-            const newScript = document.createElement('script');
-            if (oldScript.src) newScript.src = oldScript.src;
-            else newScript.textContent = oldScript.textContent;
-            document.body.appendChild(newScript);
-          });
-        });
+      loadRemotePage('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/rg@8625abb/camzzzundertale.html');
+    }
+
+    function loadBadTimeSim() {
+      loadRemotePage('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/badtimesim@main/camzzzbadtimesim.html');
     }
 
     function attachEvents() {
@@ -307,7 +336,7 @@
         });
       });
 
-      document.querySelectorAll('#undertale-btn, .update-tag, .data-btn').forEach(btn => {
+      document.querySelectorAll('#undertale-btn, #badtimesim-btn, .update-tag, .data-btn').forEach(btn => {
         btn.addEventListener('mouseenter', () => { if (!gamestarted) menumoveaudio.play(); });
         btn.addEventListener('click', () => { if (!gamestarted) menuselectaudio.play(); });
       });
@@ -344,8 +373,282 @@
       }
     });
 
-    function saveData() {
-      let data = JSON.stringify(localStorage) + "\n\n|\n\n" + document.cookie;
+    function requestToPromise(request) {
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function arrayBufferToBase64(buffer) {
+      let binary = "";
+      const bytes = new Uint8Array(buffer);
+      for (let i = 0; i < bytes.length; i += 0x8000) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+      }
+      return btoa(binary);
+    }
+
+    function base64ToArrayBuffer(base64) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return bytes.buffer;
+    }
+
+    async function encodeForSave(value) {
+      if (value instanceof ArrayBuffer) {
+        return { __type: "ArrayBuffer", data: arrayBufferToBase64(value) };
+      }
+      if (ArrayBuffer.isView(value)) {
+        const buffer = value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
+        return { __type: "TypedArray", name: value.constructor.name, data: arrayBufferToBase64(buffer) };
+      }
+      if (value instanceof Blob) {
+        return {
+          __type: "Blob",
+          mimeType: value.type,
+          data: arrayBufferToBase64(await value.arrayBuffer())
+        };
+      }
+      if (value instanceof Date) {
+        return { __type: "Date", data: value.toISOString() };
+      }
+      if (Array.isArray(value)) {
+        return Promise.all(value.map(item => encodeForSave(item)));
+      }
+      if (value && typeof value === "object") {
+        const encoded = {};
+        for (const key of Object.keys(value)) encoded[key] = await encodeForSave(value[key]);
+        return encoded;
+      }
+      return value;
+    }
+
+    function decodeFromSave(value) {
+      if (Array.isArray(value)) return value.map(decodeFromSave);
+      if (value && typeof value === "object") {
+        if (value.__type === "ArrayBuffer") return base64ToArrayBuffer(value.data);
+        if (value.__type === "Blob") return new Blob([base64ToArrayBuffer(value.data)], { type: value.mimeType || "" });
+        if (value.__type === "Date") return new Date(value.data);
+        if (value.__type === "TypedArray") {
+          const constructors = { Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array };
+          const TypedArrayConstructor = constructors[value.name] || Uint8Array;
+          return new TypedArrayConstructor(base64ToArrayBuffer(value.data));
+        }
+        const decoded = {};
+        for (const key of Object.keys(value)) decoded[key] = decodeFromSave(value[key]);
+        return decoded;
+      }
+      return value;
+    }
+
+    function openIndexedDB(name, version, upgrade) {
+      return new Promise((resolve, reject) => {
+        const request = version ? indexedDB.open(name, version) : indexedDB.open(name);
+        request.onupgradeneeded = event => upgrade && upgrade(request.result, event);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => reject(new Error("IndexedDB is blocked for " + name));
+      });
+    }
+
+    async function exportIndexedDB() {
+      if (!window.indexedDB) return [];
+
+      const databaseNames = new Set(["/_savedata", "emscripten_filesystem"]);
+      if (indexedDB.databases) {
+        const databases = await indexedDB.databases();
+        databases.forEach(db => { if (db.name) databaseNames.add(db.name); });
+      }
+
+      const exported = [];
+      for (const name of databaseNames) {
+        let db;
+        try {
+          db = await openIndexedDB(name);
+        } catch (err) {
+          continue;
+        }
+
+        const dbExport = { name, version: db.version, stores: [] };
+        const storeNames = Array.from(db.objectStoreNames);
+        for (const storeName of storeNames) {
+          const transaction = db.transaction(storeName, "readonly");
+          const store = transaction.objectStore(storeName);
+          const keys = await requestToPromise(store.getAllKeys());
+          const values = await requestToPromise(store.getAll());
+          dbExport.stores.push({
+            name: storeName,
+            keyPath: store.keyPath,
+            autoIncrement: store.autoIncrement,
+            indexes: Array.from(store.indexNames).map(indexName => {
+              const index = store.index(indexName);
+              return {
+                name: index.name,
+                keyPath: index.keyPath,
+                unique: index.unique,
+                multiEntry: index.multiEntry
+              };
+            }),
+            records: await Promise.all(values.map(async (value, index) => ({
+              key: await encodeForSave(keys[index]),
+              value: await encodeForSave(value)
+            })))
+          });
+        }
+
+        db.close();
+        if (dbExport.stores.some(store => store.records.length > 0)) exported.push(dbExport);
+      }
+      return exported;
+    }
+
+    function deleteIndexedDB(name) {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.deleteDatabase(name);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => reject(new Error("Close other tabs using this site, then import again."));
+      });
+    }
+
+    function expectedIndexesForStore(storeInfo) {
+      if (Array.isArray(storeInfo.indexes) && storeInfo.indexes.length) return storeInfo.indexes;
+      if (storeInfo.name === "FILE_DATA") {
+        return [{ name: "timestamp", keyPath: "timestamp", unique: false, multiEntry: false }];
+      }
+      return [];
+    }
+
+    function ensureStoreIndexes(store, storeInfo) {
+      expectedIndexesForStore(storeInfo).forEach(indexInfo => {
+        if (!store.indexNames.contains(indexInfo.name)) {
+          store.createIndex(indexInfo.name, indexInfo.keyPath, {
+            unique: !!indexInfo.unique,
+            multiEntry: !!indexInfo.multiEntry
+          });
+        }
+      });
+    }
+
+    async function openDatabaseForImport(database) {
+      const backupVersion = Math.max(1, database.version || 1);
+      const createMissingStores = (openedDB, event) => {
+        database.stores.forEach(storeInfo => {
+          let store;
+          if (!openedDB.objectStoreNames.contains(storeInfo.name)) {
+            store = openedDB.createObjectStore(storeInfo.name, {
+              keyPath: storeInfo.keyPath || undefined,
+              autoIncrement: !!storeInfo.autoIncrement
+            });
+          } else {
+            store = event.target.transaction.objectStore(storeInfo.name);
+          }
+          ensureStoreIndexes(store, storeInfo);
+        });
+      };
+
+      try {
+        return await openIndexedDB(database.name, backupVersion, createMissingStores);
+      } catch (err) {
+        if (!err || err.name !== "VersionError") throw err;
+      }
+
+      let db = await openIndexedDB(database.name);
+      const needsUpgrade = database.stores.some(storeInfo => {
+        if (!db.objectStoreNames.contains(storeInfo.name)) return true;
+        const transaction = db.transaction(storeInfo.name, "readonly");
+        const store = transaction.objectStore(storeInfo.name);
+        return expectedIndexesForStore(storeInfo).some(indexInfo => !store.indexNames.contains(indexInfo.name));
+      });
+      if (!needsUpgrade) return db;
+
+      const nextVersion = db.version + 1;
+      db.close();
+      return openIndexedDB(database.name, nextVersion, createMissingStores);
+    }
+
+    async function importIndexedDB(databases) {
+      const stats = { databases: 0, stores: 0, records: 0, verifiedRecords: 0 };
+      if (!window.indexedDB || !Array.isArray(databases)) return stats;
+
+      for (const database of databases) {
+        const db = await openDatabaseForImport(database);
+        stats.databases++;
+
+        const storeNames = database.stores.map(store => store.name);
+        if (storeNames.length) {
+          await new Promise((resolve, reject) => {
+            const transaction = db.transaction(storeNames, "readwrite");
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+            transaction.onabort = () => reject(transaction.error);
+
+            database.stores.forEach(storeInfo => {
+              const store = transaction.objectStore(storeInfo.name);
+              stats.stores++;
+              store.clear();
+              storeInfo.records.forEach(record => {
+                const key = decodeFromSave(record.key);
+                const value = decodeFromSave(record.value);
+                if (store.keyPath) store.put(value);
+                else store.put(value, key);
+                stats.records++;
+              });
+            });
+          });
+
+          for (const storeName of storeNames) {
+            const transaction = db.transaction(storeName, "readonly");
+            const store = transaction.objectStore(storeName);
+            const keys = await requestToPromise(store.getAllKeys());
+            stats.verifiedRecords += keys.length;
+          }
+        }
+        db.close();
+      }
+      return stats;
+    }
+
+    async function wipeData() {
+      if (!confirm("Are you sure you want to wipe your saves? This cannot be undone unless you exported a backup first.")) return;
+
+      localStorage.clear();
+      document.cookie.split(";").forEach(cookie => {
+        const name = cookie.split("=")[0].trim();
+        if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      });
+
+      if (window.indexedDB) {
+        const databaseNames = new Set(["/_savedata", "emscripten_filesystem"]);
+        if (indexedDB.databases) {
+          const databases = await indexedDB.databases();
+          databases.forEach(db => { if (db.name) databaseNames.add(db.name); });
+        }
+        for (const name of databaseNames) await deleteIndexedDB(name);
+      }
+
+      alert("Saves wiped! Refreshing...");
+      location.reload();
+    }
+
+    async function saveData() {
+      const localStorageData = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        localStorageData[key] = localStorage.getItem(key);
+      }
+
+      const data = JSON.stringify({
+        format: "deltarune-snxtr-save",
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        localStorage: localStorageData,
+        cookies: document.cookie,
+        indexedDB: await exportIndexedDB()
+      });
+
       const link = document.createElement("a");
       link.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
       link.download = `dr_save_${Date.now()}.data`;
@@ -356,17 +659,31 @@
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = e => {
-        const parts = e.target.result.split("\n\n|\n\n");
+      reader.onload = async e => {
         try {
-          const parsed = JSON.parse(parts[0]);
-          for (let key in parsed) localStorage.setItem(key, parsed[key]);
-          if (parts[1]) {
-            parts[1].split("; ").forEach(c => { if (c) document.cookie = c; });
+          const text = e.target.result;
+          let parsed;
+          let cookies = "";
+
+          if (text.includes("\n\n|\n\n")) {
+            const parts = text.split("\n\n|\n\n");
+            parsed = { localStorage: JSON.parse(parts[0]), cookies: parts[1] || "", indexedDB: [] };
+          } else {
+            parsed = JSON.parse(text);
           }
-          alert("Data loaded! Refreshing...");
+
+          localStorage.clear();
+          for (let key in parsed.localStorage) localStorage.setItem(key, parsed.localStorage[key]);
+          cookies = parsed.cookies || "";
+          if (cookies) cookies.split("; ").forEach(c => { if (c) document.cookie = c; });
+          const stats = await importIndexedDB(parsed.indexedDB);
+          alert("Data loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records in browser storage.\n\nRefreshing...");
           location.reload();
-        } catch(err) { alert("Error loading save file."); }
+        } catch(err) {
+          alert("Error loading save file.\n\n" + (err && err.message ? err.message : err));
+        } finally {
+          event.target.value = "";
+        }
       };
       reader.readAsText(file);
     }
