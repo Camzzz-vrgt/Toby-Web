@@ -345,12 +345,15 @@
 
     function loadRemotePage(url) {
       gamestarted = true;
-      fetch(url)
+      const pageUrl = new URL(url, document.baseURI).href;
+      fetch(pageUrl)
         .then(res => {
-          if (!res.ok) throw new Error('Could not load ' + url);
+          if (!res.ok) throw new Error('Could not load ' + pageUrl);
           return res.text();
         })
         .then(html => {
+          const pageBase = pageUrl.slice(0, pageUrl.lastIndexOf('/') + 1);
+          html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">');
           document.open();
           document.write(html);
           document.close();
