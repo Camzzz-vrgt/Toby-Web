@@ -3,439 +3,757 @@
 <head>
   <base href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <style>
-    #credits-box {
+    :root {
+      --white: #ffffff;
+      --yellow: #ffff00;
+      --red: #ff2d4f;
+      --blue: #aee8ff;
+      --panel: rgba(0, 0, 0, 0.9);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: #000;
+      color: var(--white);
+      font-family: "Deltarune", monospace;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    button,
+    a,
+    label {
+      font-family: inherit;
+    }
+
+    button,
+    a {
+      color: inherit;
+    }
+
+    #app {
+      min-height: 100vh;
+      position: relative;
+      padding: 22px;
+    }
+
+    .page {
+      display: none;
+      min-height: calc(100vh - 44px);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .settings-toggle {
       position: fixed;
       top: 18px;
       right: 18px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      padding: 2px 17px 12px 10px;
-      gap: 0px; 
-      border: 2px solid #ffffff;
-      font-family: inherit;
-      background: rgba(0,0,0,0.5);
-      width: 200px; 
+      z-index: 1000;
+      width: 44px;
+      height: 44px;
+      border: 2px solid transparent;
+      background: transparent;
+      color: var(--white);
+      cursor: pointer;
+      padding: 5px;
     }
 
-    #featured-save-box {
-      position: fixed;
-      top: 18px;
-      left: 18px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 8px;
-      border: 2px solid #ffffff;
-      background: rgba(0,0,0,0.72);
-      width: 220px;
+    .settings-toggle:hover,
+    .pixel-button:hover,
+    .save-button:hover,
+    .home-logo-link:hover,
+    .brand-link:hover,
+    .game-card:hover,
+    .row:hover {
+      color: var(--yellow);
+      border-color: var(--white);
     }
 
-    .featured-save-title {
-      color: #ffffff;
-      font-size: 0.95rem;
-      line-height: 1.2;
+    .settings-toggle svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      stroke-width: 3;
+      image-rendering: pixelated;
+    }
+
+    .home-layout {
+      min-height: calc(100vh - 44px);
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    .home-choices {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr);
+      align-items: center;
+      gap: clamp(24px, 8vw, 90px);
+      padding: 11vh 3vw 6vh;
+    }
+
+    .home-logo-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 170px;
+      border: 2px solid transparent;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.08s ease, border-color 0.08s ease, filter 0.08s ease;
+    }
+
+    .home-logo-link:hover {
+      filter: sepia(1) saturate(20) hue-rotate(8deg) brightness(1.25);
+    }
+
+    .home-deltarune img {
+      width: min(42vw, 520px);
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .home-undertale img {
+      width: min(42vw, 520px);
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .home-footer {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: end;
+      gap: 18px;
+    }
+
+    .brand-links {
+      display: flex;
+      gap: 14px;
+      align-items: end;
+    }
+
+    .brand-link {
+      width: 52px;
+      height: 52px;
+      border: 2px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-link img {
+      max-width: 44px;
+      max-height: 44px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .extras-home {
+      justify-self: end;
+      border: 2px solid transparent;
+      background: transparent;
+      color: var(--white);
+      font-size: clamp(2.8rem, 7vw, 6.8rem);
+      line-height: 0.9;
+      text-transform: lowercase;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .subpage {
+      width: min(980px, calc(100vw - 44px));
+      margin: 0 auto;
+      padding: 72px 0 28px;
+    }
+
+    .subpage-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .back-button {
+      justify-self: start;
+    }
+
+    .subpage-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 92px;
+    }
+
+    .subpage-logo img {
+      max-width: min(520px, 72vw);
+      max-height: 100px;
+      object-fit: contain;
+    }
+
+    .save-menu {
+      justify-self: end;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .pixel-button,
+    .save-button {
+      min-height: 38px;
+      border: 2px solid transparent;
+      background: #000;
+      color: var(--white);
+      padding: 6px 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.92rem;
+    }
+
+    .save-button.danger:hover,
+    .pixel-button.danger:hover {
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    .menu {
+      width: min(760px, 100%);
+      margin: 0 auto;
+    }
+
+    .row,
+    .disabled-row {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 56px;
+      align-items: center;
+      gap: 12px;
+      min-height: 62px;
+      padding: 4px 8px;
+      border: 2px solid transparent;
+      text-decoration: none;
+      color: var(--white);
+      cursor: pointer;
+    }
+
+    .disabled-row {
+      opacity: 0.44;
+      cursor: default;
+    }
+
+    .row.selected {
+      color: var(--yellow);
+    }
+
+    .chapter,
+    .title,
+    .disabled-title {
+      font-size: clamp(1rem, 2.4vw, 1.35rem);
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .row img,
+    .disabled-row img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      justify-self: end;
+    }
+
+    .extras-grid {
+      width: min(720px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(190px, 1fr));
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .game-card {
+      min-height: 210px;
+      border: 2px solid transparent;
+      background: #000;
+      color: var(--white);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      padding: 16px;
       text-align: center;
       text-transform: uppercase;
     }
 
-    .featured-save-btn {
-      width: 100%;
-      min-height: 34px;
-      padding: 5px 8px;
-      border: 2px solid transparent;
-      background: #000000;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: inline-flex;
+    .game-card img {
+      max-width: 100%;
+      max-height: 122px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .game-card span {
+      display: block;
+      margin-top: 14px;
+      font-size: 1.05rem;
+    }
+
+    .game-card.kaizo img {
+      width: 112px;
+      height: 112px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    #settings-modal,
+    #kaizo-modal,
+    #kaizo-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
       align-items: center;
-      justify-content: flex-start;
-      gap: 8px;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.86);
+    }
+
+    #settings-modal.open,
+    #kaizo-modal.open,
+    #kaizo-loading.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(92vw, 600px);
+      max-height: 88vh;
+      overflow: auto;
+      border: 2px solid var(--white);
+      background: #000;
+      color: var(--white);
+      padding: 18px;
+      box-shadow: 0 0 0 4px #000;
+    }
+
+    .modal-box h2 {
+      margin: 0 0 14px;
+      font-size: 1.35rem;
       text-transform: uppercase;
     }
 
-    .featured-save-btn:hover {
-      color: #ffff00;
-      border-color: #ffffff;
+    .modal-box p {
+      margin: 0 0 14px;
+      line-height: 1.35;
     }
 
-    .featured-save-btn svg {
-      flex-shrink: 0;
-      stroke: currentColor;
+    .modal-actions,
+    .settings-actions {
+      display: grid;
+      gap: 8px;
     }
 
-    .credit-link {
-      font-size: 1rem;
-      color: #ffffff;
-      transition: color 0.1s ease;
-      cursor: pointer;
-      display: block;
-      text-align: right;
-      line-height: 1;
+    .settings-section {
+      border-top: 2px solid #333;
+      padding-top: 12px;
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
     }
 
-    .credit-link:hover {
-      color: #ffff00 !important;
+    .credits-line {
+      line-height: 1.35;
+      text-transform: uppercase;
     }
 
-    .update-tag {
-      font-size: 1rem;
-      color: #ffffff;
-      transition: color 0.1s ease;
-      cursor: pointer;
-      display: block;
-      text-align: right;
-      line-height: 1;
+    .classic-page {
+      padding: 18px;
     }
 
-    #credits-box:hover .update-tag {
-      color: #b156ff;
-    }
-
-    a.update-tag:hover {
-      color: #b156ff !important;
-    }
-
-    #watermark {
+    .classic-page #credits-box {
       position: fixed;
-      bottom: 16px;
-      right: 16px;
-      z-index: 9999;
-      opacity: 0.85;
-      pointer-events: none;
-    }
-
-    #watermark img {
-      width: 60px;
-      height: 60px;
-      border-radius: 8px;
-      object-fit: contain;
-      image-rendering: auto;
-    }
-
-    #data-toolbar {
-      position: fixed;
-      bottom: 18px;
-      left: 18px;
-      z-index: 9999;
+      top: 18px;
+      right: 18px;
+      z-index: 900;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
+      align-items: flex-end;
+      padding: 2px 17px 12px 10px;
+      border: 2px solid #fff;
+      background: rgba(0,0,0,0.5);
+      width: 200px;
     }
 
-    .data-btn {
-      background: #000000;
+    .classic-page .credit-link {
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      text-align: right;
+      line-height: 1;
+    }
+
+    .classic-page .logo-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .classic-page .logo {
+      max-width: min(680px, 82vw);
+      height: auto;
+    }
+
+    .classic-page .classic-extras {
+      position: fixed;
+      top: 120px;
+      right: 14px;
+      display: grid;
+      gap: 12px;
+      width: 286px;
+      z-index: 850;
+    }
+
+    .classic-page .classic-extra-btn {
+      background: transparent;
       border: 2px solid transparent;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 1.1rem;
-      padding: 6px 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-transform: uppercase;
-      transition: all 0.1s ease;
-      width: auto;
-      min-width: 180px;
-      justify-content: flex-start;
-    }
-    
-	    #undertale-btn {
-      position: fixed;
-      top: 130px; 
-      right: 14px;
-      z-index: 9999;
-      cursor: pointer;
-      background: none;
-      border: none;
       padding: 0;
-      width: 286px; 
+      cursor: pointer;
     }
 
-    #badtimesim-btn {
-      position: fixed;
-      top: 178px;
-      right: 14px;
-      z-index: 9999;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      width: 120px;
-    }
-
-    #kaizo-btn {
-      position: fixed;
-      top: 310px;
-      right: 14px;
-      z-index: 9999;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      width: 96px;
-    }
-
-    #undertale-btn:hover,
-    #badtimesim-btn:hover,
-    #kaizo-btn:hover {
+    .classic-page .classic-extra-btn:hover {
+      border-color: #fff;
       filter: sepia(1) saturate(20) hue-rotate(10deg) brightness(1.2);
     }
 
-    #undertale-btn img,
-    #badtimesim-btn img,
-    #kaizo-btn img {
+    .classic-page .classic-extra-btn img {
       width: 100%;
       height: auto;
       display: block;
       object-fit: contain;
     }
 
-    #kaizo-btn img {
+    .classic-page .classic-extra-btn.small {
+      width: 120px;
+      justify-self: end;
+    }
+
+    .classic-page .classic-extra-btn.kaizo {
+      width: 96px;
+      justify-self: end;
+    }
+
+    .classic-page .classic-extra-btn.kaizo img {
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
 
-    #kaizo-modal,
-    #kaizo-loading {
+    .classic-page #data-toolbar {
       position: fixed;
-      inset: 0;
-      z-index: 10000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      background: rgba(0,0,0,0.82);
-    }
-
-    #kaizo-modal.open,
-    #kaizo-loading.open {
+      bottom: 18px;
+      left: 18px;
+      z-index: 900;
       display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
     }
 
-    .kaizo-box {
-      width: min(92vw, 560px);
-      padding: 18px;
-      border: 2px solid #ffffff;
-      background: #000000;
-      color: #ffffff;
-      font-family: inherit;
-      text-align: left;
-      box-shadow: 0 0 0 4px #000000, 0 0 28px rgba(174,232,255,0.42);
-    }
-
-    .kaizo-box h2 {
-      margin: 0 0 12px;
-      color: #aee8ff;
-      font-size: 1.35rem;
-      text-transform: uppercase;
-    }
-
-    .kaizo-box p {
-      margin: 0 0 14px;
-      line-height: 1.35;
-    }
-
-    .kaizo-actions {
-      display: grid;
+    .classic-page .watermark {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 900;
+      display: flex;
       gap: 8px;
+      align-items: end;
     }
 
-    .kaizo-actions button {
-      min-height: 38px;
-      border: 2px solid transparent;
-      background: #000000;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 1rem;
-      text-transform: uppercase;
-      cursor: pointer;
+    .classic-page .watermark img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
     }
 
-    .kaizo-actions button:hover {
-      color: #aee8ff;
-      border-color: #ffffff;
+    #importData,
+    #siteImportData {
+      display: none;
     }
 
-    .kaizo-actions .danger:hover {
-      color: #ff4b6a;
-      border-color: #ff4b6a;
+    @media (max-width: 760px) {
+      #app { padding: 14px; }
+      .home-choices {
+        grid-template-columns: 1fr;
+        padding-top: 12vh;
+        gap: 24px;
+      }
+      .home-logo-link {
+        min-height: 112px;
+      }
+      .home-deltarune img,
+      .home-undertale img {
+        width: min(86vw, 480px);
+      }
+      .home-footer {
+        grid-template-columns: 1fr auto;
+      }
+      .extras-home {
+        grid-column: 2;
+        font-size: 3.3rem;
+      }
+      .subpage {
+        width: 100%;
+        padding-top: 64px;
+      }
+      .subpage-header {
+        grid-template-columns: 1fr;
+      }
+      .save-menu {
+        justify-self: stretch;
+        justify-content: center;
+      }
+      .row,
+      .disabled-row {
+        grid-template-columns: 1fr 1fr 44px;
+      }
+      .extras-grid {
+        grid-template-columns: 1fr;
+      }
+      .classic-page .classic-extras {
+        position: static;
+        width: min(286px, 100%);
+        margin: 18px auto;
+      }
+      .classic-page #data-toolbar,
+      .classic-page .watermark {
+        position: static;
+        margin-top: 18px;
+      }
     }
-
-    #kaizo-loading .kaizo-box {
-      width: min(86vw, 420px);
-      text-align: center;
-      text-transform: uppercase;
-      color: #aee8ff;
-    }
-
-    .data-btn:hover {
-      color: #ffff00;
-      border: 2px solid #ffffff;
-    }
-
-    .wipe-btn:hover {
-      color: #ff4040;
-      border: 2px solid #ff4040;
-    }
-    
-    .data-btn svg {
-      flex-shrink: 0;
-      stroke: currentColor;
-    }
-
-    .row.selected {
-      color: #ffff00 !important;
-    }
-
-    #importData { display: none; }
   </style>
 </head>
 <body>
-
-  <div id="featured-save-box">
-    <div class="featured-save-title">Camzzz All-Boss Save</div>
-    <button class="featured-save-btn" onclick="downloadFeaturedSave()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Download Save
-    </button>
-    <button class="featured-save-btn" onclick="importFeaturedSave()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 21h14"/></svg>
-      Import Save
-    </button>
-  </div>
-
-  <div id="credits-box">
-    <a href="https://truffled.lol" target="_blank" class="credit-link row">port by bog :o</a>
-    <a href="https://www.youtube.com/@Camzzz_VR" target="_blank" class="credit-link update-tag">updated by camzzz</a>
-  </div>
-
-  <button id="undertale-btn" onclick="loadUndertale()">
-    <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+  <button class="settings-toggle sound-target" onclick="openSettings()" aria-label="Settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M14.7 6.3l3-3 3 3-3 3"/>
+      <path d="M3 21l9.5-9.5"/>
+      <path d="M12 7l5 5"/>
+    </svg>
   </button>
 
-  <button id="badtimesim-btn" onclick="loadBadTimeSim()">
-    <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
-  </button>
-
-  <button id="kaizo-btn" onclick="openKaizoConfirm()">
-    <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
-  </button>
-
-  <div id="kaizo-modal">
-    <div class="kaizo-box">
-      <h2>Are You Sure?</h2>
-      <p>This will wipe your current browser save and load the Kaizo Roaring Knight save instead.</p>
-      <p>Back up your main save first if you want to keep it.</p>
-      <div class="kaizo-actions">
-        <button onclick="saveData()">Back Up First</button>
-        <button class="danger" onclick="loadKaizoRoaringKnight()">Wipe And Load</button>
-        <button onclick="closeKaizoConfirm()">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="kaizo-loading">
-    <div class="kaizo-box" id="kaizo-loading-text">Loading...</div>
-  </div>
-
-  <div class="logo-container">
-    <img src="logo.png" alt="Logo" class="logo">
-  </div>
-  
-  <div class="menu">
-    <a href="javascript:loadChapter(1)" class="row">
-      <span class="chapter">Chapter 1</span>
-      <span class="title">The Beginning</span>
-      <img src="icons/1.png">
-    </a>
-    
-    <a href="javascript:loadChapter(2)" class="row">
-      <span class="chapter">Chapter 2</span>
-      <span class="title">A Cyber's World</span>
-      <img src="icons/2.png">
-    </a>
-    
-    <a href="javascript:loadChapter(3)" class="row">
-      <span class="chapter">Chapter 3</span>
-      <span class="title">Late Night</span>
-      <img src="icons/3.png">
-    </a>
-    
-    <a href="javascript:loadChapter(4)" class="row">
-      <span class="chapter">Chapter 4</span>
-      <span class="title">Prophecy</span>
-      <img src="icons/4.png">
-    </a>
-    
-    <a href="javascript:loadChapter(5)" class="row">
-      <span class="chapter">Chapter 5</span>
-      <span class="title">Festival Day</span>
-      <img src="icons/5.png">
-    </a>
-    
-    <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 6</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-    
-    <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
-      <span class="chapter">Chapter 7</span>
-      <span class="disabled-title">--</span>
-      <img src="icons/0.png">
-    </a>
-  </div>
+  <input type="file" id="importData" onchange="loadData(event)">
+  <input type="file" id="siteImportData" onchange="loadWholeSiteData(event)">
 
   <audio id="drone" loop hidden>
     <source src="audios/AUDIO_DRONE.ogg" type="audio/ogg">
   </audio>
 
-  <input type="file" id="importData" onchange="loadData(event)">
-  
-  <div id="data-toolbar">
-    <button class="data-btn" onclick="toggleAudio()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-        <path id="audio-path" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-      </svg>
-      Audio
-    </button>
-    <button class="data-btn" onclick="saveData()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      Export Save
-    </button>
-    <button class="data-btn" onclick="document.getElementById('importData').click()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Import Save
-    </button>
-    <button class="data-btn wipe-btn" onclick="wipeData()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-      Wipe Save
-    </button>
+  <main id="app">
+    <section id="home-page" class="page home-layout active">
+      <div class="home-choices">
+        <a class="home-logo-link home-deltarune sound-target" href="javascript:showPage('deltarune')">
+          <img src="logo.png" alt="Deltarune">
+        </a>
+        <a class="home-logo-link home-undertale sound-target" href="javascript:showPage('undertale')">
+          <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+        </a>
+      </div>
+      <div class="home-footer">
+        <div class="brand-links">
+          <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank" title="Truffled">
+            <img src="https://codehs.com/uploads/9af4a6069afc6e7899677a677436f2b9" alt="Truffled">
+          </a>
+          <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" title="Story Network">
+            <img src="https://codehs.com/uploads/2d4b044e98185bea6ed33429afa59ce1" alt="Story Network">
+          </a>
+        </div>
+        <span></span>
+        <button class="extras-home sound-target" onclick="showPage('extras')">extras</button>
+      </div>
+    </section>
+
+    <section id="deltarune-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+        <div class="subpage-logo"><img src="logo.png" alt="Deltarune"></div>
+        <div class="save-menu">
+          <button class="save-button sound-target" onclick="saveData('deltarune')">Export Save</button>
+          <button class="save-button sound-target" onclick="chooseImport('deltarune')">Import Save</button>
+          <button class="save-button danger sound-target" onclick="wipeData('deltarune')">Wipe Save</button>
+        </div>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="icons/5.png" alt="">
+        </a>
+        <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
+          <span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="icons/0.png" alt="">
+        </a>
+        <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
+          <span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="icons/0.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="undertale-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+        <div class="subpage-logo"><img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale"></div>
+        <div class="save-menu">
+          <button class="save-button sound-target" onclick="saveData('undertale')">Export Save</button>
+          <button class="save-button sound-target" onclick="chooseImport('undertale')">Import Save</button>
+          <button class="save-button danger sound-target" onclick="wipeData('undertale')">Wipe Save</button>
+        </div>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadUndertale()" class="row sound-target">
+          <span class="chapter">Undertale</span><span class="title">Start Game</span><img src="icons/0.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="extras-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+        <div class="subpage-logo"><span class="extras-home">extras</span></div>
+        <span></span>
+      </header>
+      <div class="extras-grid">
+        <button class="game-card sound-target" onclick="loadBadTimeSim()">
+          <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
+          <span>Bad Time Simulator</span>
+        </button>
+        <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
+          <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+          <span>Kaizo Roaring Knight</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="classic-page" class="page classic-page">
+      <div id="credits-box">
+        <a href="https://truffled.lol/" target="_blank" class="credit-link row sound-target">port by bog :o</a>
+        <a href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
+      </div>
+      <div class="logo-container">
+        <img src="logo.png" alt="Logo" class="logo">
+      </div>
+      <div class="classic-extras">
+        <button class="classic-extra-btn sound-target" onclick="loadUndertale()">
+          <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+        </button>
+        <button class="classic-extra-btn small sound-target" onclick="loadBadTimeSim()">
+          <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openKaizoConfirm()">
+          <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+        </button>
+      </div>
+      <div class="menu">
+        <a href="javascript:loadChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="icons/1.png" alt=""></a>
+        <a href="javascript:loadChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="icons/2.png" alt=""></a>
+        <a href="javascript:loadChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="icons/3.png" alt=""></a>
+        <a href="javascript:loadChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="icons/4.png" alt=""></a>
+        <a href="javascript:loadChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="icons/5.png" alt=""></a>
+        <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row"><span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="icons/0.png" alt=""></a>
+        <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row"><span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="icons/0.png" alt=""></a>
+      </div>
+      <div id="data-toolbar" class="save-menu">
+        <button class="save-button sound-target" onclick="toggleAudio()">Audio</button>
+        <button class="save-button sound-target" onclick="saveData('all')">Export Save</button>
+        <button class="save-button sound-target" onclick="chooseImport('all')">Import Save</button>
+        <button class="save-button danger sound-target" onclick="wipeData('all')">Wipe Save</button>
+      </div>
+      <div class="watermark">
+        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://codehs.com/uploads/9af4a6069afc6e7899677a677436f2b9" alt="Truffled"></a>
+        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="https://codehs.com/uploads/2d4b044e98185bea6ed33429afa59ce1" alt="Story Network"></a>
+      </div>
+    </section>
+  </main>
+
+  <div id="settings-modal">
+    <div class="modal-box">
+      <h2>Settings</h2>
+      <div class="settings-actions">
+        <button class="pixel-button sound-target" onclick="toggleAudio()">Toggle Audio</button>
+        <button class="pixel-button sound-target" onclick="useClassicLayout()">Use Old Layout</button>
+        <button class="pixel-button sound-target" onclick="useNewLayout()">Use New Layout</button>
+        <button class="pixel-button sound-target" onclick="saveData('all')">Export Whole Site Save</button>
+        <button class="pixel-button sound-target" onclick="chooseImport('all')">Import Whole Site Save</button>
+      </div>
+      <div class="settings-section">
+        <div class="credits-line">Credits</div>
+        <div class="credits-line">Port by bog :o</div>
+        <div class="credits-line">Updated by camzzz</div>
+        <div class="credits-line">Powered by Truffled and Story Network</div>
+      </div>
+      <div class="settings-section">
+        <button class="pixel-button sound-target" onclick="closeSettings()">Close</button>
+      </div>
+    </div>
   </div>
 
-  <div id="watermark">
-    <img src="https://codehs.com/uploads/9af4a6069afc6e7899677a677436f2b9" alt="Logo">
-    <img src="https://codehs.com/uploads/2d4b044e98185bea6ed33429afa59ce1" alt="Logo">
+  <div id="kaizo-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p>This loads the Kaizo Roaring Knight Chapter 3 save. Your current Chapter 3 save will be backed up first, then Kaizo will use the Chapter 3 slot.</p>
+      <p>You can restore the backed up Chapter 3 save from this menu later.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="loadKaizoRoaringKnight()">Back Up And Load Kaizo</button>
+        <button class="pixel-button sound-target" onclick="restorePreKaizoSave()">Restore Previous Chapter 3 Save</button>
+        <button class="pixel-button sound-target" onclick="closeKaizoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="kaizo-loading">
+    <div class="modal-box" id="kaizo-loading-text">Loading...</div>
   </div>
 
   <script>
-    const audio = document.getElementById('drone');
-    const menumoveaudio = new Audio('audios/snd_menumove.mp3');
-    const menuselectaudio = new Audio('audios/snd_select.mp3');
-    
+    const audio = document.getElementById("drone");
+    const menumoveaudio = new Audio("audios/snd_menumove.mp3");
+    const menuselectaudio = new Audio("audios/snd_select.mp3");
     let gamestarted = false;
     let audioStarted = false;
     let selectedChapter = null;
+    let importScope = "all";
+
+    const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@33216f2/files/kaizo-roaring-knight/saves/filech3_0";
+    const SAVE_DB = "/_savedata";
+    const SAVE_STORE = "FILE_DATA";
+    const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
+    const KAIZO_SAVE_MODE = 33206;
+    const PRE_KAIZO_BACKUP_KEY = "dul_pre_kaizo_filech3_0_backup";
 
     function startAudio() {
       if (!audioStarted && audio) {
@@ -443,17 +761,65 @@
         audioStarted = true;
       }
     }
-    document.addEventListener('click', startAudio);
-    document.addEventListener('keydown', startAudio);
+
+    document.addEventListener("click", startAudio);
+    document.addEventListener("keydown", startAudio);
+
+    function playMove() {
+      if (!gamestarted) {
+        menumoveaudio.currentTime = 0;
+        menumoveaudio.play().catch(() => {});
+      }
+    }
+
+    function playSelect() {
+      if (!gamestarted) {
+        menuselectaudio.currentTime = 0;
+        menuselectaudio.play().catch(() => {});
+      }
+    }
+
+    document.addEventListener("mouseover", event => {
+      const target = event.target.closest(".sound-target, .row, .pixel-button, .save-button, .game-card, .brand-link");
+      if (target) playMove();
+    });
+
+    document.addEventListener("click", event => {
+      const target = event.target.closest(".sound-target, .row, .pixel-button, .save-button, .game-card, .brand-link");
+      if (target) playSelect();
+    });
 
     function toggleAudio() {
+      if (!audio) return;
       audio.muted = !audio.muted;
-      const path = document.getElementById('audio-path');
-      if (audio.muted) {
-        path.setAttribute('d', 'M23 9l-6 6m0-6l6 6'); 
-      } else {
-        path.setAttribute('d', 'M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07');
-      }
+    }
+
+    function showPage(name) {
+      gamestarted = false;
+      document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+      document.getElementById(name + "-page").classList.add("active");
+      localStorage.setItem("dul_last_page", name);
+      selectedChapter = null;
+    }
+
+    function openSettings() {
+      document.getElementById("settings-modal").classList.add("open");
+    }
+
+    function closeSettings() {
+      document.getElementById("settings-modal").classList.remove("open");
+    }
+
+    function useClassicLayout() {
+      localStorage.setItem("dul_layout", "classic");
+      closeSettings();
+      showPage("classic");
+    }
+
+    function useNewLayout() {
+      localStorage.setItem("dul_layout", "new");
+      closeSettings();
+      showPage("home");
     }
 
     function loadRemotePage(url) {
@@ -461,11 +827,11 @@
       const pageUrl = new URL(url, document.baseURI).href;
       fetch(pageUrl)
         .then(res => {
-          if (!res.ok) throw new Error('Could not load ' + pageUrl);
+          if (!res.ok) throw new Error("Could not load " + pageUrl);
           return res.text();
         })
         .then(html => {
-          const pageBase = pageUrl.slice(0, pageUrl.lastIndexOf('/') + 1);
+          const pageBase = pageUrl.slice(0, pageUrl.lastIndexOf("/") + 1);
           html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">');
           document.open();
           document.write(html);
@@ -473,27 +839,21 @@
         })
         .catch(err => {
           gamestarted = false;
-          alert('Sorry, that chapter could not load.\n\n' + err.message);
+          alert("Sorry, that game could not load.\n\n" + err.message);
         });
     }
 
     function loadChapter(chapter) {
-      loadRemotePage('chapter' + chapter + '/index.html');
+      loadRemotePage("chapter" + chapter + "/index.html");
     }
 
     function loadUndertale() {
-      loadRemotePage('undertale/index.html');
+      loadRemotePage("undertale/index.html");
     }
 
     function loadBadTimeSim() {
-      loadRemotePage('badtimesim/index.html');
+      loadRemotePage("badtimesim/index.html");
     }
-
-    const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@33216f2/files/kaizo-roaring-knight/saves/filech3_0";
-    const KAIZO_SAVE_DB = "/_savedata";
-    const KAIZO_SAVE_STORE = "FILE_DATA";
-    const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
-    const KAIZO_SAVE_MODE = 33206;
 
     function openKaizoConfirm() {
       document.getElementById("kaizo-modal").classList.add("open");
@@ -512,132 +872,29 @@
       document.getElementById("kaizo-loading").classList.remove("open");
     }
 
-    function indexedDBRequest(request) {
-      return new Promise((resolve, reject) => {
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    async function openKaizoSaveDatabase() {
-      return openIndexedDB(KAIZO_SAVE_DB, 21, (db, event) => {
-        const store = db.objectStoreNames.contains(KAIZO_SAVE_STORE)
-          ? event.target.transaction.objectStore(KAIZO_SAVE_STORE)
-          : db.createObjectStore(KAIZO_SAVE_STORE);
-        if (!store.indexNames.contains("timestamp")) {
-          store.createIndex("timestamp", "timestamp", { unique: false });
-        }
-      });
-    }
-
-    async function installKaizoSave() {
-      const response = await fetch(KAIZO_SAVE_URL);
-      if (!response.ok) throw new Error("Could not download the Kaizo save.");
-      const contents = new Uint8Array(await response.arrayBuffer());
-      const db = await openKaizoSaveDatabase();
-      try {
-        const tx = db.transaction(KAIZO_SAVE_STORE, "readwrite");
-        const store = tx.objectStore(KAIZO_SAVE_STORE);
-        await indexedDBRequest(store.put({
-          timestamp: new Date(),
-          mode: KAIZO_SAVE_MODE,
-          contents
-        }, KAIZO_SAVE_KEY));
-      } finally {
-        db.close();
-      }
-    }
-
-    async function wipeBrowserSaveForKaizo() {
-      localStorage.clear();
-      document.cookie.split(";").forEach(cookie => {
-        const name = cookie.split("=")[0].trim();
-        if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-      });
-      if (window.indexedDB) await deleteIndexedDB(KAIZO_SAVE_DB).catch(() => {});
-    }
-
-    async function loadKaizoRoaringKnight() {
-      try {
-        closeKaizoConfirm();
-        showKaizoLoading("Wiping old save...");
-        await wipeBrowserSaveForKaizo();
-        showKaizoLoading("Installing Kaizo save...");
-        await installKaizoSave();
-        showKaizoLoading("Loading Kaizo Roaring Knight...");
-        loadRemotePage('kaizo-roaring-knight/chapter3/index.html');
-      } catch (err) {
-        hideKaizoLoading();
-        gamestarted = false;
-        alert("Kaizo Roaring Knight could not load.\n\n" + (err && err.message ? err.message : err));
-      }
-    }
-
-    function attachEvents() {
-      const rows = document.querySelectorAll('.row');
-      rows.forEach((row, index) => {
-        row.addEventListener('mouseenter', () => {
-          if (!gamestarted) {
-            menumoveaudio.play();
-            rows.forEach(r => r.classList.remove("selected"));
-            selectedChapter = index;
-            row.classList.add("selected");
-          }
-        });
-        
-        row.addEventListener('mouseleave', () => {
-          if (!gamestarted) {
-            row.classList.remove("selected");
-            selectedChapter = null;
-          }
-        });
-
-        row.addEventListener('click', () => {
-          if (!gamestarted) menuselectaudio.play();
-        });
-      });
-
-      document.querySelectorAll('#undertale-btn, #badtimesim-btn, #kaizo-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { if (!gamestarted) menumoveaudio.play(); });
-        btn.addEventListener('click', () => { if (!gamestarted) menuselectaudio.play(); });
-      });
-    }
-    attachEvents();
-
-    document.addEventListener('keydown', function(event) {
-      if (gamestarted) return;
-      const rows = document.querySelectorAll('.row');
-      
-      if (event.key === 'ArrowUp') {
-        if (selectedChapter === null) selectedChapter = rows.length - 1;
-        else {
-          rows[selectedChapter].classList.remove("selected");
-          selectedChapter = (selectedChapter - 1 + rows.length) % rows.length;
-        }
-        rows[selectedChapter].classList.add("selected");
-        menumoveaudio.play();
-      } 
-      else if (event.key === 'ArrowDown') {
-        if (selectedChapter === null) selectedChapter = 0;
-        else {
-          rows[selectedChapter].classList.remove("selected");
-          selectedChapter = (selectedChapter + 1) % rows.length;
-        }
-        rows[selectedChapter].classList.add("selected");
-        menumoveaudio.play();
-      } 
-      else if (event.key === 'Enter') {
-        if (selectedChapter !== null) {
-          menuselectaudio.play();
-          rows[selectedChapter].click();
-        }
-      }
-    });
-
     function requestToPromise(request) {
       return new Promise((resolve, reject) => {
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
+      });
+    }
+
+    function openIndexedDB(name, version, upgrade) {
+      return new Promise((resolve, reject) => {
+        const request = version ? indexedDB.open(name, version) : indexedDB.open(name);
+        request.onupgradeneeded = event => upgrade && upgrade(request.result, event);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => reject(new Error("IndexedDB is blocked for " + name));
+      });
+    }
+
+    function deleteIndexedDB(name) {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.deleteDatabase(name);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => reject(new Error("Close other tabs using this site, then try again."));
       });
     }
 
@@ -658,26 +915,14 @@
     }
 
     async function encodeForSave(value) {
-      if (value instanceof ArrayBuffer) {
-        return { __type: "ArrayBuffer", data: arrayBufferToBase64(value) };
-      }
+      if (value instanceof ArrayBuffer) return { __type: "ArrayBuffer", data: arrayBufferToBase64(value) };
       if (ArrayBuffer.isView(value)) {
         const buffer = value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
         return { __type: "TypedArray", name: value.constructor.name, data: arrayBufferToBase64(buffer) };
       }
-      if (value instanceof Blob) {
-        return {
-          __type: "Blob",
-          mimeType: value.type,
-          data: arrayBufferToBase64(await value.arrayBuffer())
-        };
-      }
-      if (value instanceof Date) {
-        return { __type: "Date", data: value.toISOString() };
-      }
-      if (Array.isArray(value)) {
-        return Promise.all(value.map(item => encodeForSave(item)));
-      }
+      if (value instanceof Blob) return { __type: "Blob", mimeType: value.type, data: arrayBufferToBase64(await value.arrayBuffer()) };
+      if (value instanceof Date) return { __type: "Date", data: value.toISOString() };
+      if (Array.isArray(value)) return Promise.all(value.map(item => encodeForSave(item)));
       if (value && typeof value === "object") {
         const encoded = {};
         for (const key of Object.keys(value)) encoded[key] = await encodeForSave(value[key]);
@@ -704,21 +949,28 @@
       return value;
     }
 
-    function openIndexedDB(name, version, upgrade) {
-      return new Promise((resolve, reject) => {
-        const request = version ? indexedDB.open(name, version) : indexedDB.open(name);
-        request.onupgradeneeded = event => upgrade && upgrade(request.result, event);
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-        request.onblocked = () => reject(new Error("IndexedDB is blocked for " + name));
-      });
+    function keyString(key) {
+      return typeof key === "string" ? key : JSON.stringify(key);
     }
 
-    async function exportIndexedDB() {
-      if (!window.indexedDB) return [];
+    function recordMatchesScope(scope, key) {
+      if (scope === "all") return true;
+      const keyText = keyString(key).toLowerCase();
+      if (scope === "deltarune") return keyText.includes("filech");
+      if (scope === "undertale") return !keyText.includes("filech");
+      return true;
+    }
 
-      const databaseNames = new Set(["/_savedata", "emscripten_filesystem"]);
-      if (indexedDB.databases) {
+    function localStorageMatchesScope(scope, key) {
+      if (scope === "all") return true;
+      if (key === PRE_KAIZO_BACKUP_KEY) return scope !== "undertale";
+      return false;
+    }
+
+    async function exportIndexedDB(scope) {
+      if (!window.indexedDB) return [];
+      const databaseNames = new Set([SAVE_DB, "emscripten_filesystem"]);
+      if (scope === "all" && indexedDB.databases) {
         const databases = await indexedDB.databases();
         databases.forEach(db => { if (db.name) databaseNames.add(db.name); });
       }
@@ -726,59 +978,41 @@
       const exported = [];
       for (const name of databaseNames) {
         let db;
-        try {
-          db = await openIndexedDB(name);
-        } catch (err) {
-          continue;
-        }
-
+        try { db = await openIndexedDB(name); } catch (err) { continue; }
         const dbExport = { name, version: db.version, stores: [] };
-        const storeNames = Array.from(db.objectStoreNames);
-        for (const storeName of storeNames) {
-          const transaction = db.transaction(storeName, "readonly");
-          const store = transaction.objectStore(storeName);
+        for (const storeName of Array.from(db.objectStoreNames)) {
+          const tx = db.transaction(storeName, "readonly");
+          const store = tx.objectStore(storeName);
           const keys = await requestToPromise(store.getAllKeys());
           const values = await requestToPromise(store.getAll());
-          dbExport.stores.push({
-            name: storeName,
-            keyPath: store.keyPath,
-            autoIncrement: store.autoIncrement,
-            indexes: Array.from(store.indexNames).map(indexName => {
-              const index = store.index(indexName);
-              return {
-                name: index.name,
-                keyPath: index.keyPath,
-                unique: index.unique,
-                multiEntry: index.multiEntry
-              };
-            }),
-            records: await Promise.all(values.map(async (value, index) => ({
-              key: await encodeForSave(keys[index]),
-              value: await encodeForSave(value)
-            })))
-          });
+          const records = [];
+          for (let i = 0; i < keys.length; i++) {
+            if (name === SAVE_DB && storeName === SAVE_STORE && !recordMatchesScope(scope, keys[i])) continue;
+            if (scope !== "all" && name !== SAVE_DB) continue;
+            records.push({ key: await encodeForSave(keys[i]), value: await encodeForSave(values[i]) });
+          }
+          if (records.length) {
+            dbExport.stores.push({
+              name: storeName,
+              keyPath: store.keyPath,
+              autoIncrement: store.autoIncrement,
+              indexes: Array.from(store.indexNames).map(indexName => {
+                const index = store.index(indexName);
+                return { name: index.name, keyPath: index.keyPath, unique: index.unique, multiEntry: index.multiEntry };
+              }),
+              records
+            });
+          }
         }
-
         db.close();
-        if (dbExport.stores.some(store => store.records.length > 0)) exported.push(dbExport);
+        if (dbExport.stores.length) exported.push(dbExport);
       }
       return exported;
     }
 
-    function deleteIndexedDB(name) {
-      return new Promise((resolve, reject) => {
-        const request = indexedDB.deleteDatabase(name);
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-        request.onblocked = () => reject(new Error("Close other tabs using this site, then import again."));
-      });
-    }
-
     function expectedIndexesForStore(storeInfo) {
       if (Array.isArray(storeInfo.indexes) && storeInfo.indexes.length) return storeInfo.indexes;
-      if (storeInfo.name === "FILE_DATA") {
-        return [{ name: "timestamp", keyPath: "timestamp", unique: false, multiEntry: false }];
-      }
+      if (storeInfo.name === SAVE_STORE) return [{ name: "timestamp", keyPath: "timestamp", unique: false, multiEntry: false }];
       return [];
     }
 
@@ -817,41 +1051,33 @@
       }
 
       let db = await openIndexedDB(database.name);
-      const needsUpgrade = database.stores.some(storeInfo => {
-        if (!db.objectStoreNames.contains(storeInfo.name)) return true;
-        const transaction = db.transaction(storeInfo.name, "readonly");
-        const store = transaction.objectStore(storeInfo.name);
-        return expectedIndexesForStore(storeInfo).some(indexInfo => !store.indexNames.contains(indexInfo.name));
-      });
+      const needsUpgrade = database.stores.some(storeInfo => !db.objectStoreNames.contains(storeInfo.name));
       if (!needsUpgrade) return db;
-
       const nextVersion = db.version + 1;
       db.close();
       return openIndexedDB(database.name, nextVersion, createMissingStores);
     }
 
-    async function importIndexedDB(databases) {
+    async function importIndexedDB(databases, scope) {
       const stats = { databases: 0, stores: 0, records: 0, verifiedRecords: 0 };
       if (!window.indexedDB || !Array.isArray(databases)) return stats;
 
       for (const database of databases) {
         const db = await openDatabaseForImport(database);
         stats.databases++;
-
         const storeNames = database.stores.map(store => store.name);
         if (storeNames.length) {
           await new Promise((resolve, reject) => {
-            const transaction = db.transaction(storeNames, "readwrite");
-            transaction.oncomplete = () => resolve();
-            transaction.onerror = () => reject(transaction.error);
-            transaction.onabort = () => reject(transaction.error);
-
+            const tx = db.transaction(storeNames, "readwrite");
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+            tx.onabort = () => reject(tx.error);
             database.stores.forEach(storeInfo => {
-              const store = transaction.objectStore(storeInfo.name);
+              const store = tx.objectStore(storeInfo.name);
               stats.stores++;
-              store.clear();
               storeInfo.records.forEach(record => {
                 const key = decodeFromSave(record.key);
+                if (database.name === SAVE_DB && storeInfo.name === SAVE_STORE && !recordMatchesScope(scope, key)) return;
                 const value = decodeFromSave(record.value);
                 if (store.keyPath) store.put(value);
                 else store.put(value, key);
@@ -859,10 +1085,9 @@
               });
             });
           });
-
           for (const storeName of storeNames) {
-            const transaction = db.transaction(storeName, "readonly");
-            const store = transaction.objectStore(storeName);
+            const tx = db.transaction(storeName, "readonly");
+            const store = tx.objectStore(storeName);
             const keys = await requestToPromise(store.getAllKeys());
             stats.verifiedRecords += keys.length;
           }
@@ -872,66 +1097,37 @@
       return stats;
     }
 
-    async function wipeData() {
-      if (!confirm("Are you sure you want to wipe your saves? This cannot be undone unless you exported a backup first.")) return;
-
-      localStorage.clear();
-      document.cookie.split(";").forEach(cookie => {
-        const name = cookie.split("=")[0].trim();
-        if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-      });
-
-      if (window.indexedDB) {
-        const databaseNames = new Set(["/_savedata", "emscripten_filesystem"]);
-        if (indexedDB.databases) {
-          const databases = await indexedDB.databases();
-          databases.forEach(db => { if (db.name) databaseNames.add(db.name); });
-        }
-        for (const name of databaseNames) await deleteIndexedDB(name);
-      }
-
-      alert("Saves wiped! Refreshing...");
-      location.reload();
-    }
-
-    async function saveData() {
+    async function exportBrowserStorage(scope) {
       const localStorageData = {};
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        localStorageData[key] = localStorage.getItem(key);
+        if (localStorageMatchesScope(scope, key)) localStorageData[key] = localStorage.getItem(key);
       }
-
-      const data = JSON.stringify({
+      return {
         format: "deltarune-snxtr-save",
-        version: 2,
+        version: 3,
+        scope,
         exportedAt: new Date().toISOString(),
         localStorage: localStorageData,
-        cookies: document.cookie,
-        indexedDB: await exportIndexedDB()
-      });
+        cookies: scope === "all" ? document.cookie : "",
+        indexedDB: await exportIndexedDB(scope)
+      };
+    }
 
+    async function saveData(scope = "all") {
+      const data = JSON.stringify(await exportBrowserStorage(scope));
       const link = document.createElement("a");
       link.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
-      link.download = `dr_save_${Date.now()}.data`;
+      link.download = `dul_${scope}_save_${Date.now()}.data`;
       link.click();
     }
 
-    const FEATURED_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/camzzz_deltarune_allbossessave.data";
-
-    async function downloadFeaturedSave() {
-      try {
-        const response = await fetch(FEATURED_SAVE_URL);
-        if (!response.ok) throw new Error("Could not download the save file.");
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(await response.blob());
-        link.download = "camzzz_deltarune_allbossessave.data";
-        link.click();
-      } catch (err) {
-        alert("Save download failed.\n\n" + err.message);
-      }
+    function chooseImport(scope) {
+      importScope = scope;
+      document.getElementById("importData").click();
     }
 
-    async function importSaveText(text) {
+    async function importSaveText(text, scope = "all") {
       let parsed;
       if (text.includes("\n\n|\n\n")) {
         const parts = text.split("\n\n|\n\n");
@@ -940,24 +1136,14 @@
         parsed = JSON.parse(text);
       }
 
-      localStorage.clear();
-      for (let key in parsed.localStorage) localStorage.setItem(key, parsed.localStorage[key]);
-      const cookies = parsed.cookies || "";
-      if (cookies) cookies.split("; ").forEach(c => { if (c) document.cookie = c; });
-      return importIndexedDB(parsed.indexedDB);
-    }
-
-    async function importFeaturedSave() {
-      if (!confirm("Import Camzzz's all-boss save? This will replace your current saves.")) return;
-      try {
-        const response = await fetch(FEATURED_SAVE_URL);
-        if (!response.ok) throw new Error("Could not download the save file.");
-        const stats = await importSaveText(await response.text());
-        alert("Camzzz's save loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records.\n\nRefreshing...");
-        location.reload();
-      } catch (err) {
-        alert("Save import failed.\n\n" + (err && err.message ? err.message : err));
+      if (scope === "all") localStorage.clear();
+      for (let key in parsed.localStorage || {}) {
+        if (localStorageMatchesScope(scope, key)) localStorage.setItem(key, parsed.localStorage[key]);
       }
+      if (scope === "all" && parsed.cookies) {
+        parsed.cookies.split("; ").forEach(c => { if (c) document.cookie = c; });
+      }
+      return importIndexedDB(parsed.indexedDB, scope);
     }
 
     function loadData(event) {
@@ -966,18 +1152,192 @@
       const reader = new FileReader();
       reader.onload = async e => {
         try {
-          const stats = await importSaveText(e.target.result);
-          alert("Data loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records in browser storage.\n\nRefreshing...");
+          const stats = await importSaveText(e.target.result, importScope);
+          alert("Save loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records.\n\nRefreshing...");
           location.reload();
-        } catch(err) {
+        } catch (err) {
           alert("Error loading save file.\n\n" + (err && err.message ? err.message : err));
         } finally {
           event.target.value = "";
+          importScope = "all";
         }
       };
       reader.readAsText(file);
     }
-  </script>
 
+    function loadWholeSiteData(event) {
+      importScope = "all";
+      loadData(event);
+    }
+
+    async function wipeData(scope = "all") {
+      if (!confirm("Wipe " + scope + " save data? Export a backup first if you want to keep it.")) return;
+      if (scope === "all") {
+        localStorage.clear();
+        document.cookie.split(";").forEach(cookie => {
+          const name = cookie.split("=")[0].trim();
+          if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        });
+      }
+
+      if (window.indexedDB) {
+        if (scope === "all") {
+          const names = new Set([SAVE_DB, "emscripten_filesystem"]);
+          if (indexedDB.databases) {
+            const databases = await indexedDB.databases();
+            databases.forEach(db => { if (db.name) names.add(db.name); });
+          }
+          for (const name of names) await deleteIndexedDB(name);
+        } else {
+          await wipeScopedSaveRecords(scope);
+        }
+      }
+      alert("Save data wiped. Refreshing...");
+      location.reload();
+    }
+
+    async function wipeScopedSaveRecords(scope) {
+      let db;
+      try { db = await openIndexedDB(SAVE_DB); } catch (err) { return; }
+      if (!db.objectStoreNames.contains(SAVE_STORE)) {
+        db.close();
+        return;
+      }
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(SAVE_STORE, "readwrite");
+        const store = tx.objectStore(SAVE_STORE);
+        const request = store.getAllKeys();
+        request.onsuccess = () => {
+          request.result.forEach(key => {
+            if (recordMatchesScope(scope, key)) store.delete(key);
+          });
+        };
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+        tx.onabort = () => reject(tx.error);
+      });
+      db.close();
+    }
+
+    async function openSaveDatabase() {
+      return openIndexedDB(SAVE_DB, 21, (db, event) => {
+        const store = db.objectStoreNames.contains(SAVE_STORE)
+          ? event.target.transaction.objectStore(SAVE_STORE)
+          : db.createObjectStore(SAVE_STORE);
+        if (!store.indexNames.contains("timestamp")) {
+          store.createIndex("timestamp", "timestamp", { unique: false });
+        }
+      });
+    }
+
+    async function getSaveRecord(key) {
+      const db = await openSaveDatabase();
+      try {
+        const tx = db.transaction(SAVE_STORE, "readonly");
+        return await requestToPromise(tx.objectStore(SAVE_STORE).get(key));
+      } finally {
+        db.close();
+      }
+    }
+
+    async function putSaveRecord(key, value) {
+      const db = await openSaveDatabase();
+      try {
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction(SAVE_STORE, "readwrite");
+          tx.objectStore(SAVE_STORE).put(value, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+          tx.onabort = () => reject(tx.error);
+        });
+      } finally {
+        db.close();
+      }
+    }
+
+    async function installKaizoSave() {
+      const response = await fetch(KAIZO_SAVE_URL);
+      if (!response.ok) throw new Error("Could not download the Kaizo save.");
+      const contents = new Uint8Array(await response.arrayBuffer());
+      await putSaveRecord(KAIZO_SAVE_KEY, {
+        timestamp: new Date(),
+        mode: KAIZO_SAVE_MODE,
+        contents
+      });
+    }
+
+    async function backupCurrentChapter3Save() {
+      const current = await getSaveRecord(KAIZO_SAVE_KEY);
+      if (current) localStorage.setItem(PRE_KAIZO_BACKUP_KEY, JSON.stringify(await encodeForSave(current)));
+    }
+
+    async function restorePreKaizoSave() {
+      const backup = localStorage.getItem(PRE_KAIZO_BACKUP_KEY);
+      if (!backup) {
+        alert("No backed up Chapter 3 save was found.");
+        return;
+      }
+      try {
+        await putSaveRecord(KAIZO_SAVE_KEY, decodeFromSave(JSON.parse(backup)));
+        alert("Previous Chapter 3 save restored.");
+      } catch (err) {
+        alert("Restore failed.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    async function loadKaizoRoaringKnight() {
+      try {
+        closeKaizoConfirm();
+        showKaizoLoading("Backing up Chapter 3 save...");
+        await backupCurrentChapter3Save();
+        showKaizoLoading("Installing Kaizo save...");
+        await installKaizoSave();
+        showKaizoLoading("Loading Kaizo Roaring Knight...");
+        loadRemotePage("kaizo-roaring-knight/chapter3/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Kaizo Roaring Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    document.addEventListener("keydown", event => {
+      if (gamestarted) return;
+      if (event.key === "Escape") {
+        closeSettings();
+        closeKaizoConfirm();
+        return;
+      }
+      const rows = Array.from(document.querySelectorAll(".page.active .row"));
+      if (!rows.length) return;
+      if (event.key === "ArrowUp") {
+        if (selectedChapter === null) selectedChapter = rows.length - 1;
+        else {
+          rows[selectedChapter].classList.remove("selected");
+          selectedChapter = (selectedChapter - 1 + rows.length) % rows.length;
+        }
+        rows[selectedChapter].classList.add("selected");
+        playMove();
+      } else if (event.key === "ArrowDown") {
+        if (selectedChapter === null) selectedChapter = 0;
+        else {
+          rows[selectedChapter].classList.remove("selected");
+          selectedChapter = (selectedChapter + 1) % rows.length;
+        }
+        rows[selectedChapter].classList.add("selected");
+        playMove();
+      } else if (event.key === "Enter" && selectedChapter !== null) {
+        playSelect();
+        rows[selectedChapter].click();
+      }
+    });
+
+    const initialLayout = localStorage.getItem("dul_layout");
+    if (initialLayout === "classic") {
+      showPage("classic");
+    } else {
+      showPage("home");
+    }
+  </script>
 </body>
 </html>
