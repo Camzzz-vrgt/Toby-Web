@@ -230,6 +230,10 @@
 
     .back-button {
       justify-self: start;
+      position: fixed;
+      top: 20px;
+      left: 18px;
+      z-index: 900;
     }
 
     .subpage-logo {
@@ -261,9 +265,8 @@
     }
 
     #deltarune-page .back-button {
-      position: fixed;
-      top: 70px;
-      left: clamp(24px, 4vw, 80px);
+      top: 20px;
+      left: 18px;
     }
 
     #deltarune-page .save-menu {
@@ -280,7 +283,7 @@
     }
 
     #deltarune-page .subpage-logo img {
-      width: min(820px, 62vw);
+      width: min(680px, 70vw);
       max-width: 100%;
       max-height: none;
     }
@@ -542,6 +545,18 @@
       gap: 8px;
     }
 
+    .settings-section {
+      border-top: 2px solid #333;
+      padding-top: 12px;
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .credits-line {
+      line-height: 1.35;
+    }
+
     .classic-page {
       padding: 18px;
       overflow: auto;
@@ -564,13 +579,6 @@
 
     .classic-game-page .menu {
       margin-top: 26px;
-    }
-
-    .classic-game-page .back-button {
-      position: fixed;
-      top: 20px;
-      left: 18px;
-      z-index: 900;
     }
 
     .classic-game-page .save-menu {
@@ -617,6 +625,11 @@
       text-align: center;
       min-height: 92px;
       border-color: transparent;
+    }
+
+    .undertale-game-page .title {
+      justify-self: center;
+      text-align: center;
     }
 
     .undertale-game-page .row img {
@@ -817,10 +830,10 @@
       <div class="home-footer">
         <div class="brand-links">
           <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank" title="Truffled">
-            <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Truffled">
+            <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled">
           </a>
           <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" title="Story Network">
-            <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Story Network">
+            <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network">
           </a>
         </div>
         <span></span>
@@ -871,7 +884,7 @@
       </div>
       <div class="menu">
         <a href="javascript:loadUndertale()" class="row sound-target">
-          <span class="chapter">Undertale</span><span class="title">Start Game</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt="">
+          <span class="title">Start Game</span>
         </a>
       </div>
       <div class="save-menu">
@@ -889,7 +902,7 @@
       </header>
       <div class="extras-grid">
         <button class="game-card sans sound-target" onclick="loadBadTimeSim()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/badtimesim/images/sanshead-sheet0.png" alt="Bad Time Simulator">
+          <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
         <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
@@ -934,8 +947,8 @@
         <button class="save-button danger sound-target" onclick="wipeData('all')">Wipe Save</button>
       </div>
       <div class="watermark">
-        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Truffled"></a>
-        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Story Network"></a>
+        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled"></a>
+        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
       </div>
     </section>
   </main>
@@ -950,6 +963,10 @@
         <button class="pixel-button sound-target" onclick="useNewLayout()">Use New Layout</button>
         <button class="pixel-button sound-target" onclick="saveData('all')">Export Whole Site Save</button>
         <button class="pixel-button sound-target" onclick="chooseImport('all')">Import Whole Site Save</button>
+      </div>
+      <div class="settings-section">
+        <div class="credits-line">port by bog :o</div>
+        <div class="credits-line">updated by camzzz</div>
       </div>
     </div>
   </div>
