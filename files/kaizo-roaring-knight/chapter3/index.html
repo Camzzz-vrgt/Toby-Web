@@ -418,16 +418,7 @@
       window.gameUnxUrl = gameunx;
 
       const originalFetch = window.fetch;
-      const kaizoSongUrl = new URL("../mus/kaizoknight.ogg", document.baseURI).href;
-      function resolveKaizoAsset(url) {
-        const path = new URL(url, document.baseURI).pathname.toLowerCase();
-        if (path.endsWith("/kaizoknight.ogg")) {
-          return kaizoSongUrl;
-        }
-        return url;
-      }
       window.fetch = async function (url, ...args) {
-        url = resolveKaizoAsset(url);
         if (url.endsWith("game.unx")) {
             return originalFetch(gameunx, ...args);
         } else if (url.endsWith("runner.data")) {
@@ -439,7 +430,6 @@
 
       const originalOpen = XMLHttpRequest.prototype.open;
       XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-          url = resolveKaizoAsset(url);
           if (url.includes("game.unx")) {
               url = window.gameUnxUrl;
           } else if (url.includes("runner.data")) {
