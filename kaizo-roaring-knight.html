@@ -11,190 +11,223 @@
       font-display: swap;
     }
 
-    :root {
-      --base: #05060f;
-      --void: #000000;
-      --blue: #101a6d;
-      --bright: #f8fbff;
-      --glow: #75a9ff;
-      --danger: #e71932;
-      --gold: #fff26e;
-    }
-
     * {
       box-sizing: border-box;
     }
 
     html,
     body {
-      min-height: 100%;
       margin: 0;
-      background: var(--void);
-      color: var(--bright);
+      min-height: 100%;
+      background: #000;
+      color: #fff;
       font-family: "Deltarune", monospace;
       letter-spacing: 0;
     }
 
     body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
+    }
+
+    .screen {
+      width: min(92vw, 760px);
+      text-align: center;
+    }
+
+    .logo {
+      margin-bottom: 34px;
+      color: #aee8ff;
+      font-size: clamp(2rem, 7vw, 4rem);
+      line-height: 1;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px #1d9dff, 3px 0 #0d2e5f, -3px 0 #0d2e5f;
+    }
+
+    .menu {
+      width: min(100%, 650px);
+      margin: 0 auto;
       display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at 50% 42%, rgba(85, 128, 255, 0.26), transparent 16rem),
-        linear-gradient(135deg, #050711 0%, #090d31 42%, #000000 100%);
+      gap: 10px;
     }
 
-    .stars {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.84;
-      background-image:
-        repeating-linear-gradient(0deg, transparent 0 13px, rgba(255,255,255,0.08) 13px 14px),
-        radial-gradient(circle at 18% 21%, white 0 2px, transparent 3px),
-        radial-gradient(circle at 78% 18%, white 0 2px, transparent 3px),
-        radial-gradient(circle at 70% 78%, white 0 2px, transparent 3px),
-        radial-gradient(circle at 24% 74%, white 0 2px, transparent 3px);
+    .row {
+      min-height: 70px;
+      padding: 10px 14px;
+      border: 3px solid transparent;
+      background: #000;
+      color: #fff;
+      display: grid;
+      grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr);
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
     }
 
-    .sigil {
-      position: fixed;
-      width: min(58vw, 620px);
-      aspect-ratio: 1;
-      opacity: 0.18;
-      border: 3px solid rgba(255,255,255,0.55);
-      transform: rotate(45deg);
-      box-shadow: 0 0 42px rgba(117,169,255,0.42), inset 0 0 42px rgba(117,169,255,0.28);
+    .row:hover,
+    .row.selected,
+    .row:focus-visible {
+      color: #aee8ff;
+      border-color: #fff;
+      outline: none;
     }
 
-    .shell {
-      position: relative;
-      z-index: 1;
-      width: min(92vw, 780px);
-      padding: 22px;
-      border: 3px solid var(--bright);
-      background: rgba(0,0,0,0.78);
-      box-shadow: 0 0 0 5px #000000, 0 0 42px rgba(117,169,255,0.36);
+    .chapter {
+      font-size: clamp(1.15rem, 3vw, 1.65rem);
+      text-align: left;
+      text-transform: uppercase;
     }
 
     .title {
-      margin: 0 0 8px;
-      font-size: clamp(2rem, 7vw, 4.8rem);
-      line-height: 0.95;
-      text-align: center;
-      text-transform: uppercase;
-      text-shadow: 3px 0 var(--blue), -3px 0 var(--blue), 0 0 18px rgba(255,255,255,0.34);
-    }
-
-    .subtitle {
-      margin: 0 0 26px;
-      color: var(--glow);
-      font-size: clamp(1rem, 2.5vw, 1.35rem);
-      text-align: center;
+      color: inherit;
+      font-size: clamp(1rem, 2.6vw, 1.45rem);
+      text-align: right;
       text-transform: uppercase;
     }
 
-    .knight {
-      width: 96px;
-      height: 96px;
-      margin: 0 auto 22px;
-      position: relative;
-      filter: drop-shadow(0 0 18px rgba(117,169,255,0.75));
+    .note {
+      min-height: 1.25em;
+      margin-top: 22px;
+      color: #aee8ff;
+      font-size: 1rem;
+      text-transform: uppercase;
     }
 
-    .knight::before,
-    .knight::after {
-      content: "";
-      position: absolute;
-      inset: 22px;
-      border: 5px solid var(--bright);
-      transform: rotate(45deg);
-      background: rgba(16, 26, 109, 0.75);
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.82);
     }
 
-    .knight::after {
-      inset: 42px 38px 10px;
-      border-color: var(--danger);
-      background: var(--danger);
-      transform: rotate(45deg);
+    .modal-backdrop.open {
+      display: flex;
     }
 
-    .actions {
+    .modal {
+      width: min(92vw, 560px);
+      border: 3px solid #fff;
+      background: #000;
+      padding: 18px;
+      box-shadow: 0 0 0 5px #000, 0 0 32px rgba(174, 232, 255, 0.42);
+      text-align: left;
+    }
+
+    .modal h2 {
+      margin: 0 0 12px;
+      color: #aee8ff;
+      font-size: 1.45rem;
+      text-transform: uppercase;
+    }
+
+    .modal p {
+      margin: 0 0 16px;
+      line-height: 1.35;
+      font-size: 1rem;
+    }
+
+    .modal-actions {
       display: grid;
-      gap: 12px;
+      gap: 8px;
     }
 
     button {
-      min-height: 52px;
+      min-height: 42px;
       border: 3px solid transparent;
-      background: #000000;
-      color: var(--bright);
+      background: #000;
+      color: #fff;
       font: inherit;
-      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-size: 1rem;
       text-transform: uppercase;
       cursor: pointer;
     }
 
     button:hover,
     button:focus-visible {
-      color: var(--gold);
-      border-color: var(--bright);
+      color: #aee8ff;
+      border-color: #fff;
       outline: none;
     }
 
     button.danger:hover,
     button.danger:focus-visible {
-      color: var(--danger);
-      border-color: var(--danger);
+      color: #ff4b6a;
+      border-color: #ff4b6a;
     }
 
-    .status {
-      min-height: 1.3em;
-      margin-top: 18px;
-      color: var(--glow);
-      font-size: 1rem;
+    .loading-box {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 30;
+      display: none;
+      min-width: min(86vw, 430px);
+      padding: 20px;
+      border: 3px solid #fff;
+      background: #000;
+      color: #aee8ff;
+      transform: translate(-50%, -50%);
       text-align: center;
       text-transform: uppercase;
+      box-shadow: 0 0 0 5px #000, 0 0 32px rgba(174, 232, 255, 0.42);
     }
 
-    .small {
-      margin: 18px 0 0;
-      color: rgba(255,255,255,0.72);
-      font-size: 0.86rem;
-      line-height: 1.35;
-      text-align: center;
+    .loading-box.open {
+      display: block;
     }
 
     @media (max-width: 560px) {
       body {
         overflow: auto;
-        padding: 14px;
+        padding: 16px;
       }
 
-      .shell {
-        padding: 16px;
+      .row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      .chapter,
+      .title {
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
-  <div class="stars"></div>
-  <div class="sigil"></div>
+  <main class="screen">
+    <div class="logo">Kaizo Roaring Knight</div>
 
-  <main class="shell">
-    <div class="knight" aria-hidden="true"></div>
-    <h1 class="title">Kaizo Roaring Knight</h1>
-    <p class="subtitle">Chapter 3</p>
+    <nav class="menu">
+      <a href="javascript:openConfirm()" class="row">
+        <span class="chapter">Chapter 3</span>
+        <span class="title">Kaizo Roaring Knight</span>
+      </a>
+    </nav>
 
-    <div class="actions">
-      <button onclick="startGame()">Start Chapter 3</button>
-      <button onclick="installDefaultSave(true)">Reinstall Save</button>
-      <button class="danger" onclick="clearSave()">Wipe Browser Save</button>
-    </div>
-
-    <div id="status" class="status">Save file is included.</div>
-    <p class="small">Single-file launcher. Game files load from storynetwork-camzzz/DUL.</p>
+    <div id="note" class="note">Save file included</div>
   </main>
+
+  <div id="confirmModal" class="modal-backdrop">
+    <div class="modal">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe the current browser save for this site and load the Kaizo Roaring Knight save instead.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="modal-actions">
+        <button onclick="backupSave()">Back Up First</button>
+        <button class="danger" onclick="confirmLoad()">Wipe And Load</button>
+        <button onclick="closeConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loadingBox" class="loading-box">Loading...</div>
 
   <script>
     const HOST_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/";
@@ -205,10 +238,33 @@
     const SAVE_KEY = "/_savedata/filech3_0";
     const SAVE_MODE = 33206;
 
-    const status = document.getElementById("status");
+    const note = document.getElementById("note");
+    const confirmModal = document.getElementById("confirmModal");
+    const loadingBox = document.getElementById("loadingBox");
 
-    function setStatus(text) {
-      status.textContent = text;
+    function setNote(text) {
+      note.textContent = text;
+    }
+
+    function setLoading(text) {
+      loadingBox.textContent = text;
+    }
+
+    function openConfirm() {
+      confirmModal.classList.add("open");
+    }
+
+    function closeConfirm() {
+      confirmModal.classList.remove("open");
+    }
+
+    function showLoading(text) {
+      setLoading(text);
+      loadingBox.classList.add("open");
+    }
+
+    function hideLoading() {
+      loadingBox.classList.remove("open");
     }
 
     function openSaveDatabase() {
@@ -229,61 +285,6 @@
       });
     }
 
-    function getRecord(store, key) {
-      return new Promise((resolve, reject) => {
-        const request = store.get(key);
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    function putRecord(store, key, value) {
-      return new Promise((resolve, reject) => {
-        const request = store.put(value, key);
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
-      });
-    }
-
-    async function installDefaultSave(force) {
-      try {
-        setStatus("Checking save...");
-        let db = await openSaveDatabase();
-        try {
-          const tx = db.transaction(SAVE_STORE, "readonly");
-          const store = tx.objectStore(SAVE_STORE);
-          const existing = await getRecord(store, SAVE_KEY);
-          if (existing && !force) {
-            setStatus("Save already installed.");
-            return;
-          }
-        } finally {
-          db.close();
-        }
-
-        const response = await fetch(SAVE_URL);
-        if (!response.ok) throw new Error("Could not download the save file.");
-        const contents = new Uint8Array(await response.arrayBuffer());
-
-        db = await openSaveDatabase();
-        try {
-          const tx = db.transaction(SAVE_STORE, "readwrite");
-          const store = tx.objectStore(SAVE_STORE);
-          await putRecord(store, SAVE_KEY, {
-            timestamp: new Date(),
-            mode: SAVE_MODE,
-            contents
-          });
-        } finally {
-          db.close();
-        }
-        setStatus("Save installed.");
-      } catch (err) {
-        setStatus("Save install failed.");
-        alert("Save install failed.\n\n" + (err && err.message ? err.message : err));
-      }
-    }
-
     function deleteDatabase(name) {
       return new Promise((resolve, reject) => {
         const request = indexedDB.deleteDatabase(name);
@@ -293,16 +294,74 @@
       });
     }
 
-    async function clearSave() {
-      if (!confirm("Wipe this website's browser save?")) return;
+    function requestToPromise(request) {
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function bytesToBase64(bytes) {
+      let binary = "";
+      for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+      return btoa(binary);
+    }
+
+    async function exportSaveDatabase() {
+      const db = await openSaveDatabase();
       try {
-        setStatus("Wiping save...");
-        await deleteDatabase(SAVE_DB);
-        localStorage.clear();
-        setStatus("Save wiped.");
+        if (!db.objectStoreNames.contains(SAVE_STORE)) return [];
+        const tx = db.transaction(SAVE_STORE, "readonly");
+        const store = tx.objectStore(SAVE_STORE);
+        const keys = await requestToPromise(store.getAllKeys());
+        const values = await requestToPromise(store.getAll());
+        return values.map((value, index) => ({
+          key: keys[index],
+          timestamp: value.timestamp,
+          mode: value.mode,
+          contents: bytesToBase64(value.contents || new Uint8Array())
+        }));
+      } finally {
+        db.close();
+      }
+    }
+
+    async function backupSave() {
+      try {
+        setNote("Creating backup...");
+        const backup = {
+          format: "kaizo-roaring-knight-save-backup",
+          exportedAt: new Date().toISOString(),
+          localStorage: { ...localStorage },
+          records: await exportSaveDatabase()
+        };
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([JSON.stringify(backup)], { type: "application/json" }));
+        link.download = "kaizo_save_backup_" + Date.now() + ".json";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        setNote("Backup downloaded");
       } catch (err) {
-        setStatus("Wipe failed.");
-        alert("Wipe failed.\n\n" + (err && err.message ? err.message : err));
+        setNote("Backup failed");
+        alert("Backup failed.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    async function installKaizoSave() {
+      const response = await fetch(SAVE_URL);
+      if (!response.ok) throw new Error("Could not download the Kaizo save.");
+      const contents = new Uint8Array(await response.arrayBuffer());
+      const db = await openSaveDatabase();
+      try {
+        const tx = db.transaction(SAVE_STORE, "readwrite");
+        const store = tx.objectStore(SAVE_STORE);
+        await requestToPromise(store.put({
+          timestamp: new Date(),
+          mode: SAVE_MODE,
+          contents
+        }, SAVE_KEY));
+      } finally {
+        db.close();
       }
     }
 
@@ -318,17 +377,26 @@
       document.close();
     }
 
-    async function startGame() {
+    async function confirmLoad() {
       try {
-        setStatus("Preparing save...");
-        await installDefaultSave(false);
-        setStatus("Loading Chapter 3...");
+        closeConfirm();
+        showLoading("Wiping old save...");
+        localStorage.clear();
+        await deleteDatabase(SAVE_DB).catch(() => {});
+        showLoading("Installing Kaizo save...");
+        await installKaizoSave();
+        showLoading("Loading Chapter 3...");
         await loadRemotePage(CHAPTER_URL);
       } catch (err) {
-        setStatus("Load failed.");
+        hideLoading();
+        setNote("Load failed");
         alert("Chapter 3 could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
+
+    document.querySelectorAll(".row, button").forEach(el => {
+      el.addEventListener("mouseenter", () => setNote("Kaizo Roaring Knight"));
+    });
   </script>
 </body>
 </html>
