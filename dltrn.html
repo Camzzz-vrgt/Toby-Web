@@ -68,6 +68,7 @@
     }
 
     .settings-toggle {
+      display: none;
       position: fixed;
       top: 20px;
       right: 22px;
@@ -79,6 +80,10 @@
       color: var(--white);
       cursor: pointer;
       padding: 7px;
+    }
+
+    body.home-mode .settings-toggle {
+      display: block;
     }
 
     .settings-toggle:hover,
@@ -103,11 +108,6 @@
       object-fit: contain;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
-    }
-
-    body.classic-mode .settings-toggle {
-      left: 18px;
-      right: auto;
     }
 
     .home-layout {
@@ -248,47 +248,72 @@
     #deltarune-page {
       width: 100%;
       min-height: 100vh;
-      padding: 64px clamp(22px, 5vw, 78px) 36px;
+      padding: 34px clamp(22px, 5vw, 78px) 28px;
       overflow: hidden;
     }
 
     #deltarune-page .subpage-header {
-      width: min(1120px, 100%);
-      margin: 0 auto 18px;
+      width: 100%;
+      margin: 0 auto 8px;
       display: block;
       position: relative;
-      min-height: 168px;
+      min-height: 210px;
     }
 
     #deltarune-page .back-button {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: fixed;
+      top: 70px;
+      left: clamp(24px, 4vw, 80px);
     }
 
     #deltarune-page .save-menu {
-      position: absolute;
-      top: 0;
-      right: 0;
+      position: fixed;
+      left: 28px;
+      right: auto;
+      top: auto;
+      bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 20;
     }
 
     #deltarune-page .subpage-logo img {
-      width: min(780px, 72vw);
+      width: min(820px, 62vw);
       max-width: 100%;
       max-height: none;
     }
 
     #deltarune-page .subpage-logo {
-      padding-top: 58px;
+      padding-top: 74px;
     }
 
     #deltarune-page .menu {
-      width: min(780px, 100%);
+      width: min(820px, 58vw);
     }
 
     #deltarune-page .row,
     #deltarune-page .disabled-row {
       min-height: 58px;
+      grid-template-columns: 1.05fr 1.25fr 64px;
+    }
+
+    #deltarune-page .chapter,
+    #deltarune-page .title,
+    #deltarune-page .disabled-title {
+      font-size: clamp(1.3rem, 2.1vw, 2.1rem);
+    }
+
+    #deltarune-page .row img,
+    #deltarune-page .disabled-row img {
+      width: 54px;
+      height: 54px;
+    }
+
+    #deltarune-page .save-button {
+      min-width: 210px;
+      font-size: 1.05rem;
     }
 
     .save-menu {
@@ -321,6 +346,13 @@
     }
 
     .save-button svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 auto;
+      stroke: currentColor;
+    }
+
+    .pixel-button svg {
       width: 14px;
       height: 14px;
       flex: 0 0 auto;
@@ -366,7 +398,6 @@
     .disabled-title {
       font-size: clamp(1rem, 2.4vw, 1.35rem);
       line-height: 1.1;
-      text-transform: uppercase;
     }
 
     .row img,
@@ -509,19 +540,6 @@
     .settings-actions {
       display: grid;
       gap: 8px;
-    }
-
-    .settings-section {
-      border-top: 2px solid #333;
-      padding-top: 12px;
-      margin-top: 12px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .credits-line {
-      line-height: 1.35;
-      text-transform: uppercase;
     }
 
     .classic-page {
@@ -783,14 +801,14 @@
   <input type="file" id="siteImportData" onchange="loadWholeSiteData(event)">
 
   <audio id="drone" loop hidden>
-    <source src="audios/AUDIO_DRONE.ogg" type="audio/ogg">
+    <source src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/audios/AUDIO_DRONE.ogg" type="audio/ogg">
   </audio>
 
   <main id="app">
     <section id="home-page" class="page home-layout active">
       <div class="home-choices">
         <a class="home-logo-link home-deltarune sound-target" href="javascript:showPage('deltarune')">
-          <img src="logo.png" alt="Deltarune">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Deltarune">
         </a>
         <a class="home-logo-link home-undertale sound-target" href="javascript:showPage('undertale')">
           <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
@@ -813,9 +831,9 @@
     <section id="deltarune-page" class="page subpage">
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
-        <div class="subpage-logo"><img src="logo.png" alt="Deltarune"></div>
+        <div class="subpage-logo"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Deltarune"></div>
         <div class="save-menu">
-          <button class="save-button sound-target" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Audio</button>
+          <button class="save-button sound-target audio-toggle" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Audio</button>
           <button class="save-button sound-target" onclick="saveData('deltarune')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Export Save</button>
           <button class="save-button sound-target" onclick="chooseImport('deltarune')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Import Save</button>
           <button class="save-button danger sound-target" onclick="wipeData('deltarune')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>Wipe Save</button>
@@ -823,25 +841,25 @@
       </header>
       <div class="menu">
         <a href="javascript:loadChapter(1)" class="row sound-target">
-          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="icons/1.png" alt="">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
         </a>
         <a href="javascript:loadChapter(2)" class="row sound-target">
-          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="icons/2.png" alt="">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
         </a>
         <a href="javascript:loadChapter(3)" class="row sound-target">
-          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="icons/3.png" alt="">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
         </a>
         <a href="javascript:loadChapter(4)" class="row sound-target">
-          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="icons/4.png" alt="">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadChapter(5)" class="row sound-target">
-          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="icons/5.png" alt="">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
         </a>
         <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
-          <span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="icons/0.png" alt="">
+          <span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt="">
         </a>
         <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
-          <span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="icons/0.png" alt="">
+          <span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt="">
         </a>
       </div>
     </section>
@@ -853,7 +871,7 @@
       </div>
       <div class="menu">
         <a href="javascript:loadUndertale()" class="row sound-target">
-          <span class="chapter">Undertale</span><span class="title">Start Game</span><img src="icons/0.png" alt="">
+          <span class="chapter">Undertale</span><span class="title">Start Game</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt="">
         </a>
       </div>
       <div class="save-menu">
@@ -871,11 +889,11 @@
       </header>
       <div class="extras-grid">
         <button class="game-card sans sound-target" onclick="loadBadTimeSim()">
-          <img src="badtimesim/images/sanshead-sheet0.png" alt="Bad Time Simulator">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/badtimesim/images/sanshead-sheet0.png" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
         <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
-          <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
           <span>Kaizo Roaring Knight</span>
         </button>
       </div>
@@ -887,7 +905,7 @@
         <a href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
       </div>
       <div class="logo-container">
-        <img src="logo.png" alt="Logo" class="logo">
+        <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Logo" class="logo">
       </div>
       <div class="classic-extras">
         <button class="classic-extra-btn sound-target" onclick="loadUndertale()">
@@ -897,20 +915,20 @@
           <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openKaizoConfirm()">
-          <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
         </button>
       </div>
       <div class="menu">
-        <a href="javascript:loadChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="icons/1.png" alt=""></a>
-        <a href="javascript:loadChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="icons/2.png" alt=""></a>
-        <a href="javascript:loadChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="icons/3.png" alt=""></a>
-        <a href="javascript:loadChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="icons/4.png" alt=""></a>
-        <a href="javascript:loadChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="icons/5.png" alt=""></a>
-        <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row"><span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="icons/0.png" alt=""></a>
-        <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row"><span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="icons/0.png" alt=""></a>
+        <a href="javascript:loadChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt=""></a>
+        <a href="javascript:loadChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt=""></a>
+        <a href="javascript:loadChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt=""></a>
+        <a href="javascript:loadChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt=""></a>
+        <a href="javascript:loadChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt=""></a>
+        <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row"><span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt=""></a>
+        <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row"><span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt=""></a>
       </div>
       <div id="data-toolbar" class="save-menu">
-        <button class="save-button sound-target" onclick="toggleAudio()">Audio</button>
+        <button class="save-button sound-target audio-toggle" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Audio</button>
         <button class="save-button sound-target" onclick="saveData('all')">Export Save</button>
         <button class="save-button sound-target" onclick="chooseImport('all')">Import Save</button>
         <button class="save-button danger sound-target" onclick="wipeData('all')">Wipe Save</button>
@@ -927,16 +945,11 @@
       <button class="pixel-button modal-close sound-target" onclick="closeSettings()">X</button>
       <h2>Settings</h2>
       <div class="settings-actions">
-        <button class="pixel-button sound-target" onclick="toggleAudio()">Toggle Audio</button>
+        <button class="pixel-button sound-target audio-toggle" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Toggle Audio</button>
         <button class="pixel-button sound-target" onclick="useClassicLayout()">Use Old Layout</button>
         <button class="pixel-button sound-target" onclick="useNewLayout()">Use New Layout</button>
         <button class="pixel-button sound-target" onclick="saveData('all')">Export Whole Site Save</button>
         <button class="pixel-button sound-target" onclick="chooseImport('all')">Import Whole Site Save</button>
-      </div>
-      <div class="settings-section">
-        <div class="credits-line">Credits</div>
-        <div class="credits-line">Port by bog :o</div>
-        <div class="credits-line">Updated by camzzz</div>
       </div>
     </div>
   </div>
@@ -960,8 +973,9 @@
 
   <script>
     const audio = document.getElementById("drone");
-    const menumoveaudio = new Audio("audios/snd_menumove.mp3");
-    const menuselectaudio = new Audio("audios/snd_select.mp3");
+    const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
+    const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
+    const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
     let gamestarted = false;
     let audioStarted = false;
     let selectedChapter = null;
@@ -973,6 +987,8 @@
     const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
     const KAIZO_SAVE_MODE = 33206;
     const PRE_KAIZO_BACKUP_KEY = "dul_pre_kaizo_filech3_0_backup";
+    const AUDIO_ON_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path>';
+    const AUDIO_OFF_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M22 9l-6 6"></path><path d="M16 9l6 6"></path>';
 
     function startAudio() {
       if (!audioStarted && audio) {
@@ -1011,10 +1027,21 @@
     function toggleAudio() {
       if (!audio) return;
       audio.muted = !audio.muted;
+      updateAudioButtons();
+    }
+
+    function updateAudioButtons() {
+      const muted = audio ? audio.muted : false;
+      document.querySelectorAll(".audio-toggle").forEach(button => {
+        const icon = button.querySelector("svg");
+        if (icon) icon.innerHTML = muted ? AUDIO_OFF_ICON : AUDIO_ON_ICON;
+        button.setAttribute("aria-pressed", muted ? "true" : "false");
+      });
     }
 
     function showPage(name) {
       gamestarted = false;
+      document.body.classList.toggle("home-mode", name === "home");
       document.body.classList.toggle("classic-mode", name === "classic");
       document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
       document.getElementById(name + "-page").classList.add("active");
@@ -1022,7 +1049,10 @@
       selectedChapter = null;
       document.querySelectorAll(".page").forEach(page => { page.scrollTop = 0; });
       window.scrollTo(0, 0);
-      if (history.replaceState) history.replaceState(null, "", name === "home" ? location.pathname : "#" + name);
+      if (history.replaceState) {
+        const pageUrl = location.href.split("#")[0] + (name === "home" ? "" : "#" + name);
+        history.replaceState(null, "", pageUrl);
+      }
     }
 
     function openSettings() {
@@ -1055,7 +1085,8 @@
         })
         .then(html => {
           const pageBase = pageUrl.slice(0, pageUrl.lastIndexOf("/") + 1);
-          html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">');
+          const historyGuard = '<script>["pushState","replaceState"].forEach(function(name){var original=history[name].bind(history);history[name]=function(state,title,url){try{return original(state,title,url)}catch(error){return original(state,title,location.href)}}});<\/script>';
+          html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">' + historyGuard);
           document.open();
           document.write(html);
           document.close();
@@ -1067,15 +1098,15 @@
     }
 
     function loadChapter(chapter) {
-      loadRemotePage("chapter" + chapter + "/index.html");
+      loadRemotePage(FILES_BASE + "chapter" + chapter + "/index.html");
     }
 
     function loadUndertale() {
-      loadRemotePage("undertale/index.html");
+      loadRemotePage(FILES_BASE + "undertale/index.html");
     }
 
     function loadBadTimeSim() {
-      loadRemotePage("badtimesim/index.html");
+      loadRemotePage(FILES_BASE + "badtimesim/index.html");
     }
 
     function openKaizoConfirm() {
@@ -1516,7 +1547,7 @@
         showKaizoLoading("Installing Kaizo save...");
         await installKaizoSave();
         showKaizoLoading("Loading Kaizo Roaring Knight...");
-        loadRemotePage("kaizo-roaring-knight/chapter3/index.html");
+        loadRemotePage(FILES_BASE + "kaizo-roaring-knight/chapter3/index.html");
       } catch (err) {
         hideKaizoLoading();
         gamestarted = false;
@@ -1555,8 +1586,13 @@
       }
     });
 
+    updateAudioButtons();
+
+    const initialPage = location.hash.replace("#", "");
     const initialLayout = localStorage.getItem("dul_layout");
-    if (initialLayout === "classic") {
+    if (["home", "deltarune", "undertale", "extras", "classic"].includes(initialPage)) {
+      showPage(initialPage);
+    } else if (initialLayout === "classic") {
       showPage("classic");
     } else {
       showPage("home");
