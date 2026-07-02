@@ -88,7 +88,7 @@
     .brand-link:hover,
     .row:hover {
       color: var(--yellow);
-      border-color: var(--white);
+      border-color: var(--yellow);
     }
 
     .game-card:hover {
@@ -96,12 +96,13 @@
       border-color: var(--yellow);
     }
 
-    .settings-toggle svg {
+    .settings-toggle img {
       width: 100%;
       height: 100%;
-      stroke: currentColor;
-      stroke-width: 2.8;
+      display: block;
+      object-fit: contain;
       image-rendering: pixelated;
+      image-rendering: crisp-edges;
     }
 
     body.classic-mode .settings-toggle {
@@ -237,6 +238,46 @@
       max-width: min(520px, 72vw);
       max-height: 100px;
       object-fit: contain;
+    }
+
+    #deltarune-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 64px clamp(22px, 5vw, 78px) 36px;
+    }
+
+    #deltarune-page .subpage-header {
+      width: min(1120px, 100%);
+      margin: 0 auto 18px;
+      display: block;
+      position: relative;
+      min-height: 168px;
+    }
+
+    #deltarune-page .back-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #deltarune-page .save-menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    #deltarune-page .subpage-logo img {
+      width: min(780px, 72vw);
+      max-width: 100%;
+      max-height: none;
+    }
+
+    #deltarune-page .subpage-logo {
+      padding-top: 58px;
+    }
+
+    #deltarune-page .menu {
+      width: min(780px, 100%);
     }
 
     .save-menu {
@@ -668,10 +709,7 @@
 </head>
 <body>
   <button class="settings-toggle sound-target" onclick="openSettings()" aria-label="Settings">
-    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="square" stroke-linejoin="miter">
-      <path d="M15.5 3.5l5 5-4 4-2-2-8.8 8.8-3-3 8.8-8.8-2-2 4-4z"/>
-      <path d="M4.2 17.8l2 2"/>
-    </svg>
+    <img src="settings-icon.png" alt="Settings">
   </button>
 
   <input type="file" id="importData" onchange="loadData(event)">
@@ -710,6 +748,7 @@
         <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
         <div class="subpage-logo"><img src="logo.png" alt="Deltarune"></div>
         <div class="save-menu">
+          <button class="save-button sound-target" onclick="toggleAudio()">Audio</button>
           <button class="save-button sound-target" onclick="saveData('deltarune')">Export Save</button>
           <button class="save-button sound-target" onclick="chooseImport('deltarune')">Import Save</button>
           <button class="save-button danger sound-target" onclick="wipeData('deltarune')">Wipe Save</button>
