@@ -209,6 +209,11 @@
       pointer-events: auto;
     }
 
+    .extras-home:hover {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
     .subpage {
       width: min(980px, calc(100vw - 44px));
       margin: 0 auto;
@@ -244,6 +249,7 @@
       width: 100%;
       min-height: 100vh;
       padding: 64px clamp(22px, 5vw, 78px) 36px;
+      overflow: hidden;
     }
 
     #deltarune-page .subpage-header {
@@ -280,6 +286,11 @@
       width: min(780px, 100%);
     }
 
+    #deltarune-page .row,
+    #deltarune-page .disabled-row {
+      min-height: 58px;
+    }
+
     .save-menu {
       justify-self: end;
       display: flex;
@@ -303,6 +314,17 @@
       justify-content: center;
       gap: 8px;
       font-size: 0.92rem;
+    }
+
+    .save-button {
+      justify-content: flex-start;
+    }
+
+    .save-button svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 auto;
+      stroke: currentColor;
     }
 
     .save-button.danger:hover,
@@ -364,8 +386,35 @@
       align-items: stretch;
     }
 
+    #extras-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 64px clamp(22px, 5vw, 78px) 36px;
+      overflow: hidden;
+    }
+
+    #extras-page .subpage-header {
+      width: min(1120px, 100%);
+      margin: 0 auto 38px;
+      grid-template-columns: 180px 1fr 180px;
+    }
+
+    .extras-title {
+      justify-self: center;
+      color: var(--white);
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      line-height: 0.9;
+      text-transform: lowercase;
+    }
+
+    #extras-page .extras-grid {
+      width: min(900px, 100%);
+      min-height: calc(100vh - 250px);
+      align-items: center;
+    }
+
     .game-card {
-      min-height: 210px;
+      min-height: 310px;
       border: 2px solid transparent;
       background: #000;
       color: var(--white);
@@ -379,7 +428,7 @@
 
     .game-card img {
       max-width: 100%;
-      max-height: 122px;
+      max-height: 190px;
       object-fit: contain;
       display: block;
     }
@@ -391,8 +440,16 @@
     }
 
     .game-card.kaizo img {
-      width: 112px;
-      height: 112px;
+      width: 180px;
+      height: 180px;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .game-card.sans img {
+      width: 190px;
+      height: 190px;
+      object-fit: contain;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
@@ -425,6 +482,16 @@
       color: var(--white);
       padding: 18px;
       box-shadow: 0 0 0 4px #000;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      min-width: 36px;
+      min-height: 34px;
+      padding: 3px 8px;
     }
 
     .modal-box h2 {
@@ -748,10 +815,10 @@
         <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
         <div class="subpage-logo"><img src="logo.png" alt="Deltarune"></div>
         <div class="save-menu">
-          <button class="save-button sound-target" onclick="toggleAudio()">Audio</button>
-          <button class="save-button sound-target" onclick="saveData('deltarune')">Export Save</button>
-          <button class="save-button sound-target" onclick="chooseImport('deltarune')">Import Save</button>
-          <button class="save-button danger sound-target" onclick="wipeData('deltarune')">Wipe Save</button>
+          <button class="save-button sound-target" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Audio</button>
+          <button class="save-button sound-target" onclick="saveData('deltarune')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Export Save</button>
+          <button class="save-button sound-target" onclick="chooseImport('deltarune')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Import Save</button>
+          <button class="save-button danger sound-target" onclick="wipeData('deltarune')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>Wipe Save</button>
         </div>
       </header>
       <div class="menu">
@@ -799,12 +866,12 @@
     <section id="extras-page" class="page subpage">
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
-        <div class="subpage-logo"><span class="extras-home">extras</span></div>
+        <div class="subpage-logo"><span class="extras-title">extras</span></div>
         <span></span>
       </header>
       <div class="extras-grid">
-        <button class="game-card sound-target" onclick="loadBadTimeSim()">
-          <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
+        <button class="game-card sans sound-target" onclick="loadBadTimeSim()">
+          <img src="badtimesim/images/sanshead-sheet0.png" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
         <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
@@ -857,6 +924,7 @@
 
   <div id="settings-modal">
     <div class="modal-box">
+      <button class="pixel-button modal-close sound-target" onclick="closeSettings()">X</button>
       <h2>Settings</h2>
       <div class="settings-actions">
         <button class="pixel-button sound-target" onclick="toggleAudio()">Toggle Audio</button>
@@ -869,10 +937,6 @@
         <div class="credits-line">Credits</div>
         <div class="credits-line">Port by bog :o</div>
         <div class="credits-line">Updated by camzzz</div>
-        <div class="credits-line">Powered by Truffled and Story Network</div>
-      </div>
-      <div class="settings-section">
-        <button class="pixel-button sound-target" onclick="closeSettings()">Close</button>
       </div>
     </div>
   </div>
