@@ -225,6 +225,7 @@
         "kaizoknight.ogg",
         "mus/kaizoknight.ogg",
         "../mus/kaizoknight.ogg",
+        "../mus/knight.ogg",
         "game.unx",
         "snd_bigcar_yelp.ogg",
         "snd_closet_fall.ogg",

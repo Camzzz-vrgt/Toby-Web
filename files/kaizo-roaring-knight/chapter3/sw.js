@@ -1,5 +1,5 @@
 const GAME_NAME = "DELTARUNE";
-const GAME_VERSION = "1.0.0.2";
+const GAME_VERSION = "1.0.0.3";
 
 const CACHE_NAME = JSON.stringify({"name": GAME_NAME, "version": GAME_VERSION});
 const CACHE_FILES = ["runner.data",
@@ -10,6 +10,7 @@ const CACHE_FILES = ["runner.data",
 "kaizoknight.ogg",
 "mus/kaizoknight.ogg",
 "../mus/kaizoknight.ogg",
+"../mus/knight.ogg",
 "game.unx",
 "snd_bigcar_yelp.ogg",
 "snd_closet_fall.ogg",
