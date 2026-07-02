@@ -100,6 +100,11 @@
       image-rendering: pixelated;
     }
 
+    body.classic-mode .settings-toggle {
+      left: 18px;
+      right: auto;
+    }
+
     .home-layout {
       min-height: 100vh;
       grid-template-rows: 1fr;
@@ -447,7 +452,7 @@
 
     .classic-page .classic-extras {
       position: fixed;
-      top: 120px;
+      top: 178px;
       right: 14px;
       display: grid;
       gap: 12px;
@@ -601,10 +606,10 @@
       <div class="home-footer">
         <div class="brand-links">
           <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank" title="Truffled">
-            <img src="truffled-logo.png" alt="Truffled">
+            <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Truffled">
           </a>
           <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" title="Story Network">
-            <img src="story-network-logo.png" alt="Story Network">
+            <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Story Network">
           </a>
         </div>
         <span></span>
@@ -717,8 +722,8 @@
         <button class="save-button danger sound-target" onclick="wipeData('all')">Wipe Save</button>
       </div>
       <div class="watermark">
-        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="truffled-logo.png" alt="Truffled"></a>
-        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="story-network-logo.png" alt="Story Network"></a>
+        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Truffled"></a>
+        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Story Network"></a>
       </div>
     </section>
   </main>
@@ -819,6 +824,7 @@
 
     function showPage(name) {
       gamestarted = false;
+      document.body.classList.toggle("classic-mode", name === "classic");
       document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
       document.getElementById(name + "-page").classList.add("active");
       localStorage.setItem("dul_last_page", name);
