@@ -86,10 +86,14 @@
     .save-button:hover,
     .home-logo-link:hover,
     .brand-link:hover,
-    .game-card:hover,
     .row:hover {
       color: var(--yellow);
       border-color: var(--white);
+    }
+
+    .game-card:hover {
+      color: var(--yellow);
+      border-color: var(--yellow);
     }
 
     .settings-toggle svg {
@@ -417,6 +421,90 @@
       overflow: auto;
     }
 
+    .classic-game-page {
+      padding: 18px;
+      overflow: auto;
+    }
+
+    .classic-game-page .logo-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .classic-game-page .logo {
+      max-width: min(680px, 82vw);
+      height: auto;
+    }
+
+    .classic-game-page .menu {
+      margin-top: 26px;
+    }
+
+    .classic-game-page .back-button {
+      position: fixed;
+      top: 20px;
+      left: 18px;
+      z-index: 900;
+    }
+
+    .classic-game-page .save-menu {
+      position: fixed;
+      bottom: 18px;
+      left: 18px;
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .undertale-game-page {
+      display: none;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .undertale-game-page.active {
+      display: grid;
+      grid-template-rows: 1fr auto 1fr;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .undertale-game-page .logo-container {
+      margin-top: 0;
+      align-self: end;
+    }
+
+    .undertale-game-page .logo {
+      max-width: min(680px, 82vw);
+    }
+
+    .undertale-game-page .menu {
+      width: min(680px, 82vw);
+      margin-top: 48px;
+    }
+
+    .undertale-game-page .row {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      min-height: 92px;
+      border-color: transparent;
+    }
+
+    .undertale-game-page .row img {
+      display: none;
+    }
+
+    .undertale-game-page .chapter {
+      font-size: clamp(1.4rem, 4vw, 2.3rem);
+    }
+
+    .undertale-game-page .title {
+      font-size: clamp(1rem, 2.6vw, 1.35rem);
+    }
+
     .classic-page #credits-box {
       position: fixed;
       top: 18px;
@@ -652,20 +740,20 @@
       </div>
     </section>
 
-    <section id="undertale-page" class="page subpage">
-      <header class="subpage-header">
-        <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
-        <div class="subpage-logo"><img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale"></div>
-        <div class="save-menu">
-          <button class="save-button sound-target" onclick="saveData('undertale')">Export Save</button>
-          <button class="save-button sound-target" onclick="chooseImport('undertale')">Import Save</button>
-          <button class="save-button danger sound-target" onclick="wipeData('undertale')">Wipe Save</button>
-        </div>
-      </header>
+    <section id="undertale-page" class="page classic-game-page undertale-game-page">
+      <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+      <div class="logo-container">
+        <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale" class="logo">
+      </div>
       <div class="menu">
         <a href="javascript:loadUndertale()" class="row sound-target">
           <span class="chapter">Undertale</span><span class="title">Start Game</span><img src="icons/0.png" alt="">
         </a>
+      </div>
+      <div class="save-menu">
+        <button class="save-button sound-target" onclick="saveData('undertale')">Export Save</button>
+        <button class="save-button sound-target" onclick="chooseImport('undertale')">Import Save</button>
+        <button class="save-button danger sound-target" onclick="wipeData('undertale')">Wipe Save</button>
       </div>
     </section>
 
