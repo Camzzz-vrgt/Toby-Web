@@ -248,19 +248,27 @@
     async function installDefaultSave(force) {
       try {
         setStatus("Checking save...");
-        const db = await openSaveDatabase();
+        let db = await openSaveDatabase();
         try {
-          const tx = db.transaction(SAVE_STORE, "readwrite");
+          const tx = db.transaction(SAVE_STORE, "readonly");
           const store = tx.objectStore(SAVE_STORE);
           const existing = await getRecord(store, SAVE_KEY);
           if (existing && !force) {
             setStatus("Save already installed.");
             return;
           }
+        } finally {
+          db.close();
+        }
 
-          const response = await fetch(SAVE_URL);
-          if (!response.ok) throw new Error("Could not download the save file.");
-          const contents = new Uint8Array(await response.arrayBuffer());
+        const response = await fetch(SAVE_URL);
+        if (!response.ok) throw new Error("Could not download the save file.");
+        const contents = new Uint8Array(await response.arrayBuffer());
+
+        db = await openSaveDatabase();
+        try {
+          const tx = db.transaction(SAVE_STORE, "readwrite");
+          const store = tx.objectStore(SAVE_STORE);
           await putRecord(store, SAVE_KEY, {
             timestamp: new Date(),
             mode: SAVE_MODE,
