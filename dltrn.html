@@ -24,7 +24,7 @@
       color: var(--white);
       font-family: "Deltarune", monospace;
       letter-spacing: 0;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     body {
@@ -43,32 +43,42 @@
     }
 
     #app {
-      min-height: 100vh;
+      height: 100vh;
       position: relative;
-      padding: 22px;
+      padding: 0;
+      overflow: hidden;
     }
 
     .page {
       display: none;
-      min-height: calc(100vh - 44px);
+      position: fixed;
+      inset: 0;
+      min-height: 100vh;
+      padding: 22px;
+      overflow: auto;
+      background: #000;
     }
 
     .page.active {
       display: block;
     }
 
+    .page.active.home-layout {
+      display: grid;
+    }
+
     .settings-toggle {
       position: fixed;
-      top: 18px;
-      right: 18px;
+      top: 20px;
+      right: 22px;
       z-index: 1000;
-      width: 44px;
-      height: 44px;
+      width: 54px;
+      height: 54px;
       border: 2px solid transparent;
       background: transparent;
       color: var(--white);
       cursor: pointer;
-      padding: 5px;
+      padding: 7px;
     }
 
     .settings-toggle:hover,
@@ -86,22 +96,27 @@
       width: 100%;
       height: 100%;
       stroke: currentColor;
-      stroke-width: 3;
+      stroke-width: 2.8;
       image-rendering: pixelated;
     }
 
     .home-layout {
-      min-height: calc(100vh - 44px);
-      display: grid;
-      grid-template-rows: 1fr auto;
+      min-height: 100vh;
+      grid-template-rows: 1fr;
+      overflow: hidden;
     }
 
     .home-choices {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(1180px, calc(100vw - 150px));
+      transform: translate(-50%, -50%);
       display: grid;
       grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr);
       align-items: center;
-      gap: clamp(24px, 8vw, 90px);
-      padding: 11vh 3vw 6vh;
+      gap: clamp(56px, 9vw, 120px);
+      padding: 0;
     }
 
     .home-logo-link {
@@ -120,35 +135,39 @@
     }
 
     .home-deltarune img {
-      width: min(42vw, 520px);
+      width: min(39vw, 520px);
       max-width: 100%;
       height: auto;
       display: block;
     }
 
     .home-undertale img {
-      width: min(42vw, 520px);
+      width: min(39vw, 520px);
       max-width: 100%;
       height: auto;
       display: block;
     }
 
     .home-footer {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: end;
-      gap: 18px;
+      position: absolute;
+      inset: auto 22px 22px 22px;
+      min-height: 94px;
+      pointer-events: none;
     }
 
     .brand-links {
+      position: absolute;
+      left: 0;
+      bottom: 0;
       display: flex;
-      gap: 14px;
+      gap: 18px;
       align-items: end;
+      pointer-events: auto;
     }
 
     .brand-link {
-      width: 52px;
-      height: 52px;
+      width: 78px;
+      height: 70px;
       border: 2px solid transparent;
       display: inline-flex;
       align-items: center;
@@ -158,14 +177,17 @@
     }
 
     .brand-link img {
-      max-width: 44px;
-      max-height: 44px;
+      max-width: 72px;
+      max-height: 66px;
       display: block;
       object-fit: contain;
+      image-rendering: auto;
     }
 
     .extras-home {
-      justify-self: end;
+      position: absolute;
+      right: 0;
+      bottom: 0;
       border: 2px solid transparent;
       background: transparent;
       color: var(--white);
@@ -174,6 +196,7 @@
       text-transform: lowercase;
       cursor: pointer;
       padding: 4px 8px;
+      pointer-events: auto;
     }
 
     .subpage {
@@ -386,6 +409,7 @@
 
     .classic-page {
       padding: 18px;
+      overflow: auto;
     }
 
     .classic-page #credits-box {
@@ -500,8 +524,9 @@
     @media (max-width: 760px) {
       #app { padding: 14px; }
       .home-choices {
+        position: absolute;
+        width: min(86vw, 480px);
         grid-template-columns: 1fr;
-        padding-top: 12vh;
         gap: 24px;
       }
       .home-logo-link {
@@ -512,10 +537,9 @@
         width: min(86vw, 480px);
       }
       .home-footer {
-        grid-template-columns: 1fr auto;
+        inset: auto 14px 14px 14px;
       }
       .extras-home {
-        grid-column: 2;
         font-size: 3.3rem;
       }
       .subpage {
@@ -552,9 +576,8 @@
 <body>
   <button class="settings-toggle sound-target" onclick="openSettings()" aria-label="Settings">
     <svg viewBox="0 0 24 24" fill="none" stroke-linecap="square" stroke-linejoin="miter">
-      <path d="M14.7 6.3l3-3 3 3-3 3"/>
-      <path d="M3 21l9.5-9.5"/>
-      <path d="M12 7l5 5"/>
+      <path d="M15.5 3.5l5 5-4 4-2-2-8.8 8.8-3-3 8.8-8.8-2-2 4-4z"/>
+      <path d="M4.2 17.8l2 2"/>
     </svg>
   </button>
 
@@ -578,10 +601,10 @@
       <div class="home-footer">
         <div class="brand-links">
           <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank" title="Truffled">
-            <img src="https://codehs.com/uploads/9af4a6069afc6e7899677a677436f2b9" alt="Truffled">
+            <img src="truffled-logo.png" alt="Truffled">
           </a>
           <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" title="Story Network">
-            <img src="https://codehs.com/uploads/2d4b044e98185bea6ed33429afa59ce1" alt="Story Network">
+            <img src="story-network-logo.png" alt="Story Network">
           </a>
         </div>
         <span></span>
@@ -694,8 +717,8 @@
         <button class="save-button danger sound-target" onclick="wipeData('all')">Wipe Save</button>
       </div>
       <div class="watermark">
-        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://codehs.com/uploads/9af4a6069afc6e7899677a677436f2b9" alt="Truffled"></a>
-        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="https://codehs.com/uploads/2d4b044e98185bea6ed33429afa59ce1" alt="Story Network"></a>
+        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="truffled-logo.png" alt="Truffled"></a>
+        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="story-network-logo.png" alt="Story Network"></a>
       </div>
     </section>
   </main>
@@ -800,6 +823,9 @@
       document.getElementById(name + "-page").classList.add("active");
       localStorage.setItem("dul_last_page", name);
       selectedChapter = null;
+      document.querySelectorAll(".page").forEach(page => { page.scrollTop = 0; });
+      window.scrollTo(0, 0);
+      if (history.replaceState) history.replaceState(null, "", name === "home" ? location.pathname : "#" + name);
     }
 
     function openSettings() {
