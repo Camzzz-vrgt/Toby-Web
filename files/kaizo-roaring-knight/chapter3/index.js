@@ -222,6 +222,8 @@
         "runner.wasm",
         "audio-worklet.js",
         "audio_intronoise.ogg",
+        "kaizoknight.ogg",
+        "mus/kaizoknight.ogg",
         "../mus/kaizoknight.ogg",
         "game.unx",
         "snd_bigcar_yelp.ogg",

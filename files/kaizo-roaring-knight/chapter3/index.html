@@ -418,9 +418,9 @@
       window.gameUnxUrl = gameunx;
 
       const originalFetch = window.fetch;
-      const kaizoSongUrl = new URL("../mus/kaizoknight.ogg", location.href).href;
+      const kaizoSongUrl = new URL("../mus/kaizoknight.ogg", document.baseURI).href;
       function resolveKaizoAsset(url) {
-        const path = new URL(url, location.href).pathname.toLowerCase();
+        const path = new URL(url, document.baseURI).pathname.toLowerCase();
         if (path.endsWith("/kaizoknight.ogg")) {
           return kaizoSongUrl;
         }
