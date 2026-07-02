@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="files/">
+  <base href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/">
   <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css">
   <style>
@@ -172,17 +172,104 @@
       width: 120px;
     }
 
+    #kaizo-btn {
+      position: fixed;
+      top: 236px;
+      right: 42px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 52px;
+    }
+
     #undertale-btn:hover,
-    #badtimesim-btn:hover {
+    #badtimesim-btn:hover,
+    #kaizo-btn:hover {
       filter: sepia(1) saturate(20) hue-rotate(10deg) brightness(1.2);
     }
 
     #undertale-btn img,
-    #badtimesim-btn img {
+    #badtimesim-btn img,
+    #kaizo-btn img {
       width: 100%;
       height: auto;
       display: block;
       object-fit: contain; 
+    }
+
+    #kaizo-modal,
+    #kaizo-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,0.82);
+    }
+
+    #kaizo-modal.open,
+    #kaizo-loading.open {
+      display: flex;
+    }
+
+    .kaizo-box {
+      width: min(92vw, 560px);
+      padding: 18px;
+      border: 2px solid #ffffff;
+      background: #000000;
+      color: #ffffff;
+      font-family: inherit;
+      text-align: left;
+      box-shadow: 0 0 0 4px #000000, 0 0 28px rgba(174,232,255,0.42);
+    }
+
+    .kaizo-box h2 {
+      margin: 0 0 12px;
+      color: #aee8ff;
+      font-size: 1.35rem;
+      text-transform: uppercase;
+    }
+
+    .kaizo-box p {
+      margin: 0 0 14px;
+      line-height: 1.35;
+    }
+
+    .kaizo-actions {
+      display: grid;
+      gap: 8px;
+    }
+
+    .kaizo-actions button {
+      min-height: 38px;
+      border: 2px solid transparent;
+      background: #000000;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .kaizo-actions button:hover {
+      color: #aee8ff;
+      border-color: #ffffff;
+    }
+
+    .kaizo-actions .danger:hover {
+      color: #ff4b6a;
+      border-color: #ff4b6a;
+    }
+
+    #kaizo-loading .kaizo-box {
+      width: min(86vw, 420px);
+      text-align: center;
+      text-transform: uppercase;
+      color: #aee8ff;
     }
 
     .data-btn:hover {
@@ -233,6 +320,27 @@
   <button id="badtimesim-btn" onclick="loadBadTimeSim()">
     <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
   </button>
+
+  <button id="kaizo-btn" onclick="openKaizoConfirm()">
+    <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+  </button>
+
+  <div id="kaizo-modal">
+    <div class="kaizo-box">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe your current browser save and load the Kaizo Roaring Knight save instead.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="kaizo-actions">
+        <button onclick="saveData()">Back Up First</button>
+        <button class="danger" onclick="loadKaizoRoaringKnight()">Wipe And Load</button>
+        <button onclick="closeKaizoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="kaizo-loading">
+    <div class="kaizo-box" id="kaizo-loading-text">Loading...</div>
+  </div>
 
   <div class="logo-container">
     <img src="logo.png" alt="Logo" class="logo">
@@ -376,6 +484,90 @@
       loadRemotePage('badtimesim/index.html');
     }
 
+    const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
+    const KAIZO_SAVE_DB = "/_savedata";
+    const KAIZO_SAVE_STORE = "FILE_DATA";
+    const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
+    const KAIZO_SAVE_MODE = 33206;
+
+    function openKaizoConfirm() {
+      document.getElementById("kaizo-modal").classList.add("open");
+    }
+
+    function closeKaizoConfirm() {
+      document.getElementById("kaizo-modal").classList.remove("open");
+    }
+
+    function showKaizoLoading(text) {
+      document.getElementById("kaizo-loading-text").textContent = text;
+      document.getElementById("kaizo-loading").classList.add("open");
+    }
+
+    function hideKaizoLoading() {
+      document.getElementById("kaizo-loading").classList.remove("open");
+    }
+
+    function indexedDBRequest(request) {
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function openKaizoSaveDatabase() {
+      return openIndexedDB(KAIZO_SAVE_DB, 21, (db, event) => {
+        const store = db.objectStoreNames.contains(KAIZO_SAVE_STORE)
+          ? event.target.transaction.objectStore(KAIZO_SAVE_STORE)
+          : db.createObjectStore(KAIZO_SAVE_STORE);
+        if (!store.indexNames.contains("timestamp")) {
+          store.createIndex("timestamp", "timestamp", { unique: false });
+        }
+      });
+    }
+
+    async function installKaizoSave() {
+      const response = await fetch(KAIZO_SAVE_URL);
+      if (!response.ok) throw new Error("Could not download the Kaizo save.");
+      const contents = new Uint8Array(await response.arrayBuffer());
+      const db = await openKaizoSaveDatabase();
+      try {
+        const tx = db.transaction(KAIZO_SAVE_STORE, "readwrite");
+        const store = tx.objectStore(KAIZO_SAVE_STORE);
+        await indexedDBRequest(store.put({
+          timestamp: new Date(),
+          mode: KAIZO_SAVE_MODE,
+          contents
+        }, KAIZO_SAVE_KEY));
+      } finally {
+        db.close();
+      }
+    }
+
+    async function wipeBrowserSaveForKaizo() {
+      localStorage.clear();
+      document.cookie.split(";").forEach(cookie => {
+        const name = cookie.split("=")[0].trim();
+        if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      });
+      if (window.indexedDB) await deleteIndexedDB(KAIZO_SAVE_DB).catch(() => {});
+    }
+
+    async function loadKaizoRoaringKnight() {
+      try {
+        closeKaizoConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForKaizo();
+        showKaizoLoading("Installing Kaizo save...");
+        await installKaizoSave();
+        showKaizoLoading("Loading Kaizo Roaring Knight...");
+        loadRemotePage('kaizo-roaring-knight/chapter3/index.html');
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Kaizo Roaring Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     function attachEvents() {
       const rows = document.querySelectorAll('.row');
       rows.forEach((row, index) => {
@@ -400,7 +592,7 @@
         });
       });
 
-      document.querySelectorAll('#undertale-btn, #badtimesim-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
+      document.querySelectorAll('#undertale-btn, #badtimesim-btn, #kaizo-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
         btn.addEventListener('mouseenter', () => { if (!gamestarted) menumoveaudio.play(); });
         btn.addEventListener('click', () => { if (!gamestarted) menuselectaudio.play(); });
       });
