@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #credits-box {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 2px 17px 12px 10px;
+      gap: 0px; 
+      border: 2px solid #ffffff;
+      font-family: inherit;
+      background: rgba(0,0,0,0.5);
+      width: 200px; 
+    }
+
+    #featured-save-box {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px;
+      border: 2px solid #ffffff;
+      background: rgba(0,0,0,0.72);
+      width: 220px;
+    }
+
+    .featured-save-title {
+      color: #ffffff;
+      font-size: 0.95rem;
+      line-height: 1.2;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .featured-save-btn {
+      width: 100%;
+      min-height: 34px;
+      padding: 5px 8px;
+      border: 2px solid transparent;
+      background: #000000;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      text-transform: uppercase;
+    }
+
+    .featured-save-btn:hover {
+      color: #ffff00;
+      border-color: #ffffff;
+    }
+
+    .featured-save-btn svg {
+      flex-shrink: 0;
+      stroke: currentColor;
+    }
+
+    .credit-link {
+      font-size: 1rem;
+      color: #ffffff;
+      transition: color 0.1s ease;
+      cursor: pointer;
+      display: block;
+      text-align: right;
+      line-height: 1;
+    }
+
+    .credit-link:hover {
+      color: #ffff00 !important;
+    }
+
+    .update-tag {
+      font-size: 1rem;
+      color: #ffffff;
+      transition: color 0.1s ease;
+      cursor: pointer;
+      display: block;
+      text-align: right;
+      line-height: 1;
+    }
+
+    #credits-box:hover .update-tag {
+      color: #b156ff;
+    }
+
+    a.update-tag:hover {
+      color: #b156ff !important;
+    }
+
+    #watermark {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      z-index: 9999;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    #watermark img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    #data-toolbar {
+      position: fixed;
+      bottom: 18px;
+      left: 18px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .data-btn {
+      background: #000000;
+      border: 2px solid transparent;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 1.1rem;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      transition: all 0.1s ease;
+      width: auto;
+      min-width: 180px;
+      justify-content: flex-start;
+    }
+    
+	    #undertale-btn {
+      position: fixed;
+      top: 130px; 
+      right: 14px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 286px; 
+    }
+
+    #badtimesim-btn {
+      position: fixed;
+      top: 178px;
+      right: 14px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 120px;
+    }
+
+    #kaizo-btn {
+      position: fixed;
+      top: 310px;
+      right: 14px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 96px;
+    }
+
+    #undertale-btn:hover,
+    #badtimesim-btn:hover,
+    #kaizo-btn:hover {
+      filter: sepia(1) saturate(20) hue-rotate(10deg) brightness(1.2);
+    }
+
+    #undertale-btn img,
+    #badtimesim-btn img,
+    #kaizo-btn img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    #kaizo-btn img {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    #kaizo-modal,
+    #kaizo-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,0.82);
+    }
+
+    #kaizo-modal.open,
+    #kaizo-loading.open {
+      display: flex;
+    }
+
+    .kaizo-box {
+      width: min(92vw, 560px);
+      padding: 18px;
+      border: 2px solid #ffffff;
+      background: #000000;
+      color: #ffffff;
+      font-family: inherit;
+      text-align: left;
+      box-shadow: 0 0 0 4px #000000, 0 0 28px rgba(174,232,255,0.42);
+    }
+
+    .kaizo-box h2 {
+      margin: 0 0 12px;
+      color: #aee8ff;
+      font-size: 1.35rem;
+      text-transform: uppercase;
+    }
+
+    .kaizo-box p {
+      margin: 0 0 14px;
+      line-height: 1.35;
+    }
+
+    .kaizo-actions {
+      display: grid;
+      gap: 8px;
+    }
+
+    .kaizo-actions button {
+      min-height: 38px;
+      border: 2px solid transparent;
+      background: #000000;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .kaizo-actions button:hover {
+      color: #aee8ff;
+      border-color: #ffffff;
+    }
+
+    .kaizo-actions .danger:hover {
+      color: #ff4b6a;
+      border-color: #ff4b6a;
+    }
+
+    #kaizo-loading .kaizo-box {
+      width: min(86vw, 420px);
+      text-align: center;
+      text-transform: uppercase;
+      color: #aee8ff;
+    }
+
+    .data-btn:hover {
+      color: #ffff00;
+      border: 2px solid #ffffff;
+    }
+
+    .wipe-btn:hover {
+      color: #ff4040;
+      border: 2px solid #ff4040;
+    }
+    
+    .data-btn svg {
+      flex-shrink: 0;
+      stroke: currentColor;
+    }
+
+    .row.selected {
+      color: #ffff00 !important;
+    }
+
+    #importData { display: none; }
+  </style>
+</head>
+<body>
+
+  <div id="featured-save-box">
+    <div class="featured-save-title">Camzzz All-Boss Save</div>
+    <button class="featured-save-btn" onclick="downloadFeaturedSave()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download Save
+    </button>
+    <button class="featured-save-btn" onclick="importFeaturedSave()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 21h14"/></svg>
+      Import Save
+    </button>
+  </div>
+
+  <div id="credits-box">
+    <a href="https://truffled.lol" target="_blank" class="credit-link row">port by bog :o</a>
+    <a href="https://www.youtube.com/@Camzzz_VR" target="_blank" class="credit-link update-tag">updated by camzzz</a>
+  </div>
+
+  <button id="undertale-btn" onclick="loadUndertale()">
+    <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+  </button>
+
+  <button id="badtimesim-btn" onclick="loadBadTimeSim()">
+    <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
+  </button>
+
+  <button id="kaizo-btn" onclick="openKaizoConfirm()">
+    <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+  </button>
+
+  <div id="kaizo-modal">
+    <div class="kaizo-box">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe your current browser save and load the Kaizo Roaring Knight save instead.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="kaizo-actions">
+        <button onclick="saveData()">Back Up First</button>
+        <button class="danger" onclick="loadKaizoRoaringKnight()">Wipe And Load</button>
+        <button onclick="closeKaizoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="kaizo-loading">
+    <div class="kaizo-box" id="kaizo-loading-text">Loading...</div>
+  </div>
+
+  <div class="logo-container">
+    <img src="logo.png" alt="Logo" class="logo">
+  </div>
+  
+  <div class="menu">
+    <a href="javascript:loadChapter(1)" class="row">
+      <span class="chapter">Chapter 1</span>
+      <span class="title">The Beginning</span>
+      <img src="icons/1.png">
+    </a>
+    
+    <a href="javascript:loadChapter(2)" class="row">
+      <span class="chapter">Chapter 2</span>
+      <span class="title">A Cyber's World</span>
+      <img src="icons/2.png">
+    </a>
+    
+    <a href="javascript:loadChapter(3)" class="row">
+      <span class="chapter">Chapter 3</span>
+      <span class="title">Late Night</span>
+      <img src="icons/3.png">
+    </a>
+    
+    <a href="javascript:loadChapter(4)" class="row">
+      <span class="chapter">Chapter 4</span>
+      <span class="title">Prophecy</span>
+      <img src="icons/4.png">
+    </a>
+    
+    <a href="javascript:loadChapter(5)" class="row">
+      <span class="chapter">Chapter 5</span>
+      <span class="title">Festival Day</span>
+      <img src="icons/5.png">
+    </a>
+    
+    <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
+      <span class="chapter">Chapter 6</span>
+      <span class="disabled-title">--</span>
+      <img src="icons/0.png">
+    </a>
+    
+    <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
+      <span class="chapter">Chapter 7</span>
+      <span class="disabled-title">--</span>
+      <img src="icons/0.png">
+    </a>
+  </div>
+
+  <audio id="drone" loop hidden>
+    <source src="audios/AUDIO_DRONE.ogg" type="audio/ogg">
+  </audio>
+
+  <input type="file" id="importData" onchange="loadData(event)">
+  
+  <div id="data-toolbar">
+    <button class="data-btn" onclick="toggleAudio()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path id="audio-path" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      </svg>
+      Audio
+    </button>
+    <button class="data-btn" onclick="saveData()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Export Save
+    </button>
+    <button class="data-btn" onclick="document.getElementById('importData').click()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Import Save
+    </button>
+    <button class="data-btn wipe-btn" onclick="wipeData()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      Wipe Save
+    </button>
+  </div>
+
+  <div id="watermark">
+    <img src="https://codehs.com/uploads/9af4a6069afc6e7899677a677436f2b9" alt="Logo">
+    <img src="https://codehs.com/uploads/2d4b044e98185bea6ed33429afa59ce1" alt="Logo">
+  </div>
+
+  <script>
+    const audio = document.getElementById('drone');
+    const menumoveaudio = new Audio('audios/snd_menumove.mp3');
+    const menuselectaudio = new Audio('audios/snd_select.mp3');
+    
+    let gamestarted = false;
+    let audioStarted = false;
+    let selectedChapter = null;
+
+    function startAudio() {
+      if (!audioStarted && audio) {
+        audio.play().catch(() => {});
+        audioStarted = true;
+      }
+    }
+    document.addEventListener('click', startAudio);
+    document.addEventListener('keydown', startAudio);
+
+    function toggleAudio() {
+      audio.muted = !audio.muted;
+      const path = document.getElementById('audio-path');
+      if (audio.muted) {
+        path.setAttribute('d', 'M23 9l-6 6m0-6l6 6'); 
+      } else {
+        path.setAttribute('d', 'M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07');
+      }
+    }
+
+    function loadRemotePage(url) {
+      gamestarted = true;
+      const pageUrl = new URL(url, document.baseURI).href;
+      fetch(pageUrl)
+        .then(res => {
+          if (!res.ok) throw new Error('Could not load ' + pageUrl);
+          return res.text();
+        })
+        .then(html => {
+          const pageBase = pageUrl.slice(0, pageUrl.lastIndexOf('/') + 1);
+          html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">');
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch(err => {
+          gamestarted = false;
+          alert('Sorry, that chapter could not load.\n\n' + err.message);
+        });
+    }
+
+    function loadChapter(chapter) {
+      loadRemotePage('chapter' + chapter + '/index.html');
+    }
+
+    function loadUndertale() {
+      loadRemotePage('undertale/index.html');
+    }
+
+    function loadBadTimeSim() {
+      loadRemotePage('badtimesim/index.html');
+    }
+
+    const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@33216f2/files/kaizo-roaring-knight/saves/filech3_0";
+    const KAIZO_SAVE_DB = "/_savedata";
+    const KAIZO_SAVE_STORE = "FILE_DATA";
+    const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
+    const KAIZO_SAVE_MODE = 33206;
+
+    function openKaizoConfirm() {
+      document.getElementById("kaizo-modal").classList.add("open");
+    }
+
+    function closeKaizoConfirm() {
+      document.getElementById("kaizo-modal").classList.remove("open");
+    }
+
+    function showKaizoLoading(text) {
+      document.getElementById("kaizo-loading-text").textContent = text;
+      document.getElementById("kaizo-loading").classList.add("open");
+    }
+
+    function hideKaizoLoading() {
+      document.getElementById("kaizo-loading").classList.remove("open");
+    }
+
+    function indexedDBRequest(request) {
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function openKaizoSaveDatabase() {
+      return openIndexedDB(KAIZO_SAVE_DB, 21, (db, event) => {
+        const store = db.objectStoreNames.contains(KAIZO_SAVE_STORE)
+          ? event.target.transaction.objectStore(KAIZO_SAVE_STORE)
+          : db.createObjectStore(KAIZO_SAVE_STORE);
+        if (!store.indexNames.contains("timestamp")) {
+          store.createIndex("timestamp", "timestamp", { unique: false });
+        }
+      });
+    }
+
+    async function installKaizoSave() {
+      const response = await fetch(KAIZO_SAVE_URL);
+      if (!response.ok) throw new Error("Could not download the Kaizo save.");
+      const contents = new Uint8Array(await response.arrayBuffer());
+      const db = await openKaizoSaveDatabase();
+      try {
+        const tx = db.transaction(KAIZO_SAVE_STORE, "readwrite");
+        const store = tx.objectStore(KAIZO_SAVE_STORE);
+        await indexedDBRequest(store.put({
+          timestamp: new Date(),
+          mode: KAIZO_SAVE_MODE,
+          contents
+        }, KAIZO_SAVE_KEY));
+      } finally {
+        db.close();
+      }
+    }
+
+    async function wipeBrowserSaveForKaizo() {
+      localStorage.clear();
+      document.cookie.split(";").forEach(cookie => {
+        const name = cookie.split("=")[0].trim();
+        if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      });
+      if (window.indexedDB) await deleteIndexedDB(KAIZO_SAVE_DB).catch(() => {});
+    }
+
+    async function loadKaizoRoaringKnight() {
+      try {
+        closeKaizoConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForKaizo();
+        showKaizoLoading("Installing Kaizo save...");
+        await installKaizoSave();
+        showKaizoLoading("Loading Kaizo Roaring Knight...");
+        loadRemotePage('kaizo-roaring-knight/chapter3/index.html');
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Kaizo Roaring Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function attachEvents() {
+      const rows = document.querySelectorAll('.row');
+      rows.forEach((row, index) => {
+        row.addEventListener('mouseenter', () => {
+          if (!gamestarted) {
+            menumoveaudio.play();
+            rows.forEach(r => r.classList.remove("selected"));
+            selectedChapter = index;
+            row.classList.add("selected");
+          }
+        });
+        
+        row.addEventListener('mouseleave', () => {
+          if (!gamestarted) {
+            row.classList.remove("selected");
+            selectedChapter = null;
+          }
+        });
+
+        row.addEventListener('click', () => {
+          if (!gamestarted) menuselectaudio.play();
+        });
+      });
+
+      document.querySelectorAll('#undertale-btn, #badtimesim-btn, #kaizo-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => { if (!gamestarted) menumoveaudio.play(); });
+        btn.addEventListener('click', () => { if (!gamestarted) menuselectaudio.play(); });
+      });
+    }
+    attachEvents();
+
+    document.addEventListener('keydown', function(event) {
+      if (gamestarted) return;
+      const rows = document.querySelectorAll('.row');
+      
+      if (event.key === 'ArrowUp') {
+        if (selectedChapter === null) selectedChapter = rows.length - 1;
+        else {
+          rows[selectedChapter].classList.remove("selected");
+          selectedChapter = (selectedChapter - 1 + rows.length) % rows.length;
+        }
+        rows[selectedChapter].classList.add("selected");
+        menumoveaudio.play();
+      } 
+      else if (event.key === 'ArrowDown') {
+        if (selectedChapter === null) selectedChapter = 0;
+        else {
+          rows[selectedChapter].classList.remove("selected");
+          selectedChapter = (selectedChapter + 1) % rows.length;
+        }
+        rows[selectedChapter].classList.add("selected");
+        menumoveaudio.play();
+      } 
+      else if (event.key === 'Enter') {
+        if (selectedChapter !== null) {
+          menuselectaudio.play();
+          rows[selectedChapter].click();
+        }
+      }
+    });
+
+    function requestToPromise(request) {
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function arrayBufferToBase64(buffer) {
+      let binary = "";
+      const bytes = new Uint8Array(buffer);
+      for (let i = 0; i < bytes.length; i += 0x8000) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+      }
+      return btoa(binary);
+    }
+
+    function base64ToArrayBuffer(base64) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return bytes.buffer;
+    }
+
+    async function encodeForSave(value) {
+      if (value instanceof ArrayBuffer) {
+        return { __type: "ArrayBuffer", data: arrayBufferToBase64(value) };
+      }
+      if (ArrayBuffer.isView(value)) {
+        const buffer = value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
+        return { __type: "TypedArray", name: value.constructor.name, data: arrayBufferToBase64(buffer) };
+      }
+      if (value instanceof Blob) {
+        return {
+          __type: "Blob",
+          mimeType: value.type,
+          data: arrayBufferToBase64(await value.arrayBuffer())
+        };
+      }
+      if (value instanceof Date) {
+        return { __type: "Date", data: value.toISOString() };
+      }
+      if (Array.isArray(value)) {
+        return Promise.all(value.map(item => encodeForSave(item)));
+      }
+      if (value && typeof value === "object") {
+        const encoded = {};
+        for (const key of Object.keys(value)) encoded[key] = await encodeForSave(value[key]);
+        return encoded;
+      }
+      return value;
+    }
+
+    function decodeFromSave(value) {
+      if (Array.isArray(value)) return value.map(decodeFromSave);
+      if (value && typeof value === "object") {
+        if (value.__type === "ArrayBuffer") return base64ToArrayBuffer(value.data);
+        if (value.__type === "Blob") return new Blob([base64ToArrayBuffer(value.data)], { type: value.mimeType || "" });
+        if (value.__type === "Date") return new Date(value.data);
+        if (value.__type === "TypedArray") {
+          const constructors = { Int8Array, Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array };
+          const TypedArrayConstructor = constructors[value.name] || Uint8Array;
+          return new TypedArrayConstructor(base64ToArrayBuffer(value.data));
+        }
+        const decoded = {};
+        for (const key of Object.keys(value)) decoded[key] = decodeFromSave(value[key]);
+        return decoded;
+      }
+      return value;
+    }
+
+    function openIndexedDB(name, version, upgrade) {
+      return new Promise((resolve, reject) => {
+        const request = version ? indexedDB.open(name, version) : indexedDB.open(name);
+        request.onupgradeneeded = event => upgrade && upgrade(request.result, event);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => reject(new Error("IndexedDB is blocked for " + name));
+      });
+    }
+
+    async function exportIndexedDB() {
+      if (!window.indexedDB) return [];
+
+      const databaseNames = new Set(["/_savedata", "emscripten_filesystem"]);
+      if (indexedDB.databases) {
+        const databases = await indexedDB.databases();
+        databases.forEach(db => { if (db.name) databaseNames.add(db.name); });
+      }
+
+      const exported = [];
+      for (const name of databaseNames) {
+        let db;
+        try {
+          db = await openIndexedDB(name);
+        } catch (err) {
+          continue;
+        }
+
+        const dbExport = { name, version: db.version, stores: [] };
+        const storeNames = Array.from(db.objectStoreNames);
+        for (const storeName of storeNames) {
+          const transaction = db.transaction(storeName, "readonly");
+          const store = transaction.objectStore(storeName);
+          const keys = await requestToPromise(store.getAllKeys());
+          const values = await requestToPromise(store.getAll());
+          dbExport.stores.push({
+            name: storeName,
+            keyPath: store.keyPath,
+            autoIncrement: store.autoIncrement,
+            indexes: Array.from(store.indexNames).map(indexName => {
+              const index = store.index(indexName);
+              return {
+                name: index.name,
+                keyPath: index.keyPath,
+                unique: index.unique,
+                multiEntry: index.multiEntry
+              };
+            }),
+            records: await Promise.all(values.map(async (value, index) => ({
+              key: await encodeForSave(keys[index]),
+              value: await encodeForSave(value)
+            })))
+          });
+        }
+
+        db.close();
+        if (dbExport.stores.some(store => store.records.length > 0)) exported.push(dbExport);
+      }
+      return exported;
+    }
+
+    function deleteIndexedDB(name) {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.deleteDatabase(name);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+        request.onblocked = () => reject(new Error("Close other tabs using this site, then import again."));
+      });
+    }
+
+    function expectedIndexesForStore(storeInfo) {
+      if (Array.isArray(storeInfo.indexes) && storeInfo.indexes.length) return storeInfo.indexes;
+      if (storeInfo.name === "FILE_DATA") {
+        return [{ name: "timestamp", keyPath: "timestamp", unique: false, multiEntry: false }];
+      }
+      return [];
+    }
+
+    function ensureStoreIndexes(store, storeInfo) {
+      expectedIndexesForStore(storeInfo).forEach(indexInfo => {
+        if (!store.indexNames.contains(indexInfo.name)) {
+          store.createIndex(indexInfo.name, indexInfo.keyPath, {
+            unique: !!indexInfo.unique,
+            multiEntry: !!indexInfo.multiEntry
+          });
+        }
+      });
+    }
+
+    async function openDatabaseForImport(database) {
+      const backupVersion = Math.max(1, database.version || 1);
+      const createMissingStores = (openedDB, event) => {
+        database.stores.forEach(storeInfo => {
+          let store;
+          if (!openedDB.objectStoreNames.contains(storeInfo.name)) {
+            store = openedDB.createObjectStore(storeInfo.name, {
+              keyPath: storeInfo.keyPath || undefined,
+              autoIncrement: !!storeInfo.autoIncrement
+            });
+          } else {
+            store = event.target.transaction.objectStore(storeInfo.name);
+          }
+          ensureStoreIndexes(store, storeInfo);
+        });
+      };
+
+      try {
+        return await openIndexedDB(database.name, backupVersion, createMissingStores);
+      } catch (err) {
+        if (!err || err.name !== "VersionError") throw err;
+      }
+
+      let db = await openIndexedDB(database.name);
+      const needsUpgrade = database.stores.some(storeInfo => {
+        if (!db.objectStoreNames.contains(storeInfo.name)) return true;
+        const transaction = db.transaction(storeInfo.name, "readonly");
+        const store = transaction.objectStore(storeInfo.name);
+        return expectedIndexesForStore(storeInfo).some(indexInfo => !store.indexNames.contains(indexInfo.name));
+      });
+      if (!needsUpgrade) return db;
+
+      const nextVersion = db.version + 1;
+      db.close();
+      return openIndexedDB(database.name, nextVersion, createMissingStores);
+    }
+
+    async function importIndexedDB(databases) {
+      const stats = { databases: 0, stores: 0, records: 0, verifiedRecords: 0 };
+      if (!window.indexedDB || !Array.isArray(databases)) return stats;
+
+      for (const database of databases) {
+        const db = await openDatabaseForImport(database);
+        stats.databases++;
+
+        const storeNames = database.stores.map(store => store.name);
+        if (storeNames.length) {
+          await new Promise((resolve, reject) => {
+            const transaction = db.transaction(storeNames, "readwrite");
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error);
+            transaction.onabort = () => reject(transaction.error);
+
+            database.stores.forEach(storeInfo => {
+              const store = transaction.objectStore(storeInfo.name);
+              stats.stores++;
+              store.clear();
+              storeInfo.records.forEach(record => {
+                const key = decodeFromSave(record.key);
+                const value = decodeFromSave(record.value);
+                if (store.keyPath) store.put(value);
+                else store.put(value, key);
+                stats.records++;
+              });
+            });
+          });
+
+          for (const storeName of storeNames) {
+            const transaction = db.transaction(storeName, "readonly");
+            const store = transaction.objectStore(storeName);
+            const keys = await requestToPromise(store.getAllKeys());
+            stats.verifiedRecords += keys.length;
+          }
+        }
+        db.close();
+      }
+      return stats;
+    }
+
+    async function wipeData() {
+      if (!confirm("Are you sure you want to wipe your saves? This cannot be undone unless you exported a backup first.")) return;
+
+      localStorage.clear();
+      document.cookie.split(";").forEach(cookie => {
+        const name = cookie.split("=")[0].trim();
+        if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      });
+
+      if (window.indexedDB) {
+        const databaseNames = new Set(["/_savedata", "emscripten_filesystem"]);
+        if (indexedDB.databases) {
+          const databases = await indexedDB.databases();
+          databases.forEach(db => { if (db.name) databaseNames.add(db.name); });
+        }
+        for (const name of databaseNames) await deleteIndexedDB(name);
+      }
+
+      alert("Saves wiped! Refreshing...");
+      location.reload();
+    }
+
+    async function saveData() {
+      const localStorageData = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        localStorageData[key] = localStorage.getItem(key);
+      }
+
+      const data = JSON.stringify({
+        format: "deltarune-snxtr-save",
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        localStorage: localStorageData,
+        cookies: document.cookie,
+        indexedDB: await exportIndexedDB()
+      });
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
+      link.download = `dr_save_${Date.now()}.data`;
+      link.click();
+    }
+
+    const FEATURED_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/camzzz_deltarune_allbossessave.data";
+
+    async function downloadFeaturedSave() {
+      try {
+        const response = await fetch(FEATURED_SAVE_URL);
+        if (!response.ok) throw new Error("Could not download the save file.");
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(await response.blob());
+        link.download = "camzzz_deltarune_allbossessave.data";
+        link.click();
+      } catch (err) {
+        alert("Save download failed.\n\n" + err.message);
+      }
+    }
+
+    async function importSaveText(text) {
+      let parsed;
+      if (text.includes("\n\n|\n\n")) {
+        const parts = text.split("\n\n|\n\n");
+        parsed = { localStorage: JSON.parse(parts[0]), cookies: parts[1] || "", indexedDB: [] };
+      } else {
+        parsed = JSON.parse(text);
+      }
+
+      localStorage.clear();
+      for (let key in parsed.localStorage) localStorage.setItem(key, parsed.localStorage[key]);
+      const cookies = parsed.cookies || "";
+      if (cookies) cookies.split("; ").forEach(c => { if (c) document.cookie = c; });
+      return importIndexedDB(parsed.indexedDB);
+    }
+
+    async function importFeaturedSave() {
+      if (!confirm("Import Camzzz's all-boss save? This will replace your current saves.")) return;
+      try {
+        const response = await fetch(FEATURED_SAVE_URL);
+        if (!response.ok) throw new Error("Could not download the save file.");
+        const stats = await importSaveText(await response.text());
+        alert("Camzzz's save loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records.\n\nRefreshing...");
+        location.reload();
+      } catch (err) {
+        alert("Save import failed.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async e => {
+        try {
+          const stats = await importSaveText(e.target.result);
+          alert("Data loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records in browser storage.\n\nRefreshing...");
+          location.reload();
+        } catch(err) {
+          alert("Error loading save file.\n\n" + (err && err.message ? err.message : err));
+        } finally {
+          event.target.value = "";
+        }
+      };
+      reader.readAsText(file);
+    }
+  </script>
+
+</body>
+</html>

@@ -1006,6 +1006,7 @@
     const PRE_KAIZO_BACKUP_KEY = "dul_pre_kaizo_filech3_0_backup";
     const AUDIO_ON_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path>';
     const AUDIO_OFF_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M22 9l-6 6"></path><path d="M16 9l6 6"></path>';
+    const OLD_LAYOUT_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/old-layout.html";
 
     function startAudio() {
       if (!audioStarted && audio) {
@@ -1081,9 +1082,8 @@
     }
 
     function useClassicLayout() {
-      localStorage.setItem("dul_layout", "classic");
       closeSettings();
-      showPage("classic");
+      location.href = OLD_LAYOUT_URL;
     }
 
     function useNewLayout() {
@@ -1606,11 +1606,8 @@
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
-    const initialLayout = localStorage.getItem("dul_layout");
     if (["home", "deltarune", "undertale", "extras", "classic"].includes(initialPage)) {
       showPage(initialPage);
-    } else if (initialLayout === "classic") {
-      showPage("classic");
     } else {
       showPage("home");
     }
