@@ -133,7 +133,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 170px;
+      height: 230px;
       border: 2px solid transparent;
       text-decoration: none;
       cursor: pointer;
@@ -144,11 +144,18 @@
       filter: sepia(1) saturate(20) hue-rotate(8deg) brightness(1.25);
     }
 
-    .home-deltarune img,
-    .home-undertale img {
+    .home-deltarune img {
       width: auto;
-      max-width: min(39vw, 520px);
-      max-height: 92px;
+      max-width: 100%;
+      height: min(12vw, 132px);
+      display: block;
+      object-fit: contain;
+    }
+
+    .home-undertale img {
+      width: min(42vw, 760px);
+      max-width: 100%;
+      height: auto;
       display: block;
       object-fit: contain;
     }
@@ -256,7 +263,7 @@
       margin: 0 auto 8px;
       display: block;
       position: relative;
-      min-height: 260px;
+      min-height: 320px;
     }
 
     #deltarune-page .back-button {
@@ -278,7 +285,8 @@
     }
 
     #deltarune-page .subpage-logo img {
-      width: min(1040px, 78vw);
+      width: auto !important;
+      height: min(18vw, 210px) !important;
       max-width: 100%;
       max-height: none;
     }
@@ -573,15 +581,16 @@
       padding: 8px;
       border: 2px solid #ffffff;
       background: rgba(0,0,0,0.72);
-      width: 220px;
+      width: 300px;
     }
 
     .featured-save-title {
       color: #ffffff;
-      font-size: 0.95rem;
+      font-size: 0.82rem;
       line-height: 1.2;
       text-align: center;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .featured-save-btn {
@@ -824,11 +833,12 @@
         gap: 24px;
       }
       .home-logo-link {
-        min-height: 112px;
+        height: 140px;
       }
       .home-deltarune img,
       .home-undertale img {
-        width: min(86vw, 480px);
+        width: min(86vw, 560px);
+        height: auto;
       }
       .home-footer {
         inset: auto 14px 14px 14px;

@@ -32,7 +32,7 @@
       padding: 8px;
       border: 2px solid #ffffff;
       background: rgba(0,0,0,0.72);
-      width: 220px;
+      width: 300px;
     }
 
     #new-layout-box {
@@ -61,10 +61,11 @@
 
     .featured-save-title {
       color: #ffffff;
-      font-size: 0.95rem;
+      font-size: 0.82rem;
       line-height: 1.2;
       text-align: center;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .featured-save-btn {
@@ -428,7 +429,7 @@
   </div>
 
   <audio id="drone" loop hidden>
-    <source src="audios/AUDIO_DRONE.ogg" type="audio/ogg">
+    <source src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/audios/AUDIO_DRONE.ogg" type="audio/ogg">
   </audio>
 
   <input type="file" id="importData" onchange="loadData(event)">
@@ -462,8 +463,9 @@
 
   <script>
     const audio = document.getElementById('drone');
-    const menumoveaudio = new Audio('audios/snd_menumove.mp3');
-    const menuselectaudio = new Audio('audios/snd_select.mp3');
+    const FILES_BASE = 'https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/';
+    const menumoveaudio = new Audio(FILES_BASE + 'audios/snd_menumove.mp3');
+    const menuselectaudio = new Audio(FILES_BASE + 'audios/snd_select.mp3');
     
     let gamestarted = false;
     let audioStarted = false;
