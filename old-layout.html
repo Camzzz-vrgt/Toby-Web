@@ -35,6 +35,30 @@
       width: 220px;
     }
 
+    #new-layout-box {
+      position: fixed;
+      top: 170px;
+      left: 18px;
+      z-index: 9999;
+    }
+
+    #new-layout-box button {
+      min-height: 34px;
+      padding: 5px 8px;
+      border: 2px solid transparent;
+      background: #000000;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    #new-layout-box button:hover {
+      color: #ffff00;
+      border-color: #ffffff;
+    }
+
     .featured-save-title {
       color: #ffffff;
       font-size: 0.95rem;
@@ -277,6 +301,10 @@
       color: #aee8ff;
     }
 
+    .kaizo-text {
+      color: #aee8ff;
+    }
+
     .data-btn:hover {
       color: #ffff00;
       border: 2px solid #ffffff;
@@ -313,6 +341,10 @@
     </button>
   </div>
 
+  <div id="new-layout-box">
+    <button onclick="location.href.includes('old-layout.html') ? location.href='https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/dltrn.html' : location.reload()">Use New Layout</button>
+  </div>
+
   <div id="credits-box">
     <a href="https://truffled.lol" target="_blank" class="credit-link row">port by bog :o</a>
     <a href="https://www.youtube.com/@Camzzz_VR" target="_blank" class="credit-link update-tag">updated by camzzz</a>
@@ -333,7 +365,7 @@
   <div id="kaizo-modal">
     <div class="kaizo-box">
       <h2>Are You Sure?</h2>
-      <p>This will wipe your current browser save and load the Kaizo Roaring Knight save instead.</p>
+      <p>This will wipe your current browser save and load the <span class="kaizo-text">Kaizo Roaring Knight</span> save instead.</p>
       <p>Back up your main save first if you want to keep it.</p>
       <div class="kaizo-actions">
         <button onclick="saveData()">Back Up First</button>
