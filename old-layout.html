@@ -209,27 +209,43 @@
       width: 96px;
     }
 
+    #cyan-btn {
+      position: fixed;
+      top: 420px;
+      right: 14px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 96px;
+    }
+
     #undertale-btn:hover,
     #badtimesim-btn:hover,
-    #kaizo-btn:hover {
+    #kaizo-btn:hover,
+    #cyan-btn:hover {
       filter: sepia(1) saturate(20) hue-rotate(10deg) brightness(1.2);
     }
 
     #undertale-btn img,
     #badtimesim-btn img,
-    #kaizo-btn img {
+    #kaizo-btn img,
+    #cyan-btn img {
       width: 100%;
       height: auto;
       display: block;
       object-fit: contain;
     }
 
-    #kaizo-btn img {
+    #kaizo-btn img,
+    #cyan-btn img {
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
 
     #kaizo-modal,
+    #cyan-modal,
     #kaizo-loading {
       position: fixed;
       inset: 0;
@@ -242,6 +258,7 @@
     }
 
     #kaizo-modal.open,
+    #cyan-modal.open,
     #kaizo-loading.open {
       display: flex;
     }
@@ -306,6 +323,10 @@
       color: #aee8ff;
     }
 
+    .cyan-text {
+      color: #55f4ff;
+    }
+
     .data-btn:hover {
       color: #ffff00;
       border: 2px solid #ffffff;
@@ -363,6 +384,10 @@
     <img src="kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
   </button>
 
+  <button id="cyan-btn" onclick="openCyanConfirm()">
+    <img src="cyan-knight/icon.png" alt="Cyan Knight">
+  </button>
+
   <div id="kaizo-modal">
     <div class="kaizo-box">
       <h2>Are You Sure?</h2>
@@ -372,6 +397,19 @@
         <button onclick="saveData()">Back Up First</button>
         <button class="danger" onclick="loadKaizoRoaringKnight()">Wipe And Load</button>
         <button onclick="closeKaizoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cyan-modal">
+    <div class="kaizo-box">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe your current browser save and load the <span class="cyan-text">Cyan Knight</span> save instead.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="kaizo-actions">
+        <button onclick="saveData()">Back Up First</button>
+        <button class="danger" onclick="loadCyanKnight()">Wipe And Load</button>
+        <button onclick="closeCyanConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -523,10 +561,12 @@
       loadRemotePage('badtimesim/index.html');
     }
 
-    const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@33216f2/files/kaizo-roaring-knight/saves/filech3_0";
+    const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
+    const CYAN_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/saves/filech4_0";
     const KAIZO_SAVE_DB = "/_savedata";
     const KAIZO_SAVE_STORE = "FILE_DATA";
     const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
+    const CYAN_SAVE_KEY = "/_savedata/filech4_0";
     const KAIZO_SAVE_MODE = 33206;
 
     function openKaizoConfirm() {
@@ -535,6 +575,14 @@
 
     function closeKaizoConfirm() {
       document.getElementById("kaizo-modal").classList.remove("open");
+    }
+
+    function openCyanConfirm() {
+      document.getElementById("cyan-modal").classList.add("open");
+    }
+
+    function closeCyanConfirm() {
+      document.getElementById("cyan-modal").classList.remove("open");
     }
 
     function showKaizoLoading(text) {
@@ -564,9 +612,9 @@
       });
     }
 
-    async function installKaizoSave() {
-      const response = await fetch(KAIZO_SAVE_URL);
-      if (!response.ok) throw new Error("Could not download the Kaizo save.");
+    async function installModSave(saveUrl, saveKey, label) {
+      const response = await fetch(saveUrl);
+      if (!response.ok) throw new Error("Could not download the " + label + " save.");
       const contents = new Uint8Array(await response.arrayBuffer());
       const db = await openKaizoSaveDatabase();
       try {
@@ -576,7 +624,7 @@
           timestamp: new Date(),
           mode: KAIZO_SAVE_MODE,
           contents
-        }, KAIZO_SAVE_KEY));
+        }, saveKey));
       } finally {
         db.close();
       }
@@ -597,13 +645,29 @@
         showKaizoLoading("Wiping old save...");
         await wipeBrowserSaveForKaizo();
         showKaizoLoading("Installing Kaizo save...");
-        await installKaizoSave();
+        await installModSave(KAIZO_SAVE_URL, KAIZO_SAVE_KEY, "Kaizo");
         showKaizoLoading("Loading Kaizo Roaring Knight...");
         loadRemotePage('kaizo-roaring-knight/chapter3/index.html');
       } catch (err) {
         hideKaizoLoading();
         gamestarted = false;
         alert("Kaizo Roaring Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    async function loadCyanKnight() {
+      try {
+        closeCyanConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForKaizo();
+        showKaizoLoading("Installing Cyan save...");
+        await installModSave(CYAN_SAVE_URL, CYAN_SAVE_KEY, "Cyan");
+        showKaizoLoading("Loading Cyan Knight...");
+        loadRemotePage('cyan-knight/chapter3/index.html');
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Cyan Knight could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
 
@@ -631,7 +695,7 @@
         });
       });
 
-      document.querySelectorAll('#undertale-btn, #badtimesim-btn, #kaizo-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
+      document.querySelectorAll('#undertale-btn, #badtimesim-btn, #kaizo-btn, #cyan-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
         btn.addEventListener('mouseenter', () => { if (!gamestarted) menumoveaudio.play(); });
         btn.addEventListener('click', () => { if (!gamestarted) menuselectaudio.play(); });
       });
