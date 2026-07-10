@@ -403,7 +403,7 @@
     <img src="cyan-knight/icon.png" alt="Cyan Knight">
   </button>
 
-  <button id="geo-btn" onclick="loadDeltaruneGeoGuessr()">
+  <button id="geo-btn" onclick="showGeoGuessrPortNotice()">
     <img src="deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
   </button>
 
@@ -580,8 +580,8 @@
       loadRemotePage('badtimesim/index.html');
     }
 
-    function loadDeltaruneGeoGuessr() {
-      loadRemotePage('deltarune-geoguessr/index.html?v=20260710');
+    function showGeoGuessrPortNotice() {
+      alert('Deltarune GeoGuessr needs its own web runner. The current files are a Windows export only, so I need the GameMaker project/source or an HTML5 export to port it properly.');
     }
 
     const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
