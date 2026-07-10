@@ -1010,7 +1010,7 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
         </button>
-        <button class="game-card geo sound-target" onclick="showGeoGuessrPortNotice()">
+        <button class="game-card geo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
           <span class="geo-text">Deltarune GeoGuessr</span>
         </button>
@@ -1038,7 +1038,7 @@
         <button class="classic-extra-btn kaizo sound-target" onclick="openCyanConfirm()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
         </button>
-        <button class="classic-extra-btn kaizo sound-target" onclick="showGeoGuessrPortNotice()">
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
         </button>
       </div>
@@ -1270,8 +1270,8 @@
       loadRemotePage(FILES_BASE + "badtimesim/index.html");
     }
 
-    function showGeoGuessrPortNotice() {
-      alert("Deltarune GeoGuessr needs its own web runner. The current files are a Windows export only, so I need the GameMaker project/source or an HTML5 export to port it properly.");
+    function loadDeltaruneGeoGuessr() {
+      loadRemotePage(FILES_BASE + "deltarune-geoguessr/index.html?v=itch20260710");
     }
 
     function openKaizoConfirm() {
