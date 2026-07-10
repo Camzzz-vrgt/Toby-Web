@@ -416,10 +416,10 @@
     }
 
     .extras-grid {
-      width: min(530px, 100%);
+      width: min(700px, 100%);
       margin: 0;
       display: grid;
-      grid-template-columns: repeat(3, 128px);
+      grid-template-columns: repeat(4, 128px);
       gap: 42px;
       align-items: start;
     }
@@ -450,7 +450,7 @@
     }
 
     #extras-page .extras-grid {
-      width: min(530px, 100%);
+      width: min(700px, 100%);
       min-height: 0;
       align-items: start;
     }
@@ -484,7 +484,8 @@
     }
 
     .game-card.kaizo img,
-    .game-card.cyan img {
+    .game-card.cyan img,
+    .game-card.geo img {
       width: 112px;
       height: 112px;
       image-rendering: pixelated;
@@ -505,6 +506,10 @@
 
     .cyan-text {
       color: #55f4ff;
+    }
+
+    .geo-text {
+      color: #ffffff;
     }
 
     #settings-modal,
@@ -1005,6 +1010,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
         </button>
+        <button class="game-card geo sound-target" onclick="loadDeltaruneGeoGuessr()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
+          <span class="geo-text">Deltarune GeoGuessr</span>
+        </button>
       </div>
     </section>
 
@@ -1028,6 +1037,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openCyanConfirm()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
         </button>
       </div>
       <div class="menu">
@@ -1256,6 +1268,10 @@
 
     function loadBadTimeSim() {
       loadRemotePage(FILES_BASE + "badtimesim/index.html");
+    }
+
+    function loadDeltaruneGeoGuessr() {
+      loadRemotePage(FILES_BASE + "deltarune-geoguessr/index.html?v=20260710");
     }
 
     function openKaizoConfirm() {
