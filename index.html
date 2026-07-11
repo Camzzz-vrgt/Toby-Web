@@ -1249,6 +1249,7 @@
     const CYAN_SAVE_URL = KAIZO_SAVE_URL;
     const SAVE_DB = "/_savedata";
     const SAVE_STORE = "FILE_DATA";
+    const GAME_SAVE_DB_VERSION = 21;
     const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
     const CYAN_SAVE_KEY = KAIZO_SAVE_KEY;
     const KAIZO_SAVE_MODE = 33206;
@@ -1341,26 +1342,24 @@
       showPage("home");
     }
 
-    function loadRemotePage(url) {
+    async function loadRemotePage(url) {
       gamestarted = true;
-      const pageUrl = new URL(url, document.baseURI).href;
-      fetch(pageUrl)
-        .then(res => {
-          if (!res.ok) throw new Error("Could not load " + pageUrl);
-          return res.text();
-        })
-        .then(html => {
-          const pageBase = pageUrl.slice(0, pageUrl.lastIndexOf("/") + 1);
-          const historyGuard = '<script>["pushState","replaceState"].forEach(function(name){var original=history[name].bind(history);history[name]=function(state,title,url){try{return original(state,title,url)}catch(error){return original(state,title,location.href)}}});<\/script>';
-          html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">' + historyGuard);
-          document.open();
-          document.write(html);
-          document.close();
-        })
-        .catch(err => {
-          gamestarted = false;
-          alert("Sorry, that game could not load.\n\n" + err.message);
-        });
+      try {
+        await ensureGameSaveDatabase();
+        const pageUrl = new URL(url, document.baseURI).href;
+        const res = await fetch(pageUrl);
+        if (!res.ok) throw new Error("Could not load " + pageUrl);
+        let html = await res.text();
+        const pageBase = pageUrl.slice(0, pageUrl.lastIndexOf("/") + 1);
+        const historyGuard = '<script>["pushState","replaceState"].forEach(function(name){var original=history[name].bind(history);history[name]=function(state,title,url){try{return original(state,title,url)}catch(error){return original(state,title,location.href)}}});<\/script>';
+        html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">' + historyGuard);
+        document.open();
+        document.write(html);
+        document.close();
+      } catch (err) {
+        gamestarted = false;
+        alert("Sorry, that game could not load.\n\n" + (err && err.message ? err.message : err));
+      }
     }
 
     function loadStandalonePage(url) {
@@ -1594,8 +1593,82 @@
       });
     }
 
+    async function readGameSaveRecords() {
+      let db;
+      try {
+        db = await openIndexedDB(SAVE_DB);
+        if (!db.objectStoreNames.contains(SAVE_STORE)) return [];
+        const tx = db.transaction(SAVE_STORE, "readonly");
+        const store = tx.objectStore(SAVE_STORE);
+        const keysRequest = store.getAllKeys();
+        const valuesRequest = store.getAll();
+        const keys = await requestToPromise(keysRequest);
+        const values = await requestToPromise(valuesRequest);
+        return keys.map((key, index) => ({ key, value: values[index] }));
+      } catch (err) {
+        return [];
+      } finally {
+        if (db) db.close();
+      }
+    }
+
+    async function rebuildGameSaveDatabase(records = []) {
+      await deleteIndexedDB(SAVE_DB);
+      const db = await openIndexedDB(SAVE_DB, GAME_SAVE_DB_VERSION, (openedDB, event) => {
+        const store = openedDB.objectStoreNames.contains(SAVE_STORE)
+          ? event.target.transaction.objectStore(SAVE_STORE)
+          : openedDB.createObjectStore(SAVE_STORE);
+        if (!store.indexNames.contains("timestamp")) {
+          store.createIndex("timestamp", "timestamp", { unique: false });
+        }
+      });
+      try {
+        if (!records.length) return;
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction(SAVE_STORE, "readwrite");
+          const store = tx.objectStore(SAVE_STORE);
+          records.forEach(record => store.put(record.value, record.key));
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+          tx.onabort = () => reject(tx.error);
+        });
+      } finally {
+        db.close();
+      }
+    }
+
+    async function ensureGameSaveDatabase() {
+      if (!window.indexedDB) return;
+      let db;
+      let records = [];
+      let shouldRebuild = false;
+      try {
+        db = await openIndexedDB(SAVE_DB);
+        shouldRebuild = db.version !== GAME_SAVE_DB_VERSION;
+        if (!db.objectStoreNames.contains(SAVE_STORE)) {
+          shouldRebuild = true;
+        } else {
+          const tx = db.transaction(SAVE_STORE, "readonly");
+          const store = tx.objectStore(SAVE_STORE);
+          const keysRequest = store.getAllKeys();
+          const valuesRequest = store.getAll();
+          const keys = await requestToPromise(keysRequest);
+          const values = await requestToPromise(valuesRequest);
+          records = keys.map((key, index) => ({ key, value: values[index] }));
+          if (!store.indexNames.contains("timestamp")) shouldRebuild = true;
+        }
+      } catch (err) {
+        shouldRebuild = true;
+      } finally {
+        if (db) db.close();
+      }
+      if (shouldRebuild) await rebuildGameSaveDatabase(records);
+    }
+
     async function openDatabaseForImport(database) {
-      const backupVersion = Math.max(1, database.version || 1);
+      const isGameSaveDatabase = database.name === SAVE_DB;
+      if (isGameSaveDatabase) await ensureGameSaveDatabase();
+      const backupVersion = isGameSaveDatabase ? GAME_SAVE_DB_VERSION : Math.max(1, database.version || 1);
       const createMissingStores = (openedDB, event) => {
         database.stores.forEach(storeInfo => {
           let store;
@@ -1626,6 +1699,11 @@
         return expectedIndexesForStore(storeInfo).some(indexInfo => !store.indexNames.contains(indexInfo.name));
       });
       if (!needsUpgrade) return db;
+      if (isGameSaveDatabase) {
+        db.close();
+        await rebuildGameSaveDatabase(await readGameSaveRecords());
+        return openIndexedDB(SAVE_DB, GAME_SAVE_DB_VERSION, createMissingStores);
+      }
       const nextVersion = db.version + 1;
       db.close();
       return openIndexedDB(database.name, nextVersion, createMissingStores);
@@ -1838,7 +1916,8 @@
     }
 
     async function openSaveDatabase() {
-      return openIndexedDB(SAVE_DB, 21, (db, event) => {
+      await ensureGameSaveDatabase();
+      return openIndexedDB(SAVE_DB, GAME_SAVE_DB_VERSION, (db, event) => {
         const store = db.objectStoreNames.contains(SAVE_STORE)
           ? event.target.transaction.objectStore(SAVE_STORE)
           : db.createObjectStore(SAVE_STORE);
