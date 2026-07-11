@@ -1611,14 +1611,20 @@
         });
       };
 
+      let db;
       try {
-        return await openIndexedDB(database.name, backupVersion, createMissingStores);
+        db = await openIndexedDB(database.name, backupVersion, createMissingStores);
       } catch (err) {
         if (!err || err.name !== "VersionError") throw err;
+        db = await openIndexedDB(database.name);
       }
 
-      let db = await openIndexedDB(database.name);
-      const needsUpgrade = database.stores.some(storeInfo => !db.objectStoreNames.contains(storeInfo.name));
+      const needsUpgrade = database.stores.some(storeInfo => {
+        if (!db.objectStoreNames.contains(storeInfo.name)) return true;
+        const tx = db.transaction(storeInfo.name, "readonly");
+        const store = tx.objectStore(storeInfo.name);
+        return expectedIndexesForStore(storeInfo).some(indexInfo => !store.indexNames.contains(indexInfo.name));
+      });
       if (!needsUpgrade) return db;
       const nextVersion = db.version + 1;
       db.close();
@@ -1642,6 +1648,7 @@
             database.stores.forEach(storeInfo => {
               const store = tx.objectStore(storeInfo.name);
               stats.stores++;
+              if (scope === "all" || scope === "deltarune-featured") store.clear();
               storeInfo.records.forEach(record => {
                 const key = decodeFromSave(record.key);
                 if (database.name === SAVE_DB && storeInfo.name === SAVE_STORE && !recordMatchesScope(scope, key)) return;
@@ -1710,6 +1717,7 @@
       if (scope === "all" && parsed.cookies) {
         parsed.cookies.split("; ").forEach(c => { if (c) document.cookie = c; });
       }
+      if (scope !== "all") await wipeScopedSaveRecords(scope);
       return importIndexedDB(parsed.indexedDB, scope);
     }
 

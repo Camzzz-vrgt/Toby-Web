@@ -1061,13 +1061,14 @@
         });
       };
 
+      let db;
       try {
-        return await openIndexedDB(database.name, backupVersion, createMissingStores);
+        db = await openIndexedDB(database.name, backupVersion, createMissingStores);
       } catch (err) {
         if (!err || err.name !== "VersionError") throw err;
+        db = await openIndexedDB(database.name);
       }
 
-      let db = await openIndexedDB(database.name);
       const needsUpgrade = database.stores.some(storeInfo => {
         if (!db.objectStoreNames.contains(storeInfo.name)) return true;
         const transaction = db.transaction(storeInfo.name, "readonly");
