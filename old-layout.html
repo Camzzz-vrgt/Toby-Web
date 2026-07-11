@@ -68,6 +68,31 @@
       white-space: nowrap;
     }
 
+    .featured-save-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .featured-save-info-btn {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 2px solid #ffffff;
+      background: #000000;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .featured-save-info-btn:hover {
+      color: #ffff00;
+      border-color: #ffff00;
+    }
+
     .featured-save-btn {
       width: 100%;
       min-height: 34px;
@@ -93,6 +118,30 @@
     .featured-save-btn svg {
       flex-shrink: 0;
       stroke: currentColor;
+    }
+
+    .save-info-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .save-info-chapter {
+      border: 2px solid #ffffff;
+      padding: 10px;
+      background: #000000;
+    }
+
+    .save-info-chapter h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: #ffff00;
+      text-transform: uppercase;
+    }
+
+    .save-info-chapter p {
+      margin: 5px 0;
+      font-size: 0.88rem;
     }
 
     .credit-link {
@@ -261,6 +310,7 @@
 
     #kaizo-modal,
     #cyan-modal,
+    #featured-save-info-modal,
     #kaizo-loading {
       position: fixed;
       inset: 0;
@@ -274,6 +324,7 @@
 
     #kaizo-modal.open,
     #cyan-modal.open,
+    #featured-save-info-modal.open,
     #kaizo-loading.open {
       display: flex;
     }
@@ -367,7 +418,10 @@
 <body>
 
   <div id="featured-save-box">
-    <div class="featured-save-title">Camzzz All-Boss Save</div>
+    <div class="featured-save-header">
+      <div class="featured-save-title">Camzzz All-Boss Save</div>
+      <button class="featured-save-info-btn" onclick="openFeaturedSaveInfo()" title="Save Info">i</button>
+    </div>
     <button class="featured-save-btn" onclick="downloadFeaturedSave()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download Save
@@ -429,6 +483,40 @@
         <button onclick="saveData()">Back Up First</button>
         <button class="danger" onclick="loadCyanKnight()">Wipe And Load</button>
         <button onclick="closeCyanConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="featured-save-info-modal">
+    <div class="kaizo-box">
+      <h2>Camzzz All-Boss Save</h2>
+      <p>This save pack puts you near the major bosses and secret bosses for Chapters 1-4. Chapter 5 saves are included separately so the chapter has working browser slots.</p>
+      <div class="save-info-list">
+        <div class="save-info-chapter">
+          <h3>Chapter 1</h3>
+          <p><strong>Slot 1:</strong> Chaos King</p>
+          <p><strong>Slot 2:</strong> Jevil</p>
+        </div>
+        <div class="save-info-chapter">
+          <h3>Chapter 2</h3>
+          <p><strong>Slot 1:</strong> Castle Town (No Boss)</p>
+          <p><strong>Slot 2:</strong> Spamton NEO (Normal)</p>
+          <p><strong>Slot 3:</strong> Spamton NEO (Snowgrave / Weird Route)</p>
+        </div>
+        <div class="save-info-chapter">
+          <h3>Chapter 3</h3>
+          <p><strong>Slot 1:</strong> The Roaring Knight</p>
+          <p><strong>Slot 2:</strong> ERAM (Shadow Mantle)</p>
+        </div>
+        <div class="save-info-chapter">
+          <h3>Chapter 4</h3>
+          <p><strong>Slot 1:</strong> The Titan</p>
+          <p><strong>Slot 2:</strong> Old Man (Gerson)</p>
+          <p><strong>Slot 3:</strong> MIKE (with Susie and Ralsei)</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button onclick="closeFeaturedSaveInfo()">Close</button>
       </div>
     </div>
   </div>
@@ -606,6 +694,14 @@
 
     function closeCyanConfirm() {
       document.getElementById("cyan-modal").classList.remove("open");
+    }
+
+    function openFeaturedSaveInfo() {
+      document.getElementById("featured-save-info-modal").classList.add("open");
+    }
+
+    function closeFeaturedSaveInfo() {
+      document.getElementById("featured-save-info-modal").classList.remove("open");
     }
 
     function showKaizoLoading(text) {
