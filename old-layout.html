@@ -5,6 +5,35 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css">
   <style>
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #ffffff #000000;
+    }
+
+    *::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+      background: #000000;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #000000;
+      border: 2px solid #3a3a3a;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: #ffffff;
+      border: 3px solid #000000;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: #ffff00;
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: #000000;
+    }
+
     #credits-box {
       position: fixed;
       top: 18px;
@@ -490,7 +519,7 @@
   <div id="featured-save-info-modal">
     <div class="kaizo-box">
       <h2>Camzzz All-Boss Save</h2>
-      <p>This save pack puts you near the major bosses and secret bosses for Chapters 1-4. Chapter 5 saves are included separately so the chapter has working browser slots.</p>
+      <p>This save pack puts you near the major bosses and secret bosses for Chapters 1-5.</p>
       <div class="save-info-list">
         <div class="save-info-chapter">
           <h3>Chapter 1</h3>
@@ -513,6 +542,11 @@
           <p><strong>Slot 1:</strong> The Titan</p>
           <p><strong>Slot 2:</strong> Old Man (Gerson)</p>
           <p><strong>Slot 3:</strong> MIKE (with Susie and Ralsei)</p>
+        </div>
+        <div class="save-info-chapter">
+          <h3>Chapter 5</h3>
+          <p><strong>Slot 1:</strong> Flowery</p>
+          <p><strong>Slot 2:</strong> MewMew</p>
         </div>
       </div>
       <div class="modal-actions">
@@ -1135,12 +1169,31 @@
 
     const FEATURED_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@3b5c507/camzzz_deltarune_allbossessave.data";
 
+    async function fetchFeaturedSaveText() {
+      const urls = [
+        FEATURED_SAVE_URL,
+        "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/3b5c507/camzzz_deltarune_allbossessave.data",
+        "camzzz_deltarune_allbossessave.data",
+        "../camzzz_deltarune_allbossessave.data"
+      ];
+      let lastError;
+      for (const url of urls) {
+        try {
+          const response = await fetch(url);
+          if (response.ok) return response.text();
+          lastError = new Error("Could not download the save file from " + url + ".");
+        } catch (err) {
+          lastError = err;
+        }
+      }
+      throw lastError || new Error("Could not download the save file.");
+    }
+
     async function downloadFeaturedSave() {
       try {
-        const response = await fetch(FEATURED_SAVE_URL);
-        if (!response.ok) throw new Error("Could not download the save file.");
+        const text = await fetchFeaturedSaveText();
         const link = document.createElement("a");
-        link.href = URL.createObjectURL(await response.blob());
+        link.href = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
         link.download = "camzzz_deltarune_allbossessave.data";
         link.click();
       } catch (err) {
@@ -1167,9 +1220,7 @@
     async function importFeaturedSave() {
       if (!confirm("Import Camzzz's all-boss save? This will replace your current saves.")) return;
       try {
-        const response = await fetch(FEATURED_SAVE_URL);
-        if (!response.ok) throw new Error("Could not download the save file.");
-        const stats = await importSaveText(await response.text());
+        const stats = await importSaveText(await fetchFeaturedSaveText());
         alert("Camzzz's save loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records.\n\nRefreshing...");
         location.reload();
       } catch (err) {

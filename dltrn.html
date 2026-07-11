@@ -14,7 +14,35 @@
       --panel: rgba(0, 0, 0, 0.9);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: var(--white) #000000;
+    }
+
+    *::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+      background: #000000;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #000000;
+      border: 2px solid #3a3a3a;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background: var(--white);
+      border: 3px solid #000000;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: var(--yellow);
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: #000000;
+    }
 
     html,
     body {
@@ -1170,7 +1198,7 @@
     <div class="modal-box">
       <button class="pixel-button modal-close sound-target" onclick="closeFeaturedSaveInfo()">X</button>
       <h2>Camzzz All-Boss Save</h2>
-      <p>This save pack puts you near the major bosses and secret bosses for Chapters 1-4. Chapter 5 saves are included separately so the chapter has working browser slots.</p>
+      <p>This save pack puts you near the major bosses and secret bosses for Chapters 1-5.</p>
       <div class="save-info-list">
         <div class="save-info-chapter">
           <h3>Chapter 1</h3>
@@ -1193,6 +1221,11 @@
           <p><strong>Slot 1:</strong> The Titan</p>
           <p><strong>Slot 2:</strong> Old Man (Gerson)</p>
           <p><strong>Slot 3:</strong> MIKE (with Susie and Ralsei)</p>
+        </div>
+        <div class="save-info-chapter">
+          <h3>Chapter 5</h3>
+          <p><strong>Slot 1:</strong> Flowery</p>
+          <p><strong>Slot 2:</strong> MewMew</p>
         </div>
       </div>
     </div>
@@ -1480,8 +1513,17 @@
 
     function recordMatchesScope(scope, key) {
       if (scope === "all") return true;
+      if (scope === "deltarune-featured") return true;
       const keyText = keyString(key).toLowerCase();
-      const isDeltaruneRecord = keyText.includes("filech") || keyText.endsWith("/dr.ini") || keyText === "dr.ini";
+      const basename = keyText.split("/").pop();
+      const isDeltaruneRecord = keyText.includes("filech")
+        || basename === "dr.ini"
+        || basename === "decomp_vars.ini"
+        || basename === "trophies.ini"
+        || basename === "true_config.ini"
+        || basename === "undertale.ini"
+        || /^config_\d+\.ini$/.test(basename)
+        || /^keyconfig_\d+\.ini$/.test(basename);
       if (scope === "deltarune") return isDeltaruneRecord;
       if (scope === "undertale") return !isDeltaruneRecord;
       return true;
@@ -1671,6 +1713,26 @@
       return importIndexedDB(parsed.indexedDB, scope);
     }
 
+    async function fetchFeaturedSaveText() {
+      const urls = [
+        FEATURED_SAVE_URL,
+        "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/3b5c507/camzzz_deltarune_allbossessave.data",
+        "camzzz_deltarune_allbossessave.data",
+        "../camzzz_deltarune_allbossessave.data"
+      ];
+      let lastError;
+      for (const url of urls) {
+        try {
+          const response = await fetch(url);
+          if (response.ok) return response.text();
+          lastError = new Error("Could not download the save file from " + url + ".");
+        } catch (err) {
+          lastError = err;
+        }
+      }
+      throw lastError || new Error("Could not download the save file.");
+    }
+
     function loadData(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1692,10 +1754,9 @@
 
     async function downloadFeaturedSave() {
       try {
-        const response = await fetch(FEATURED_SAVE_URL);
-        if (!response.ok) throw new Error("Could not download the save file.");
+        const text = await fetchFeaturedSaveText();
         const link = document.createElement("a");
-        link.href = URL.createObjectURL(await response.blob());
+        link.href = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
         link.download = "camzzz_deltarune_allbossessave.data";
         link.click();
       } catch (err) {
@@ -1706,9 +1767,7 @@
     async function importFeaturedSave() {
       if (!confirm("Import Camzzz's all-boss save? This will replace your current Deltarune saves.")) return;
       try {
-        const response = await fetch(FEATURED_SAVE_URL);
-        if (!response.ok) throw new Error("Could not download the save file.");
-        const stats = await importSaveText(await response.text(), "deltarune");
+        const stats = await importSaveText(await fetchFeaturedSaveText(), "deltarune-featured");
         alert("Camzzz's save loaded!\n\nImported " + stats.records + " save records.\nVerified " + stats.verifiedRecords + " records.\n\nRefreshing...");
         location.reload();
       } catch (err) {
