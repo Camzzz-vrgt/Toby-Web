@@ -1512,7 +1512,6 @@
 
     function recordMatchesScope(scope, key) {
       if (scope === "all") return true;
-      if (scope === "deltarune-featured") return true;
       const keyText = keyString(key).toLowerCase();
       const basename = keyText.split("/").pop();
       const isDeltaruneRecord = keyText.includes("filech")
@@ -1520,11 +1519,13 @@
         || basename === "decomp_vars.ini"
         || basename === "trophies.ini"
         || basename === "true_config.ini"
-        || basename === "undertale.ini"
         || /^config_\d+\.ini$/.test(basename)
         || /^keyconfig_\d+\.ini$/.test(basename);
-      if (scope === "deltarune") return isDeltaruneRecord;
-      if (scope === "undertale") return !isDeltaruneRecord;
+      const isUndertaleRecord = basename === "undertale.ini"
+        || /^file\d+$/.test(basename)
+        || /^system_information_\d+$/.test(basename);
+      if (scope === "deltarune" || scope === "deltarune-featured") return isDeltaruneRecord;
+      if (scope === "undertale") return isUndertaleRecord;
       return true;
     }
 
@@ -1726,7 +1727,7 @@
             database.stores.forEach(storeInfo => {
               const store = tx.objectStore(storeInfo.name);
               stats.stores++;
-              if (scope === "all" || scope === "deltarune-featured") store.clear();
+              if (scope === "all") store.clear();
               storeInfo.records.forEach(record => {
                 const key = decodeFromSave(record.key);
                 if (database.name === SAVE_DB && storeInfo.name === SAVE_STORE && !recordMatchesScope(scope, key)) return;
