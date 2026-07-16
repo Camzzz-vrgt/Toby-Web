@@ -1138,6 +1138,10 @@ progress[value]::-webkit-progress-value {
                     });
                     return { byPath, byFile };
                 })();
+                const musicAliases = new Map([
+                    ["mus/asgore_serious_drum_only_flowery_version.ogg", "mus/Flowerman_Arrangement.ogg"],
+                    ["asgore_serious_drum_only_flowery_version.ogg", "mus/Flowerman_Arrangement.ogg"]
+                ]);
 
                 function resolveChapterFileUrl(url) {
                     const rawUrl = typeof url === "string" ? url : (url && url.url) || "";
@@ -1160,7 +1164,8 @@ progress[value]::-webkit-progress-value {
                     else if (langIndex >= 0) lookupKey = lowerUrl.slice(langIndex);
 
                     const fileName = lowerUrl.split("/").pop();
-                    const mapped = (lookupKey && manifestLookup.byPath.get(lookupKey)) || manifestLookup.byFile.get(fileName);
+                    const alias = (lookupKey && musicAliases.get(lookupKey)) || musicAliases.get(fileName);
+                    const mapped = alias || (lookupKey && manifestLookup.byPath.get(lookupKey)) || manifestLookup.byFile.get(fileName);
                     return mapped ? new URL(mapped, document.baseURI).href + suffix : rawUrl;
                 }
 
@@ -1182,6 +1187,12 @@ progress[value]::-webkit-progress-value {
                     if (String(name).toLowerCase() === "src") value = resolveChapterFileUrl(value);
                     return originalSetAttribute.call(this, name, value);
                 };
+                const NativeAudio = window.Audio;
+                window.Audio = function (src) {
+                    return arguments.length > 0 ? new NativeAudio(resolveChapterFileUrl(src)) : new NativeAudio();
+                };
+                window.Audio.prototype = NativeAudio.prototype;
+                Object.setPrototypeOf(window.Audio, NativeAudio);
 
                 const originalFetch = window.fetch;
                 window.fetch = async function (url, ...args) {
