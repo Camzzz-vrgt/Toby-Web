@@ -1238,6 +1238,7 @@
   <script>
     const audio = document.getElementById("drone");
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
+    const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@4e62a25/files/chapter5/";
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
     let gamestarted = false;
@@ -1381,7 +1382,7 @@
     }
 
     function loadChapter(chapter) {
-      loadRemotePage(FILES_BASE + "chapter" + chapter + "/index.html");
+      loadRemotePage(chapter === 5 ? CHAPTER5_BASE + "index.html" : FILES_BASE + "chapter" + chapter + "/index.html");
     }
 
     function loadUndertale() {
