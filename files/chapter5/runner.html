@@ -1128,13 +1128,76 @@ progress[value]::-webkit-progress-value {
 
             mergeFiles(getParts("game.unx", 1, 10)).then(gameUnxUrl => {
                 const runnerDataUrl = "runner.data";
+                const manifestLookup = (() => {
+                    const byPath = new Map();
+                    const byFile = new Map();
+                    manifestFiles().split(";").forEach(file => {
+                        const normalized = file.replace(/\\/g, "/");
+                        byPath.set(normalized.toLowerCase(), normalized);
+                        byFile.set(normalized.split("/").pop().toLowerCase(), normalized);
+                    });
+                    return { byPath, byFile };
+                })();
+
+                function resolveChapterFileUrl(url) {
+                    const rawUrl = typeof url === "string" ? url : (url && url.url) || "";
+                    if (!rawUrl || rawUrl.startsWith("blob:") || rawUrl.startsWith("data:")) return rawUrl || url;
+
+                    const suffixIndex = rawUrl.search(/[?#]/);
+                    const suffix = suffixIndex >= 0 ? rawUrl.slice(suffixIndex) : "";
+                    const cleanUrl = (suffixIndex >= 0 ? rawUrl.slice(0, suffixIndex) : rawUrl).replace(/\\/g, "/");
+                    const lowerUrl = cleanUrl.toLowerCase();
+                    let lookupKey = "";
+
+                    const assetsMusIndex = lowerUrl.lastIndexOf("assets/mus/");
+                    const musIndex = lowerUrl.lastIndexOf("mus/");
+                    const assetsLangIndex = lowerUrl.lastIndexOf("assets/lang/");
+                    const langIndex = lowerUrl.lastIndexOf("lang/");
+
+                    if (assetsMusIndex >= 0) lookupKey = "mus/" + lowerUrl.slice(assetsMusIndex + "assets/mus/".length);
+                    else if (musIndex >= 0) lookupKey = lowerUrl.slice(musIndex);
+                    else if (assetsLangIndex >= 0) lookupKey = "lang/" + lowerUrl.slice(assetsLangIndex + "assets/lang/".length);
+                    else if (langIndex >= 0) lookupKey = lowerUrl.slice(langIndex);
+
+                    const fileName = lowerUrl.split("/").pop();
+                    const mapped = (lookupKey && manifestLookup.byPath.get(lookupKey)) || manifestLookup.byFile.get(fileName);
+                    return mapped ? new URL(mapped, document.baseURI).href + suffix : rawUrl;
+                }
+
+                const mediaSrcDescriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, "src");
+                if (mediaSrcDescriptor && mediaSrcDescriptor.get && mediaSrcDescriptor.set) {
+                    Object.defineProperty(HTMLMediaElement.prototype, "src", {
+                        configurable: true,
+                        enumerable: mediaSrcDescriptor.enumerable,
+                        get: function () {
+                            return mediaSrcDescriptor.get.call(this);
+                        },
+                        set: function (value) {
+                            mediaSrcDescriptor.set.call(this, resolveChapterFileUrl(value));
+                        }
+                    });
+                }
+                const originalSetAttribute = HTMLMediaElement.prototype.setAttribute;
+                HTMLMediaElement.prototype.setAttribute = function (name, value) {
+                    if (String(name).toLowerCase() === "src") value = resolveChapterFileUrl(value);
+                    return originalSetAttribute.call(this, name, value);
+                };
 
                 const originalFetch = window.fetch;
                 window.fetch = async function (url, ...args) {
-                    if (url.endsWith("game.unx")) {
+                    const requestUrl = typeof url === "string" ? url : (url && url.url) || "";
+                    if (requestUrl.endsWith("game.unx")) {
                         return originalFetch(gameUnxUrl, ...args);
-                    } else if (url.endsWith("runner.data")) {
+                    } else if (requestUrl.endsWith("runner.data")) {
                         return originalFetch(runnerDataUrl, ...args);
+                    }
+                    const resolvedUrl = resolveChapterFileUrl(requestUrl);
+                    if (resolvedUrl !== requestUrl) {
+                        if (typeof Request !== "undefined" && url instanceof Request) {
+                            url = new Request(resolvedUrl, url);
+                        } else {
+                            url = resolvedUrl;
+                        }
                     }
                     return originalFetch(url, ...args);
                 };
@@ -1146,6 +1209,8 @@ progress[value]::-webkit-progress-value {
                         newUrl = gameUnxUrl;
                     } else if (url.endsWith("runner.data")) {
                         newUrl = runnerDataUrl;
+                    } else {
+                        newUrl = resolveChapterFileUrl(url);
                     }
                     return originalOpen.call(this, method, newUrl, ...rest);
                 };
