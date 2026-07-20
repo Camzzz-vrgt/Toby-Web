@@ -311,11 +311,24 @@
       width: 96px;
     }
 
+    #guesswho-btn {
+      position: fixed;
+      top: 640px;
+      right: 14px;
+      z-index: 9999;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 96px;
+    }
+
     #undertale-btn:hover,
     #badtimesim-btn:hover,
     #kaizo-btn:hover,
     #cyan-btn:hover,
-    #geo-btn:hover {
+    #geo-btn:hover,
+    #guesswho-btn:hover {
       filter: sepia(1) saturate(20) hue-rotate(10deg) brightness(1.2);
     }
 
@@ -323,7 +336,8 @@
     #badtimesim-btn img,
     #kaizo-btn img,
     #cyan-btn img,
-    #geo-btn img {
+    #geo-btn img,
+    #guesswho-btn img {
       width: 100%;
       height: auto;
       display: block;
@@ -332,7 +346,8 @@
 
     #kaizo-btn img,
     #cyan-btn img,
-    #geo-btn img {
+    #geo-btn img,
+    #guesswho-btn img {
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
@@ -488,6 +503,10 @@
 
   <button id="geo-btn" onclick="loadDeltaruneGeoGuessr()">
     <img src="deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
+  </button>
+
+  <button id="guesswho-btn" onclick="loadDeltaruneGuessWho()">
+    <img src="deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
   </button>
 
   <div id="kaizo-modal">
@@ -702,6 +721,10 @@
 
     function loadDeltaruneGeoGuessr() {
       loadRemotePage('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@978ef25/files/deltarune-geoguessr/index.html');
+    }
+
+    function loadDeltaruneGuessWho() {
+      loadRemotePage('deltarune-guess-who/index.html');
     }
 
     const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
@@ -920,7 +943,7 @@
         });
       });
 
-      document.querySelectorAll('#undertale-btn, #badtimesim-btn, #kaizo-btn, #cyan-btn, #geo-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
+      document.querySelectorAll('#undertale-btn, #badtimesim-btn, #kaizo-btn, #cyan-btn, #geo-btn, #guesswho-btn, .update-tag, .data-btn, .featured-save-btn').forEach(btn => {
         btn.addEventListener('mouseenter', () => { if (!gamestarted) menumoveaudio.play(); });
         btn.addEventListener('click', () => { if (!gamestarted) menuselectaudio.play(); });
       });

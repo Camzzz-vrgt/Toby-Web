@@ -444,10 +444,10 @@
     }
 
     .extras-grid {
-      width: min(700px, 100%);
+      width: min(870px, calc(100vw - 96px));
       margin: 0;
       display: grid;
-      grid-template-columns: repeat(4, 128px);
+      grid-template-columns: repeat(auto-fit, 128px);
       gap: 42px;
       align-items: start;
     }
@@ -478,7 +478,7 @@
     }
 
     #extras-page .extras-grid {
-      width: min(700px, 100%);
+      width: min(870px, calc(100vw - 96px));
       min-height: 0;
       align-items: start;
     }
@@ -513,7 +513,8 @@
 
     .game-card.kaizo img,
     .game-card.cyan img,
-    .game-card.geo img {
+    .game-card.geo img,
+    .game-card.guesswho img {
       width: 112px;
       height: 112px;
       image-rendering: pixelated;
@@ -538,6 +539,10 @@
 
     .geo-text {
       color: #ffffff;
+    }
+
+    .guesswho-text {
+      color: #ff2a20;
     }
 
     #settings-modal,
@@ -1100,6 +1105,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
           <span class="geo-text">Deltarune GeoGuessr</span>
         </button>
+        <button class="game-card guesswho sound-target" onclick="loadDeltaruneGuessWho()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
+          <span class="guesswho-text">Deltarune Guess Who</span>
+        </button>
       </div>
     </section>
 
@@ -1126,6 +1135,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGuessWho()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
         </button>
       </div>
       <div class="menu">
@@ -1395,6 +1407,10 @@
 
     function loadDeltaruneGeoGuessr() {
       loadRemotePage("https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@978ef25/files/deltarune-geoguessr/index.html");
+    }
+
+    function loadDeltaruneGuessWho() {
+      loadRemotePage(FILES_BASE + "deltarune-guess-who/index.html");
     }
 
     function openKaizoConfirm() {
