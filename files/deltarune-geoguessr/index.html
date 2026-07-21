@@ -646,6 +646,7 @@
       var pauseMenu = document.getElementById("pauseMenuContainer");
       var resumeButton = document.getElementById("resumeButton");
       var quitButton = document.getElementById("quitButton");
+      window.__dulGeoAudioReady = false;
       canvasElement.addEventListener("click", function() { canvasElement.focus(); });
       
       const messageContainerElement = document.getElementById("message-container");
@@ -890,6 +891,7 @@
       function onFirstFrameRendered()
       {
           //console.log("First frame rendered!");
+          window.__dulGeoAudioReady = true;
       }
 
       function onGameSetWindowSize(width,height)
