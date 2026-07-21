@@ -631,6 +631,15 @@
 
     <script type="text/javascript">
       const CHANGE_ASPECT_RATIO = true;
+      const GEO_BUILD = "geo-20260721-safe-audio-2";
+
+      function geoVersionedUrl(url) {
+        return url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + encodeURIComponent(GEO_BUILD);
+      }
+
+      function isGeoAudioBridgeWarning(text) {
+        return text.indexOf("uninitialised yyal") !== -1 && text.indexOf("Audio_EngineInvokeCallback") !== -1;
+      }
 
       var bodyElement = document.getElementsByTagName("body")[0];
       var statusElement = document.getElementById("status");
@@ -647,6 +656,7 @@
       var resumeButton = document.getElementById("resumeButton");
       var quitButton = document.getElementById("quitButton");
       window.__dulGeoAudioReady = false;
+      window.__dulGeoAudioMutedForCompatibility = new URLSearchParams(window.location.search).get("geoAudio") !== "1";
       canvasElement.addEventListener("click", function() { canvasElement.focus(); });
       
       const messageContainerElement = document.getElementById("message-container");
@@ -685,6 +695,7 @@
           return function (text) {
             if (arguments.length > 1)
               text = Array.prototype.slice.call(arguments).join(" ");
+            if (isGeoAudioBridgeWarning(String(text))) return;
             // These replacements are necessary if you render to raw HTML
             //text = text.replace(/&/g, "&amp;");
             //text = text.replace(/</g, "&lt;");
@@ -704,6 +715,7 @@
         printErr: function (text) {
           if (arguments.length > 1)
             text = Array.prototype.slice.call(arguments).join(" ");
+          if (isGeoAudioBridgeWarning(String(text))) return;
           console.error(text);
         },
         canvas: (function () {
@@ -711,6 +723,9 @@
 
           return canvas;
         })(),
+        locateFile: function (path, prefix) {
+          return geoVersionedUrl((prefix || "") + path);
+        },
         setStatus: function (text) {
           if (!Module.setStatus.last)
             Module.setStatus.last = { time: Date.now(), text: "" };
@@ -1590,7 +1605,7 @@
               return;
             }
 
-            fetch(fileParts[index])
+            fetch(geoVersionedUrl(fileParts[index]), { cache: "reload" })
               .then(response => {
                 if (!response.ok) throw new Error("Could not load " + fileParts[index]);
                 return response.arrayBuffer();
@@ -1615,8 +1630,9 @@
       mergeFiles(getParts("game.unx", 1, 8)).then(gameUnxUrl => {
         const originalFetch = window.fetch;
         window.fetch = function(url, ...args) {
-          const requestUrl = typeof url === "string" ? url : url.url;
-          if (requestUrl && requestUrl.endsWith("game.unx")) {
+          const requestUrl = typeof url === "string" ? url : url && url.url;
+          const requestPath = requestUrl ? requestUrl.split("?")[0] : requestUrl;
+          if (requestPath && requestPath.endsWith("game.unx")) {
             return originalFetch(gameUnxUrl, ...args);
           }
           return originalFetch(url, ...args);
@@ -1624,14 +1640,15 @@
 
         const originalXhrOpen = XMLHttpRequest.prototype.open;
         XMLHttpRequest.prototype.open = function(method, url, ...args) {
-          const newUrl = typeof url === "string" && url.endsWith("game.unx") ? gameUnxUrl : url;
+          const urlPath = typeof url === "string" ? url.split("?")[0] : url;
+          const newUrl = typeof urlPath === "string" && urlPath.endsWith("game.unx") ? gameUnxUrl : url;
           return originalXhrOpen.call(this, method, newUrl, ...args);
         };
 
         const runnerScript = document.createElement("script");
         runnerScript.async = true;
         runnerScript.type = "text/javascript";
-        runnerScript.src = "runner.js";
+        runnerScript.src = geoVersionedUrl("runner.js");
         document.body.appendChild(runnerScript);
       }).catch(error => {
         statusElement.innerHTML = "Failed to load game data.";
