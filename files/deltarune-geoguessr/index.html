@@ -631,7 +631,11 @@
 
     <script type="text/javascript">
       const CHANGE_ASPECT_RATIO = true;
-      const GEO_BUILD = "geo-20260721-safe-audio-2";
+      const GEO_BUILD = "geo-20260721-webgl-compact-1";
+      const GEO_PARAMS = new URLSearchParams(window.location.search);
+      const GEO_HIGH_RES = GEO_PARAMS.get("geoHighRes") === "1";
+      const GEO_LOW_RES = GEO_PARAMS.get("geoLowRes") === "1";
+      const GEO_RENDER_CAP = GEO_HIGH_RES ? null : (GEO_LOW_RES ? { width: 640, height: 360 } : { width: 960, height: 540 });
 
       function geoVersionedUrl(url) {
         return url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + encodeURIComponent(GEO_BUILD);
@@ -640,6 +644,91 @@
       function isGeoAudioBridgeWarning(text) {
         return text.indexOf("uninitialised yyal") !== -1 && text.indexOf("Audio_EngineInvokeCallback") !== -1;
       }
+
+      function geoPageSize() {
+        const fallbackWidth = document.documentElement.clientWidth || document.body.clientWidth || 960;
+        const fallbackHeight = document.documentElement.clientHeight || document.body.clientHeight || 540;
+        return {
+          width: Math.max(320, Math.floor(window.innerWidth || fallbackWidth)),
+          height: Math.max(180, Math.floor(window.innerHeight || fallbackHeight))
+        };
+      }
+
+      function geoRenderSize() {
+        const pageSize = geoPageSize();
+        let width = pageSize.width;
+        let height = pageSize.height;
+
+        if (GEO_HIGH_RES) {
+          const dpr = Math.max(1, window.devicePixelRatio || 1);
+          width = Math.floor(width * dpr);
+          height = Math.floor(height * dpr);
+        } else if (GEO_RENDER_CAP) {
+          const scale = Math.min(1, GEO_RENDER_CAP.width / width, GEO_RENDER_CAP.height / height);
+          width = Math.floor(width * scale);
+          height = Math.floor(height * scale);
+        }
+
+        return {
+          width: Math.max(320, Math.floor(width / 2) * 2),
+          height: Math.max(180, Math.floor(height / 2) * 2)
+        };
+      }
+
+      window.__dulGeoGetRenderWidth = function () {
+        return geoRenderSize().width;
+      };
+
+      window.__dulGeoGetRenderHeight = function () {
+        return geoRenderSize().height;
+      };
+
+      (function installGeoWebGLCompatibilityPatch() {
+        if (GEO_HIGH_RES || !window.HTMLCanvasElement) return;
+
+        const blockedExtensions = {
+          "EXT_color_buffer_float": true,
+          "EXT_color_buffer_half_float": true,
+          "WEBGL_color_buffer_float": true
+        };
+        const originalGetContext = HTMLCanvasElement.prototype.getContext;
+        if (originalGetContext.__dulGeoPatched) return;
+
+        function cleanExtensionName(name) {
+          return String(name || "").replace(/^GL_/, "");
+        }
+
+        function wrapContext(gl) {
+          if (!gl || gl.__dulGeoWrapped) return gl;
+          const originalGetSupportedExtensions = gl.getSupportedExtensions && gl.getSupportedExtensions.bind(gl);
+          const originalGetExtension = gl.getExtension && gl.getExtension.bind(gl);
+
+          if (originalGetSupportedExtensions) {
+            gl.getSupportedExtensions = function () {
+              return (originalGetSupportedExtensions() || []).filter(function (name) {
+                return !blockedExtensions[cleanExtensionName(name)];
+              });
+            };
+          }
+
+          if (originalGetExtension) {
+            gl.getExtension = function (name) {
+              if (blockedExtensions[cleanExtensionName(name)]) return null;
+              return originalGetExtension(name);
+            };
+          }
+
+          gl.__dulGeoWrapped = true;
+          return gl;
+        }
+
+        function patchedGetContext(type, attributes) {
+          return wrapContext(originalGetContext.call(this, type, attributes));
+        }
+
+        patchedGetContext.__dulGeoPatched = true;
+        HTMLCanvasElement.prototype.getContext = patchedGetContext;
+      }());
 
       var bodyElement = document.getElementsByTagName("body")[0];
       var statusElement = document.getElementById("status");
@@ -656,8 +745,13 @@
       var resumeButton = document.getElementById("resumeButton");
       var quitButton = document.getElementById("quitButton");
       window.__dulGeoAudioReady = false;
-      window.__dulGeoAudioMutedForCompatibility = new URLSearchParams(window.location.search).get("geoAudio") !== "1";
+      window.__dulGeoAudioMutedForCompatibility = GEO_PARAMS.get("geoAudio") !== "1";
       canvasElement.addEventListener("click", function() { canvasElement.focus(); });
+      canvasElement.addEventListener("webglcontextlost", function(event) {
+        event.preventDefault();
+        Module.setStatus("WebGL reset. Try refreshing once; GeoGuessr is already using compact graphics mode.");
+        spinnerElement.style.display = "none";
+      }, false);
       
       const messageContainerElement = document.getElementById("message-container");
       const messagesElement = document.getElementById("messages");

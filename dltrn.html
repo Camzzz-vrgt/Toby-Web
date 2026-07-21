@@ -976,6 +976,204 @@
         margin-top: 18px;
       }
     }
+
+    @media (max-height: 820px), (max-width: 1024px) {
+      .page {
+        padding: 14px;
+      }
+
+      .settings-toggle {
+        top: 12px;
+        right: 14px;
+        width: 44px;
+        height: 44px;
+        padding: 5px;
+      }
+
+      .home-choices {
+        width: min(1030px, calc(100vw - 118px));
+        gap: clamp(34px, 6vw, 78px);
+        top: 47%;
+      }
+
+      .home-logo-link {
+        height: 166px;
+      }
+
+      .home-deltarune img {
+        height: min(10vw, 104px);
+        transform: translateY(-8px);
+      }
+
+      .home-undertale img {
+        width: min(39vw, 600px);
+      }
+
+      .brand-link {
+        width: 58px;
+        height: 54px;
+      }
+
+      .brand-link img {
+        max-width: 54px;
+        max-height: 50px;
+      }
+
+      .extras-home {
+        font-size: clamp(3.2rem, 11vh, 5.2rem);
+      }
+
+      #deltarune-page {
+        padding: 24px clamp(18px, 4vw, 54px) 18px;
+      }
+
+      #deltarune-page .subpage-header {
+        min-height: 190px;
+      }
+
+      #deltarune-page .subpage-logo {
+        padding-top: 50px;
+      }
+
+      #deltarune-page .subpage-logo img {
+        height: min(9vw, 92px) !important;
+      }
+
+      #deltarune-page .menu {
+        width: min(760px, 62vw);
+      }
+
+      #deltarune-page .row,
+      #deltarune-page .disabled-row {
+        min-height: 48px;
+        grid-template-columns: 1.05fr 1.22fr 52px;
+      }
+
+      #deltarune-page .chapter,
+      #deltarune-page .title,
+      #deltarune-page .disabled-title {
+        font-size: clamp(1.05rem, 2vw, 1.55rem);
+      }
+
+      #deltarune-page .row img,
+      #deltarune-page .disabled-row img {
+        width: 44px;
+        height: 44px;
+      }
+
+      #deltarune-page .save-menu {
+        left: 18px;
+        bottom: 18px;
+        gap: 8px;
+      }
+
+      #deltarune-page .save-button {
+        min-width: 172px;
+        min-height: 32px;
+        font-size: 0.82rem;
+      }
+
+      #featured-save-box {
+        top: 12px;
+        right: 12px;
+        width: 252px;
+      }
+
+      .featured-save-title {
+        font-size: 0.82rem;
+      }
+
+      .featured-save-btn {
+        min-height: 30px;
+        font-size: 0.76rem;
+      }
+
+      #extras-page {
+        padding: 44px 0 22px 46px;
+      }
+
+      .extras-title {
+        font-size: clamp(3rem, 10vh, 4.7rem);
+      }
+
+      #extras-page .subpage-header {
+        margin-bottom: 20px;
+      }
+
+      #extras-page .extras-grid {
+        width: min(760px, calc(100vw - 76px));
+        grid-template-columns: repeat(auto-fit, 112px);
+        gap: 28px;
+      }
+
+      .game-card {
+        min-height: 140px;
+        grid-template-rows: 94px auto;
+      }
+
+      .game-card.kaizo img,
+      .game-card.cyan img,
+      .game-card.geo img,
+      .game-card.guesswho img,
+      .game-card.sans img {
+        width: 94px;
+        height: 94px;
+        max-height: 94px;
+      }
+
+      .game-card span {
+        margin-top: 10px;
+        font-size: 0.68rem;
+      }
+    }
+
+    @media (max-height: 640px) {
+      .home-choices {
+        top: 45%;
+      }
+
+      .home-logo-link {
+        height: 132px;
+      }
+
+      .home-deltarune img {
+        height: min(9vw, 86px);
+      }
+
+      .home-undertale img {
+        width: min(36vw, 520px);
+      }
+
+      .home-footer {
+        inset: auto 14px 12px 14px;
+        min-height: 66px;
+      }
+
+      .extras-home {
+        font-size: clamp(2.6rem, 10vh, 4rem);
+      }
+
+      #deltarune-page .subpage-header {
+        min-height: 140px;
+      }
+
+      #deltarune-page .subpage-logo {
+        padding-top: 36px;
+      }
+
+      #deltarune-page .subpage-logo img {
+        height: min(8vw, 72px) !important;
+      }
+
+      #deltarune-page .row,
+      #deltarune-page .disabled-row {
+        min-height: 42px;
+      }
+
+      #extras-page {
+        padding-top: 36px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1407,7 +1605,7 @@
     }
 
     function loadDeltaruneGeoGuessr() {
-      loadRemotePage(GEOGUESSR_BASE + "index.html?v=geo-20260721-safe-audio-2");
+      loadRemotePage(GEOGUESSR_BASE + "index.html?v=geo-20260721-webgl-compact-1");
     }
 
     function loadDeltaruneGuessWho() {
