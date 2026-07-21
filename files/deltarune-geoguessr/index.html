@@ -1577,30 +1577,19 @@
       }
     </script>
     <script type="text/javascript">
-      (function installWebGLChromebookFallback() {
-        let canUseWebGL2 = false;
-        let canUseWebGL1 = false;
-
+      (function startGeoGuessr() {
+      function hasWebGL2() {
         try {
-          const probe = document.createElement("canvas");
-          canUseWebGL2 = !!probe.getContext("webgl2", { antialias: false, alpha: false });
-          canUseWebGL1 = !!(probe.getContext("webgl", { antialias: false, alpha: false }) ||
-            probe.getContext("experimental-webgl", { antialias: false, alpha: false }));
-        } catch (err) {}
-
-        if (canUseWebGL2 || !canUseWebGL1) {
-          return;
-        }
-
-        try {
-          Object.defineProperty(window, "WebGL2RenderingContext", {
-            configurable: true,
-            value: undefined
-          });
+          return !!document.createElement("canvas").getContext("webgl2", { antialias: false, alpha: false });
         } catch (err) {
-          window.WebGL2RenderingContext = undefined;
+          return false;
         }
-      }());
+      }
+
+      if (!hasWebGL2()) {
+        window.location.replace(new URL("chromebook.html", document.baseURI).href);
+        return;
+      }
 
       function mergeFiles(fileParts) {
         return new Promise((resolve, reject) => {
@@ -1659,6 +1648,7 @@
         statusElement.innerHTML = "Failed to load game data.";
         console.error(error);
       });
+      }());
     </script>
   </body>
 </html>
