@@ -1578,19 +1578,6 @@
     </script>
     <script type="text/javascript">
       (function startGeoGuessr() {
-      function hasWebGL2() {
-        try {
-          return !!document.createElement("canvas").getContext("webgl2", { antialias: false, alpha: false });
-        } catch (err) {
-          return false;
-        }
-      }
-
-      if (!hasWebGL2()) {
-        window.location.replace(new URL("chromebook.html", document.baseURI).href);
-        return;
-      }
-
       function mergeFiles(fileParts) {
         return new Promise((resolve, reject) => {
           const buffers = [];
