@@ -109,6 +109,16 @@ body {
 			<div id="status-notice"></div>
 		</div>
 
+		<script>
+			(function () {
+				try {
+					if (document.createElement('canvas').getContext('webgl2')) {
+						return;
+					}
+				} catch (err) {}
+				window.location.replace(new URL('chromebook.html', document.baseURI).href);
+			}());
+		</script>
 		<script src="index.js"></script>
 		<script>
 const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":745168,"index.wasm":39509339},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};

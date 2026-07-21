@@ -553,14 +553,7 @@
       <textarea id="output" rows="8"></textarea>
     </div>
 
-    <div class="wallpaper-container" id="wallpaper-container" style="display: none">
-      <button class="output-button" onclick="toggleElement('wallpaper-config-iframe')">
-        Toggle configurator
-      </button>
-    </div>
-    <!-- The wallpaper config is displayed in an iframe to make it possible to use keyboard for entering values (it's consumed by
-        the runner in the original document). -->
-    <iframe class="floating-control" id="wallpaper-config-iframe" src="about:blank"></iframe>
+    <div class="wallpaper-container" id="wallpaper-container" style="display: none"></div>
 
     <div id="message-container">
       <div id="messages">
@@ -1271,6 +1264,7 @@
       function wallpaper_init_config_controls(definitions) {
         const wallpaperContainer = document.getElementById("wallpaper-container");
         wallpaperContainer.style.display = "block";
+        return;
 
         let configStyle = '<style type="text/css">' +
           'body { color: white; font-family: Averta, -apple-system, "Segoe UI", system-ui, sans-serif; font-style: normal; font-size: 10px; }' +
@@ -1286,7 +1280,7 @@
           '<div class="wallpaper-config" id="wallpaper-config"></div>' +
           '</body></html>'
 
-        const wallpaperConfigDocument = document.getElementById("wallpaper-config-iframe").contentDocument;
+        const wallpaperConfigDocument = null;
         wallpaperConfigDocument.open();
         wallpaperConfigDocument.write(configHTML);
         wallpaperConfigDocument.close();
@@ -1583,6 +1577,31 @@
       }
     </script>
     <script type="text/javascript">
+      (function installWebGLChromebookFallback() {
+        let canUseWebGL2 = false;
+        let canUseWebGL1 = false;
+
+        try {
+          const probe = document.createElement("canvas");
+          canUseWebGL2 = !!probe.getContext("webgl2", { antialias: false, alpha: false });
+          canUseWebGL1 = !!(probe.getContext("webgl", { antialias: false, alpha: false }) ||
+            probe.getContext("experimental-webgl", { antialias: false, alpha: false }));
+        } catch (err) {}
+
+        if (canUseWebGL2 || !canUseWebGL1) {
+          return;
+        }
+
+        try {
+          Object.defineProperty(window, "WebGL2RenderingContext", {
+            configurable: true,
+            value: undefined
+          });
+        } catch (err) {
+          window.WebGL2RenderingContext = undefined;
+        }
+      }());
+
       function mergeFiles(fileParts) {
         return new Promise((resolve, reject) => {
           const buffers = [];
