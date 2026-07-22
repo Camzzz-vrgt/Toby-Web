@@ -12,6 +12,7 @@
       --red: #ff2d4f;
       --blue: #aee8ff;
       --panel: rgba(0, 0, 0, 0.9);
+      --site-bg-image: none;
     }
 
     * {
@@ -57,6 +58,22 @@
 
     body {
       min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-color: #000;
+      background-image: var(--site-bg-image);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
     }
 
     button,
@@ -73,6 +90,7 @@
     #app {
       height: 100vh;
       position: relative;
+      z-index: 1;
       padding: 0;
       overflow: hidden;
     }
@@ -84,7 +102,7 @@
       min-height: 100vh;
       padding: 22px;
       overflow: auto;
-      background: #000;
+      background: transparent;
     }
 
     .page.active {
@@ -119,6 +137,7 @@
     .save-button:hover,
     .home-logo-link:hover,
     .brand-link:hover,
+    .background-option:hover,
     .row:hover {
       color: var(--yellow);
       border-color: var(--yellow);
@@ -616,6 +635,60 @@
       margin-top: 12px;
       display: grid;
       gap: 8px;
+    }
+
+    .settings-label {
+      color: var(--yellow);
+      font-size: 0.9rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .background-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+      gap: 8px;
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .background-option {
+      min-height: 92px;
+      border: 2px solid var(--white);
+      background: #000;
+      color: var(--white);
+      padding: 6px;
+      cursor: pointer;
+      display: grid;
+      grid-template-rows: 58px auto;
+      gap: 6px;
+      text-transform: uppercase;
+      font-family: inherit;
+      font-size: 0.72rem;
+      line-height: 1.1;
+    }
+
+    .background-option.selected {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .background-preview {
+      width: 100%;
+      height: 58px;
+      border: 2px solid #555;
+      background-color: #000;
+      background-image: var(--bg-preview, none);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .background-preview.black {
+      border-color: var(--white);
     }
 
     #featured-save-box {
@@ -1375,6 +1448,35 @@
         <button class="pixel-button sound-target" onclick="saveData('all')">Export Whole Site Save</button>
         <button class="pixel-button sound-target" onclick="chooseImport('all')">Import Whole Site Save</button>
       </div>
+      <div class="settings-section background-settings">
+        <div class="settings-label">Background</div>
+        <div class="background-options" role="group" aria-label="Site Background">
+          <button type="button" class="background-option sound-target" data-background="black" onclick="setSiteBackground('black')" aria-pressed="false">
+            <span class="background-preview black"></span>
+            <span>Black</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch1" onclick="setSiteBackground('ch1')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/ch1.png')"></span>
+            <span>Chapter 1</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch2" onclick="setSiteBackground('ch2')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/ch2.png')"></span>
+            <span>Chapter 2</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch3" onclick="setSiteBackground('ch3')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/ch3.png')"></span>
+            <span>Chapter 3</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch4" onclick="setSiteBackground('ch4')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/ch4.png')"></span>
+            <span>Chapter 4</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch5" onclick="setSiteBackground('ch5')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/ch5.png')"></span>
+            <span>Chapter 5</span>
+          </button>
+        </div>
+      </div>
       <div class="settings-section">
         <div class="credits-line">port by bog :o</div>
         <div class="credits-line">updated by camzzz</div>
@@ -1454,6 +1556,15 @@
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
+    const BACKGROUND_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/";
+    const SITE_BACKGROUNDS = {
+      black: "",
+      ch1: BACKGROUND_BASE + "ch1.png",
+      ch2: BACKGROUND_BASE + "ch2.png",
+      ch3: BACKGROUND_BASE + "ch3.png",
+      ch4: BACKGROUND_BASE + "ch4.png",
+      ch5: BACKGROUND_BASE + "ch5.png"
+    };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
     let gamestarted = false;
@@ -1521,6 +1632,24 @@
         if (icon) icon.innerHTML = muted ? AUDIO_OFF_ICON : AUDIO_ON_ICON;
         button.setAttribute("aria-pressed", muted ? "true" : "false");
       });
+    }
+
+    function applySiteBackground(backgroundId) {
+      const selected = Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, backgroundId) ? backgroundId : "black";
+      const imageUrl = SITE_BACKGROUNDS[selected];
+      document.documentElement.style.setProperty("--site-bg-image", imageUrl ? 'url("' + imageUrl.replace(/"/g, '\\"') + '")' : "none");
+      document.body.dataset.siteBackground = selected;
+      document.querySelectorAll(".background-option").forEach(button => {
+        const isSelected = button.dataset.background === selected;
+        button.classList.toggle("selected", isSelected);
+        button.setAttribute("aria-pressed", isSelected ? "true" : "false");
+      });
+    }
+
+    function setSiteBackground(backgroundId) {
+      const selected = Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, backgroundId) ? backgroundId : "black";
+      localStorage.setItem("dul_site_background", selected);
+      applySiteBackground(selected);
     }
 
     function showPage(name) {
@@ -2260,6 +2389,7 @@
       }
     });
 
+    applySiteBackground(localStorage.getItem("dul_site_background") || "black");
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
