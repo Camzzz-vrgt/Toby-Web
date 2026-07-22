@@ -1571,6 +1571,11 @@
       ch2: BACKGROUND_BASE + "ch2.png",
       ch5: BACKGROUND_BASE + "ch5.png"
     };
+    const SITE_AUDIO_TRACKS = {
+      black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
+      ch2: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e486404b1edc61a6c8de62d2589a655aa2f2d539/files/audios/theme-ch2-cybers-world.mp3",
+      ch5: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e486404b1edc61a6c8de62d2589a655aa2f2d539/files/audios/theme-ch5-thousand-cafe-zukan.mp3"
+    };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
     let gamestarted = false;
@@ -1593,6 +1598,7 @@
 
     function startAudio() {
       if (!audioStarted && audio) {
+        applySiteAudio(document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || "black", false);
         audio.play().catch(() => {});
         audioStarted = true;
       }
@@ -1640,7 +1646,24 @@
       });
     }
 
-    function applySiteBackground(backgroundId) {
+    function applySiteAudio(backgroundId, shouldPlay = false) {
+      if (!audio) return;
+      const selected = Object.prototype.hasOwnProperty.call(SITE_AUDIO_TRACKS, backgroundId) ? backgroundId : "black";
+      const nextSource = SITE_AUDIO_TRACKS[selected];
+      if (audio.dataset.trackSource !== nextSource) {
+        audio.pause();
+        audio.src = nextSource;
+        audio.dataset.trackSource = nextSource;
+        audio.currentTime = 0;
+        audio.load();
+      }
+      if (shouldPlay) {
+        audioStarted = true;
+        audio.play().catch(() => {});
+      }
+    }
+
+    function applySiteBackground(backgroundId, shouldPlayAudio = false) {
       const selected = Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, backgroundId) ? backgroundId : "black";
       const imageUrl = SITE_BACKGROUNDS[selected];
       document.documentElement.style.setProperty("--site-bg-image", imageUrl ? 'url("' + imageUrl.replace(/"/g, '\\"') + '")' : "none");
@@ -1650,12 +1673,13 @@
         button.classList.toggle("selected", isSelected);
         button.setAttribute("aria-pressed", isSelected ? "true" : "false");
       });
+      applySiteAudio(selected, shouldPlayAudio || audioStarted);
     }
 
     function setSiteBackground(backgroundId) {
       const selected = Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, backgroundId) ? backgroundId : "black";
       localStorage.setItem("dul_site_background", selected);
-      applySiteBackground(selected);
+      applySiteBackground(selected, true);
     }
 
     function showPage(name) {
