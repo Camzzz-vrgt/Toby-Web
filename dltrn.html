@@ -1301,7 +1301,7 @@
           <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank" title="Truffled">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled">
           </a>
-          <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" title="Story Network">
+          <a class="brand-link sound-target" href="http://strynetwork.site/" target="_blank" title="Story Network">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network">
           </a>
         </div>
@@ -1411,7 +1411,7 @@
     <section id="classic-page" class="page classic-page">
       <div id="credits-box">
         <a href="https://truffled.lol/" target="_blank" class="credit-link row sound-target">port by bog :o</a>
-        <a href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
+        <a href="http://strynetwork.site/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
       </div>
       <div class="logo-container">
         <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Logo" class="logo">
@@ -1453,7 +1453,7 @@
       </div>
       <div class="watermark">
         <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled"></a>
-        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
+        <a class="brand-link sound-target" href="http://strynetwork.site/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
       </div>
     </section>
   </main>
@@ -1476,12 +1476,24 @@
             <span class="background-preview black"></span>
             <span>Black</span>
           </button>
+          <button type="button" class="background-option sound-target" data-background="ch1" onclick="setSiteBackground('ch1')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8fde5944fa7f84cb8f4c70ca0d1c17a1bb35826e/files/backgrounds/ch1.png')"></span>
+            <span>Chapter 1</span>
+          </button>
           <button type="button" class="background-option sound-target" data-background="ch2" onclick="setSiteBackground('ch2')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/ch2.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8fde5944fa7f84cb8f4c70ca0d1c17a1bb35826e/files/backgrounds/ch2.png')"></span>
             <span>Chapter 2</span>
           </button>
+          <button type="button" class="background-option sound-target" data-background="ch3" onclick="setSiteBackground('ch3')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8fde5944fa7f84cb8f4c70ca0d1c17a1bb35826e/files/backgrounds/ch3.png')"></span>
+            <span>Chapter 3</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch4" onclick="setSiteBackground('ch4')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8fde5944fa7f84cb8f4c70ca0d1c17a1bb35826e/files/backgrounds/ch4.png')"></span>
+            <span>Chapter 4</span>
+          </button>
           <button type="button" class="background-option sound-target" data-background="ch5" onclick="setSiteBackground('ch5')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/ch5.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8fde5944fa7f84cb8f4c70ca0d1c17a1bb35826e/files/backgrounds/ch5.png')"></span>
             <span>Chapter 5</span>
           </button>
         </div>
@@ -1565,16 +1577,24 @@
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
-    const BACKGROUND_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c173798de4129d5c4ae1b4b8ca2ca18881b73a06/files/backgrounds/";
+    const THEME_ASSET_VERSION = "8fde5944fa7f84cb8f4c70ca0d1c17a1bb35826e";
+    const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
+    const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
     const SITE_BACKGROUNDS = {
       black: "",
+      ch1: BACKGROUND_BASE + "ch1.png",
       ch2: BACKGROUND_BASE + "ch2.png",
+      ch3: BACKGROUND_BASE + "ch3.png",
+      ch4: BACKGROUND_BASE + "ch4.png",
       ch5: BACKGROUND_BASE + "ch5.png"
     };
     const SITE_AUDIO_TRACKS = {
       black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
-      ch2: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e486404b1edc61a6c8de62d2589a655aa2f2d539/files/audios/theme-ch2-cybers-world.mp3",
-      ch5: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e486404b1edc61a6c8de62d2589a655aa2f2d539/files/audios/theme-ch5-thousand-cafe-zukan.mp3"
+      ch1: THEME_ASSET_BASE + "audios/theme-ch1.mp3",
+      ch2: THEME_ASSET_BASE + "audios/theme-ch2-cybers-world.mp3",
+      ch3: THEME_ASSET_BASE + "audios/theme-ch3.mp3",
+      ch4: THEME_ASSET_BASE + "audios/theme-ch4.mp3",
+      ch5: THEME_ASSET_BASE + "audios/theme-ch5-thousand-cafe-zukan.mp3"
     };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
