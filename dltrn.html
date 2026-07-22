@@ -1477,28 +1477,32 @@
             <span>Black</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch1" onclick="setSiteBackground('ch1')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@52d4a611a08e34e56407399b90d7ca0d41bdb2bd/files/backgrounds/ch1.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963/files/backgrounds/ch1.png')"></span>
             <span>Chapter 1</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch2" onclick="setSiteBackground('ch2')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@52d4a611a08e34e56407399b90d7ca0d41bdb2bd/files/backgrounds/ch2.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963/files/backgrounds/ch2.png')"></span>
             <span>Chapter 2</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch3" onclick="setSiteBackground('ch3')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@52d4a611a08e34e56407399b90d7ca0d41bdb2bd/files/backgrounds/ch3.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963/files/backgrounds/ch3.png')"></span>
             <span>Chapter 3</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch4" onclick="setSiteBackground('ch4')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@52d4a611a08e34e56407399b90d7ca0d41bdb2bd/files/backgrounds/ch4.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963/files/backgrounds/ch4.png')"></span>
             <span>Chapter 4</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch5" onclick="setSiteBackground('ch5')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@52d4a611a08e34e56407399b90d7ca0d41bdb2bd/files/backgrounds/ch5.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963/files/backgrounds/ch5.png')"></span>
             <span>Chapter 5</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="tadc" onclick="setSiteBackground('tadc')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@52d4a611a08e34e56407399b90d7ca0d41bdb2bd/files/backgrounds/tadc.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963/files/backgrounds/tadc.png')"></span>
             <span>TADC</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="backrooms" onclick="setSiteBackground('backrooms')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963/files/backgrounds/backrooms.png')"></span>
+            <span>Backrooms</span>
           </button>
         </div>
       </div>
@@ -1581,7 +1585,7 @@
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
-    const THEME_ASSET_VERSION = "52d4a611a08e34e56407399b90d7ca0d41bdb2bd";
+    const THEME_ASSET_VERSION = "bfc0ee7c2bf61c2301e9e6c9c3407795dcfb8963";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
     const SITE_BACKGROUNDS = {
@@ -1591,7 +1595,8 @@
       ch3: BACKGROUND_BASE + "ch3.png",
       ch4: BACKGROUND_BASE + "ch4.png",
       ch5: BACKGROUND_BASE + "ch5.png",
-      tadc: BACKGROUND_BASE + "tadc.png"
+      tadc: BACKGROUND_BASE + "tadc.png",
+      backrooms: BACKGROUND_BASE + "backrooms.png"
     };
     const SITE_AUDIO_TRACKS = {
       black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
@@ -1600,7 +1605,8 @@
       ch3: THEME_ASSET_BASE + "audios/theme-ch3.mp3",
       ch4: THEME_ASSET_BASE + "audios/theme-ch4.mp3",
       ch5: THEME_ASSET_BASE + "audios/theme-ch5-thousand-cafe-zukan.mp3",
-      tadc: THEME_ASSET_BASE + "audios/theme-tadc.mp3"
+      tadc: THEME_ASSET_BASE + "audios/theme-tadc.mp3",
+      backrooms: THEME_ASSET_BASE + "audios/theme-backrooms.mp3"
     };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
