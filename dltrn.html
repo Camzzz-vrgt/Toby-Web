@@ -691,6 +691,20 @@
       line-height: 1.1;
     }
 
+    .background-option .background-label {
+      align-self: center;
+      justify-self: center;
+      max-width: 100%;
+      text-align: center;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .background-option .background-label.long {
+      font-size: 0.52rem;
+      line-height: 0.95;
+    }
+
     .background-option.selected {
       color: var(--yellow);
       border-color: var(--yellow);
@@ -1526,11 +1540,11 @@
           </button>
           <button type="button" class="background-option sound-target" data-background="dialtone_normal" onclick="setSiteBackground('dialtone_normal')" aria-pressed="false">
             <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@fffc7ca5c5a72ae6a88de6fe1d8242628c6d258e/files/backgrounds/dialtone.png')"></span>
-            <span>Dialtone [normal]</span>
+            <span class="background-label long">Dialtone<br>[somethings_wrong.mp3]</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="dialtone_wrong" onclick="setSiteBackground('dialtone_wrong')" aria-pressed="false">
             <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@fffc7ca5c5a72ae6a88de6fe1d8242628c6d258e/files/backgrounds/dialtone.png')"></span>
-            <span>Dialtone [somethings_wrong.mp3]</span>
+            <span class="background-label">Dialtone [normal]</span>
           </button>
         </div>
       </div>
