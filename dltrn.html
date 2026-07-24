@@ -592,12 +592,78 @@
       color: #55f4ff;
     }
 
+    .network-text {
+      color: var(--blue);
+    }
+
     .geo-text {
       color: #ffffff;
     }
 
     .guesswho-text {
       color: #ff2a20;
+    }
+
+    #network-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 62px clamp(22px, 6vw, 86px) 32px;
+      overflow: hidden;
+    }
+
+    #network-page .subpage-header {
+      width: min(980px, calc(100vw - 44px));
+      margin: 0 auto 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .network-logo-card {
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 8px 14px;
+      text-transform: uppercase;
+    }
+
+    .network-logo-card img {
+      width: 86px;
+      height: 86px;
+      border: 2px solid var(--white);
+      object-fit: cover;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .network-logo-card span {
+      color: var(--blue);
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      line-height: 0.95;
+      max-width: 360px;
+    }
+
+    #network-page .menu {
+      width: min(820px, 68vw);
+    }
+
+    #network-page .row {
+      min-height: 58px;
+      grid-template-columns: 1.05fr 1.25fr 64px;
+    }
+
+    #network-page .chapter,
+    #network-page .title {
+      font-size: clamp(1.25rem, 2vw, 2rem);
+    }
+
+    #network-page .row img {
+      width: 54px;
+      height: 54px;
     }
 
     #settings-modal,
@@ -1255,6 +1321,47 @@
         margin-top: 10px;
         font-size: 0.68rem;
       }
+
+      #network-page {
+        padding: 48px clamp(18px, 4vw, 54px) 22px;
+      }
+
+      #network-page .subpage-header {
+        margin: 42px auto 16px;
+      }
+
+      .network-logo-card {
+        gap: 10px;
+        padding: 6px 10px;
+      }
+
+      .network-logo-card img {
+        width: 68px;
+        height: 68px;
+      }
+
+      .network-logo-card span {
+        font-size: clamp(1rem, 3vw, 1.6rem);
+      }
+
+      #network-page .menu {
+        width: min(760px, 70vw);
+      }
+
+      #network-page .row {
+        min-height: 48px;
+        grid-template-columns: 1.05fr 1.22fr 52px;
+      }
+
+      #network-page .chapter,
+      #network-page .title {
+        font-size: clamp(1.05rem, 2vw, 1.55rem);
+      }
+
+      #network-page .row img {
+        width: 44px;
+        height: 44px;
+      }
     }
 
     @media (max-height: 640px) {
@@ -1309,6 +1416,19 @@
       #mods-page .subpage-header,
       #extras-page .subpage-header {
         margin-top: 22px;
+      }
+
+      #network-page {
+        padding-top: 42px;
+      }
+
+      .network-logo-card img {
+        width: 56px;
+        height: 56px;
+      }
+
+      #network-page .row {
+        min-height: 42px;
       }
     }
 
@@ -1441,8 +1561,36 @@
         </button>
         <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
-          <span>Deltarune Network</span>
+          <span class="network-text">Deltarune Network</span>
         </button>
+      </div>
+    </section>
+
+    <section id="network-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="">
+          <span>Deltarune Network</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadDeltaruneNetworkChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+        </a>
       </div>
     </section>
 
@@ -2561,13 +2709,17 @@
     }
 
     function loadDeltaruneNetwork() {
+      showPage("network");
+    }
+
+    function loadDeltaruneNetworkChapter(chapter) {
       try {
-        showKaizoLoading("Loading Deltarune Network...");
-        loadRemotePage(FILES_BASE + "deltarune-network/chapter3/index.html");
+        showKaizoLoading("Loading Deltarune Network Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "deltarune-network/chapter" + chapter + "/index.html");
       } catch (err) {
         hideKaizoLoading();
         gamestarted = false;
-        alert("Deltarune Network could not load.\n\n" + (err && err.message ? err.message : err));
+        alert("Deltarune Network Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
 
@@ -2607,7 +2759,7 @@
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "extras", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "network", "extras", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");
