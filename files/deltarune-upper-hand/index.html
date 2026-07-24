@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+    <title>DELTARUNE The Upper Hand</title>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: #000;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-family: "Lucida Console", Monaco, monospace;
+      }
+
+      canvas.emscripten {
+        display: none;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        background: #000;
+        outline: none;
+        opacity: 0;
+        image-rendering: optimizeSpeed;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: -o-crisp-edges;
+        image-rendering: pixelated;
+        -ms-interpolation-mode: nearest-neighbor;
+      }
+
+      canvas.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        background: #000;
+        pointer-events: none;
+      }
+
+      .loading.hidden {
+        display: none;
+      }
+
+      .spinner {
+        width: 34px;
+        height: 34px;
+        border: 5px solid #444;
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      #status {
+        min-height: 20px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #progress {
+        width: min(320px, 70vw);
+        height: 12px;
+        accent-color: #fff;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas class="emscripten" id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <div id="status">Downloading...</div>
+      <progress id="progress" value="0" max="100"></progress>
+    </div>
+
+    <script>
+      const GAME_PARTS = ["game.unx.part1", "game.unx.part2"];
+      const GAME_MD5 = "4e7a6055982b6bf257b5d7d735130f1f";
+      let mergedGameUrl = "";
+      let startingHeight;
+      let startingWidth;
+      let startingAspect;
+
+      const loadingElement = document.getElementById("loading");
+      const statusElement = document.getElementById("status");
+      const progressElement = document.getElementById("progress");
+      const canvasElement = document.getElementById("canvas");
+
+      canvasElement.addEventListener("click", () => canvasElement.focus());
+
+      function setStatusText(text) {
+        statusElement.textContent = text || "";
+      }
+
+      function showCanvas() {
+        loadingElement.classList.add("hidden");
+        canvasElement.classList.add("active");
+        canvasElement.focus();
+      }
+
+      async function mergeGameParts(parts) {
+        const buffers = [];
+        let loaded = 0;
+        for (let i = 0; i < parts.length; i++) {
+          setStatusText("Downloading data... " + (i + 1) + "/" + parts.length);
+          const response = await fetch(parts[i], { cache: "force-cache" });
+          if (!response.ok) {
+            throw new Error("Could not load " + parts[i]);
+          }
+          const data = await response.arrayBuffer();
+          loaded += data.byteLength;
+          progressElement.value = Math.round(((i + 1) / parts.length) * 100);
+          buffers.push(data);
+        }
+        setStatusText("Preparing data...");
+        return URL.createObjectURL(new Blob(buffers, { type: "application/octet-stream" }));
+      }
+
+      function installGameDataInterceptor() {
+        const originalFetch = window.fetch.bind(window);
+        window.fetch = function(resource, options) {
+          if (typeof resource === "string" && resource.indexOf("game.unx") !== -1) {
+            resource = mergedGameUrl;
+          } else if (resource instanceof Request && resource.url.indexOf("game.unx") !== -1) {
+            resource = new Request(mergedGameUrl, resource);
+          }
+          return originalFetch(resource, options);
+        };
+
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+          if (typeof url === "string" && url.indexOf("game.unx") !== -1) {
+            arguments[1] = mergedGameUrl;
+          }
+          return originalOpen.apply(this, arguments);
+        };
+      }
+
+      function ensureAspectRatio() {
+        if (startingHeight === undefined || startingWidth === undefined) {
+          return;
+        }
+
+        const maxWidth = window.innerWidth;
+        const maxHeight = window.innerHeight;
+        const heightQuotient = startingHeight / maxHeight;
+        const widthQuotient = startingWidth / maxWidth;
+        let newHeight;
+        let newWidth;
+
+        if (heightQuotient > widthQuotient) {
+          newHeight = maxHeight;
+          newWidth = newHeight * startingAspect;
+        } else {
+          newWidth = maxWidth;
+          newHeight = newWidth / startingAspect;
+        }
+
+        canvasElement.style.width = newWidth + "px";
+        canvasElement.style.height = newHeight + "px";
+      }
+
+      window.addEventListener("resize", () => window.requestAnimationFrame(ensureAspectRatio));
+      setInterval(() => window.requestAnimationFrame(ensureAspectRatio), 1000);
+
+      var Module = {
+        preRun: [],
+        postRun: [],
+        print: function(text) {
+          if (arguments.length > 1) {
+            text = Array.prototype.slice.call(arguments).join(" ");
+          }
+          if (text === "Entering main loop.") {
+            ensureAspectRatio();
+          }
+          console.log(text);
+        },
+        printErr: function(text) {
+          if (arguments.length > 1) {
+            text = Array.prototype.slice.call(arguments).join(" ");
+          }
+          console.error(text);
+        },
+        canvas: canvasElement,
+        setStatus: function(text) {
+          if (!Module.setStatus.last) {
+            Module.setStatus.last = { time: Date.now(), text: "" };
+          }
+          if (text === Module.setStatus.last.text) return;
+          const match = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+          const now = Date.now();
+          if (match && now - Module.setStatus.last.time < 30) return;
+          Module.setStatus.last = { time: now, text: text };
+          if (!text) {
+            showCanvas();
+          } else if (text.indexOf("Downloading data...") !== -1) {
+            setStatusText("Downloading data...");
+          } else {
+            setStatusText(match ? match[1] : text);
+          }
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? "Preparing... (" + (this.totalDependencies - left) + "/" + this.totalDependencies + ")" : "All downloads complete.");
+        },
+        arguments: []
+      };
+
+      var g_pWadLoadCallback;
+      function setWadLoadCallback(wadLoadCallback) {
+        g_pWadLoadCallback = wadLoadCallback;
+      }
+
+      var g_pAddAsyncMethod = -1;
+      function setAddAsyncMethod(asyncMethod) {
+        g_pAddAsyncMethod = asyncMethod;
+      }
+
+      var g_pJSExceptionHandler;
+      function setJSExceptionHandler(exceptionHandler) {
+        if (typeof exceptionHandler === "function") {
+          g_pJSExceptionHandler = exceptionHandler;
+        }
+      }
+
+      function hasJSExceptionHandler() {
+        return typeof g_pJSExceptionHandler === "function";
+      }
+
+      function doJSExceptionHandler(exceptionJSON) {
+        if (typeof g_pJSExceptionHandler === "function") {
+          g_pJSExceptionHandler(JSON.parse(exceptionJSON));
+        }
+      }
+
+      function manifestFiles() {
+        return ["runner.data", "runner.js", "runner.wasm", "audio-worklet.js", "game.unx"].join(";");
+      }
+
+      function manifestFilesMD5() {
+        return [
+          "34565020f46a5d5930f86f613c522c8c",
+          "5649ccaaf2e4465ee8abb692111738ab",
+          "54facb1a5bb9a9f44824c3a32b9d289f",
+          "5d0a0227c50a283fe2af3066b3b0a104",
+          GAME_MD5
+        ];
+      }
+
+      function onFirstFrameRendered() {
+      }
+
+      function onGameSetWindowSize(width, height) {
+        startingWidth = width;
+        startingHeight = height;
+        startingAspect = startingWidth / startingHeight;
+        ensureAspectRatio();
+      }
+
+      function pause() {
+        if (typeof GM_pause === "function" && canvasElement.classList.contains("active")) {
+          GM_pause();
+        }
+      }
+
+      function resume() {
+        if (typeof GM_unpause === "function" && canvasElement.classList.contains("active")) {
+          GM_unpause();
+          ensureAspectRatio();
+        }
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState !== "visible") {
+          pause();
+        } else {
+          resume();
+        }
+      });
+
+      window.addEventListener("error", event => {
+        if (!canvasElement.classList.contains("active")) {
+          setStatusText("Exception thrown, see JavaScript console");
+        }
+        console.error(event.error || event.message);
+      });
+
+      setWadLoadCallback(function() {});
+
+      mergeGameParts(GAME_PARTS)
+        .then(url => {
+          mergedGameUrl = url;
+          installGameDataInterceptor();
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = "runner.js";
+          document.body.appendChild(script);
+        })
+        .catch(error => {
+          setStatusText("Failed to load game data");
+          console.error(error);
+          alert("DELTARUNE The Upper Hand could not load.\n\n" + (error && error.message ? error.message : error));
+        });
+    </script>
+  </body>
+</html>

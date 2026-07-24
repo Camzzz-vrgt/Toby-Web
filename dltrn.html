@@ -571,7 +571,8 @@
     .game-card.bossrush img,
     .game-card.network img,
     .game-card.geo img,
-    .game-card.guesswho img {
+    .game-card.guesswho img,
+    .game-card.upperhand img {
       width: 112px;
       height: 112px;
       image-rendering: pixelated;
@@ -612,6 +613,10 @@
 
     .guesswho-text {
       color: #ff2a20;
+    }
+
+    .upperhand-text {
+      color: #c8d5ff;
     }
 
     #network-page {
@@ -1327,6 +1332,7 @@
       .game-card.network img,
       .game-card.geo img,
       .game-card.guesswho img,
+      .game-card.upperhand img,
       .game-card.sans img {
         width: 94px;
         height: 94px;
@@ -1637,6 +1643,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
           <span class="guesswho-text">Deltarune Guess Who</span>
         </button>
+        <button class="game-card upperhand sound-target" onclick="loadDeltaruneUpperHand()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
+          <span class="upperhand-text">The Upper Hand</span>
+        </button>
       </div>
     </section>
 
@@ -1675,6 +1685,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGuessWho()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneUpperHand()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
         </button>
       </div>
       <div class="menu">
@@ -2164,6 +2177,10 @@
 
     function loadDeltaruneGuessWho() {
       loadRemotePage(FILES_BASE + "deltarune-guess-who/index.html");
+    }
+
+    function loadDeltaruneUpperHand() {
+      loadRemotePage(FILES_BASE + "deltarune-upper-hand/index.html");
     }
 
     function openKaizoConfirm() {
