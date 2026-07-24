@@ -105,7 +105,7 @@
       const RUNNER_DATA_PARTS = ["runner.data"];
       const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
       const GAME_MD5 = "36ba62883100871ee53cd41e8ab557b7";
-      const ASSET_VERSION = "scampton-v8-20260724";
+      const ASSET_VERSION = "scampton-v9-20260724";
       let mergedGameUrl = "";
       let runnerDataUrl = "";
       let startingHeight;
@@ -118,14 +118,6 @@
       const canvasElement = document.getElementById("canvas");
 
       canvasElement.addEventListener("click", () => canvasElement.focus());
-
-      const originalCanvasGetContext = HTMLCanvasElement.prototype.getContext;
-      HTMLCanvasElement.prototype.getContext = function(type, attributes) {
-        if (typeof type === "string" && type.toLowerCase().indexOf("webgl") === 0) {
-          attributes = Object.assign({}, attributes || {}, { preserveDrawingBuffer: true });
-        }
-        return originalCanvasGetContext.call(this, type, attributes);
-      };
 
       function splitUrlSuffix(url) {
         const queryIndex = url.indexOf("?");
