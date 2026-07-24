@@ -570,6 +570,7 @@
     .game-card.dojo img,
     .game-card.bossrush img,
     .game-card.network img,
+    .game-card.nobullet img,
     .game-card.geo img,
     .game-card.guesswho img,
     .game-card.upperhand img,
@@ -609,6 +610,10 @@
       color: var(--blue);
     }
 
+    .nobullet-text {
+      color: #ffb43d;
+    }
+
     .geo-text {
       color: #ffffff;
     }
@@ -630,14 +635,16 @@
       font-size: 0.66rem;
     }
 
-    #network-page {
+    #network-page,
+    #nobullet-page {
       width: 100%;
       min-height: 100vh;
       padding: 62px clamp(22px, 6vw, 86px) 32px;
       overflow: hidden;
     }
 
-    #network-page .subpage-header {
+    #network-page .subpage-header,
+    #nobullet-page .subpage-header {
       width: min(980px, calc(100vw - 44px));
       margin: 0 auto 22px;
       display: grid;
@@ -673,21 +680,30 @@
       max-width: 360px;
     }
 
-    #network-page .menu {
+    .network-logo-card span.nobullet-text {
+      color: #ffb43d;
+    }
+
+    #network-page .menu,
+    #nobullet-page .menu {
       width: min(820px, 68vw);
     }
 
-    #network-page .row {
+    #network-page .row,
+    #nobullet-page .row {
       min-height: 58px;
       grid-template-columns: 1.05fr 1.25fr 64px;
     }
 
     #network-page .chapter,
-    #network-page .title {
+    #network-page .title,
+    #nobullet-page .chapter,
+    #nobullet-page .title {
       font-size: clamp(1.25rem, 2vw, 2rem);
     }
 
-    #network-page .row img {
+    #network-page .row img,
+    #nobullet-page .row img {
       width: 54px;
       height: 54px;
     }
@@ -1342,6 +1358,7 @@
       .game-card.dojo img,
       .game-card.bossrush img,
       .game-card.network img,
+      .game-card.nobullet img,
       .game-card.geo img,
       .game-card.guesswho img,
       .game-card.upperhand img,
@@ -1358,11 +1375,13 @@
         font-size: 0.68rem;
       }
 
-      #network-page {
+      #network-page,
+      #nobullet-page {
         padding: 48px clamp(18px, 4vw, 54px) 22px;
       }
 
-      #network-page .subpage-header {
+      #network-page .subpage-header,
+      #nobullet-page .subpage-header {
         margin: 42px auto 16px;
       }
 
@@ -1380,21 +1399,26 @@
         font-size: clamp(1rem, 3vw, 1.6rem);
       }
 
-      #network-page .menu {
+      #network-page .menu,
+      #nobullet-page .menu {
         width: min(760px, 70vw);
       }
 
-      #network-page .row {
+      #network-page .row,
+      #nobullet-page .row {
         min-height: 48px;
         grid-template-columns: 1.05fr 1.22fr 52px;
       }
 
       #network-page .chapter,
-      #network-page .title {
+      #network-page .title,
+      #nobullet-page .chapter,
+      #nobullet-page .title {
         font-size: clamp(1.05rem, 2vw, 1.55rem);
       }
 
-      #network-page .row img {
+      #network-page .row img,
+      #nobullet-page .row img {
         width: 44px;
         height: 44px;
       }
@@ -1454,7 +1478,8 @@
         margin-top: 22px;
       }
 
-      #network-page {
+      #network-page,
+      #nobullet-page {
         padding-top: 42px;
       }
 
@@ -1463,7 +1488,8 @@
         height: 56px;
       }
 
-      #network-page .row {
+      #network-page .row,
+      #nobullet-page .row {
         min-height: 42px;
       }
     }
@@ -1613,6 +1639,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
         </button>
+        <button class="game-card nobullet sound-target" onclick="loadNoBulletCooldowns()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
+          <span class="nobullet-text">No Bullet Cooldowns</span>
+        </button>
       </div>
     </section>
 
@@ -1640,6 +1670,31 @@
         </a>
         <a href="javascript:loadDeltaruneNetworkChapter(5)" class="row sound-target">
           <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="nobullet-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="">
+          <span class="nobullet-text">No Bullet Cooldowns</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadNoBulletCooldownsChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadNoBulletCooldownsChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadNoBulletCooldownsChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadNoBulletCooldownsChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
         </a>
       </div>
     </section>
@@ -1707,6 +1762,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadNoBulletCooldowns()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
@@ -2913,6 +2971,25 @@
       }
     }
 
+    function loadNoBulletCooldowns() {
+      showPage("nobullet");
+    }
+
+    function loadNoBulletCooldownsChapter(chapter) {
+      try {
+        if (chapter < 1 || chapter > 4) {
+          alert("No Bullet Cooldowns only supports Chapters 1-4.");
+          return;
+        }
+        showKaizoLoading("Loading No Bullet Cooldowns Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "no-bullet-cooldowns/chapter" + chapter + "/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("No Bullet Cooldowns Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     document.addEventListener("keydown", event => {
       if (gamestarted) return;
       if (event.key === "Escape") {
@@ -2951,7 +3028,7 @@
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "network", "extras", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "network", "nobullet", "extras", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");
