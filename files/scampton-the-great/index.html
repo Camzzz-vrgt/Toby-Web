@@ -25,11 +25,21 @@
       align-items: center;
     }
 
-    canvas.emscripten {
-      display: none;
-      border: 0;
+    #gameStage {
+      position: relative;
       width: 640px;
       height: 480px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    canvas.emscripten,
+    #presentationCanvas {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      width: 100%;
+      height: 100%;
       max-width: none;
       max-height: none;
       object-fit: contain;
@@ -37,13 +47,28 @@
       image-rendering: crisp-edges !important;
       image-rendering: pixelated !important;
       -ms-interpolation-mode: nearest-neighbor;
-      transition: opacity 0.2s;
-      opacity: 0;
       outline: 0;
       box-shadow: none;
     }
 
+    canvas.emscripten {
+      display: none;
+      opacity: 0;
+      z-index: 1;
+    }
+
     canvas.active {
+      display: block;
+    }
+
+    #presentationCanvas {
+      display: none;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    #presentationCanvas.active {
       display: block;
       opacity: 1;
     }
@@ -71,16 +96,21 @@
   </style>
 </head>
 <body>
-  <canvas class="emscripten" id="canvas" width="640" height="480" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+  <div id="gameStage">
+    <canvas class="emscripten" id="canvas" width="640" height="480" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    <canvas id="presentationCanvas" width="640" height="480" aria-hidden="true"></canvas>
+  </div>
   <div class="loading" id="loadingArea">
     <div class="spinner"></div>
     <div id="status">Loading...</div>
   </div>
 
   <script>
-    const ASSET_VERSION = "scampton-working-loader-v2-20260724";
+    const ASSET_VERSION = "scampton-working-loader-v3-20260724";
     const GAME_WIDTH = 640;
     const GAME_HEIGHT = 480;
+    const PRESENTATION_WIDTH = 640;
+    const PRESENTATION_HEIGHT = 480;
     const unxParts = [
       "game.unx.part1",
       "game.unx.part2",
@@ -97,10 +127,14 @@
     ];
 
     const canvasElement = document.getElementById("canvas");
+    const stageElement = document.getElementById("gameStage");
+    const presentationCanvas = document.getElementById("presentationCanvas");
+    const presentationContext = presentationCanvas.getContext("2d", { alpha: false, desynchronized: true });
     const loadingArea = document.getElementById("loadingArea");
     const statusElement = document.getElementById("status");
     let mergedUnxBlob = "";
     let mergedDataBlob = "";
+    let presentationStarted = false;
 
     function assetUrl(path) {
       return path + (path.indexOf("?") === -1 ? "?" : "&") + "v=" + ASSET_VERSION;
@@ -114,15 +148,41 @@
       const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
       const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
       const scale = Math.min(viewportWidth / GAME_WIDTH, viewportHeight / GAME_HEIGHT);
-      canvasElement.style.width = Math.ceil(GAME_WIDTH * scale) + "px";
-      canvasElement.style.height = Math.ceil(GAME_HEIGHT * scale) + "px";
+      stageElement.style.width = Math.ceil(GAME_WIDTH * scale) + "px";
+      stageElement.style.height = Math.ceil(GAME_HEIGHT * scale) + "px";
     }
 
     function lockPixelCanvas() {
       canvasElement.width = GAME_WIDTH;
       canvasElement.height = GAME_HEIGHT;
+      presentationCanvas.width = PRESENTATION_WIDTH;
+      presentationCanvas.height = PRESENTATION_HEIGHT;
       canvasElement.style.imageRendering = "pixelated";
+      presentationCanvas.style.imageRendering = "pixelated";
       resizeCanvas();
+    }
+
+    function drawPixelPresentation() {
+      if (!presentationStarted) return;
+      const sourceWidth = canvasElement.width || GAME_WIDTH;
+      const sourceHeight = canvasElement.height || GAME_HEIGHT;
+      presentationContext.imageSmoothingEnabled = false;
+      presentationContext.webkitImageSmoothingEnabled = false;
+      presentationContext.mozImageSmoothingEnabled = false;
+      presentationContext.clearRect(0, 0, PRESENTATION_WIDTH, PRESENTATION_HEIGHT);
+      try {
+        presentationContext.drawImage(canvasElement, 0, 0, sourceWidth, sourceHeight, 0, 0, PRESENTATION_WIDTH, PRESENTATION_HEIGHT);
+      } catch (error) {
+        console.error(error);
+      }
+      window.requestAnimationFrame(drawPixelPresentation);
+    }
+
+    function startPixelPresentation() {
+      if (presentationStarted) return;
+      presentationStarted = true;
+      presentationCanvas.classList.add("active");
+      drawPixelPresentation();
     }
 
     function forceNearestNeighborTextures() {
@@ -132,11 +192,18 @@
         if (!proto || proto.__scamptonNearestNeighborPatch) return;
         proto.__scamptonNearestNeighborPatch = true;
         const originalTexParameteri = proto.texParameteri;
+        const originalTexParameterf = proto.texParameterf;
         proto.texParameteri = function(target, pname, param) {
           if (pname === this.TEXTURE_MIN_FILTER || pname === this.TEXTURE_MAG_FILTER) {
             param = this.NEAREST;
           }
           return originalTexParameteri.call(this, target, pname, param);
+        };
+        proto.texParameterf = function(target, pname, param) {
+          if (pname === this.TEXTURE_MIN_FILTER || pname === this.TEXTURE_MAG_FILTER) {
+            param = this.NEAREST;
+          }
+          return originalTexParameterf.call(this, target, pname, param);
         };
       });
     }
@@ -164,6 +231,7 @@
       loadingArea.style.display = "none";
       lockPixelCanvas();
       canvasElement.classList.add("active");
+      startPixelPresentation();
       canvasElement.focus();
     }
 
