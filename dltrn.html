@@ -1602,6 +1602,10 @@
             <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@53276f808ebe064c52ad86eb1317c97e1ee23187/files/backgrounds/excuseme.png')"></span>
             <span class="background-label">Excuseme</span>
           </button>
+          <button type="button" class="background-option sound-target" data-background="90s" onclick="setSiteBackground('90s')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@6156c90bed1369dcfc6bcda56e95f309d4f28c23/files/backgrounds/90s.png')"></span>
+            <span class="background-label">90s</span>
+          </button>
         </div>
       </div>
       <div class="settings-section">
@@ -1683,7 +1687,7 @@
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
-    const THEME_ASSET_VERSION = "53276f808ebe064c52ad86eb1317c97e1ee23187";
+    const THEME_ASSET_VERSION = "6156c90bed1369dcfc6bcda56e95f309d4f28c23";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
     const SITE_BACKGROUNDS = {
@@ -1705,7 +1709,8 @@
       mad_spam: BACKGROUND_BASE + "mad-spam.png",
       birdbrain: BACKGROUND_BASE + "birdbrain.png",
       imposter: BACKGROUND_BASE + "imposter.png",
-      excuseme: BACKGROUND_BASE + "excuseme.png"
+      excuseme: BACKGROUND_BASE + "excuseme.png",
+      "90s": BACKGROUND_BASE + "90s.png"
     };
     const SITE_AUDIO_TRACKS = {
       black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
@@ -1726,7 +1731,8 @@
       mad_spam: THEME_ASSET_BASE + "audios/theme-mad-spam.mp3",
       birdbrain: THEME_ASSET_BASE + "audios/theme-birdbrain.mp3",
       imposter: THEME_ASSET_BASE + "audios/theme-imposter.mp3",
-      excuseme: THEME_ASSET_BASE + "audios/theme-excuseme.mp3"
+      excuseme: THEME_ASSET_BASE + "audios/theme-excuseme.mp3",
+      "90s": THEME_ASSET_BASE + "audios/theme-90s.mp3"
     };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
