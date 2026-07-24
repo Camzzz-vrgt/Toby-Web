@@ -1848,7 +1848,7 @@
   <div id="bossrush-modal">
     <div class="modal-box">
       <h2>Are You Sure?</h2>
-      <p>This will wipe your current browser save and load <span class="bossrush-text">Ultimate Boss Rush</span> with the same Chapter 4 Dojo save.</p>
+      <p>This will wipe your current browser save and load <span class="bossrush-text">Ultimate Boss Rush</span> with the same Chapter 4 Dojo save file.</p>
       <p>Back up your main save first if you want to keep it.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
@@ -2829,10 +2829,6 @@
         await wipeBrowserSaveForMod();
         showKaizoLoading("Installing Dojo save...");
         await installModSave(DOJO_SAVE_URL, DOJO_SAVE_KEY, "Dojo");
-        await installModDirectory(DOJO_MANAGER_DIR_KEY);
-        for (const file of DOJO_MANAGER_SAVE_FILES) {
-          await installModSave(file.url, file.key, "Dojo manager");
-        }
         showKaizoLoading("Loading Ultimate Boss Rush...");
         loadRemotePage(FILES_BASE + "ultimate-boss-rush/chapter4/index.html");
       } catch (err) {
