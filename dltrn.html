@@ -567,6 +567,7 @@
 
     .game-card.kaizo img,
     .game-card.cyan img,
+    .game-card.network img,
     .game-card.geo img,
     .game-card.guesswho img {
       width: 112px;
@@ -1241,6 +1242,7 @@
 
       .game-card.kaizo img,
       .game-card.cyan img,
+      .game-card.network img,
       .game-card.geo img,
       .game-card.guesswho img,
       .game-card.sans img {
@@ -1437,6 +1439,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
         </button>
+        <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
+          <span>Deltarune Network</span>
+        </button>
       </div>
     </section>
 
@@ -1482,6 +1488,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openCyanConfirm()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
@@ -2548,6 +2557,17 @@
         hideKaizoLoading();
         gamestarted = false;
         alert("Cyan Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadDeltaruneNetwork() {
+      try {
+        showKaizoLoading("Loading Deltarune Network...");
+        loadRemotePage(FILES_BASE + "deltarune-network/chapter3/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Deltarune Network could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
 
