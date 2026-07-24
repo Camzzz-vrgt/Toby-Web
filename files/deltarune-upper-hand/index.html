@@ -105,7 +105,7 @@
       const RUNNER_DATA_PARTS = ["runner.data"];
       const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
       const GAME_MD5 = "8b5d00f507ed581d71810550ca870d82";
-      const ASSET_VERSION = "upperhand-vorbis-bg-20260724";
+      const ASSET_VERSION = "upperhand-audio-aliases-20260724";
       let mergedGameUrl = "";
       let runnerDataUrl = "";
       let startingHeight;
@@ -120,11 +120,51 @@
       canvasElement.addEventListener("click", () => canvasElement.focus());
 
 
+      function splitUrlSuffix(url) {
+        const queryIndex = url.indexOf("?");
+        const hashIndex = url.indexOf("#");
+        let suffixIndex = -1;
+        if (queryIndex !== -1 && hashIndex !== -1) {
+          suffixIndex = Math.min(queryIndex, hashIndex);
+        } else {
+          suffixIndex = Math.max(queryIndex, hashIndex);
+        }
+        return suffixIndex === -1
+          ? { clean: url, suffix: "" }
+          : { clean: url.slice(0, suffixIndex), suffix: url.slice(suffixIndex) };
+      }
+
+      function resolveAudioAlias(url) {
+        if (typeof url !== "string") {
+          return url;
+        }
+        const split = splitUrlSuffix(url);
+        const lowerClean = split.clean.toLowerCase();
+        const markers = ["assets/audio/", "audio/"];
+        for (let i = 0; i < markers.length; i++) {
+          const marker = markers[i];
+          const markerIndex = lowerClean.lastIndexOf(marker);
+          if (markerIndex === -1) {
+            continue;
+          }
+          const requestedPath = lowerClean.slice(markerIndex);
+          const canonicalPath = AUDIO_FILE_ALIASES[requestedPath];
+          if (canonicalPath) {
+            return split.clean.slice(0, markerIndex) + canonicalPath + split.suffix;
+          }
+        }
+        return url;
+      }
+
       function cacheBustAssetUrl(url) {
         if (typeof url !== "string" || url.indexOf("blob:") === 0 || url.indexOf("data:") === 0) {
           return url;
         }
-        if (url.indexOf("game.unx") !== -1 || url.indexOf("runner.data") !== -1 || url.indexOf("audio/") !== -1) {
+        url = resolveAudioAlias(url);
+        if (url.indexOf("game.unx") !== -1 || url.indexOf("runner.data") !== -1 || url.toLowerCase().indexOf("audio/") !== -1) {
+          if (url.indexOf("v=" + ASSET_VERSION) !== -1) {
+            return url;
+          }
           return url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + ASSET_VERSION;
         }
         return url;
@@ -519,6 +559,31 @@
           "911effae01e033aaeb3e380755dda545",
           "3e0d2757abcbe8fe145e2062547819a3"
         ];
+      const AUDIO_FILE_ALIASES = {};
+      const EXTERNAL_AUDIO_ALIAS_FILES = [];
+      const EXTERNAL_AUDIO_ALIAS_MD5 = [];
+      const KNOWN_EXTERNAL_AUDIO_FILES = {};
+
+      for (let i = 0; i < EXTERNAL_AUDIO_FILES.length; i++) {
+        KNOWN_EXTERNAL_AUDIO_FILES[EXTERNAL_AUDIO_FILES[i]] = true;
+      }
+
+      for (let i = 0; i < EXTERNAL_AUDIO_FILES.length; i++) {
+        const file = EXTERNAL_AUDIO_FILES[i];
+        const lowerFile = file.toLowerCase();
+        const aliases = [lowerFile, "assets/" + lowerFile];
+        AUDIO_FILE_ALIASES[lowerFile] = file;
+        AUDIO_FILE_ALIASES["assets/" + lowerFile] = file;
+
+        for (let j = 0; j < aliases.length; j++) {
+          const alias = aliases[j];
+          if (alias !== file && !KNOWN_EXTERNAL_AUDIO_FILES[alias]) {
+            KNOWN_EXTERNAL_AUDIO_FILES[alias] = true;
+            EXTERNAL_AUDIO_ALIAS_FILES.push(alias);
+            EXTERNAL_AUDIO_ALIAS_MD5.push(EXTERNAL_AUDIO_MD5[i]);
+          }
+        }
+      }
 
       function manifestFiles() {
         return [
@@ -527,7 +592,7 @@
           "runner.wasm",
           "audio-worklet.js",
           "game.unx"
-        ].concat(EXTERNAL_AUDIO_FILES).join(";");
+        ].concat(EXTERNAL_AUDIO_FILES, EXTERNAL_AUDIO_ALIAS_FILES).join(";");
       }
 
       function manifestFilesMD5() {
@@ -537,7 +602,7 @@
           "54facb1a5bb9a9f44824c3a32b9d289f",
           "5d0a0227c50a283fe2af3066b3b0a104",
           "8b5d00f507ed581d71810550ca870d82"
-        ].concat(EXTERNAL_AUDIO_MD5);
+        ].concat(EXTERNAL_AUDIO_MD5, EXTERNAL_AUDIO_ALIAS_MD5);
       }
       function onFirstFrameRendered() {
       }
@@ -584,7 +649,7 @@
           installGameDataInterceptor();
           const script = document.createElement("script");
           script.async = true;
-          script.src = "runner.js?v=upperhand-vorbis-bg-20260724";
+          script.src = "runner.js?v=" + ASSET_VERSION;
           document.body.appendChild(script);
         })
         .catch(error => {
