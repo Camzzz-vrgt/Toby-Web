@@ -1598,6 +1598,10 @@
             <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ad24077120fe45da44403e7d9d0ddd0a0818b6eb/files/backgrounds/imposter.png')"></span>
             <span class="background-label">Imposter</span>
           </button>
+          <button type="button" class="background-option sound-target" data-background="excuseme" onclick="setSiteBackground('excuseme')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@53276f808ebe064c52ad86eb1317c97e1ee23187/files/backgrounds/excuseme.png')"></span>
+            <span class="background-label">Excuseme</span>
+          </button>
         </div>
       </div>
       <div class="settings-section">
@@ -1679,7 +1683,7 @@
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
-    const THEME_ASSET_VERSION = "ad24077120fe45da44403e7d9d0ddd0a0818b6eb";
+    const THEME_ASSET_VERSION = "53276f808ebe064c52ad86eb1317c97e1ee23187";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
     const SITE_BACKGROUNDS = {
@@ -1700,7 +1704,8 @@
       dialtone_wrong: BACKGROUND_BASE + "dialtone.png",
       mad_spam: BACKGROUND_BASE + "mad-spam.png",
       birdbrain: BACKGROUND_BASE + "birdbrain.png",
-      imposter: BACKGROUND_BASE + "imposter.png"
+      imposter: BACKGROUND_BASE + "imposter.png",
+      excuseme: BACKGROUND_BASE + "excuseme.png"
     };
     const SITE_AUDIO_TRACKS = {
       black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
@@ -1720,7 +1725,8 @@
       dialtone_wrong: THEME_ASSET_BASE + "audios/theme-dialtone-somethings-wrong.mp3",
       mad_spam: THEME_ASSET_BASE + "audios/theme-mad-spam.mp3",
       birdbrain: THEME_ASSET_BASE + "audios/theme-birdbrain.mp3",
-      imposter: THEME_ASSET_BASE + "audios/theme-imposter.mp3"
+      imposter: THEME_ASSET_BASE + "audios/theme-imposter.mp3",
+      excuseme: THEME_ASSET_BASE + "audios/theme-excuseme.mp3"
     };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
