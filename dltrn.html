@@ -1315,7 +1315,7 @@
           <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank" title="Truffled">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled">
           </a>
-          <a class="brand-link sound-target" href="http://strynetwork.site/" target="_blank" title="Story Network">
+          <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank" title="Story Network">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network">
           </a>
         </div>
@@ -1425,7 +1425,7 @@
     <section id="classic-page" class="page classic-page">
       <div id="credits-box">
         <a href="https://truffled.lol/" target="_blank" class="credit-link row sound-target">port by bog :o</a>
-        <a href="http://strynetwork.site/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
+        <a href="https://storynetwork.site/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
       </div>
       <div class="logo-container">
         <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Logo" class="logo">
@@ -1467,7 +1467,7 @@
       </div>
       <div class="watermark">
         <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled"></a>
-        <a class="brand-link sound-target" href="http://strynetwork.site/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
+        <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
       </div>
     </section>
   </main>
@@ -1554,6 +1554,10 @@
             <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/birdbrain.png')"></span>
             <span class="background-label">Birdbrain</span>
           </button>
+          <button type="button" class="background-option sound-target" data-background="imposter" onclick="setSiteBackground('imposter')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ad24077120fe45da44403e7d9d0ddd0a0818b6eb/files/backgrounds/imposter.png')"></span>
+            <span class="background-label">Imposter</span>
+          </button>
         </div>
       </div>
       <div class="settings-section">
@@ -1635,7 +1639,7 @@
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
-    const THEME_ASSET_VERSION = "7c145b99b63384cf8316f270127022114c5156fa";
+    const THEME_ASSET_VERSION = "ad24077120fe45da44403e7d9d0ddd0a0818b6eb";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
     const SITE_BACKGROUNDS = {
@@ -1655,7 +1659,8 @@
       dialtone_normal: BACKGROUND_BASE + "dialtone.png",
       dialtone_wrong: BACKGROUND_BASE + "dialtone.png",
       mad_spam: BACKGROUND_BASE + "mad-spam.png",
-      birdbrain: BACKGROUND_BASE + "birdbrain.png"
+      birdbrain: BACKGROUND_BASE + "birdbrain.png",
+      imposter: BACKGROUND_BASE + "imposter.png"
     };
     const SITE_AUDIO_TRACKS = {
       black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
@@ -1674,7 +1679,8 @@
       dialtone_normal: THEME_ASSET_BASE + "audios/theme-dialtone-normal.mp3",
       dialtone_wrong: THEME_ASSET_BASE + "audios/theme-dialtone-somethings-wrong.mp3",
       mad_spam: THEME_ASSET_BASE + "audios/theme-mad-spam.mp3",
-      birdbrain: THEME_ASSET_BASE + "audios/theme-birdbrain.mp3"
+      birdbrain: THEME_ASSET_BASE + "audios/theme-birdbrain.mp3",
+      imposter: THEME_ASSET_BASE + "audios/theme-imposter.mp3"
     };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
