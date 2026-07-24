@@ -104,7 +104,8 @@
       const GAME_PARTS = ["game.unx.part1", "game.unx.part2"];
       const RUNNER_DATA_PARTS = ["runner.data"];
       const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
-      const GAME_MD5 = "983d4a6f22f62fd4c202d80f3060d863";
+      const GAME_MD5 = "8b5d00f507ed581d71810550ca870d82";
+      const ASSET_VERSION = "upperhand-vorbis-bg-20260724";
       let mergedGameUrl = "";
       let runnerDataUrl = "";
       let startingHeight;
@@ -117,6 +118,17 @@
       const canvasElement = document.getElementById("canvas");
 
       canvasElement.addEventListener("click", () => canvasElement.focus());
+
+
+      function cacheBustAssetUrl(url) {
+        if (typeof url !== "string" || url.indexOf("blob:") === 0 || url.indexOf("data:") === 0) {
+          return url;
+        }
+        if (url.indexOf("game.unx") !== -1 || url.indexOf("runner.data") !== -1 || url.indexOf("audio/") !== -1) {
+          return url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + ASSET_VERSION;
+        }
+        return url;
+      }
 
       function setStatusText(text) {
         statusElement.textContent = text || "";
@@ -132,7 +144,7 @@
         const buffers = [];
         for (let i = 0; i < parts.length; i++) {
           setStatusText("Downloading " + label + "... " + (i + 1) + "/" + parts.length);
-          const response = await fetch(parts[i], { cache: "force-cache" });
+          const response = await fetch(cacheBustAssetUrl(parts[i]), { cache: "reload" });
           if (!response.ok) {
             throw new Error("Could not load " + parts[i]);
           }
@@ -163,10 +175,14 @@
             resource = mergedGameUrl;
           } else if (typeof resource === "string" && resource.indexOf("runner.data") !== -1) {
             resource = runnerDataUrl;
+          } else if (typeof resource === "string" && resource.indexOf("audio/") !== -1) {
+            resource = cacheBustAssetUrl(resource);
           } else if (resource instanceof Request && resource.url.indexOf("game.unx") !== -1) {
             resource = new Request(mergedGameUrl, resource);
           } else if (resource instanceof Request && resource.url.indexOf("runner.data") !== -1) {
             resource = new Request(runnerDataUrl, resource);
+          } else if (resource instanceof Request && resource.url.indexOf("audio/") !== -1) {
+            resource = new Request(cacheBustAssetUrl(resource.url), resource);
           }
           return originalFetch(resource, options);
         };
@@ -177,6 +193,8 @@
             url = mergedGameUrl;
           } else if (typeof url === "string" && url.indexOf("runner.data") !== -1) {
             url = runnerDataUrl;
+          } else if (typeof url === "string" && url.indexOf("audio/") !== -1) {
+            url = cacheBustAssetUrl(url);
           }
           return originalOpen.call(this, method, url, async, user, password);
         };
@@ -391,115 +409,115 @@
           "audio/snd_wing.wav"
         ];
       const EXTERNAL_AUDIO_MD5 = [
-          "ecd99f1da479393318e7e2cde9e5c0c2",
-          "6204e04fff4a4c347d388b3d40c4e05c",
-          "2dbf348b361eb13d72ff647bfaf6434b",
-          "1e1e2bd5f917e1be064dc2a2e8e942f4",
-          "52b099134ecd973e5602b4c0cc34dd2d",
-          "47d99918f8e8566b561dd7b56fe7c2c6",
-          "9a494b6427da1dc5245ac8012a30bfb2",
-          "abccaf37b15176f555a6d284d7660010",
-          "1128b564e679bcb5d2975226907208d5",
-          "47b63b95f3ce0a9ba8704fce0f8be47a",
-          "99505cd6b01083dacf279e5223a6a98d",
-          "c04111fa475616deb59c6330a94c8e28",
-          "75e2b3ec78263d9999e368e073a40fe1",
-          "850f638ddeeab4b4dca9104f76f45745",
-          "c41adb5840fa2dd1a7a9e5a9aebaad9f",
-          "f890a088762edfa34dca2f0cb2b9e43a",
-          "732f59ceea9acf78dba4aaaf175e6687",
-          "20f9f20586a6065cf7a6eadcdeeaca9d",
-          "35b18aa415652a01a0db1a138d3de3e3",
-          "9872cd68ecd3c49f2ee348662699502f",
-          "55881b163c1bdc4d409dbe064e5be15c",
-          "62afcf02c40403438e4e69d91a6e4dbf",
-          "63a6c5f8669a361ecec5af01204d02b8",
-          "bac4d99c4ff4ac965a25b141da914bc6",
-          "959f77f06e55275f48952557914de617",
-          "c2ac13919c74024b84dd42a101d2a391",
-          "7bc956b2034f33dcf9840a5cffe1ab39",
-          "cb3c6d2f4b0b3c49d60f5e7c1cd9bc00",
-          "b4cc6ebb1adbf20709a82a8ab19b8aec",
-          "7e339e94f6c95a93ef244ed007d2ecd0",
-          "dec07201a5088f4517e2a984ead3fb5e",
-          "d2693962bf49a5876bb359308e23d632",
-          "b3ca1566f02a2f30de88eee648a979e7",
-          "d776b95ee0cf5ddc997195106419baca",
-          "6e61e4525a493e34ac33129b1c356be6",
-          "3f2848327e0582de22892c1a5d05bd0f",
-          "db27ebb0202d31e6494c5a0d403ef49e",
-          "6d69c3d1d13f343182f93f078290932f",
-          "6f4db8dc8cae42d4ab79dafd7f163e64",
-          "204cf41afb81b6a106b8dd538287d080",
-          "bc3bae6bfc2fa5f0a481fd4bca9d38bb",
-          "2940f641c2042d1742334b94278ff44d",
-          "202d1ebb46596689abafcddf9030b215",
-          "33d175dd1d31dc85ed7836d6a888a788",
-          "7e011e9751a498f9bffd8f513df48845",
-          "65ca60e5ee09e8eecb26cafacef46e3f",
-          "ed1263bc07f8b171aa05300c9fa5e784",
-          "1d6c9dc5d47c366f187c458c2aa54d77",
-          "ea738680a18d2a15f900e0e85398e637",
-          "9ed94c995b2fb54676f2ba41edc66943",
-          "4b999d98d2cad5857a886da02e296280",
-          "b27a3f358509b7f56bdbc40c8476f44a",
-          "23c488d2949c0ded331aec4271758378",
-          "4f9e96e64af640abe67686987a558665",
-          "f5f2e800dbc01a1de679cb9a037feb24",
-          "9c6ae9be937796d4c441f09f9be0f7e2",
-          "2648335e3dfa581c81e358d871e5fc0f",
-          "09bb3eff1421d0feeca0681d56fd1cd2",
-          "7943a15ff9d84df23c13336d64a93b09",
-          "c9e129d431bf63826792d60c504a9b67",
-          "3db68a549b941e9230c9de12446612e4",
-          "bd2f282a4f6d1603f69f586a09a8938e",
-          "c19ffd2e86438ee518b5c7ae9b9e12eb",
-          "73d6f2111da1e84a76bb7a313897c5e2",
-          "b630b5db2217bf12c890c32e5e6da77e",
-          "d1a65975814018bc2a956645fc542e96",
-          "3d16817ddc1d511e7040dacd89705fc9",
-          "fea9643f3b534a98c05baede83eec932",
-          "01d23916fae9331ee6b90ac27a8eb90b",
-          "8b3be7b36a6b339b9f1a9d1fb97ff2c4",
-          "b6719d938e0376d1a391246fd6b51b2e",
-          "4707cc262eec66af5bd5f2215d6d6091",
-          "9ad8cc1bc821302859b50e10bc80ec6c",
-          "9fa556348a404faae735db5d8e9a05a9",
-          "67be5535efe14d83fcb100ae9e9f96a4",
-          "bdfdb772eeefee7a9f99c06ec942efc4",
-          "71784f03d6e7fbe15f6d10c315316666",
-          "0220aafa352ccb44241b61224dba45c0",
-          "d8b005c41c05b1d0faaa392445eb5d33",
-          "a219e330bcdda8f68ed217c669f04c0c",
-          "410997bb156ebafb6d1b8121a03fd35c",
-          "97cfc96308eebb2c8b3982debfd14865",
-          "a86b12d843cbedb5ebf352d9ebd44314",
-          "b9ba700deef73834a7995f4e0378ec78",
-          "6d5689313428c14f0c53453c317fec9c",
-          "972df317378aadd917df6792238482c0",
-          "7c4973140d329fa8fabed0b19f4d8fdf",
-          "5e027a3c09a3d15554b39473728b81d4",
-          "e20b51dc61ede906182b77cc2cc9ff6b",
-          "7ae671211f3a137b16d9e87f7e9fcc9a",
-          "6279902618a4775b8edb5b94470f2aa6",
-          "6f145c0b2b84fca446a52d8ec73f7e8e",
-          "19e330ef326e8f973bdedf71fd7d5cf4",
-          "b6bd82b31eafea4f07e4b3f28713706a",
-          "f738eea8d51d32e8367d1dc6e78c6c37",
-          "6035c99ca1f024959324752d3941553f",
-          "939d22f18ac77a7ac5c78ad649942701",
-          "e1dd366ce521b4c1d7558211726e463c",
-          "61b12d72894b5fbd233d13ff005e49db",
-          "de8d4a66faf0c267056fc84080e24d4d",
-          "ae02fd30b05f3b484a9d1ecdff9c0192",
-          "f623bb4adc4f6b6da01452c073378a8e",
-          "fc3834e3610bf835970c03f84fe538d2",
-          "fb8c3952cd7fb92463416f89d565e5c2",
-          "eec5eed7199dd951c66f8fa65c8881b4",
-          "eea78cfea462cbb259c8ff355e41ee92",
-          "8ddcf19ce615c7c6aa9030e24f31fff2",
-          "56da76638ec326501d1ed20e220427c4",
-          "5a417fb1887a6bec3afaa284c1447299"
+          "433b22365f8c5b7b8b959c0bf3705694",
+          "8acd741ef0cd1f4a0275a60672f56bea",
+          "7dbaf7050551ce2609be32e491ca8233",
+          "f3a4ec2742081dcd7388ffa81f95166e",
+          "1e291e5441343f162b3a7a7a6e8a5ced",
+          "4a8ff7b04ac3c68f2063b20d1846b489",
+          "68d7a727d1e473003ccc521c1bc8f432",
+          "7bf027cce251713238e074a701cdd9fc",
+          "e475c679d0274516432b831cf16ad282",
+          "0fc05aa0c45ca2d5791e4818f6e11a6b",
+          "88cc1c020feba135b4c43b7b1b611a75",
+          "3d274849596b59539cda387a9c70750b",
+          "2eff41995e36095e34bc818e3bc43a8f",
+          "20d382c6fed96b2e073ffb610d0ced24",
+          "e56310faf88b3b7c96ea01900c5f3e65",
+          "64b6daf8b7720ecd09ae742ceeb7b4d1",
+          "cf4ccf0b7ac00b6dff3dfa9de88b8529",
+          "28f46223df7ae05484ed23c2b771db88",
+          "4ca59d166c7dd368e504f7fd500ff619",
+          "d5d220e5b42f8c53f19d80c7e9fbc2de",
+          "8046cb94af74653e9070263a2c8efb77",
+          "21a640d96ce159cb0a4c7fa3daba7dd0",
+          "f6812b852ba4dca00eb06f95e99c23bf",
+          "55d53cde2038804deb70149280e93a84",
+          "97187138790e2911589869f6d22725be",
+          "490f9e56f4be9ddffab971a2d86a9273",
+          "b4c077687d61529b41531752e1511b15",
+          "b3495637089235e88b4369fba0c276d5",
+          "ca6e969374d41a6dfd94e5ac3a4a3bab",
+          "cd3a5b3579b82b559ddfb2788d91e2a7",
+          "f0a2e878ffef148eed4f5fb47a1d833a",
+          "bfd5e6f5f01a05681854e4d234569c02",
+          "85fce07dc3d0d7486961dfba4ca3e206",
+          "aeee694f315c85a8a87b191b164698a5",
+          "e5659081144830840d423e12fbdb96a8",
+          "ea27068351f3deb99389e141dcf29695",
+          "a9159a9454f184a450efd731c1e81b99",
+          "c3a006d9cca8912486c4c76d06f6f586",
+          "7a4841b58d4cdc3e2862eb78de412382",
+          "955318bce6b802991e7704f1f606bca0",
+          "9b42b19fe34d43efe8545c4ea7431724",
+          "8f66b5bad2102341c15eb6ef34d5dd8d",
+          "e4e78a411a300a2e4eef70704510abb9",
+          "7a36beab6de630f66774acce66187ae2",
+          "46a3a14096de03c59ee558a6289a437f",
+          "64c4d792b969d0e7d45083b33ad411ff",
+          "a9a8314d5bdadc0bbf3d8e2cf22a0e68",
+          "4c9cd5f96324d81231f02491c6788e1c",
+          "8b96bac3c48d313ba9f3f97c2bbcea0e",
+          "1cfe0225f1667534dcc5057df169e02e",
+          "ae1b201fc61a4b31b7ea5c2b86e1ca2f",
+          "176525bbd61214f157ac3c5d4a4a7499",
+          "881d972b3dda13c7fc6c047d98c02c57",
+          "124f4d0b08602f975a51e48cf8675932",
+          "e5c3be6cc96806eb544048ebbe978163",
+          "42db33e7307ab7371d4d9f91e9418037",
+          "6088d1b7a8e1f12071856064795e28a9",
+          "c657627070d8c776db4613ba3bf17e65",
+          "4af7819cea1f72061b9b5b2cc4ad3613",
+          "ca76e7af3f45ad2fa954c4f793c1419e",
+          "12161fe2db6f3d9293a3e49ef233bae0",
+          "ad124b9942315a32317f4ca8c6b2846a",
+          "3ea6356bc0ca359c0508ba82adcb8302",
+          "a5d93ccc593932a7a127b11a6cf6a346",
+          "9e8b20b2fb14cb15f4d081e63f3cf1f9",
+          "98bb9a6e4200a9990e46a6d2ccc558b3",
+          "fada4c45661b2ed8b0eec227e4ab9a69",
+          "916e2934e5c78f213b540679d5a62f6f",
+          "4b2f3e15698a879a3563e5388aeeb771",
+          "fd2ba5ce3113a25975ed23a64763301d",
+          "b8a1484db2f38e31a00571fc07793eef",
+          "995cc3789de09361c408201643e5cd27",
+          "79df9e84afc5db3330337ab775cd468f",
+          "32f03db23c59a9f8b5e96a6078ec5c3d",
+          "c162c4bb3f7f7d00f3493aa201a13a00",
+          "703dda953c9b10adf050f0ce3b8b8fb0",
+          "2fa0484fa15e24a1be686798229cb7d4",
+          "0171b5163db1465da2a6ff093479e250",
+          "f0f279a897971bfa0afd177da920a6df",
+          "d870b8c1101db08f6db7bc47091cd3e9",
+          "e9a854ea856914250f8d45c3a18b5c56",
+          "ad1ca2a69f5a9ebca5662d289711f564",
+          "126f80fadf07e372f7ad97ca0a5056c8",
+          "59342bf483c7a9d789ddbeb4ba21bfb2",
+          "4748fa1e36c29e75ce471bcdfad3d3c1",
+          "95454273aca48baae320d75db307698f",
+          "2fd7fd80bf2e1f8db0fea23aea2bf9ac",
+          "0c4c8d098897bdb7e64c80076a46190b",
+          "98200cd40256c315283e5d36a1a2cac4",
+          "f9a56dd2d17a25fb784b69df6fffd6d8",
+          "ad33fdeb877c4462f225392d15f0c694",
+          "4c83a18818f2d7f441130c5863ad8ad3",
+          "afb3006c2c55a89a0ca80f3ab9bbefdc",
+          "873c34ed4afed442953faa53a29a85dd",
+          "73039b3a4215fabb21079970708cd04d",
+          "dbea8d745d1206087bcdf153ae1ffd76",
+          "edcc19600f75a7fc7cf5e0480fc1e055",
+          "b1a905e678e03c3f16d62c833dc9b21a",
+          "d380c1f3a90642ad071723767251e5a5",
+          "576aaeea688e7cf2bdc81eb6d13067f2",
+          "32e3c5c7bb3b7a354cad9799ee306a89",
+          "ff06fe6e4da824bbd7301ec2c6a416f4",
+          "679ed59c29c868b949121f47d1c43c8f",
+          "6a5d0d066a8642684d339764b017f834",
+          "d271f9eea6ec88f1bb3c39bce92520bf",
+          "42ac6dce4aea2a1d845e21276438c9d6",
+          "f08b607847e18cc046470b2d1de8267a",
+          "911effae01e033aaeb3e380755dda545",
+          "3e0d2757abcbe8fe145e2062547819a3"
         ];
 
       function manifestFiles() {
@@ -518,7 +536,7 @@
           "79bf58a551ab1bbc5f5a677a05d7832d",
           "54facb1a5bb9a9f44824c3a32b9d289f",
           "5d0a0227c50a283fe2af3066b3b0a104",
-          "983d4a6f22f62fd4c202d80f3060d863"
+          "8b5d00f507ed581d71810550ca870d82"
         ].concat(EXTERNAL_AUDIO_MD5);
       }
       function onFirstFrameRendered() {
@@ -566,7 +584,7 @@
           installGameDataInterceptor();
           const script = document.createElement("script");
           script.async = true;
-          script.src = "runner.js?v=upperhand-external-audio-20260724";
+          script.src = "runner.js?v=upperhand-vorbis-bg-20260724";
           document.body.appendChild(script);
         })
         .catch(error => {
