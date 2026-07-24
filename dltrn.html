@@ -568,6 +568,7 @@
     .game-card.kaizo img,
     .game-card.cyan img,
     .game-card.dojo img,
+    .game-card.bossrush img,
     .game-card.network img,
     .game-card.geo img,
     .game-card.guesswho img {
@@ -595,6 +596,10 @@
 
     .dojo-text {
       color: #7dbd1e;
+    }
+
+    .bossrush-text {
+      color: #ffd684;
     }
 
     .network-text {
@@ -675,6 +680,7 @@
     #kaizo-modal,
     #cyan-modal,
     #dojo-modal,
+    #bossrush-modal,
     #featured-save-info-modal,
     #kaizo-loading {
       position: fixed;
@@ -691,6 +697,7 @@
     #kaizo-modal.open,
     #cyan-modal.open,
     #dojo-modal.open,
+    #bossrush-modal.open,
     #featured-save-info-modal.open,
     #kaizo-loading.open {
       display: flex;
@@ -1316,6 +1323,7 @@
       .game-card.kaizo img,
       .game-card.cyan img,
       .game-card.dojo img,
+      .game-card.bossrush img,
       .game-card.network img,
       .game-card.geo img,
       .game-card.guesswho img,
@@ -1571,6 +1579,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
           <span class="dojo-text">Dojo Customizer</span>
         </button>
+        <button class="game-card bossrush sound-target" onclick="openBossRushConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
+          <span class="bossrush-text">Ultimate Boss Rush</span>
+        </button>
         <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
@@ -1651,6 +1663,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openDojoConfirm()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openBossRushConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
@@ -1826,6 +1841,19 @@
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadDojoCustomizer()">Wipe And Load</button>
         <button class="pixel-button sound-target" onclick="closeDojoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="bossrush-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe your current browser save and load <span class="bossrush-text">Ultimate Boss Rush</span> with the same Chapter 4 Dojo save.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadUltimateBossRush()">Wipe And Load</button>
+        <button class="pixel-button sound-target" onclick="closeBossRushConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -2160,6 +2188,14 @@
 
     function closeDojoConfirm() {
       document.getElementById("dojo-modal").classList.remove("open");
+    }
+
+    function openBossRushConfirm() {
+      document.getElementById("bossrush-modal").classList.add("open");
+    }
+
+    function closeBossRushConfirm() {
+      document.getElementById("bossrush-modal").classList.remove("open");
     }
 
     function openFeaturedSaveInfo() {
@@ -2786,6 +2822,26 @@
       }
     }
 
+    async function loadUltimateBossRush() {
+      try {
+        closeBossRushConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForMod();
+        showKaizoLoading("Installing Dojo save...");
+        await installModSave(DOJO_SAVE_URL, DOJO_SAVE_KEY, "Dojo");
+        await installModDirectory(DOJO_MANAGER_DIR_KEY);
+        for (const file of DOJO_MANAGER_SAVE_FILES) {
+          await installModSave(file.url, file.key, "Dojo manager");
+        }
+        showKaizoLoading("Loading Ultimate Boss Rush...");
+        loadRemotePage(FILES_BASE + "ultimate-boss-rush/chapter4/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Ultimate Boss Rush could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     function loadDeltaruneNetwork() {
       showPage("network");
     }
@@ -2808,6 +2864,7 @@
         closeKaizoConfirm();
         closeCyanConfirm();
         closeDojoConfirm();
+        closeBossRushConfirm();
         return;
       }
       const rows = Array.from(document.querySelectorAll(".page.active .row"));
