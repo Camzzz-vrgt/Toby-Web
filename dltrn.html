@@ -490,7 +490,7 @@
     }
 
     .extras-grid {
-      width: min(870px, calc(100vw - 96px));
+      width: calc(100vw - 144px);
       margin: 0;
       display: grid;
       grid-template-columns: repeat(auto-fit, 128px);
@@ -532,7 +532,7 @@
 
     #mods-page .extras-grid,
     #extras-page .extras-grid {
-      width: min(870px, calc(100vw - 96px));
+      width: calc(100vw - 144px);
       min-height: 0;
       align-items: start;
     }
@@ -1185,6 +1185,7 @@
         grid-template-columns: 1fr 1fr 44px;
       }
       .extras-grid {
+        width: min(286px, calc(100vw - 44px));
         grid-template-columns: 1fr;
       }
       .classic-page .classic-extras {
@@ -1326,7 +1327,7 @@
 
       #mods-page .extras-grid,
       #extras-page .extras-grid {
-        width: min(760px, calc(100vw - 76px));
+        width: calc(100vw - 76px);
         grid-template-columns: repeat(auto-fit, 112px);
         gap: 28px;
       }
@@ -1470,6 +1471,12 @@
     @media (max-width: 760px) {
       .home-logo-link img {
         width: min(86vw, 560px);
+      }
+
+      #mods-page .extras-grid,
+      #extras-page .extras-grid {
+        width: min(286px, calc(100vw - 44px));
+        grid-template-columns: 1fr;
       }
     }
   </style>
