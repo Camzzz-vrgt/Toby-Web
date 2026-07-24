@@ -1,445 +1,237 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" type="image/png" href="icon.png">
-    <link rel="manifest" href="manifest.json">
-    <title>Scampton The Great</title>
-    <style>
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        background: #000;
-        overflow: hidden;
-      }
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <title>Scampton The Great</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <style>
+    @keyframes rotation {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
 
-      body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-family: "Lucida Console", Monaco, monospace;
-      }
+    html,
+    body {
+      background: #000;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-      canvas.emscripten {
-        display: none;
-        border: 0;
-        margin: 0;
-        padding: 0;
-        background: #000;
-        outline: none;
-        opacity: 0;
-        image-rendering: optimizeSpeed;
-        image-rendering: -moz-crisp-edges;
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: -o-crisp-edges;
-        image-rendering: pixelated;
-        -ms-interpolation-mode: nearest-neighbor;
-      }
+    canvas.emscripten {
+      display: none;
+      border: 0;
+      width: 640px;
+      height: 480px;
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain;
+      background: #000;
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+      -ms-interpolation-mode: nearest-neighbor;
+      transition: opacity 0.2s;
+      opacity: 0;
+    }
 
-      canvas.active {
-        display: block;
-        opacity: 1;
-      }
+    canvas.active {
+      display: block;
+      opacity: 1;
+    }
 
-      .loading {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        background: #000;
-        pointer-events: none;
-      }
+    .loading {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      font-family: monospace;
+      font-size: 18px;
+      text-align: center;
+    }
 
-      .loading.hidden {
-        display: none;
-      }
+    .spinner {
+      height: 40px;
+      width: 40px;
+      margin-bottom: 10px;
+      animation: rotation 0.8s linear infinite;
+      border: 5px solid #ff91d7;
+      border-top: 5px solid transparent;
+      border-radius: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="emscripten" id="canvas" width="640" height="480" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+  <div class="loading" id="loadingArea">
+    <div class="spinner"></div>
+    <div id="status">Loading...</div>
+  </div>
 
-      .spinner {
-        width: 34px;
-        height: 34px;
-        border: 5px solid #444;
-        border-top-color: #fff;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-      }
+  <script>
+    const ASSET_VERSION = "scampton-working-loader-v1-20260724";
+    const GAME_WIDTH = 640;
+    const GAME_HEIGHT = 480;
+    const unxParts = [
+      "game.unx.part1",
+      "game.unx.part2",
+      "game.unx.part3",
+      "game.unx.part4",
+      "game.unx.part5",
+      "game.unx.part6",
+      "game.unx.part7",
+      "game.unx.part8"
+    ];
+    const dataParts = [
+      "runner.data.part1",
+      "runner.data.part2"
+    ];
 
-      #status {
-        min-height: 20px;
-        font-weight: bold;
-        text-align: center;
-      }
+    const canvasElement = document.getElementById("canvas");
+    const loadingArea = document.getElementById("loadingArea");
+    const statusElement = document.getElementById("status");
+    let mergedUnxBlob = "";
+    let mergedDataBlob = "";
 
-      #progress {
-        width: min(320px, 70vw);
-        height: 12px;
-        accent-color: #fff;
-      }
+    function assetUrl(path) {
+      return path + (path.indexOf("?") === -1 ? "?" : "&") + "v=" + ASSET_VERSION;
+    }
 
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
+    function setStatus(text) {
+      statusElement.textContent = text;
+    }
+
+    function resizeCanvas() {
+      const fitScale = Math.min(window.innerWidth / GAME_WIDTH, window.innerHeight / GAME_HEIGHT);
+      const wholeScale = Math.floor(fitScale);
+      const scale = wholeScale >= 1 ? wholeScale : fitScale;
+      canvasElement.style.width = Math.floor(GAME_WIDTH * scale) + "px";
+      canvasElement.style.height = Math.floor(GAME_HEIGHT * scale) + "px";
+    }
+
+    function lockPixelCanvas() {
+      canvasElement.width = GAME_WIDTH;
+      canvasElement.height = GAME_HEIGHT;
+      canvasElement.style.imageRendering = "pixelated";
+      resizeCanvas();
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    canvasElement.addEventListener("click", () => canvasElement.focus());
+    lockPixelCanvas();
+
+    var g_pWadLoadCallback;
+    function setWadLoadCallback(wadLoadCallback) { g_pWadLoadCallback = wadLoadCallback; }
+    var g_pAddAsyncMethod = -1;
+    function setAddAsyncMethod(asyncMethod) { g_pAddAsyncMethod = asyncMethod; }
+    var g_pJSExceptionHandler;
+    function setJSExceptionHandler(exceptionHandler) { g_pJSExceptionHandler = exceptionHandler; }
+    function hasJSExceptionHandler() { return typeof g_pJSExceptionHandler === "function"; }
+    function doJSExceptionHandler(exceptionJSON) {
+      if (typeof g_pJSExceptionHandler === "function") {
+        g_pJSExceptionHandler(JSON.parse(exceptionJSON));
+      }
+    }
+
+    function onFirstFrameRendered() {
+      loadingArea.style.display = "none";
+      lockPixelCanvas();
+      canvasElement.classList.add("active");
+      canvasElement.focus();
+    }
+
+    function onGameSetWindowSize() {
+      lockPixelCanvas();
+    }
+
+    const originalOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url) {
+      if (typeof url === "string") {
+        if (url.indexOf("runner.data") !== -1) url = mergedDataBlob;
+        if (url.indexOf("game.unx") !== -1) url = mergedUnxBlob;
+      }
+      return originalOpen.call(this, method, url, arguments[2], arguments[3], arguments[4]);
+    };
+
+    async function fetchAndMerge(urls, label) {
+      const buffers = [];
+      for (let i = 0; i < urls.length; i++) {
+        setStatus("Downloading " + label + "... " + (i + 1) + "/" + urls.length);
+        const response = await fetch(assetUrl(urls[i]), { cache: "reload" });
+        if (!response.ok) throw new Error("Failed to download " + urls[i]);
+        buffers.push(await response.arrayBuffer());
+      }
+      return new Blob(buffers);
+    }
+
+    function manifestFiles() {
+      return [
+        mergedDataBlob,
+        "runner.js",
+        "runner.wasm",
+        "audio-worklet.js",
+        "creep.mp4",
+        mergedUnxBlob
+      ].join(";");
+    }
+
+    function manifestFilesMD5() {
+      return ["", "", "", "", "", ""];
+    }
+
+    var Module = {
+      canvas: canvasElement,
+      setStatus: function(text) {
+        if (!text) onFirstFrameRendered();
+      },
+      print: function(text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(" ");
+        console.log(text);
+        if (text === "Entering main loop.") {
+          onFirstFrameRendered();
         }
+      },
+      printErr: function(text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(" ");
+        console.error(text);
+      },
+      locateFile: function(path, prefix) {
+        if (path.endsWith(".wasm")) return assetUrl("runner.wasm");
+        if (path.endsWith(".audio-worklet.js")) return assetUrl("audio-worklet.js");
+        return prefix + path;
       }
-    </style>
-  </head>
-  <body>
-    <canvas class="emscripten" id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <div id="status">Downloading...</div>
-      <progress id="progress" value="0" max="100"></progress>
-    </div>
+    };
 
-    <script>
-      const GAME_PARTS = ["game.unx.part1", "game.unx.part2", "game.unx.part3", "game.unx.part4", "game.unx.part5", "game.unx.part6", "game.unx.part7", "game.unx.part8", "game.unx.part9"];
-      const RUNNER_DATA_PARTS = ["runner.data"];
-      const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
-      const GAME_MD5 = "36ba62883100871ee53cd41e8ab557b7";
-      const ASSET_VERSION = "scampton-v10-20260724";
-      let mergedGameUrl = "";
-      let runnerDataUrl = "";
-      let startingHeight;
-      let startingWidth;
-      let startingAspect;
+    (async function init() {
+      try {
+        const results = await Promise.all([
+          fetchAndMerge(unxParts, "game data"),
+          fetchAndMerge(dataParts, "runner data")
+        ]);
+        mergedUnxBlob = URL.createObjectURL(results[0]);
+        mergedDataBlob = URL.createObjectURL(results[1]);
 
-      const loadingElement = document.getElementById("loading");
-      const statusElement = document.getElementById("status");
-      const progressElement = document.getElementById("progress");
-      const canvasElement = document.getElementById("canvas");
-
-      canvasElement.addEventListener("click", () => canvasElement.focus());
-
-      function splitUrlSuffix(url) {
-        const queryIndex = url.indexOf("?");
-        const hashIndex = url.indexOf("#");
-        let suffixIndex = -1;
-        if (queryIndex !== -1 && hashIndex !== -1) {
-          suffixIndex = Math.min(queryIndex, hashIndex);
-        } else {
-          suffixIndex = Math.max(queryIndex, hashIndex);
-        }
-        return suffixIndex === -1
-          ? { clean: url, suffix: "" }
-          : { clean: url.slice(0, suffixIndex), suffix: url.slice(suffixIndex) };
+        setStatus("Starting...");
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = assetUrl("runner.js");
+        document.body.appendChild(script);
+      } catch (error) {
+        setStatus("Error");
+        console.error(error);
+        alert("Scampton The Great could not load.\n\n" + (error && error.message ? error.message : error));
       }
-
-      function resolveAudioAlias(url) {
-        if (typeof url !== "string") {
-          return url;
-        }
-        const split = splitUrlSuffix(url);
-        const lowerClean = split.clean.toLowerCase();
-        const markers = ["assets/audio/", "audio/"];
-        for (let i = 0; i < markers.length; i++) {
-          const marker = markers[i];
-          const markerIndex = lowerClean.lastIndexOf(marker);
-          if (markerIndex === -1) {
-            continue;
-          }
-          const requestedPath = lowerClean.slice(markerIndex);
-          const canonicalPath = AUDIO_FILE_ALIASES[requestedPath];
-          if (canonicalPath) {
-            return split.clean.slice(0, markerIndex) + canonicalPath + split.suffix;
-          }
-        }
-        return url;
-      }
-
-      function cacheBustAssetUrl(url) {
-        if (typeof url !== "string" || url.indexOf("blob:") === 0 || url.indexOf("data:") === 0) {
-          return url;
-        }
-        if (url === "") {
-          url = "AG_Music";
-        }
-        url = resolveAudioAlias(url);
-        const cleanLower = splitUrlSuffix(url).clean.toLowerCase();
-        if (url.indexOf("game.unx") !== -1 || url.indexOf("runner.data") !== -1 || cleanLower.indexOf("audio/") !== -1 || cleanLower.endsWith("ag_music") || cleanLower.endsWith("ag_sounds")) {
-          if (url.indexOf("v=" + ASSET_VERSION) !== -1) {
-            return url;
-          }
-          return url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + ASSET_VERSION;
-        }
-        return url;
-      }
-
-      function setStatusText(text) {
-        statusElement.textContent = text || "";
-      }
-
-      function showCanvas() {
-        loadingElement.classList.add("hidden");
-        canvasElement.classList.add("active");
-        canvasElement.focus();
-      }
-
-      async function fetchParts(parts, label, progressState) {
-        const buffers = [];
-        for (let i = 0; i < parts.length; i++) {
-          setStatusText("Downloading " + label + "... " + (i + 1) + "/" + parts.length);
-          const response = await fetch(cacheBustAssetUrl(parts[i]), { cache: "reload" });
-          if (!response.ok) {
-            throw new Error("Could not load " + parts[i]);
-          }
-          const data = await response.arrayBuffer();
-          buffers.push(data);
-          progressState.done++;
-          progressElement.value = Math.round((progressState.done / TOTAL_ASSET_PARTS) * 100);
-        }
-        return buffers;
-      }
-
-      function makeBlobUrl(buffers) {
-        return URL.createObjectURL(new Blob(buffers, { type: "application/octet-stream" }));
-      }
-
-      async function prepareGameAssets() {
-        const progressState = { done: 0 };
-        mergedGameUrl = makeBlobUrl(await fetchParts(GAME_PARTS, "game data", progressState));
-        const runnerDataBuffers = await fetchParts(RUNNER_DATA_PARTS, "runner package", progressState);
-        runnerDataUrl = makeBlobUrl(runnerDataBuffers);
-        setStatusText("Preparing data...");
-      }
-
-      function installGameDataInterceptor() {
-        const originalFetch = window.fetch.bind(window);
-        window.fetch = function(resource, options) {
-          if (typeof resource === "string" && resource.indexOf("game.unx") !== -1) {
-            resource = mergedGameUrl;
-          } else if (typeof resource === "string" && resource.indexOf("runner.data") !== -1) {
-            resource = runnerDataUrl;
-          } else if (typeof resource === "string" && (resource === "" || resource.indexOf("audio/") !== -1 || resource.toLowerCase().endsWith("ag_music") || resource.toLowerCase().endsWith("ag_sounds"))) {
-            resource = cacheBustAssetUrl(resource);
-          } else if (resource instanceof Request && resource.url.indexOf("game.unx") !== -1) {
-            resource = new Request(mergedGameUrl, resource);
-          } else if (resource instanceof Request && resource.url.indexOf("runner.data") !== -1) {
-            resource = new Request(runnerDataUrl, resource);
-          } else if (resource instanceof Request && (resource.url.indexOf("audio/") !== -1 || resource.url.toLowerCase().endsWith("ag_music") || resource.url.toLowerCase().endsWith("ag_sounds"))) {
-            resource = new Request(cacheBustAssetUrl(resource.url), resource);
-          }
-          return originalFetch(resource, options);
-        };
-
-        const originalOpen = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
-          if (typeof url === "string" && url.indexOf("game.unx") !== -1) {
-            url = mergedGameUrl;
-          } else if (typeof url === "string" && url.indexOf("runner.data") !== -1) {
-            url = runnerDataUrl;
-          } else if (typeof url === "string" && (url === "" || url.indexOf("audio/") !== -1 || url.toLowerCase().endsWith("ag_music") || url.toLowerCase().endsWith("ag_sounds"))) {
-            url = cacheBustAssetUrl(url);
-          }
-          return originalOpen.call(this, method, url, async, user, password);
-        };
-      }
-
-      function ensureAspectRatio() {
-        if (startingHeight === undefined || startingWidth === undefined) {
-          return;
-        }
-
-        const maxWidth = window.innerWidth;
-        const maxHeight = window.innerHeight;
-        const heightQuotient = startingHeight / maxHeight;
-        const widthQuotient = startingWidth / maxWidth;
-        let newHeight;
-        let newWidth;
-
-        if (heightQuotient > widthQuotient) {
-          newHeight = maxHeight;
-          newWidth = newHeight * startingAspect;
-        } else {
-          newWidth = maxWidth;
-          newHeight = newWidth / startingAspect;
-        }
-
-        canvasElement.style.width = newWidth + "px";
-        canvasElement.style.height = newHeight + "px";
-      }
-
-      window.addEventListener("resize", () => window.requestAnimationFrame(ensureAspectRatio));
-      setInterval(() => window.requestAnimationFrame(ensureAspectRatio), 1000);
-
-      var Module = {
-        preRun: [],
-        postRun: [],
-        print: function(text) {
-          if (arguments.length > 1) {
-            text = Array.prototype.slice.call(arguments).join(" ");
-          }
-          if (text === "Entering main loop.") {
-            ensureAspectRatio();
-          }
-          console.log(text);
-        },
-        printErr: function(text) {
-          if (arguments.length > 1) {
-            text = Array.prototype.slice.call(arguments).join(" ");
-          }
-          console.error(text);
-        },
-        canvas: canvasElement,
-        setStatus: function(text) {
-          if (!Module.setStatus.last) {
-            Module.setStatus.last = { time: Date.now(), text: "" };
-          }
-          if (text === Module.setStatus.last.text) return;
-          const match = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-          const now = Date.now();
-          if (match && now - Module.setStatus.last.time < 30) return;
-          Module.setStatus.last = { time: now, text: text };
-          if (!text) {
-            showCanvas();
-          } else if (text.indexOf("Downloading data...") !== -1) {
-            setStatusText("Downloading data...");
-          } else {
-            setStatusText(match ? match[1] : text);
-          }
-        },
-        totalDependencies: 0,
-        monitorRunDependencies: function(left) {
-          this.totalDependencies = Math.max(this.totalDependencies, left);
-          Module.setStatus(left ? "Preparing... (" + (this.totalDependencies - left) + "/" + this.totalDependencies + ")" : "All downloads complete.");
-        },
-        arguments: []
-      };
-
-      var g_pWadLoadCallback;
-      function setWadLoadCallback(wadLoadCallback) {
-        g_pWadLoadCallback = wadLoadCallback;
-      }
-
-      var g_pAddAsyncMethod = -1;
-      function setAddAsyncMethod(asyncMethod) {
-        g_pAddAsyncMethod = asyncMethod;
-      }
-
-      var g_pJSExceptionHandler;
-      function setJSExceptionHandler(exceptionHandler) {
-        if (typeof exceptionHandler === "function") {
-          g_pJSExceptionHandler = exceptionHandler;
-        }
-      }
-
-      function hasJSExceptionHandler() {
-        return typeof g_pJSExceptionHandler === "function";
-      }
-
-      function doJSExceptionHandler(exceptionJSON) {
-        if (typeof g_pJSExceptionHandler === "function") {
-          g_pJSExceptionHandler(JSON.parse(exceptionJSON));
-        }
-      }
-      const EXTERNAL_AUDIO_FILES = [];
-      const EXTERNAL_AUDIO_MD5 = [];
-      const AUDIO_FILE_ALIASES = {};
-      const EXTERNAL_AUDIO_ALIAS_FILES = [];
-      const EXTERNAL_AUDIO_ALIAS_MD5 = [];
-      const KNOWN_EXTERNAL_AUDIO_FILES = {};
-
-      for (let i = 0; i < EXTERNAL_AUDIO_FILES.length; i++) {
-        KNOWN_EXTERNAL_AUDIO_FILES[EXTERNAL_AUDIO_FILES[i]] = true;
-      }
-
-      for (let i = 0; i < EXTERNAL_AUDIO_FILES.length; i++) {
-        const file = EXTERNAL_AUDIO_FILES[i];
-        const lowerFile = file.toLowerCase();
-        const aliases = [lowerFile, "assets/" + lowerFile];
-        AUDIO_FILE_ALIASES[lowerFile] = file;
-        AUDIO_FILE_ALIASES["assets/" + lowerFile] = file;
-
-        for (let j = 0; j < aliases.length; j++) {
-          const alias = aliases[j];
-          if (alias !== file && !KNOWN_EXTERNAL_AUDIO_FILES[alias]) {
-            KNOWN_EXTERNAL_AUDIO_FILES[alias] = true;
-            EXTERNAL_AUDIO_ALIAS_FILES.push(alias);
-            EXTERNAL_AUDIO_ALIAS_MD5.push(EXTERNAL_AUDIO_MD5[i]);
-          }
-        }
-      }
-
-      function manifestFiles() {
-        return [
-          "runner.data",
-          "runner.js",
-          "runner.wasm",
-          "audio-worklet.js",
-          "game.unx"
-        ].concat(EXTERNAL_AUDIO_FILES, EXTERNAL_AUDIO_ALIAS_FILES).join(";");
-      }
-
-      function manifestFilesMD5() {
-        return [
-          "74b4dd0b29c0a48a5253498647b537c0",
-          "9b4675d5237bc655cbb12d605e275683",
-          "54facb1a5bb9a9f44824c3a32b9d289f",
-          "5d0a0227c50a283fe2af3066b3b0a104",
-          "36ba62883100871ee53cd41e8ab557b7"
-        ].concat(EXTERNAL_AUDIO_MD5, EXTERNAL_AUDIO_ALIAS_MD5);
-      }
-      function onFirstFrameRendered() {
-      }
-
-      function onGameSetWindowSize(width, height) {
-        startingWidth = width;
-        startingHeight = height;
-        startingAspect = startingWidth / startingHeight;
-        ensureAspectRatio();
-      }
-
-      function pause() {
-        if (typeof GM_pause === "function" && canvasElement.classList.contains("active")) {
-          GM_pause();
-        }
-      }
-
-      function resume() {
-        if (typeof GM_unpause === "function" && canvasElement.classList.contains("active")) {
-          GM_unpause();
-          ensureAspectRatio();
-        }
-      }
-
-      document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState !== "visible") {
-          pause();
-        } else {
-          resume();
-        }
-      });
-
-      window.addEventListener("error", event => {
-        if (!canvasElement.classList.contains("active")) {
-          setStatusText("Exception thrown, see JavaScript console");
-        }
-        console.error(event.error || event.message);
-      });
-
-      setWadLoadCallback(function() {});
-
-      prepareGameAssets()
-        .then(() => {
-          installGameDataInterceptor();
-          const script = document.createElement("script");
-          script.async = true;
-          script.src = "runner.js?v=" + ASSET_VERSION;
-          document.body.appendChild(script);
-        })
-        .catch(error => {
-          setStatusText("Failed to load game data");
-          console.error(error);
-          alert("Scampton The Great could not load.\n\n" + (error && error.message ? error.message : error));
-        });
-    </script>
-  </body>
+    })();
+  </script>
+</body>
 </html>
