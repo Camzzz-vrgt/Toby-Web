@@ -567,6 +567,7 @@
 
     .game-card.kaizo img,
     .game-card.cyan img,
+    .game-card.dojo img,
     .game-card.network img,
     .game-card.geo img,
     .game-card.guesswho img {
@@ -590,6 +591,10 @@
 
     .cyan-text {
       color: #55f4ff;
+    }
+
+    .dojo-text {
+      color: #7dbd1e;
     }
 
     .network-text {
@@ -669,6 +674,7 @@
     #settings-modal,
     #kaizo-modal,
     #cyan-modal,
+    #dojo-modal,
     #featured-save-info-modal,
     #kaizo-loading {
       position: fixed;
@@ -684,6 +690,7 @@
     #settings-modal.open,
     #kaizo-modal.open,
     #cyan-modal.open,
+    #dojo-modal.open,
     #featured-save-info-modal.open,
     #kaizo-loading.open {
       display: flex;
@@ -1308,6 +1315,7 @@
 
       .game-card.kaizo img,
       .game-card.cyan img,
+      .game-card.dojo img,
       .game-card.network img,
       .game-card.geo img,
       .game-card.guesswho img,
@@ -1559,6 +1567,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
         </button>
+        <button class="game-card dojo sound-target" onclick="openDojoConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
+          <span class="dojo-text">Dojo Customizer</span>
+        </button>
         <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
@@ -1636,6 +1648,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openCyanConfirm()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openDojoConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
@@ -1802,6 +1817,19 @@
     </div>
   </div>
 
+  <div id="dojo-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe your current browser save and load the <span class="dojo-text">Full Dojo Customizer</span> Chapter 4 save instead.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadDojoCustomizer()">Wipe And Load</button>
+        <button class="pixel-button sound-target" onclick="closeDojoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div id="featured-save-info-modal">
     <div class="modal-box">
       <button class="pixel-button modal-close sound-target" onclick="closeFeaturedSaveInfo()">X</button>
@@ -1906,12 +1934,26 @@
 
     const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
     const CYAN_SAVE_URL = KAIZO_SAVE_URL;
+    const DOJO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/filech4_0";
+    const DOJO_MANAGER_DIR_KEY = "/_savedata/dojo_manager";
+    const DOJO_MANAGER_SAVE_FILES = [
+      {
+        url: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/dojo_manager/dojoManager_file2.ini",
+        key: "/_savedata/dojo_manager/dojoManager_file2.ini"
+      },
+      {
+        url: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/dojo_manager/dojoManager_stats_file2.ini",
+        key: "/_savedata/dojo_manager/dojoManager_stats_file2.ini"
+      }
+    ];
     const SAVE_DB = "/_savedata";
     const SAVE_STORE = "FILE_DATA";
     const GAME_SAVE_DB_VERSION = 21;
     const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
     const CYAN_SAVE_KEY = KAIZO_SAVE_KEY;
+    const DOJO_SAVE_KEY = "/_savedata/filech4_0";
     const KAIZO_SAVE_MODE = 33206;
+    const SAVE_DIR_MODE = 16895;
     const AUDIO_ON_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path>';
     const AUDIO_OFF_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M22 9l-6 6"></path><path d="M16 9l6 6"></path>';
     const OLD_LAYOUT_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/old-layout.html";
@@ -2112,6 +2154,14 @@
       document.getElementById("cyan-modal").classList.remove("open");
     }
 
+    function openDojoConfirm() {
+      document.getElementById("dojo-modal").classList.add("open");
+    }
+
+    function closeDojoConfirm() {
+      document.getElementById("dojo-modal").classList.remove("open");
+    }
+
     function openFeaturedSaveInfo() {
       document.getElementById("featured-save-info-modal").classList.add("open");
     }
@@ -2215,6 +2265,7 @@
       const keyText = keyString(key).toLowerCase();
       const basename = keyText.split("/").pop();
       const isDeltaruneRecord = keyText.includes("filech")
+        || keyText.includes("dojo_manager")
         || basename === "dr.ini"
         || basename === "decomp_vars.ini"
         || basename === "trophies.ini"
@@ -2664,6 +2715,13 @@
       });
     }
 
+    async function installModDirectory(saveKey) {
+      await putSaveRecord(saveKey, {
+        timestamp: new Date(),
+        mode: SAVE_DIR_MODE
+      });
+    }
+
     async function wipeBrowserSaveForMod() {
       localStorage.clear();
       document.cookie.split(";").forEach(cookie => {
@@ -2708,6 +2766,26 @@
       }
     }
 
+    async function loadDojoCustomizer() {
+      try {
+        closeDojoConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForMod();
+        showKaizoLoading("Installing Dojo save...");
+        await installModSave(DOJO_SAVE_URL, DOJO_SAVE_KEY, "Dojo");
+        await installModDirectory(DOJO_MANAGER_DIR_KEY);
+        for (const file of DOJO_MANAGER_SAVE_FILES) {
+          await installModSave(file.url, file.key, "Dojo manager");
+        }
+        showKaizoLoading("Loading Full Dojo Customizer...");
+        loadRemotePage(FILES_BASE + "dojo-customizer/chapter4/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Full Dojo Customizer could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     function loadDeltaruneNetwork() {
       showPage("network");
     }
@@ -2729,6 +2807,7 @@
         closeSettings();
         closeKaizoConfirm();
         closeCyanConfirm();
+        closeDojoConfirm();
         return;
       }
       const rows = Array.from(document.querySelectorAll(".page.active .row"));
