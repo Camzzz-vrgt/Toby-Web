@@ -830,6 +830,85 @@
       text-transform: uppercase;
     }
 
+    .site-volume-control {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 58px;
+      align-items: center;
+      gap: 12px;
+      padding: 8px;
+      border: 2px solid var(--white);
+      background: #000;
+    }
+
+    .site-volume-slider {
+      --volume-fill: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 22px;
+      border: 2px solid var(--white);
+      background: linear-gradient(90deg, var(--yellow) 0%, var(--yellow) var(--volume-fill), #111 var(--volume-fill), #111 100%);
+      cursor: pointer;
+      image-rendering: pixelated;
+    }
+
+    .site-volume-slider:hover,
+    .site-volume-slider:focus-visible {
+      border-color: var(--yellow);
+      outline: none;
+      box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--yellow);
+    }
+
+    .site-volume-slider::-webkit-slider-runnable-track {
+      height: 18px;
+      background: transparent;
+    }
+
+    .site-volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 28px;
+      margin-top: -5px;
+      border: 2px solid #000;
+      background: var(--white);
+      box-shadow: 0 0 0 2px var(--white);
+    }
+
+    .site-volume-slider:hover::-webkit-slider-thumb,
+    .site-volume-slider:focus-visible::-webkit-slider-thumb {
+      background: var(--yellow);
+      box-shadow: 0 0 0 2px var(--yellow);
+    }
+
+    .site-volume-slider::-moz-range-track {
+      height: 18px;
+      background: transparent;
+    }
+
+    .site-volume-slider::-moz-range-thumb {
+      width: 16px;
+      height: 28px;
+      border: 2px solid #000;
+      border-radius: 0;
+      background: var(--white);
+      box-shadow: 0 0 0 2px var(--white);
+    }
+
+    .site-volume-slider:hover::-moz-range-thumb,
+    .site-volume-slider:focus-visible::-moz-range-thumb {
+      background: var(--yellow);
+      box-shadow: 0 0 0 2px var(--yellow);
+    }
+
+    .site-volume-value {
+      color: var(--yellow);
+      font-size: 0.82rem;
+      line-height: 1;
+      text-align: right;
+      white-space: nowrap;
+    }
+
     .background-options {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
@@ -1822,6 +1901,13 @@
         <button class="pixel-button sound-target" onclick="saveData('all')">Export Whole Site Save</button>
         <button class="pixel-button sound-target" onclick="chooseImport('all')">Import Whole Site Save</button>
       </div>
+      <div class="settings-section">
+        <div class="settings-label">Site Music Volume</div>
+        <div class="site-volume-control">
+          <input id="site-music-volume" class="site-volume-slider" type="range" min="0" max="100" step="1" value="100" aria-label="Site music volume" oninput="setSiteMusicVolume(this.value)">
+          <span id="site-music-volume-value" class="site-volume-value">100%</span>
+        </div>
+      </div>
       <div class="settings-section background-settings">
         <div class="settings-label">Background</div>
         <div class="background-options" role="group" aria-label="Site Background">
@@ -2025,6 +2111,7 @@
 
   <script>
     const audio = document.getElementById("drone");
+    const SITE_MUSIC_VOLUME_KEY = "dul_site_music_volume";
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
@@ -2116,6 +2203,7 @@
     function startAudio() {
       if (!audioStarted && audio) {
         applySiteAudio(document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || "black", false);
+        applySiteMusicVolume();
         audio.play().catch(() => {});
         audioStarted = true;
       }
@@ -2173,6 +2261,32 @@
       });
     }
 
+    function getSiteMusicVolume() {
+      const storedVolume = parseInt(localStorage.getItem(SITE_MUSIC_VOLUME_KEY), 10);
+      if (Number.isFinite(storedVolume)) return Math.max(0, Math.min(100, storedVolume));
+      return 100;
+    }
+
+    function applySiteMusicVolume() {
+      const volume = getSiteMusicVolume();
+      if (audio) audio.volume = volume / 100;
+      const slider = document.getElementById("site-music-volume");
+      const value = document.getElementById("site-music-volume-value");
+      if (slider) {
+        slider.value = String(volume);
+        slider.style.setProperty("--volume-fill", volume + "%");
+        slider.setAttribute("aria-valuenow", String(volume));
+        slider.setAttribute("aria-valuetext", volume + "%");
+      }
+      if (value) value.textContent = volume + "%";
+    }
+
+    function setSiteMusicVolume(value) {
+      const nextVolume = Math.max(0, Math.min(100, parseInt(value, 10) || 0));
+      localStorage.setItem(SITE_MUSIC_VOLUME_KEY, String(nextVolume));
+      applySiteMusicVolume();
+    }
+
     function applySiteAudio(backgroundId, shouldPlay = false) {
       if (!audio) return;
       const selected = Object.prototype.hasOwnProperty.call(SITE_AUDIO_TRACKS, backgroundId) ? backgroundId : "black";
@@ -2184,6 +2298,7 @@
         audio.currentTime = 0;
         audio.load();
       }
+      applySiteMusicVolume();
       if (shouldPlay) {
         audioStarted = true;
         audio.play().catch(() => {});
@@ -2226,6 +2341,7 @@
     }
 
     function openSettings() {
+      applySiteMusicVolume();
       document.getElementById("settings-modal").classList.add("open");
     }
 
