@@ -1522,10 +1522,10 @@
   <main id="app">
     <section id="home-page" class="page home-layout active">
       <div class="home-choices">
-        <a class="home-logo-link home-deltarune sound-target" href="javascript:showPage('deltarune')">
+        <a class="home-logo-link home-deltarune sound-target home-select-sound" href="javascript:showPage('deltarune')">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-deltarune-tight.png" alt="Deltarune">
         </a>
-        <a class="home-logo-link home-undertale sound-target" href="javascript:showPage('undertale')">
+        <a class="home-logo-link home-undertale sound-target home-select-sound" href="javascript:showPage('undertale')">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-undertale-tight.png" alt="Undertale">
         </a>
       </div>
@@ -1539,8 +1539,8 @@
           </a>
         </div>
         <span></span>
-        <button class="mods-home sound-target" onclick="showPage('mods')">mods</button>
-        <button class="extras-home sound-target" onclick="showPage('extras')">extras</button>
+        <button class="mods-home sound-target home-select-sound" onclick="showPage('mods')">mods</button>
+        <button class="extras-home sound-target home-select-sound" onclick="showPage('extras')">extras</button>
       </div>
     </section>
 
@@ -2061,6 +2061,7 @@
     };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
+    const homeSelectAudio = new Audio(FILES_BASE + "audios/rew.mp3");
     let gamestarted = false;
     let audioStarted = false;
     let selectedChapter = null;
@@ -2118,6 +2119,13 @@
       }
     }
 
+    function playHomeSelect() {
+      if (!gamestarted) {
+        homeSelectAudio.currentTime = 0;
+        homeSelectAudio.play().catch(() => {});
+      }
+    }
+
     document.addEventListener("mouseover", event => {
       const target = event.target.closest(".sound-target, .row, .pixel-button, .save-button, .game-card, .brand-link");
       if (target) playMove();
@@ -2125,7 +2133,10 @@
 
     document.addEventListener("click", event => {
       const target = event.target.closest(".sound-target, .row, .pixel-button, .save-button, .game-card, .brand-link");
-      if (target) playSelect();
+      if (target) {
+        if (target.classList.contains("home-select-sound")) playHomeSelect();
+        else playSelect();
+      }
     });
 
     function toggleAudio() {
