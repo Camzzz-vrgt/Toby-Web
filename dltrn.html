@@ -570,6 +570,7 @@
     .game-card.dojo img,
     .game-card.bossrush img,
     .game-card.network img,
+    .game-card.nobullet img,
     .game-card.geo img,
     .game-card.guesswho img,
     .game-card.upperhand img,
@@ -609,6 +610,10 @@
       color: var(--blue);
     }
 
+    .nobullet-text {
+      color: #ffb43d;
+    }
+
     .geo-text {
       color: #ffffff;
     }
@@ -628,6 +633,38 @@
     .game-card .ut10th-text {
       color: #ffffff;
       font-size: 0.66rem;
+    }
+
+    .game-card.locked {
+      position: relative;
+    }
+
+    .game-card.locked img {
+      opacity: 0.68;
+    }
+
+    .lock-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--white);
+      background: #000;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      pointer-events: none;
+    }
+
+    .lock-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
     }
 
     #network-page {
@@ -697,6 +734,7 @@
     #cyan-modal,
     #dojo-modal,
     #bossrush-modal,
+    #nobullet-modal,
     #featured-save-info-modal,
     #kaizo-loading {
       position: fixed;
@@ -714,6 +752,7 @@
     #cyan-modal.open,
     #dojo-modal.open,
     #bossrush-modal.open,
+    #nobullet-modal.open,
     #featured-save-info-modal.open,
     #kaizo-loading.open {
       display: flex;
@@ -1342,6 +1381,7 @@
       .game-card.dojo img,
       .game-card.bossrush img,
       .game-card.network img,
+      .game-card.nobullet img,
       .game-card.geo img,
       .game-card.guesswho img,
       .game-card.upperhand img,
@@ -1613,6 +1653,13 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
         </button>
+        <button class="game-card nobullet locked sound-target" onclick="openNoBulletInfo()">
+          <span class="lock-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+          </span>
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
+          <span class="nobullet-text">No Bullet Cooldowns</span>
+        </button>
       </div>
     </section>
 
@@ -1707,6 +1754,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openNoBulletInfo()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
@@ -1901,6 +1951,18 @@
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadUltimateBossRush()">Wipe And Load</button>
         <button class="pixel-button sound-target" onclick="closeBossRushConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="nobullet-modal">
+    <div class="modal-box">
+      <button class="pixel-button modal-close sound-target" onclick="closeNoBulletInfo()">X</button>
+      <h2>No Bullet Cooldowns</h2>
+      <p><span class="nobullet-text">No Bullet Cooldowns</span> is going to be added soon.</p>
+      <p>The current mod files are broken for this web port, so this launcher is locked while we find a matching version.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="closeNoBulletInfo()">Alright</button>
       </div>
     </div>
   </div>
@@ -2267,6 +2329,14 @@
 
     function closeBossRushConfirm() {
       document.getElementById("bossrush-modal").classList.remove("open");
+    }
+
+    function openNoBulletInfo() {
+      document.getElementById("nobullet-modal").classList.add("open");
+    }
+
+    function closeNoBulletInfo() {
+      document.getElementById("nobullet-modal").classList.remove("open");
     }
 
     function openFeaturedSaveInfo() {
@@ -2932,6 +3002,7 @@
         closeCyanConfirm();
         closeDojoConfirm();
         closeBossRushConfirm();
+        closeNoBulletInfo();
         return;
       }
       const rows = Array.from(document.querySelectorAll(".page.active .row"));
