@@ -577,7 +577,6 @@
     .game-card.dojo img,
     .game-card.bossrush img,
     .game-card.network img,
-    .game-card.nobullet img,
     .game-card.geo img,
     .game-card.guesswho img,
     .game-card.upperhand img,
@@ -616,10 +615,6 @@
 
     .network-text {
       color: var(--blue);
-    }
-
-    .nobullet-text {
-      color: #ffb43d;
     }
 
     .geo-text {
@@ -734,58 +729,10 @@
     .source-link.dojo { --source-hover: #7dbd1e; }
     .source-link.bossrush { --source-hover: #ffd684; }
     .source-link.network { --source-hover: var(--blue); }
-    .source-link.nobullet { --source-hover: #ffb43d; }
     .source-link.guesswho { --source-hover: #ff2a20; }
     .source-link.upperhand { --source-hover: #c8d5ff; }
     .source-link.scampton { --source-hover: #ff9bd6; }
     .source-link.dreamwake { --source-hover: #bba8ff; }
-
-    .game-card.locked {
-      position: relative;
-    }
-
-    .game-card.locked img {
-      opacity: 0.68;
-    }
-
-    .game-card.locked::after {
-      content: "LOCKED";
-      position: absolute;
-      left: 8px;
-      top: 8px;
-      z-index: 3;
-      border: 2px solid var(--white);
-      background: #000;
-      color: var(--yellow);
-      padding: 3px 5px;
-      font-size: 0.52rem;
-      line-height: 1;
-    }
-
-    .lock-icon {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      z-index: 4;
-      width: 30px;
-      height: 30px;
-      border: 2px solid var(--white);
-      background: #000;
-      display: grid;
-      place-items: center;
-      color: var(--white);
-      pointer-events: none;
-    }
-
-    .lock-icon svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      stroke-width: 2.5;
-      fill: none;
-      stroke-linecap: square;
-      stroke-linejoin: miter;
-    }
 
     #network-page {
       width: 100%;
@@ -854,7 +801,6 @@
     #cyan-modal,
     #dojo-modal,
     #bossrush-modal,
-    #nobullet-modal,
     #featured-save-info-modal,
     #kaizo-loading {
       position: fixed;
@@ -872,7 +818,6 @@
     #cyan-modal.open,
     #dojo-modal.open,
     #bossrush-modal.open,
-    #nobullet-modal.open,
     #featured-save-info-modal.open,
     #kaizo-loading.open {
       display: flex;
@@ -1587,7 +1532,6 @@
       .game-card.dojo img,
       .game-card.bossrush img,
       .game-card.network img,
-      .game-card.nobullet img,
       .game-card.geo img,
       .game-card.guesswho img,
       .game-card.upperhand img,
@@ -1867,13 +1811,6 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
         </button>
-        <button class="game-card nobullet locked sound-target" onclick="openNoBulletInfo()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
-          <span class="lock-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
-          </span>
-          <span class="nobullet-text">No Bullet Cooldowns</span>
-        </button>
       </div>
     </section>
 
@@ -1972,7 +1909,6 @@
             <a class="source-link dojo" href="https://gamebanana.com/wips/98861" target="_blank">Dojo Customizer</a>
             <a class="source-link bossrush" href="https://gamebanana.com/mods/608558" target="_blank">Ultimate Boss Rush</a>
             <a class="source-link network" href="https://gamebanana.com/mods/601376" target="_blank">Deltarune Network</a>
-            <a class="source-link nobullet" href="https://gamebanana.com/mods/587241" target="_blank">No Bullet Cooldowns</a>
           </div>
         </div>
         <div class="credit-panel">
@@ -2019,9 +1955,6 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
-        </button>
-        <button class="classic-extra-btn kaizo sound-target" onclick="openNoBulletInfo()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
@@ -2225,18 +2158,6 @@
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadUltimateBossRush()">Wipe And Load</button>
         <button class="pixel-button sound-target" onclick="closeBossRushConfirm()">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="nobullet-modal">
-    <div class="modal-box">
-      <button class="pixel-button modal-close sound-target" onclick="closeNoBulletInfo()">X</button>
-      <h2>No Bullet Cooldowns</h2>
-      <p><span class="nobullet-text">No Bullet Cooldowns</span> is going to be added soon.</p>
-      <p>The current mod files are broken for this web port, so this launcher is locked while we find a matching version.</p>
-      <div class="modal-actions">
-        <button class="pixel-button sound-target" onclick="closeNoBulletInfo()">Alright</button>
       </div>
     </div>
   </div>
@@ -2643,14 +2564,6 @@
 
     function closeBossRushConfirm() {
       document.getElementById("bossrush-modal").classList.remove("open");
-    }
-
-    function openNoBulletInfo() {
-      document.getElementById("nobullet-modal").classList.add("open");
-    }
-
-    function closeNoBulletInfo() {
-      document.getElementById("nobullet-modal").classList.remove("open");
     }
 
     function openFeaturedSaveInfo() {
@@ -3316,7 +3229,6 @@
         closeCyanConfirm();
         closeDojoConfirm();
         closeBossRushConfirm();
-        closeNoBulletInfo();
         return;
       }
       const rows = Array.from(document.querySelectorAll(".page.active .row"));
