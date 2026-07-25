@@ -701,6 +701,39 @@
       color: var(--yellow);
     }
 
+    .source-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .source-link {
+      --source-hover: var(--yellow);
+      display: block;
+      border: 2px solid var(--white);
+      background: #000;
+      color: var(--white);
+      padding: 9px 10px;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      line-height: 1.15;
+    }
+
+    .source-link:hover {
+      color: var(--source-hover);
+      border-color: var(--source-hover);
+    }
+
+    .source-link.kaizo { --source-hover: #8fd8ff; }
+    .source-link.cyan { --source-hover: #55f4ff; }
+    .source-link.dojo { --source-hover: #7dbd1e; }
+    .source-link.bossrush { --source-hover: #ffd684; }
+    .source-link.network { --source-hover: var(--blue); }
+    .source-link.nobullet { --source-hover: #ffb43d; }
+    .source-link.guesswho { --source-hover: #ff2a20; }
+    .source-link.upperhand { --source-hover: #c8d5ff; }
+    .source-link.scampton { --source-hover: #ff9bd6; }
+
     .game-card.locked {
       position: relative;
     }
@@ -1907,76 +1940,40 @@
       </header>
       <div class="credits-content">
         <div class="credit-panel">
-          <h3>DUL Site</h3>
-          <ul>
-            <li>Camzzz - site updates, layout, menus, saves, mods, extras, themes, and DUL assembly.</li>
-            <li>Bog - original web port work and classic layout credit.</li>
-            <li><a href="https://storynetwork.site/" target="_blank">Story Network</a> - site/home network link and hosting identity.</li>
-            <li><a href="https://truffled.lol/" target="_blank">Truffled</a> - linked logo and site identity.</li>
-          </ul>
+          <h3>DUL</h3>
+          <div class="source-list">
+            <a class="source-link" href="https://storynetwork.site/" target="_blank">Camzzz</a>
+            <a class="source-link" href="https://truffled.lol/" target="_blank">Bog</a>
+          </div>
         </div>
         <div class="credit-panel">
-          <h3>Original Games</h3>
-          <ul>
-            <li><a href="https://deltarune.com/" target="_blank">DELTARUNE</a> - Toby Fox and the DELTARUNE team.</li>
-            <li><a href="https://undertale.com/" target="_blank">UNDERTALE</a> - Toby Fox.</li>
-            <li>DUL is a fan-made launcher/port hub and is not official.</li>
-          </ul>
-        </div>
-        <div class="credit-panel">
-          <h3>Main Pages</h3>
-          <ul>
-            <li>Deltarune Chapters 1-5 web entries and chapter icons.</li>
-            <li>Undertale web entry, save controls, and audio controls.</li>
-            <li>Classic layout support for the old DUL page.</li>
-            <li>Camzzz All-Boss Save and chapter save-info menu.</li>
-          </ul>
+          <h3>Main Games</h3>
+          <div class="source-list">
+            <a class="source-link" href="https://deltarune.com/" target="_blank">Deltarune</a>
+            <a class="source-link" href="https://undertale.com/" target="_blank">Undertale</a>
+          </div>
         </div>
         <div class="credit-panel">
           <h3>Mods</h3>
-          <ul>
-            <li>Kaizo Roaring Knight.</li>
-            <li>Cyan Knight.</li>
-            <li>Dojo Customizer.</li>
-            <li>Ultimate Boss Rush.</li>
-            <li>Deltarune Network / local multiplayer mod.</li>
-            <li>No Bullet Cooldowns - listed as a locked upcoming/broken mod.</li>
-          </ul>
+          <div class="source-list">
+            <a class="source-link kaizo" href="https://gamebanana.com/mods/662826" target="_blank">Kaizo Roaring Knight</a>
+            <a class="source-link cyan" href="https://gamebanana.com/mods/680711" target="_blank">Cyan Knight</a>
+            <a class="source-link dojo" href="https://gamebanana.com/wips/98861" target="_blank">Dojo Customizer</a>
+            <a class="source-link bossrush" href="https://gamebanana.com/mods/608558" target="_blank">Ultimate Boss Rush</a>
+            <a class="source-link network" href="https://gamebanana.com/mods/601376" target="_blank">Deltarune Network</a>
+            <a class="source-link nobullet" href="https://gamebanana.com/mods/587241" target="_blank">No Bullet Cooldowns</a>
+          </div>
         </div>
         <div class="credit-panel">
           <h3>Extras</h3>
-          <ul>
-            <li>Bad Time Simulator.</li>
-            <li><a href="https://signalsphere.itch.io/deltarune-geoguessr" target="_blank">Deltarune GeoGuessr</a> - SignalSphere/Sphone project page.</li>
-            <li><a href="https://jan-ko-pan.itch.io/jan-ko-pans-cool-deltarune-guess-who-game" target="_blank">Deltarune Guess Who</a> - Jan-ko-pan project page.</li>
-            <li>Deltarune: The Upper Hand.</li>
-            <li>Scampton The Great.</li>
-            <li>Undertale 10th Anniversary.</li>
-          </ul>
-        </div>
-        <div class="credit-panel">
-          <h3>Background Themes</h3>
-          <ul>
-            <li>Black, Chapters 1-5, TADC, Backrooms, Pirate, Kendrick, Jackpot, DK, Tung.</li>
-            <li>Dialtone, Sadtone, Mad-Spam, Birdbrain, Imposter, Excuseme, 90s, Hotline.</li>
-            <li>Theme images, music, and sound effects are credited to their original creators/sources where applicable.</li>
-          </ul>
-        </div>
-        <div class="credit-panel">
-          <h3>Tech</h3>
-          <ul>
-            <li>GameMaker / YoYo Games HTML5 runners used by multiple web ports.</li>
-            <li>Godot web export used by Deltarune Guess Who.</li>
-            <li>GitHub and jsDelivr CDN for hosted site/game files.</li>
-            <li>Browser IndexedDB save tools for import, export, wipe, and whole-site backups.</li>
-          </ul>
-        </div>
-        <div class="credit-panel">
-          <h3>Assets</h3>
-          <ul>
-            <li>Home logos, settings icon, favicon, game icons, mod icons, and menu sounds used throughout DUL.</li>
-            <li>All fangames, mods, songs, sprites, and images remain credited to their respective owners and creators.</li>
-          </ul>
+          <div class="source-list">
+            <a class="source-link" href="https://jcw87.github.io/c2-sans-fight/" target="_blank">Bad Time Simulator</a>
+            <a class="source-link" href="https://signalsphere.itch.io/deltarune-geoguessr" target="_blank">Deltarune GeoGuessr</a>
+            <a class="source-link guesswho" href="https://jan-ko-pan.itch.io/jan-ko-pans-cool-deltarune-guess-who-game" target="_blank">Deltarune Guess Who</a>
+            <a class="source-link upperhand" href="https://gamejolt.com/games/the-upper-hand/1079690" target="_blank">The Upper Hand</a>
+            <a class="source-link scampton" href="https://gamejolt.com/games/scampton/1004315" target="_blank">Scampton The Great</a>
+            <a class="source-link" href="https://ut10-battle.undertale.com/" target="_blank">Undertale 10th Anniversary</a>
+          </div>
         </div>
       </div>
     </section>
