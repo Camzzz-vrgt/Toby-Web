@@ -499,7 +499,8 @@
     }
 
     #mods-page,
-    #extras-page {
+    #extras-page,
+    #credits-page {
       width: 100%;
       min-height: 100vh;
       padding: 58px 0 36px 72px;
@@ -507,16 +508,22 @@
     }
 
     #mods-page .subpage-header,
-    #extras-page .subpage-header {
+    #extras-page .subpage-header,
+    #credits-page .subpage-header {
       width: auto;
       margin: 22px 0 34px;
       display: block;
     }
 
     #mods-page .subpage-logo,
-    #extras-page .subpage-logo {
+    #extras-page .subpage-logo,
+    #credits-page .subpage-logo {
       justify-content: flex-start;
       min-height: 0;
+    }
+
+    #credits-page {
+      overflow: auto;
     }
 
     .extras-title {
@@ -633,6 +640,65 @@
     .game-card .ut10th-text {
       color: #ffffff;
       font-size: 0.66rem;
+    }
+
+    .credits-content {
+      width: calc(100vw - 144px);
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+      gap: 14px;
+      padding-bottom: 18px;
+    }
+
+    .credit-panel {
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
+      color: var(--white);
+      padding: 12px;
+      min-height: 120px;
+      overflow-wrap: anywhere;
+    }
+
+    .credit-panel h3 {
+      margin: 0 0 10px;
+      color: var(--yellow);
+      font-size: 0.96rem;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .credit-panel p {
+      margin: 0;
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .credit-panel ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 7px;
+    }
+
+    .credit-panel li {
+      font-size: 0.76rem;
+      line-height: 1.25;
+    }
+
+    .credit-panel li::before {
+      content: "* ";
+      color: var(--yellow);
+    }
+
+    .credit-panel a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .credit-panel a:hover {
+      color: var(--yellow);
     }
 
     .game-card.locked {
@@ -1445,7 +1511,8 @@
       }
 
       #mods-page,
-      #extras-page {
+      #extras-page,
+      #credits-page {
         padding: 48px 0 22px 46px;
       }
 
@@ -1454,7 +1521,8 @@
       }
 
       #mods-page .subpage-header,
-      #extras-page .subpage-header {
+      #extras-page .subpage-header,
+      #credits-page .subpage-header {
         margin: 18px 0 20px 2px;
       }
 
@@ -1463,6 +1531,11 @@
         width: calc(100vw - 76px);
         grid-template-columns: repeat(auto-fit, 112px);
         gap: 28px;
+      }
+
+      .credits-content {
+        width: calc(100vw - 76px);
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       }
 
       .game-card {
@@ -1579,12 +1652,14 @@
       }
 
       #mods-page,
-      #extras-page {
+      #extras-page,
+      #credits-page {
         padding-top: 42px;
       }
 
       #mods-page .subpage-header,
-      #extras-page .subpage-header {
+      #extras-page .subpage-header,
+      #credits-page .subpage-header {
         margin-top: 22px;
       }
 
@@ -1610,6 +1685,11 @@
       #mods-page .extras-grid,
       #extras-page .extras-grid {
         width: min(286px, calc(100vw - 44px));
+        grid-template-columns: 1fr;
+      }
+
+      .credits-content {
+        width: min(520px, calc(100vw - 44px));
         grid-template-columns: 1fr;
       }
     }
@@ -1819,6 +1899,88 @@
       </div>
     </section>
 
+    <section id="credits-page" class="page subpage credits-page">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+        <div class="subpage-logo"><span class="extras-title">credits</span></div>
+        <span></span>
+      </header>
+      <div class="credits-content">
+        <div class="credit-panel">
+          <h3>DUL Site</h3>
+          <ul>
+            <li>Camzzz - site updates, layout, menus, saves, mods, extras, themes, and DUL assembly.</li>
+            <li>Bog - original web port work and classic layout credit.</li>
+            <li><a href="https://storynetwork.site/" target="_blank">Story Network</a> - site/home network link and hosting identity.</li>
+            <li><a href="https://truffled.lol/" target="_blank">Truffled</a> - linked logo and site identity.</li>
+          </ul>
+        </div>
+        <div class="credit-panel">
+          <h3>Original Games</h3>
+          <ul>
+            <li><a href="https://deltarune.com/" target="_blank">DELTARUNE</a> - Toby Fox and the DELTARUNE team.</li>
+            <li><a href="https://undertale.com/" target="_blank">UNDERTALE</a> - Toby Fox.</li>
+            <li>DUL is a fan-made launcher/port hub and is not official.</li>
+          </ul>
+        </div>
+        <div class="credit-panel">
+          <h3>Main Pages</h3>
+          <ul>
+            <li>Deltarune Chapters 1-5 web entries and chapter icons.</li>
+            <li>Undertale web entry, save controls, and audio controls.</li>
+            <li>Classic layout support for the old DUL page.</li>
+            <li>Camzzz All-Boss Save and chapter save-info menu.</li>
+          </ul>
+        </div>
+        <div class="credit-panel">
+          <h3>Mods</h3>
+          <ul>
+            <li>Kaizo Roaring Knight.</li>
+            <li>Cyan Knight.</li>
+            <li>Dojo Customizer.</li>
+            <li>Ultimate Boss Rush.</li>
+            <li>Deltarune Network / local multiplayer mod.</li>
+            <li>No Bullet Cooldowns - listed as a locked upcoming/broken mod.</li>
+          </ul>
+        </div>
+        <div class="credit-panel">
+          <h3>Extras</h3>
+          <ul>
+            <li>Bad Time Simulator.</li>
+            <li><a href="https://signalsphere.itch.io/deltarune-geoguessr" target="_blank">Deltarune GeoGuessr</a> - SignalSphere/Sphone project page.</li>
+            <li><a href="https://jan-ko-pan.itch.io/jan-ko-pans-cool-deltarune-guess-who-game" target="_blank">Deltarune Guess Who</a> - Jan-ko-pan project page.</li>
+            <li>Deltarune: The Upper Hand.</li>
+            <li>Scampton The Great.</li>
+            <li>Undertale 10th Anniversary.</li>
+          </ul>
+        </div>
+        <div class="credit-panel">
+          <h3>Background Themes</h3>
+          <ul>
+            <li>Black, Chapters 1-5, TADC, Backrooms, Pirate, Kendrick, Jackpot, DK, Tung.</li>
+            <li>Dialtone, Sadtone, Mad-Spam, Birdbrain, Imposter, Excuseme, 90s, Hotline.</li>
+            <li>Theme images, music, and sound effects are credited to their original creators/sources where applicable.</li>
+          </ul>
+        </div>
+        <div class="credit-panel">
+          <h3>Tech</h3>
+          <ul>
+            <li>GameMaker / YoYo Games HTML5 runners used by multiple web ports.</li>
+            <li>Godot web export used by Deltarune Guess Who.</li>
+            <li>GitHub and jsDelivr CDN for hosted site/game files.</li>
+            <li>Browser IndexedDB save tools for import, export, wipe, and whole-site backups.</li>
+          </ul>
+        </div>
+        <div class="credit-panel">
+          <h3>Assets</h3>
+          <ul>
+            <li>Home logos, settings icon, favicon, game icons, mod icons, and menu sounds used throughout DUL.</li>
+            <li>All fangames, mods, songs, sprites, and images remain credited to their respective owners and creators.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section id="classic-page" class="page classic-page">
       <div id="credits-box">
         <a href="https://truffled.lol/" target="_blank" class="credit-link row sound-target">port by bog :o</a>
@@ -1998,8 +2160,7 @@
         </div>
       </div>
       <div class="settings-section">
-        <div class="credits-line">port by bog :o</div>
-        <div class="credits-line">updated by camzzz</div>
+        <button class="pixel-button sound-target" onclick="openCreditsPage()">Credits</button>
       </div>
     </div>
   </div>
@@ -2347,6 +2508,11 @@
 
     function closeSettings() {
       document.getElementById("settings-modal").classList.remove("open");
+    }
+
+    function openCreditsPage() {
+      closeSettings();
+      showPage("credits");
     }
 
     function useClassicLayout() {
@@ -3164,7 +3330,7 @@
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "network", "extras", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "network", "extras", "credits", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");
