@@ -643,10 +643,25 @@
       opacity: 0.68;
     }
 
+    .game-card.locked::after {
+      content: "LOCKED";
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      z-index: 3;
+      border: 2px solid var(--white);
+      background: #000;
+      color: var(--yellow);
+      padding: 3px 5px;
+      font-size: 0.52rem;
+      line-height: 1;
+    }
+
     .lock-icon {
       position: absolute;
       top: 8px;
       right: 8px;
+      z-index: 4;
       width: 30px;
       height: 30px;
       border: 2px solid var(--white);
@@ -1654,10 +1669,10 @@
           <span class="network-text">Deltarune Network</span>
         </button>
         <button class="game-card nobullet locked sound-target" onclick="openNoBulletInfo()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
           <span class="lock-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
           </span>
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
           <span class="nobullet-text">No Bullet Cooldowns</span>
         </button>
       </div>
