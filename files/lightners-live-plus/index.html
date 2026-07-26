@@ -114,8 +114,33 @@ body {
 			<div id="status-notice"></div>
 		</div>
 
-		<script src="index.js"></script>
 		<script>
+const DUL_LIGHTNERS_ENGINE_JS_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/lightners-live-plus/index.js";
+function loadDulLightnersEngineScript() {
+	return fetch(DUL_LIGHTNERS_ENGINE_JS_URL)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("Could not load Lightners engine script.");
+			}
+			return response.text();
+		})
+		.then((source) => new Promise((resolve, reject) => {
+			const script = document.createElement("script");
+			const blobUrl = URL.createObjectURL(new Blob([source], { type: "text/javascript" }));
+			script.src = blobUrl;
+			script.onload = () => {
+				URL.revokeObjectURL(blobUrl);
+				resolve();
+			};
+			script.onerror = () => {
+				URL.revokeObjectURL(blobUrl);
+				reject(new Error("Could not start Lightners engine script."));
+			};
+			document.head.appendChild(script);
+		}));
+}
+
+loadDulLightnersEngineScript().then(() => {
 const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":0,"ensureCrossOriginIsolationHeaders":false,"executable":"https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/lightners-live-plus/index","experimentalVK":false,"fileSizes":{"https://media.githubusercontent.com/media/storynetwork-camzzz/DUL/0b1d87a/files/lightners-live-plus/index.pck":152585384,"https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/lightners-live-plus/index.wasm":1605674},"focusCanvas":true,"gdextensionLibs":["https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/lightners-live-plus/libgodotmidi.web.template_release.wasm32.wasm"],"godotPoolSize":0,"mainPack":"index.pck"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
@@ -227,6 +252,16 @@ engine.preloadFile = function(file, path) {
 		}, displayFailureNotice);
 	}
 }());
+}).catch((err) => {
+	console.error(err);
+	const statusOverlay = document.getElementById("status");
+	const statusNotice = document.getElementById("status-notice");
+	if (statusOverlay && statusNotice) {
+		statusNotice.textContent = err && err.message ? err.message : "Lightners Live Plus could not start.";
+		statusNotice.style.display = "block";
+		statusOverlay.style.visibility = "visible";
+	}
+});
 		</script>
 	</body>
 </html>

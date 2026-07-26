@@ -2376,7 +2376,7 @@
     const CAT_AND_MOUSE_BASE = EXTRA_WEBPORTS_RAW_BASE + "cat-and-mouse/";
     const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_RAW_BASE + "home-sweet-home/";
     const ASGORE_DESS_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "asgore-runs-over-dess/";
-    const LIGHTNERS_LIVE_PLUS_BASE = EXTRA_RUNNER_FIX_CDN_BASE + "lightners-live-plus/";
+    const LIGHTNERS_LIVE_PLUS_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/lightners-live-plus/";
     const KROMER_KOLLECTOR_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/kromer-kollector-neo/";
     const THEME_ASSET_VERSION = "e15c0def5168551f511c7fc3c013b07078c95e20";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
@@ -2726,8 +2726,7 @@
     }
 
     function loadLightnersLivePlus() {
-      gamestarted = true;
-      window.location.href = LIGHTNERS_LIVE_PLUS_BASE + "index.html?v=lightners-live-plus-20260726b";
+      loadRemotePage(LIGHTNERS_LIVE_PLUS_BASE + "index.html?v=lightners-live-plus-20260726c");
     }
 
     function loadKromerKollectorNeo() {
