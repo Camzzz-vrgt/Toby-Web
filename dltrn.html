@@ -606,17 +606,6 @@
       image-rendering: crisp-edges;
     }
 
-    .game-card.wide-logo {
-      grid-column: span 2;
-    }
-
-    .game-card.wide-logo img {
-      width: min(232px, calc(100% - 12px));
-      height: auto;
-      max-height: 112px;
-      object-fit: contain;
-    }
-
     .kaizo-text {
       color: #8fd8ff;
     }
@@ -1631,12 +1620,6 @@
         font-size: 0.68rem;
       }
 
-      .game-card.wide-logo img {
-        width: min(214px, calc(100% - 12px));
-        height: auto;
-        max-height: 94px;
-      }
-
       #network-page {
         padding: 48px clamp(18px, 4vw, 54px) 22px;
       }
@@ -1758,14 +1741,6 @@
       #extras-page .extras-grid {
         width: min(286px, calc(100vw - 44px));
         grid-template-columns: 1fr;
-      }
-
-      .game-card.wide-logo {
-        grid-column: auto;
-      }
-
-      .game-card.wide-logo img {
-        width: min(232px, calc(100% - 12px));
       }
 
       .credits-content {
@@ -1949,8 +1924,8 @@
           <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
-        <button class="game-card geo wide-logo sound-target" onclick="loadDeltaruneGeoGuessr()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/deltarune-geoguessr/card-icon.png" alt="Deltarune GeoGuessr">
+        <button class="game-card geo sound-target" onclick="loadDeltaruneGeoGuessr()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
           <span class="geo-text">Deltarune GeoGuessr</span>
         </button>
         <button class="game-card guesswho sound-target" onclick="loadDeltaruneGuessWho()">
@@ -1985,8 +1960,8 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
           <span class="freeher-text">Free Her!</span>
         </button>
-        <button class="game-card catmouse wide-logo sound-target" onclick="loadCatAndMouse()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/cat-and-mouse/card-icon.png" alt="Cat and Mouse">
+        <button class="game-card catmouse sound-target" onclick="loadCatAndMouse()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/cat-and-mouse/icon.png" alt="Cat and Mouse">
           <span class="catmouse-text">Cat and Mouse</span>
         </button>
         <button class="game-card homesweet sound-target" onclick="loadHomeSweetHome()">
@@ -1997,12 +1972,12 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
           <span class="asgoredess-text">Asgore Runs Over Dess</span>
         </button>
-        <button class="game-card lightnerslive wide-logo sound-target" onclick="loadLightnersLivePlus()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/lightners-live-plus/card-icon.png" alt="Lightners Live Plus">
+        <button class="game-card lightnerslive sound-target" onclick="loadLightnersLivePlus()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/lightners-live-plus/icon.png" alt="Lightners Live Plus">
           <span class="lightnerslive-text">Lightners Live Plus</span>
         </button>
-        <button class="game-card kromer wide-logo sound-target" onclick="loadKromerKollectorNeo()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/kromer-kollector-neo/card-icon.png" alt="Kromer Kollector NEO">
+        <button class="game-card kromer sound-target" onclick="loadKromerKollectorNeo()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/kromer-kollector-neo/icon.png" alt="Kromer Kollector NEO">
           <span class="kromer-text">Kromer Kollector NEO</span>
         </button>
         <button class="game-card ut10th sound-target" onclick="loadUndertale10thAnniversary()">
@@ -2383,12 +2358,15 @@
     const LAMBDARUNE_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/";
     const ROARING_KNIGHT_REMAKE_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/18fda31/files/full-roaring-knight-remake/";
     const FREE_HER_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/8b73e4d/files/free-her/";
-    const EXTRA_WEBPORTS_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/0b1d87a/files/";
-    const CAT_AND_MOUSE_BASE = EXTRA_WEBPORTS_BASE + "cat-and-mouse/";
-    const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_BASE + "home-sweet-home/";
-    const ASGORE_DESS_BASE = EXTRA_WEBPORTS_BASE + "asgore-runs-over-dess/";
-    const LIGHTNERS_LIVE_PLUS_BASE = EXTRA_WEBPORTS_BASE + "lightners-live-plus/";
-    const KROMER_KOLLECTOR_BASE = EXTRA_WEBPORTS_BASE + "kromer-kollector-neo/";
+    const EXTRA_WEBPORTS_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/0b1d87a/files/";
+    const EXTRA_WEBPORTS_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/";
+    const EXTRA_RUNNER_FIX_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/e7651f7/files/";
+    const EXTRA_RUNNER_FIX_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e7651f7/files/";
+    const CAT_AND_MOUSE_BASE = EXTRA_WEBPORTS_RAW_BASE + "cat-and-mouse/";
+    const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_RAW_BASE + "home-sweet-home/";
+    const ASGORE_DESS_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "asgore-runs-over-dess/";
+    const LIGHTNERS_LIVE_PLUS_BASE = EXTRA_RUNNER_FIX_CDN_BASE + "lightners-live-plus/";
+    const KROMER_KOLLECTOR_BASE = EXTRA_WEBPORTS_CDN_BASE + "kromer-kollector-neo/";
     const THEME_ASSET_VERSION = "e15c0def5168551f511c7fc3c013b07078c95e20";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
@@ -2725,11 +2703,11 @@
     }
 
     function loadCatAndMouse() {
-      loadRemotePage(CAT_AND_MOUSE_BASE + "index.html?v=cat-and-mouse-20260726");
+      loadRemotePage(CAT_AND_MOUSE_BASE + "index.html?v=cat-and-mouse-20260726b");
     }
 
     function loadHomeSweetHome() {
-      loadRemotePage(HOME_SWEET_HOME_BASE + "index.html?v=home-sweet-home-20260726");
+      loadRemotePage(HOME_SWEET_HOME_BASE + "index.html?v=home-sweet-home-20260726b");
     }
 
     function loadAsgoreRunsOverDess() {
