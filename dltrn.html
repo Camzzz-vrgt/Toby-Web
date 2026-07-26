@@ -1580,8 +1580,8 @@
       #mods-page .extras-grid,
       #extras-page .extras-grid {
         width: calc(100vw - 76px);
-        --extra-card-size: 152px;
-        --extra-card-image-size: 118px;
+        --extra-card-size: 164px;
+        --extra-card-image-size: 130px;
         grid-template-columns: repeat(auto-fit, var(--extra-card-size));
         gap: 24px 22px;
       }
@@ -1972,7 +1972,7 @@
           <span class="freeher-text">Free Her!</span>
         </button>
         <button class="game-card catmouse sound-target" onclick="loadCatAndMouse()">
-          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726" alt="Cat and Mouse">
+          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
           <span class="catmouse-text">Cat and Mouse</span>
         </button>
         <button class="game-card homesweet sound-target" onclick="loadHomeSweetHome()">
@@ -2111,7 +2111,7 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadCatAndMouse()">
-          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726" alt="Cat and Mouse">
+          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadHomeSweetHome()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt="Home Sweet Home">
@@ -2377,6 +2377,7 @@
     const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_RAW_BASE + "home-sweet-home/";
     const ASGORE_DESS_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "asgore-runs-over-dess/";
     const LIGHTNERS_LIVE_PLUS_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/lightners-live-plus/";
+    const LIGHTNERS_LIVE_PLUS_PAGE_URL = "https://storynetwork-camzzz.github.io/DUL/files/lightners-live-plus/index.html";
     const KROMER_KOLLECTOR_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/kromer-kollector-neo/";
     const THEME_ASSET_VERSION = "e15c0def5168551f511c7fc3c013b07078c95e20";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
@@ -2726,7 +2727,8 @@
     }
 
     function loadLightnersLivePlus() {
-      loadRemotePage(LIGHTNERS_LIVE_PLUS_BASE + "index.html?v=lightners-live-plus-20260726c");
+      gamestarted = true;
+      window.location.href = LIGHTNERS_LIVE_PLUS_PAGE_URL + "?v=lightners-live-plus-20260726d";
     }
 
     function loadKromerKollectorNeo() {
