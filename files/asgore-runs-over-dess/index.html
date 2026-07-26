@@ -557,15 +557,6 @@
       <textarea id="output" rows="8"></textarea>
     </div>
 
-    <div class="wallpaper-container" id="wallpaper-container" style="display: none">
-      <button class="output-button" onclick="toggleElement('wallpaper-config-iframe')">
-        Toggle configurator
-      </button>
-    </div>
-    <!-- The wallpaper config is displayed in an iframe to make it possible to use keyboard for entering values (it's consumed by
-        the runner in the original document). -->
-    <iframe class="floating-control" id="wallpaper-config-iframe" src="about:blank"></iframe>
-
     <div id="message-container">
       <div id="messages">
       </div>
@@ -1269,6 +1260,7 @@
       const wallpaperConfigKey = 'wallpaper-config';
 
       function wallpaper_init_config_controls(definitions) {
+        return;
         const wallpaperContainer = document.getElementById("wallpaper-container");
         wallpaperContainer.style.display = "block";
 
