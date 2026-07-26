@@ -493,8 +493,10 @@
       width: calc(100vw - 144px);
       margin: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, 128px);
-      gap: 42px;
+      --extra-card-size: 184px;
+      --extra-card-image-size: 148px;
+      grid-template-columns: repeat(auto-fit, var(--extra-card-size));
+      gap: 34px 26px;
       align-items: start;
     }
 
@@ -545,29 +547,32 @@
     }
 
     .game-card {
-      min-height: 160px;
+      width: var(--extra-card-size);
+      height: var(--extra-card-size);
+      min-height: var(--extra-card-size);
       border: 2px solid var(--white);
       background: var(--panel-solid);
       color: var(--white);
       cursor: pointer;
       display: grid;
-      grid-template-rows: 112px auto;
+      grid-template-rows: minmax(0, 1fr) auto;
       place-items: center;
-      padding: 0;
+      padding: 7px 6px 8px;
       text-align: center;
       text-transform: uppercase;
+      box-sizing: border-box;
     }
 
     .game-card img {
       max-width: 100%;
-      max-height: 112px;
+      max-height: var(--extra-card-image-size);
       object-fit: contain;
       display: block;
     }
 
     .game-card span {
       display: block;
-      margin-top: 14px;
+      margin-top: 4px;
       font-size: 0.78rem;
       line-height: 1.15;
     }
@@ -592,15 +597,15 @@
     .game-card.lightnerslive img,
     .game-card.kromer img,
     .game-card.ut10th img {
-      width: 112px;
-      height: 112px;
+      width: var(--extra-card-image-size);
+      height: var(--extra-card-image-size);
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
 
     .game-card.sans img {
-      width: 112px;
-      height: 112px;
+      width: var(--extra-card-image-size);
+      height: var(--extra-card-image-size);
       object-fit: contain;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
@@ -687,7 +692,7 @@
     .game-card .asgoredess-text,
     .game-card .lightnerslive-text,
     .game-card .kromer-text {
-      font-size: 0.66rem;
+      font-size: 0.68rem;
     }
 
     .game-card .ut10th-text {
@@ -1575,8 +1580,10 @@
       #mods-page .extras-grid,
       #extras-page .extras-grid {
         width: calc(100vw - 76px);
-        grid-template-columns: repeat(auto-fit, 112px);
-        gap: 28px;
+        --extra-card-size: 128px;
+        --extra-card-image-size: 96px;
+        grid-template-columns: repeat(auto-fit, var(--extra-card-size));
+        gap: 24px;
       }
 
       .credits-content {
@@ -1585,8 +1592,9 @@
       }
 
       .game-card {
-        min-height: 140px;
-        grid-template-rows: 94px auto;
+        width: var(--extra-card-size);
+        height: var(--extra-card-size);
+        min-height: var(--extra-card-size);
       }
 
       .game-card.kaizo img,
@@ -1610,13 +1618,13 @@
       .game-card.kromer img,
       .game-card.ut10th img,
       .game-card.sans img {
-        width: 94px;
-        height: 94px;
-        max-height: 94px;
+        width: var(--extra-card-image-size);
+        height: var(--extra-card-image-size);
+        max-height: var(--extra-card-image-size);
       }
 
       .game-card span {
-        margin-top: 10px;
+        margin-top: 3px;
         font-size: 0.68rem;
       }
 
@@ -1739,8 +1747,11 @@
 
       #mods-page .extras-grid,
       #extras-page .extras-grid {
-        width: min(286px, calc(100vw - 44px));
-        grid-template-columns: 1fr;
+        width: min(320px, calc(100vw - 44px));
+        --extra-card-size: min(152px, calc(100vw - 44px));
+        --extra-card-image-size: min(118px, calc(100vw - 78px));
+        grid-template-columns: repeat(auto-fit, var(--extra-card-size));
+        justify-content: center;
       }
 
       .credits-content {
@@ -1960,11 +1971,11 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
           <span class="freeher-text">Free Her!</span>
         </button>
-        <button class="game-card catmouse sound-target" onclick="loadCatAndMouse()">
+        <button class="game-card catmouse sound-target" onclick="loadHomeSweetHome()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/cat-and-mouse/icon.png" alt="Cat and Mouse">
           <span class="catmouse-text">Cat and Mouse</span>
         </button>
-        <button class="game-card homesweet sound-target" onclick="loadHomeSweetHome()">
+        <button class="game-card homesweet sound-target" onclick="loadCatAndMouse()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt="Home Sweet Home">
           <span class="homesweet-text">Home Sweet Home</span>
         </button>
@@ -2099,10 +2110,10 @@
         <button class="classic-extra-btn kaizo sound-target" onclick="loadFreeHer()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
         </button>
-        <button class="classic-extra-btn kaizo sound-target" onclick="loadCatAndMouse()">
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadHomeSweetHome()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/cat-and-mouse/icon.png" alt="Cat and Mouse">
         </button>
-        <button class="classic-extra-btn kaizo sound-target" onclick="loadHomeSweetHome()">
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadCatAndMouse()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt="Home Sweet Home">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadAsgoreRunsOverDess()">
@@ -2360,13 +2371,13 @@
     const FREE_HER_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/8b73e4d/files/free-her/";
     const EXTRA_WEBPORTS_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/0b1d87a/files/";
     const EXTRA_WEBPORTS_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/";
-    const EXTRA_RUNNER_FIX_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/e7651f7/files/";
-    const EXTRA_RUNNER_FIX_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e7651f7/files/";
+    const EXTRA_RUNNER_FIX_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/c85550f/files/";
+    const EXTRA_RUNNER_FIX_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c85550f/files/";
     const CAT_AND_MOUSE_BASE = EXTRA_WEBPORTS_RAW_BASE + "cat-and-mouse/";
     const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_RAW_BASE + "home-sweet-home/";
     const ASGORE_DESS_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "asgore-runs-over-dess/";
     const LIGHTNERS_LIVE_PLUS_BASE = EXTRA_RUNNER_FIX_CDN_BASE + "lightners-live-plus/";
-    const KROMER_KOLLECTOR_BASE = EXTRA_WEBPORTS_CDN_BASE + "kromer-kollector-neo/";
+    const KROMER_KOLLECTOR_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "kromer-kollector-neo/";
     const THEME_ASSET_VERSION = "e15c0def5168551f511c7fc3c013b07078c95e20";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
@@ -2715,11 +2726,11 @@
     }
 
     function loadLightnersLivePlus() {
-      loadRemotePage(LIGHTNERS_LIVE_PLUS_BASE + "index.html?v=lightners-live-plus-20260726");
+      loadRemotePage(LIGHTNERS_LIVE_PLUS_BASE + "index.html?v=lightners-live-plus-20260726b");
     }
 
     function loadKromerKollectorNeo() {
-      loadRemotePage(KROMER_KOLLECTOR_BASE + "index.html?v=kromer-kollector-neo-20260726");
+      loadRemotePage(KROMER_KOLLECTOR_BASE + "index.html?v=kromer-kollector-neo-20260726b");
     }
 
     function loadUndertale10thAnniversary() {
