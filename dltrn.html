@@ -506,7 +506,7 @@
       width: 100%;
       min-height: 100vh;
       padding: 58px 0 36px 72px;
-      overflow: hidden;
+      overflow: auto;
     }
 
     #mods-page .subpage-header,
@@ -534,6 +534,7 @@
       line-height: 0.9;
       text-transform: lowercase;
       display: inline-block;
+      max-width: 100%;
       border: 2px solid var(--white);
       background: var(--panel-solid);
       padding: 4px 10px 8px;
@@ -592,6 +593,7 @@
       font-size: 0.78rem;
       line-height: 1.15;
       overflow: hidden;
+      overflow-wrap: anywhere;
     }
 
     .game-card.kaizo img,
@@ -1431,10 +1433,13 @@
       }
       .subpage {
         width: 100%;
-        padding-top: 64px;
+        padding-top: 76px;
       }
       .subpage-header {
         grid-template-columns: 1fr;
+        align-items: start;
+        gap: 12px;
+        margin-top: 0;
       }
       .save-menu {
         justify-self: stretch;
@@ -1574,17 +1579,18 @@
       #mods-page,
       #extras-page,
       #credits-page {
-        padding: 48px 0 22px 46px;
+        padding: 66px 0 24px 46px;
+        overflow: auto;
       }
 
       .extras-title {
-        font-size: clamp(3rem, 10vh, 4.7rem);
+        font-size: clamp(2.8rem, 9vh, 4.7rem);
       }
 
       #mods-page .subpage-header,
       #extras-page .subpage-header,
       #credits-page .subpage-header {
-        margin: 18px 0 20px 2px;
+        margin: 0 0 22px 2px;
       }
 
       #mods-page .extras-grid,
@@ -1726,13 +1732,17 @@
       #mods-page,
       #extras-page,
       #credits-page {
-        padding-top: 42px;
+        padding-top: 76px;
       }
 
       #mods-page .subpage-header,
       #extras-page .subpage-header,
       #credits-page .subpage-header {
-        margin-top: 22px;
+        margin-top: 0;
+      }
+
+      .extras-title {
+        font-size: clamp(2.45rem, 10vh, 3.8rem);
       }
 
       #network-page {
@@ -1754,17 +1764,54 @@
         width: min(86vw, 560px);
       }
 
+      .back-button {
+        top: 14px;
+        left: 14px;
+        min-height: 34px;
+        padding: 4px 8px;
+        font-size: 0.78rem;
+      }
+
+      #mods-page,
+      #extras-page,
+      #credits-page {
+        padding: 74px 18px 28px;
+      }
+
+      #mods-page .subpage-header,
+      #extras-page .subpage-header,
+      #credits-page .subpage-header {
+        width: 100%;
+        margin: 0 0 18px;
+      }
+
+      #mods-page .subpage-logo,
+      #extras-page .subpage-logo,
+      #credits-page .subpage-logo {
+        justify-content: flex-start;
+      }
+
+      .extras-title {
+        font-size: clamp(2.35rem, 15vw, 3.8rem);
+        line-height: 0.9;
+      }
+
       #mods-page .extras-grid,
       #extras-page .extras-grid {
-        width: min(320px, calc(100vw - 44px));
-        --extra-card-size: min(152px, calc(100vw - 44px));
+        width: 100%;
+        --extra-card-size: min(152px, calc((100vw - 60px) / 2));
         --extra-card-label-height: 42px;
         grid-template-columns: repeat(auto-fit, var(--extra-card-size));
-        justify-content: center;
+        justify-content: start;
+        gap: 18px 14px;
+      }
+
+      .game-card span {
+        font-size: 0.62rem;
       }
 
       .credits-content {
-        width: min(520px, calc(100vw - 44px));
+        width: 100%;
         grid-template-columns: 1fr;
       }
     }
