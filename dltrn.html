@@ -615,7 +615,6 @@
     .game-card.catmouse img,
     .game-card.homesweet img,
     .game-card.asgoredess img,
-    .game-card.kromer img,
     .game-card.ut10th img {
       width: 100%;
       height: 100%;
@@ -700,13 +699,8 @@
       color: #f0c345;
     }
 
-    .kromer-text {
-      color: #fff343;
-    }
-
     .game-card .homesweet-text,
-    .game-card .asgoredess-text,
-    .game-card .kromer-text {
+    .game-card .asgoredess-text {
       font-size: 0.68rem;
     }
 
@@ -813,7 +807,6 @@
     .source-link.catmouse { --source-hover: #61ffff; }
     .source-link.homesweet { --source-hover: #fff45b; }
     .source-link.asgoredess { --source-hover: #f0c345; }
-    .source-link.kromer { --source-hover: #fff343; }
 
     #network-page {
       width: 100%;
@@ -1632,7 +1625,6 @@
       .game-card.catmouse img,
       .game-card.homesweet img,
       .game-card.asgoredess img,
-      .game-card.kromer img,
       .game-card.ut10th img,
       .game-card.sans img {
         width: 100%;
@@ -2087,10 +2079,6 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
           <span class="asgoredess-text">Asgore Runs Over Dess</span>
         </button>
-        <button class="game-card kromer sound-target" onclick="loadKromerKollectorNeo()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/kromer-kollector-neo/icon.png" alt="Kromer Kollector NEO">
-          <span class="kromer-text">Kromer Kollector NEO</span>
-        </button>
         <button class="game-card ut10th sound-target" onclick="loadUndertale10thAnniversary()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
           <span class="ut10th-text">Undertale 10th Anniversary</span>
@@ -2145,7 +2133,6 @@
             <a class="source-link catmouse" href="https://html-classic.itch.zone/html/17991151/index.html?v=1782314504" target="_blank">Cat and Mouse</a>
             <a class="source-link homesweet" href="https://html-classic.itch.zone/html/17849524/index.html?v=1782262338" target="_blank">Home Sweet Home</a>
             <a class="source-link asgoredess" href="https://html-classic.itch.zone/html/14384222/index.html" target="_blank">Asgore Runs Over Dess</a>
-            <a class="source-link kromer" href="https://html-classic.itch.zone/html/5414439/KromerKollectorNEOHTML/index.html" target="_blank">Kromer Kollector NEO</a>
             <a class="source-link" href="https://ut10-battle.undertale.com/" target="_blank">Undertale 10th Anniversary</a>
           </div>
         </div>
@@ -2217,9 +2204,6 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadAsgoreRunsOverDess()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
-        </button>
-        <button class="classic-extra-btn kaizo sound-target" onclick="loadKromerKollectorNeo()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/kromer-kollector-neo/icon.png" alt="Kromer Kollector NEO">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadUndertale10thAnniversary()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
@@ -2472,7 +2456,6 @@
     const CAT_AND_MOUSE_BASE = EXTRA_WEBPORTS_RAW_BASE + "cat-and-mouse/";
     const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_RAW_BASE + "home-sweet-home/";
     const ASGORE_DESS_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "asgore-runs-over-dess/";
-    const KROMER_KOLLECTOR_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/kromer-kollector-neo/";
     const THEME_ASSET_VERSION = "e15c0def5168551f511c7fc3c013b07078c95e20";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
@@ -2818,10 +2801,6 @@
 
     function loadAsgoreRunsOverDess() {
       loadRemotePage(ASGORE_DESS_BASE + "index.html?v=asgore-runs-over-dess-20260726");
-    }
-
-    function loadKromerKollectorNeo() {
-      loadRemotePage(KROMER_KOLLECTOR_BASE + "index.html?v=kromer-kollector-neo-20260726c");
     }
 
     function loadUndertale10thAnniversary() {
