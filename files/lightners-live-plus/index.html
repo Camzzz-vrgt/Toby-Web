@@ -141,7 +141,8 @@ function loadDulLightnersEngineScript() {
 }
 
 loadDulLightnersEngineScript().then(() => {
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":0,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":152585384,"index.wasm":1605674},"focusCanvas":true,"gdextensionLibs":["libgodotmidi.web.template_release.wasm32.wasm"],"godotPoolSize":0,"mainPack":"index.pck"};
+const DUL_LIGHTNERS_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/lightners-live-plus/";
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":0,"ensureCrossOriginIsolationHeaders":false,"executable":DUL_LIGHTNERS_RAW_BASE + "index","experimentalVK":false,"fileSizes":{"index.pck":152585384,[DUL_LIGHTNERS_RAW_BASE + "index.wasm"]:1605674},"focusCanvas":true,"gdextensionLibs":[DUL_LIGHTNERS_RAW_BASE + "libgodotmidi.web.template_release.wasm32.wasm"],"godotPoolSize":0,"mainPack":"index.pck"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 const DUL_LIGHTNERS_PACK_URL = "https://media.githubusercontent.com/media/storynetwork-camzzz/DUL/0b1d87a/files/lightners-live-plus/index.pck";
