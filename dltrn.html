@@ -606,6 +606,17 @@
       image-rendering: crisp-edges;
     }
 
+    .game-card.wide-logo {
+      grid-column: span 2;
+    }
+
+    .game-card.wide-logo img {
+      width: min(232px, calc(100% - 12px));
+      height: auto;
+      max-height: 112px;
+      object-fit: contain;
+    }
+
     .kaizo-text {
       color: #8fd8ff;
     }
@@ -1620,6 +1631,12 @@
         font-size: 0.68rem;
       }
 
+      .game-card.wide-logo img {
+        width: min(214px, calc(100% - 12px));
+        height: auto;
+        max-height: 94px;
+      }
+
       #network-page {
         padding: 48px clamp(18px, 4vw, 54px) 22px;
       }
@@ -1741,6 +1758,14 @@
       #extras-page .extras-grid {
         width: min(286px, calc(100vw - 44px));
         grid-template-columns: 1fr;
+      }
+
+      .game-card.wide-logo {
+        grid-column: auto;
+      }
+
+      .game-card.wide-logo img {
+        width: min(232px, calc(100% - 12px));
       }
 
       .credits-content {
@@ -1924,8 +1949,8 @@
           <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
-        <button class="game-card geo sound-target" onclick="loadDeltaruneGeoGuessr()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
+        <button class="game-card geo wide-logo sound-target" onclick="loadDeltaruneGeoGuessr()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/deltarune-geoguessr/card-icon.png" alt="Deltarune GeoGuessr">
           <span class="geo-text">Deltarune GeoGuessr</span>
         </button>
         <button class="game-card guesswho sound-target" onclick="loadDeltaruneGuessWho()">
@@ -1960,8 +1985,8 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
           <span class="freeher-text">Free Her!</span>
         </button>
-        <button class="game-card catmouse sound-target" onclick="loadCatAndMouse()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/cat-and-mouse/icon.png" alt="Cat and Mouse">
+        <button class="game-card catmouse wide-logo sound-target" onclick="loadCatAndMouse()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/cat-and-mouse/card-icon.png" alt="Cat and Mouse">
           <span class="catmouse-text">Cat and Mouse</span>
         </button>
         <button class="game-card homesweet sound-target" onclick="loadHomeSweetHome()">
@@ -1972,12 +1997,12 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
           <span class="asgoredess-text">Asgore Runs Over Dess</span>
         </button>
-        <button class="game-card lightnerslive sound-target" onclick="loadLightnersLivePlus()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/lightners-live-plus/icon.png" alt="Lightners Live Plus">
+        <button class="game-card lightnerslive wide-logo sound-target" onclick="loadLightnersLivePlus()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/lightners-live-plus/card-icon.png" alt="Lightners Live Plus">
           <span class="lightnerslive-text">Lightners Live Plus</span>
         </button>
-        <button class="game-card kromer sound-target" onclick="loadKromerKollectorNeo()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/kromer-kollector-neo/icon.png" alt="Kromer Kollector NEO">
+        <button class="game-card kromer wide-logo sound-target" onclick="loadKromerKollectorNeo()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8bfb95c/files/kromer-kollector-neo/card-icon.png" alt="Kromer Kollector NEO">
           <span class="kromer-text">Kromer Kollector NEO</span>
         </button>
         <button class="game-card ut10th sound-target" onclick="loadUndertale10thAnniversary()">
