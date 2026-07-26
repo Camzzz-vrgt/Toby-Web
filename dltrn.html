@@ -582,6 +582,7 @@
     .game-card.upperhand img,
     .game-card.scampton img,
     .game-card.dreamwake img,
+    .game-card.soulblazers img,
     .game-card.ut10th img {
       width: 112px;
       height: 112px;
@@ -635,6 +636,10 @@
 
     .dreamwake-text {
       color: #bba8ff;
+    }
+
+    .soulblazers-text {
+      color: #ff6b72;
     }
 
     .game-card .ut10th-text {
@@ -733,6 +738,7 @@
     .source-link.upperhand { --source-hover: #c8d5ff; }
     .source-link.scampton { --source-hover: #ff9bd6; }
     .source-link.dreamwake { --source-hover: #bba8ff; }
+    .source-link.soulblazers { --source-hover: #ff6b72; }
 
     #network-page {
       width: 100%;
@@ -1537,6 +1543,7 @@
       .game-card.upperhand img,
       .game-card.scampton img,
       .game-card.dreamwake img,
+      .game-card.soulblazers img,
       .game-card.ut10th img,
       .game-card.sans img {
         width: 94px;
@@ -1873,6 +1880,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
           <span class="dreamwake-text">Deltarune Dreamwake</span>
         </button>
+        <button class="game-card soulblazers sound-target" onclick="loadDeltaruneSoulblazers()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
+          <span class="soulblazers-text">Deltarune Soulblazers</span>
+        </button>
         <button class="game-card ut10th sound-target" onclick="loadUndertale10thAnniversary()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
           <span class="ut10th-text">Undertale 10th Anniversary</span>
@@ -1920,6 +1931,7 @@
             <a class="source-link upperhand" href="https://gamejolt.com/games/the-upper-hand/1079690" target="_blank">The Upper Hand</a>
             <a class="source-link scampton" href="https://gamejolt.com/games/scampton/1004315" target="_blank">Scampton The Great</a>
             <a class="source-link dreamwake" href="https://gamejolt.com/games/deltarune-dreamwake/1006670" target="_blank">Deltarune Dreamwake</a>
+            <a class="source-link soulblazers" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank">Deltarune Soulblazers</a>
             <a class="source-link" href="https://ut10-battle.undertale.com/" target="_blank">Undertale 10th Anniversary</a>
           </div>
         </div>
@@ -1970,6 +1982,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneDreamwake()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneSoulblazers()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadUndertale10thAnniversary()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
@@ -2211,6 +2226,7 @@
     const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
     const SCAMPTON_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/";
     const DREAMWAKE_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/";
+    const SOULBLAZERS_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/";
     const THEME_ASSET_VERSION = "e15c0def5168551f511c7fc3c013b07078c95e20";
     const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
@@ -2528,6 +2544,10 @@
 
     function loadDeltaruneDreamwake() {
       loadRemotePage(DREAMWAKE_BASE + "index.html?v=dreamwake-2024-14-1-tilefix-20260725");
+    }
+
+    function loadDeltaruneSoulblazers() {
+      loadRemotePage(SOULBLAZERS_BASE + "index.html?v=soulblazers-1-0-5-20260725");
     }
 
     function loadUndertale10thAnniversary() {
