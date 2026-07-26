@@ -673,9 +673,16 @@
 
       var startingHeight, startingWidth;
       var startingAspect;
+      var DUL_ASGORE_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/";
       var Module = {
         preRun: [],
         postRun: [],
+        locateFile: function(path, prefix) {
+          if (path === "runner.wasm" || path === "runner.data" || path === "audio-worklet.js") {
+            return DUL_ASGORE_CDN_BASE + path;
+          }
+          return (prefix || "") + path;
+        },
         print: (function () {
           var element = document.getElementById("output");
           if (element) element.value = ""; // clear browser cache
@@ -1574,6 +1581,6 @@
         wallpaper_update_config(JSON.stringify(wallpaperConfig));
       }
     </script>
-    <script async type="text/javascript" src="runner.js"></script>
+    <script async type="text/javascript" src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/runner.js"></script>
   </body>
 </html>
