@@ -4,6 +4,8 @@
   <base href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a1e9773f385eb6fa08fa989537bdfd87e4fdafa8/files/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a1e9773f385eb6fa08fa989537bdfd87e4fdafa8/files/favicon.png">
   <link rel="stylesheet" href="style.css">
   <style>
     :root {
@@ -12,6 +14,8 @@
       --red: #ff2d4f;
       --blue: #aee8ff;
       --panel: rgba(0, 0, 0, 0.9);
+      --site-bg-image: none;
+      --panel-solid: #000000;
     }
 
     * {
@@ -57,6 +61,22 @@
 
     body {
       min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-color: #000;
+      background-image: var(--site-bg-image);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
     }
 
     button,
@@ -73,6 +93,7 @@
     #app {
       height: 100vh;
       position: relative;
+      z-index: 1;
       padding: 0;
       overflow: hidden;
     }
@@ -84,7 +105,7 @@
       min-height: 100vh;
       padding: 22px;
       overflow: auto;
-      background: #000;
+      background: transparent;
     }
 
     .page.active {
@@ -101,13 +122,13 @@
       top: 20px;
       right: 22px;
       z-index: 1000;
-      width: 54px;
-      height: 54px;
-      border: 2px solid transparent;
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--white);
       background: transparent;
       color: var(--white);
       cursor: pointer;
-      padding: 7px;
+      padding: 1px;
     }
 
     body.home-mode .settings-toggle {
@@ -119,6 +140,7 @@
     .save-button:hover,
     .home-logo-link:hover,
     .brand-link:hover,
+    .background-option:hover,
     .row:hover {
       color: var(--yellow);
       border-color: var(--yellow);
@@ -148,12 +170,12 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: min(1180px, calc(100vw - 150px));
+      width: min(1280px, calc(100vw - 150px));
       transform: translate(-50%, -50%);
       display: grid;
       grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr);
       align-items: center;
-      gap: clamp(56px, 9vw, 120px);
+      gap: clamp(48px, 7vw, 92px);
       padding: 0;
     }
 
@@ -163,30 +185,30 @@
       justify-content: center;
       height: 230px;
       border: 2px solid transparent;
+      background: transparent;
       text-decoration: none;
       cursor: pointer;
       transition: color 0.08s ease, border-color 0.08s ease, filter 0.08s ease;
     }
 
     .home-logo-link:hover {
+      border-color: transparent;
       filter: sepia(1) saturate(20) hue-rotate(8deg) brightness(1.25);
     }
 
-    .home-deltarune img {
-      width: auto;
-      max-width: 100%;
-      height: min(12vw, 132px);
-      display: block;
-      object-fit: contain;
-      transform: translateY(-18px);
+    .home-logo-link:hover img {
+      border-color: var(--yellow);
     }
 
-    .home-undertale img {
-      width: min(42vw, 760px);
+    .home-logo-link img {
+      width: min(100%, 620px);
       max-width: 100%;
       height: auto;
+      border: 2px solid var(--white);
       display: block;
       object-fit: contain;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
     }
 
     .home-footer {
@@ -209,7 +231,8 @@
     .brand-link {
       width: 78px;
       height: 70px;
-      border: 2px solid transparent;
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -225,22 +248,33 @@
       image-rendering: auto;
     }
 
-    .extras-home {
+    .home-nav-actions {
       position: absolute;
       right: 0;
       bottom: 0;
-      border: 2px solid transparent;
-      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: clamp(10px, 1.5vw, 18px);
+      pointer-events: auto;
+    }
+
+    .extras-home,
+    .mods-home {
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
       color: var(--white);
       font-size: clamp(2.8rem, 7vw, 6.8rem);
       line-height: 0.9;
       text-transform: lowercase;
       cursor: pointer;
       padding: 4px 8px;
+      max-width: calc(100vw - 44px);
       pointer-events: auto;
     }
 
-    .extras-home:hover {
+    .extras-home:hover,
+    .mods-home:hover {
       color: var(--yellow);
       border-color: var(--yellow);
     }
@@ -277,6 +311,7 @@
     .subpage-logo img {
       max-width: min(520px, 72vw);
       max-height: 100px;
+      border: 2px solid var(--white);
       object-fit: contain;
     }
 
@@ -362,8 +397,8 @@
     .pixel-button,
     .save-button {
       min-height: 38px;
-      border: 2px solid transparent;
-      background: #000;
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
       color: var(--white);
       padding: 6px 10px;
       cursor: pointer;
@@ -413,15 +448,28 @@
       gap: 12px;
       min-height: 62px;
       padding: 4px 8px;
-      border: 2px solid transparent;
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
       text-decoration: none;
       color: var(--white);
       cursor: pointer;
     }
 
     .disabled-row {
-      opacity: 0.44;
+      opacity: 1;
+      color: #747474;
+      border-color: #747474;
+      background: var(--panel-solid);
       cursor: default;
+    }
+
+    .disabled-row .chapter,
+    .disabled-row .disabled-title {
+      color: #747474;
+    }
+
+    .disabled-row img {
+      opacity: 0.7;
     }
 
     .row.selected {
@@ -444,30 +492,42 @@
     }
 
     .extras-grid {
-      width: min(870px, calc(100vw - 96px));
+      width: calc(100vw - 144px);
       margin: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, 128px);
-      gap: 42px;
+      --extra-card-size: 184px;
+      --extra-card-label-height: 44px;
+      grid-template-columns: repeat(auto-fit, var(--extra-card-size));
+      gap: 34px 26px;
       align-items: start;
     }
 
-    #extras-page {
+    #mods-page,
+    #extras-page,
+    #credits-page {
       width: 100%;
       min-height: 100vh;
       padding: 58px 0 36px 72px;
-      overflow: hidden;
+      overflow: auto;
     }
 
-    #extras-page .subpage-header {
+    #mods-page .subpage-header,
+    #extras-page .subpage-header,
+    #credits-page .subpage-header {
       width: auto;
-      margin: 0 0 34px;
+      margin: 22px 0 34px;
       display: block;
     }
 
-    #extras-page .subpage-logo {
+    #mods-page .subpage-logo,
+    #extras-page .subpage-logo,
+    #credits-page .subpage-logo {
       justify-content: flex-start;
       min-height: 0;
+    }
+
+    #credits-page {
+      overflow: auto;
     }
 
     .extras-title {
@@ -475,55 +535,96 @@
       font-size: clamp(3.6rem, 7vw, 6rem);
       line-height: 0.9;
       text-transform: lowercase;
+      display: inline-block;
+      max-width: 100%;
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
+      padding: 4px 10px 8px;
     }
 
+    #mods-page .extras-grid,
     #extras-page .extras-grid {
-      width: min(870px, calc(100vw - 96px));
+      width: calc(100vw - 144px);
       min-height: 0;
       align-items: start;
     }
 
     .game-card {
-      min-height: 160px;
-      border: 2px solid transparent;
-      background: #000;
+      width: var(--extra-card-size);
+      height: calc(var(--extra-card-size) + var(--extra-card-label-height));
+      min-height: calc(var(--extra-card-size) + var(--extra-card-label-height));
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
       color: var(--white);
       cursor: pointer;
       display: grid;
-      grid-template-rows: 112px auto;
+      grid-template-rows: var(--extra-card-size) var(--extra-card-label-height);
       place-items: center;
       padding: 0;
       text-align: center;
       text-transform: uppercase;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .game-card img {
-      max-width: 100%;
-      max-height: 112px;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      max-width: none;
+      max-height: none;
       object-fit: contain;
       display: block;
+      align-self: stretch;
+      justify-self: stretch;
+      background: var(--panel-solid);
     }
 
     .game-card span {
-      display: block;
-      margin-top: 14px;
+      width: 100%;
+      height: var(--extra-card-label-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0;
+      padding: 4px 6px 5px;
+      border-top: 2px solid var(--white);
+      background: var(--panel-solid);
+      box-sizing: border-box;
       font-size: 0.78rem;
       line-height: 1.15;
+      overflow: hidden;
+      overflow-wrap: anywhere;
     }
 
     .game-card.kaizo img,
     .game-card.cyan img,
+    .game-card.dojo img,
+    .game-card.bossrush img,
+    .game-card.network img,
     .game-card.geo img,
-    .game-card.guesswho img {
-      width: 112px;
-      height: 112px;
+    .game-card.guesswho img,
+    .game-card.upperhand img,
+    .game-card.scampton img,
+    .game-card.dreamwake img,
+    .game-card.soulblazers img,
+    .game-card.lambdarune img,
+    .game-card.roaringknight img,
+    .game-card.freeher img,
+    .game-card.catmouse img,
+    .game-card.homesweet img,
+    .game-card.asgoredess img,
+    .game-card.ut10th img {
+      width: 100%;
+      height: 100%;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
 
     .game-card.sans img {
-      width: 112px;
-      height: 112px;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
@@ -537,6 +638,18 @@
       color: #55f4ff;
     }
 
+    .dojo-text {
+      color: #7dbd1e;
+    }
+
+    .bossrush-text {
+      color: #ffd684;
+    }
+
+    .network-text {
+      color: var(--blue);
+    }
+
     .geo-text {
       color: #ffffff;
     }
@@ -545,9 +658,223 @@
       color: #ff2a20;
     }
 
+    .upperhand-text {
+      color: #c8d5ff;
+    }
+
+    .scampton-text {
+      color: #ff9bd6;
+    }
+
+    .dreamwake-text {
+      color: #bba8ff;
+    }
+
+    .soulblazers-text {
+      color: #ff6b72;
+    }
+
+    .lambdarune-text {
+      color: #9eff66;
+    }
+
+    .roaringknight-text {
+      color: #ff2f78;
+      font-size: 0.66rem;
+    }
+
+    .freeher-text {
+      color: #6fb4ff;
+    }
+
+    .catmouse-text {
+      color: #61ffff;
+    }
+
+    .homesweet-text {
+      color: #fff45b;
+    }
+
+    .asgoredess-text {
+      color: #f0c345;
+    }
+
+    .game-card .homesweet-text,
+    .game-card .asgoredess-text {
+      font-size: 0.68rem;
+    }
+
+    .game-card .ut10th-text {
+      color: #ffffff;
+      font-size: 0.66rem;
+    }
+
+    .credits-content {
+      width: calc(100vw - 144px);
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+      gap: 14px;
+      padding-bottom: 18px;
+    }
+
+    .credit-panel {
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
+      color: var(--white);
+      padding: 12px;
+      min-height: 120px;
+      overflow-wrap: anywhere;
+    }
+
+    .credit-panel h3 {
+      margin: 0 0 10px;
+      color: var(--yellow);
+      font-size: 0.96rem;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .credit-panel p {
+      margin: 0;
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .credit-panel ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 7px;
+    }
+
+    .credit-panel li {
+      font-size: 0.76rem;
+      line-height: 1.25;
+    }
+
+    .credit-panel li::before {
+      content: "* ";
+      color: var(--yellow);
+    }
+
+    .credit-panel a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .credit-panel a:hover {
+      color: var(--yellow);
+    }
+
+    .source-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .source-link {
+      --source-hover: var(--yellow);
+      display: block;
+      border: 2px solid var(--white);
+      background: #000;
+      color: var(--white);
+      padding: 9px 10px;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      line-height: 1.15;
+    }
+
+    .source-link:hover {
+      color: var(--source-hover);
+      border-color: var(--source-hover);
+    }
+
+    .source-link.kaizo { --source-hover: #8fd8ff; }
+    .source-link.cyan { --source-hover: #55f4ff; }
+    .source-link.dojo { --source-hover: #7dbd1e; }
+    .source-link.bossrush { --source-hover: #ffd684; }
+    .source-link.network { --source-hover: var(--blue); }
+    .source-link.guesswho { --source-hover: #ff2a20; }
+    .source-link.upperhand { --source-hover: #c8d5ff; }
+    .source-link.scampton { --source-hover: #ff9bd6; }
+    .source-link.dreamwake { --source-hover: #bba8ff; }
+    .source-link.soulblazers { --source-hover: #ff6b72; }
+    .source-link.lambdarune { --source-hover: #9eff66; }
+    .source-link.roaringknight { --source-hover: #ff2f78; }
+    .source-link.freeher { --source-hover: #6fb4ff; }
+    .source-link.catmouse { --source-hover: #61ffff; }
+    .source-link.homesweet { --source-hover: #fff45b; }
+    .source-link.asgoredess { --source-hover: #f0c345; }
+
+    #network-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 62px clamp(22px, 6vw, 86px) 32px;
+      overflow: hidden;
+    }
+
+    #network-page .subpage-header {
+      width: min(980px, calc(100vw - 44px));
+      margin: 0 auto 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .network-logo-card {
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 8px 14px;
+      text-transform: uppercase;
+    }
+
+    .network-logo-card img {
+      width: 86px;
+      height: 86px;
+      border: 2px solid var(--white);
+      object-fit: cover;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .network-logo-card span {
+      color: var(--blue);
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      line-height: 0.95;
+      max-width: 360px;
+    }
+
+    #network-page .menu {
+      width: min(820px, 68vw);
+    }
+
+    #network-page .row {
+      min-height: 58px;
+      grid-template-columns: 1.05fr 1.25fr 64px;
+    }
+
+    #network-page .chapter,
+    #network-page .title {
+      font-size: clamp(1.25rem, 2vw, 2rem);
+    }
+
+    #network-page .row img {
+      width: 54px;
+      height: 54px;
+    }
+
     #settings-modal,
     #kaizo-modal,
     #cyan-modal,
+    #dojo-modal,
+    #bossrush-modal,
     #featured-save-info-modal,
     #kaizo-loading {
       position: fixed;
@@ -563,6 +890,8 @@
     #settings-modal.open,
     #kaizo-modal.open,
     #cyan-modal.open,
+    #dojo-modal.open,
+    #bossrush-modal.open,
     #featured-save-info-modal.open,
     #kaizo-loading.open {
       display: flex;
@@ -618,6 +947,153 @@
       gap: 8px;
     }
 
+    .settings-label {
+      color: var(--yellow);
+      font-size: 0.9rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .site-volume-control {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 58px;
+      align-items: center;
+      gap: 12px;
+      padding: 8px;
+      border: 2px solid var(--white);
+      background: #000;
+    }
+
+    .site-volume-slider {
+      --volume-fill: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 22px;
+      border: 2px solid var(--white);
+      background: linear-gradient(90deg, var(--yellow) 0%, var(--yellow) var(--volume-fill), #111 var(--volume-fill), #111 100%);
+      cursor: pointer;
+      image-rendering: pixelated;
+    }
+
+    .site-volume-slider:hover,
+    .site-volume-slider:focus-visible {
+      border-color: var(--yellow);
+      outline: none;
+      box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--yellow);
+    }
+
+    .site-volume-slider::-webkit-slider-runnable-track {
+      height: 18px;
+      background: transparent;
+    }
+
+    .site-volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 28px;
+      margin-top: -5px;
+      border: 2px solid #000;
+      background: var(--white);
+      box-shadow: 0 0 0 2px var(--white);
+    }
+
+    .site-volume-slider:hover::-webkit-slider-thumb,
+    .site-volume-slider:focus-visible::-webkit-slider-thumb {
+      background: var(--yellow);
+      box-shadow: 0 0 0 2px var(--yellow);
+    }
+
+    .site-volume-slider::-moz-range-track {
+      height: 18px;
+      background: transparent;
+    }
+
+    .site-volume-slider::-moz-range-thumb {
+      width: 16px;
+      height: 28px;
+      border: 2px solid #000;
+      border-radius: 0;
+      background: var(--white);
+      box-shadow: 0 0 0 2px var(--white);
+    }
+
+    .site-volume-slider:hover::-moz-range-thumb,
+    .site-volume-slider:focus-visible::-moz-range-thumb {
+      background: var(--yellow);
+      box-shadow: 0 0 0 2px var(--yellow);
+    }
+
+    .site-volume-value {
+      color: var(--yellow);
+      font-size: 0.82rem;
+      line-height: 1;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .background-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+      gap: 8px;
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .background-option {
+      min-height: 92px;
+      border: 2px solid var(--white);
+      background: #000;
+      color: var(--white);
+      padding: 6px;
+      cursor: pointer;
+      display: grid;
+      grid-template-rows: 58px auto;
+      gap: 6px;
+      text-transform: uppercase;
+      font-family: inherit;
+      font-size: 0.72rem;
+      line-height: 1.1;
+    }
+
+    .background-option .background-label {
+      align-self: center;
+      justify-self: center;
+      max-width: 100%;
+      text-align: center;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .background-option .background-label.long {
+      font-size: 0.52rem;
+      line-height: 0.95;
+    }
+
+    .background-option.selected {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .background-preview {
+      width: 100%;
+      height: 58px;
+      border: 2px solid #555;
+      background-color: #000;
+      background-image: var(--bg-preview, none);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+    }
+
+    .background-preview.black {
+      border-color: var(--white);
+    }
+
     #featured-save-box {
       position: fixed;
       top: 18px;
@@ -628,7 +1104,7 @@
       gap: 4px;
       padding: 8px;
       border: 2px solid #ffffff;
-      background: rgba(0,0,0,0.72);
+      background: #000000;
       width: 300px;
     }
 
@@ -670,7 +1146,7 @@
       width: 100%;
       min-height: 34px;
       padding: 5px 8px;
-      border: 2px solid transparent;
+      border: 2px solid #ffffff;
       background: #000000;
       color: #ffffff;
       font-family: inherit;
@@ -743,6 +1219,7 @@
     .classic-game-page .logo {
       max-width: min(680px, 82vw);
       height: auto;
+      border: 2px solid var(--white);
     }
 
     .classic-game-page .menu {
@@ -796,7 +1273,8 @@
       justify-items: center;
       text-align: center;
       min-height: 92px;
-      border-color: transparent;
+      border-color: var(--white);
+      background: var(--panel-solid);
     }
 
     .undertale-game-page .title {
@@ -826,7 +1304,7 @@
       align-items: flex-end;
       padding: 2px 17px 12px 10px;
       border: 2px solid #fff;
-      background: rgba(0,0,0,0.5);
+      background: #000000;
       width: 200px;
     }
 
@@ -847,6 +1325,7 @@
     .classic-page .logo {
       max-width: min(680px, 82vw);
       height: auto;
+      border: 2px solid var(--white);
     }
 
     .classic-page .classic-extras {
@@ -861,7 +1340,7 @@
 
     .classic-page .classic-extra-btn {
       background: transparent;
-      border: 2px solid transparent;
+      border: 2px solid #ffffff;
       padding: 0;
       cursor: pointer;
     }
@@ -936,23 +1415,26 @@
       .home-logo-link {
         height: 140px;
       }
-      .home-deltarune img,
-      .home-undertale img {
+      .home-logo-link img {
         width: min(86vw, 560px);
         height: auto;
       }
       .home-footer {
         inset: auto 14px 14px 14px;
       }
-      .extras-home {
+      .extras-home,
+      .mods-home {
         font-size: 3.3rem;
       }
       .subpage {
         width: 100%;
-        padding-top: 64px;
+        padding-top: 76px;
       }
       .subpage-header {
         grid-template-columns: 1fr;
+        align-items: start;
+        gap: 12px;
+        margin-top: 0;
       }
       .save-menu {
         justify-self: stretch;
@@ -963,6 +1445,7 @@
         grid-template-columns: 1fr 1fr 44px;
       }
       .extras-grid {
+        width: min(286px, calc(100vw - 44px));
         grid-template-columns: 1fr;
       }
       .classic-page .classic-extras {
@@ -974,6 +1457,400 @@
       .classic-page .watermark {
         position: static;
         margin-top: 18px;
+      }
+    }
+
+    @media (max-height: 820px), (max-width: 1024px) {
+      .page {
+        padding: 14px;
+      }
+
+      .settings-toggle {
+        top: 12px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+        padding: 1px;
+      }
+
+      .home-choices {
+        width: min(1030px, calc(100vw - 118px));
+        gap: clamp(34px, 6vw, 78px);
+        top: 47%;
+      }
+
+      .home-logo-link {
+        height: 166px;
+      }
+
+      .home-logo-link img {
+        width: min(42vw, 560px);
+      }
+
+      .brand-link {
+        width: 58px;
+        height: 54px;
+      }
+
+      .brand-link img {
+        max-width: 54px;
+        max-height: 50px;
+      }
+
+      .extras-home,
+      .mods-home {
+        font-size: clamp(3.2rem, 11vh, 5.2rem);
+      }
+
+      .home-nav-actions {
+        gap: 12px;
+      }
+
+      #deltarune-page {
+        padding: 24px clamp(18px, 4vw, 54px) 18px;
+      }
+
+      #deltarune-page .subpage-header {
+        min-height: 190px;
+      }
+
+      #deltarune-page .subpage-logo {
+        padding-top: 50px;
+      }
+
+      #deltarune-page .subpage-logo img {
+        height: min(9vw, 92px) !important;
+      }
+
+      #deltarune-page .menu {
+        width: min(760px, 62vw);
+      }
+
+      #deltarune-page .row,
+      #deltarune-page .disabled-row {
+        min-height: 48px;
+        grid-template-columns: 1.05fr 1.22fr 52px;
+      }
+
+      #deltarune-page .chapter,
+      #deltarune-page .title,
+      #deltarune-page .disabled-title {
+        font-size: clamp(1.05rem, 2vw, 1.55rem);
+      }
+
+      #deltarune-page .row img,
+      #deltarune-page .disabled-row img {
+        width: 44px;
+        height: 44px;
+      }
+
+      #deltarune-page .save-menu {
+        left: 18px;
+        bottom: 18px;
+        gap: 8px;
+      }
+
+      #deltarune-page .save-button {
+        min-width: 172px;
+        min-height: 32px;
+        font-size: 0.82rem;
+      }
+
+      #featured-save-box {
+        top: 12px;
+        right: 12px;
+        width: 252px;
+      }
+
+      .featured-save-title {
+        font-size: 0.82rem;
+      }
+
+      .featured-save-btn {
+        min-height: 30px;
+        font-size: 0.76rem;
+      }
+
+      #mods-page,
+      #extras-page,
+      #credits-page {
+        padding: 66px 0 24px 46px;
+        overflow: auto;
+      }
+
+      .extras-title {
+        font-size: clamp(2.8rem, 9vh, 4.7rem);
+      }
+
+      #mods-page .subpage-header,
+      #extras-page .subpage-header,
+      #credits-page .subpage-header {
+        margin: 0 0 22px 2px;
+      }
+
+      #mods-page .extras-grid,
+      #extras-page .extras-grid {
+        width: calc(100vw - 76px);
+        --extra-card-size: 164px;
+        --extra-card-label-height: 42px;
+        grid-template-columns: repeat(auto-fit, var(--extra-card-size));
+        gap: 24px 22px;
+      }
+
+      .credits-content {
+        width: calc(100vw - 76px);
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .game-card {
+        width: var(--extra-card-size);
+        height: calc(var(--extra-card-size) + var(--extra-card-label-height));
+        min-height: calc(var(--extra-card-size) + var(--extra-card-label-height));
+      }
+
+      .game-card.kaizo img,
+      .game-card.cyan img,
+      .game-card.dojo img,
+      .game-card.bossrush img,
+      .game-card.network img,
+      .game-card.geo img,
+      .game-card.guesswho img,
+      .game-card.upperhand img,
+      .game-card.scampton img,
+      .game-card.dreamwake img,
+      .game-card.soulblazers img,
+      .game-card.lambdarune img,
+      .game-card.roaringknight img,
+      .game-card.freeher img,
+      .game-card.catmouse img,
+      .game-card.homesweet img,
+      .game-card.asgoredess img,
+      .game-card.ut10th img,
+      .game-card.sans img {
+        width: 100%;
+        height: 100%;
+        max-height: none;
+      }
+
+      .game-card span {
+        margin-top: 0;
+        font-size: 0.68rem;
+      }
+
+      #network-page {
+        padding: 48px clamp(18px, 4vw, 54px) 22px;
+      }
+
+      #network-page .subpage-header {
+        margin: 42px auto 16px;
+      }
+
+      .network-logo-card {
+        gap: 10px;
+        padding: 6px 10px;
+      }
+
+      .network-logo-card img {
+        width: 68px;
+        height: 68px;
+      }
+
+      .network-logo-card span {
+        font-size: clamp(1rem, 3vw, 1.6rem);
+      }
+
+      #network-page .menu {
+        width: min(760px, 70vw);
+      }
+
+      #network-page .row {
+        min-height: 48px;
+        grid-template-columns: 1.05fr 1.22fr 52px;
+      }
+
+      #network-page .chapter,
+      #network-page .title {
+        font-size: clamp(1.05rem, 2vw, 1.55rem);
+      }
+
+      #network-page .row img {
+        width: 44px;
+        height: 44px;
+      }
+    }
+
+    @media (max-height: 640px) {
+      .home-choices {
+        top: 45%;
+      }
+
+      .home-logo-link {
+        height: 132px;
+      }
+
+      .home-logo-link img {
+        width: min(34vw, 500px);
+      }
+
+      .home-footer {
+        inset: auto 14px 12px 14px;
+        min-height: 66px;
+      }
+
+      .extras-home,
+      .mods-home {
+        font-size: clamp(2.6rem, 10vh, 4rem);
+      }
+
+      .home-nav-actions {
+        gap: 10px;
+      }
+
+      .extras-home,
+      .mods-home {
+        font-size: clamp(2.1rem, 11vh, 4rem);
+      }
+
+      #deltarune-page .subpage-header {
+        min-height: 140px;
+      }
+
+      #deltarune-page .subpage-logo {
+        padding-top: 36px;
+      }
+
+      #deltarune-page .subpage-logo img {
+        height: min(8vw, 72px) !important;
+      }
+
+      #deltarune-page .row,
+      #deltarune-page .disabled-row {
+        min-height: 42px;
+      }
+
+      #mods-page,
+      #extras-page,
+      #credits-page {
+        padding-top: 76px;
+      }
+
+      #mods-page .subpage-header,
+      #extras-page .subpage-header,
+      #credits-page .subpage-header {
+        margin-top: 0;
+      }
+
+      .extras-title {
+        font-size: clamp(2.45rem, 10vh, 3.8rem);
+      }
+
+      #network-page {
+        padding-top: 42px;
+      }
+
+      .network-logo-card img {
+        width: 56px;
+        height: 56px;
+      }
+
+      #network-page .row {
+        min-height: 42px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .home-logo-link img {
+        width: min(86vw, 560px);
+      }
+
+      .back-button {
+        top: 14px;
+        left: 14px;
+        min-height: 34px;
+        padding: 4px 8px;
+        font-size: 0.78rem;
+      }
+
+      #mods-page,
+      #extras-page,
+      #credits-page {
+        padding: 74px 18px 28px;
+      }
+
+      #mods-page .subpage-header,
+      #extras-page .subpage-header,
+      #credits-page .subpage-header {
+        width: 100%;
+        margin: 0 0 18px;
+      }
+
+      #mods-page .subpage-logo,
+      #extras-page .subpage-logo,
+      #credits-page .subpage-logo {
+        justify-content: flex-start;
+      }
+
+      .extras-title {
+        font-size: clamp(2.35rem, 15vw, 3.8rem);
+        line-height: 0.9;
+      }
+
+      .home-nav-actions {
+        gap: 8px;
+      }
+
+      .extras-home,
+      .mods-home {
+        font-size: clamp(1.8rem, 9vw, 2.9rem);
+      }
+
+      #mods-page .extras-grid,
+      #extras-page .extras-grid {
+        width: 100%;
+        --extra-card-size: min(152px, calc((100vw - 60px) / 2));
+        --extra-card-label-height: 42px;
+        grid-template-columns: repeat(auto-fit, var(--extra-card-size));
+        justify-content: start;
+        gap: 18px 14px;
+      }
+
+      .game-card span {
+        font-size: 0.62rem;
+      }
+
+      .credits-content {
+        width: 100%;
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-height: 360px) {
+      .home-choices {
+        top: 33%;
+        width: min(760px, calc(100vw - 116px));
+        grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
+        gap: clamp(16px, 5vw, 34px);
+      }
+
+      .home-logo-link {
+        height: 76px;
+      }
+
+      .home-logo-link img {
+        width: min(38vw, 300px);
+      }
+
+      .home-footer {
+        min-height: 56px;
+      }
+
+      .home-nav-actions {
+        gap: 6px;
+      }
+
+      .extras-home,
+      .mods-home {
+        font-size: clamp(1.5rem, 9vh, 2.2rem);
       }
     }
   </style>
@@ -993,11 +1870,11 @@
   <main id="app">
     <section id="home-page" class="page home-layout active">
       <div class="home-choices">
-        <a class="home-logo-link home-deltarune sound-target" href="javascript:showPage('deltarune')">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Deltarune">
+        <a class="home-logo-link home-deltarune sound-target home-select-sound" href="javascript:showPage('deltarune')">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-deltarune-tight.png" alt="Deltarune">
         </a>
-        <a class="home-logo-link home-undertale sound-target" href="javascript:showPage('undertale')">
-          <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+        <a class="home-logo-link home-undertale sound-target home-select-sound" href="javascript:showPage('undertale')">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-undertale-tight.png" alt="Undertale">
         </a>
       </div>
       <div class="home-footer">
@@ -1005,12 +1882,15 @@
           <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank" title="Truffled">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled">
           </a>
-          <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" title="Story Network">
+          <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank" title="Story Network">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network">
           </a>
         </div>
         <span></span>
-        <button class="extras-home sound-target" onclick="showPage('extras')">extras</button>
+        <div class="home-nav-actions">
+          <button class="mods-home sound-target home-select-sound" onclick="showPage('mods')">mods</button>
+          <button class="extras-home sound-target home-select-sound" onclick="showPage('extras')">extras</button>
+        </div>
       </div>
     </section>
 
@@ -1082,6 +1962,64 @@
       </div>
     </section>
 
+    <section id="mods-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+        <div class="subpage-logo"><span class="extras-title">mods</span></div>
+        <span></span>
+      </header>
+      <div class="extras-grid">
+        <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+          <span class="kaizo-text">Kaizo Roaring Knight</span>
+        </button>
+        <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
+          <span class="cyan-text">Cyan Knight</span>
+        </button>
+        <button class="game-card dojo sound-target" onclick="openDojoConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
+          <span class="dojo-text">Dojo Customizer</span>
+        </button>
+        <button class="game-card bossrush sound-target" onclick="openBossRushConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
+          <span class="bossrush-text">Ultimate Boss Rush</span>
+        </button>
+        <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
+          <span class="network-text">Deltarune Network</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="network-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="">
+          <span>Deltarune Network</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadDeltaruneNetworkChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadDeltaruneNetworkChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+        </a>
+      </div>
+    </section>
+
     <section id="extras-page" class="page subpage">
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
@@ -1093,29 +2031,118 @@
           <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
-        <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
-          <span class="kaizo-text">Kaizo Roaring Knight</span>
-        </button>
-        <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
-          <span class="cyan-text">Cyan Knight</span>
-        </button>
         <button class="game-card geo sound-target" onclick="loadDeltaruneGeoGuessr()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
           <span class="geo-text">Deltarune GeoGuessr</span>
         </button>
         <button class="game-card guesswho sound-target" onclick="loadDeltaruneGuessWho()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
           <span class="guesswho-text">Deltarune Guess Who</span>
         </button>
+        <button class="game-card upperhand sound-target" onclick="loadDeltaruneUpperHand()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
+          <span class="upperhand-text">The Upper Hand</span>
+        </button>
+        <button class="game-card scampton sound-target" onclick="loadScamptonTheGreat()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/icon.png" alt="Scampton The Great">
+          <span class="scampton-text">Scampton The Great</span>
+        </button>
+        <button class="game-card dreamwake sound-target" onclick="loadDeltaruneDreamwake()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
+          <span class="dreamwake-text">Deltarune Dreamwake</span>
+        </button>
+        <button class="game-card soulblazers sound-target" onclick="loadDeltaruneSoulblazers()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
+          <span class="soulblazers-text">Deltarune Soulblazers</span>
+        </button>
+        <button class="game-card lambdarune sound-target" onclick="loadLambdarune()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/icon.png" alt="LAMBDARUNE">
+          <span class="lambdarune-text">LAMBDARUNE</span>
+        </button>
+        <button class="game-card roaringknight sound-target" onclick="loadFullRoaringKnightRemake()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@18fda31/files/full-roaring-knight-remake/icon.png" alt="Full Roaring Knight Remake">
+          <span class="roaringknight-text">Full Roaring Knight Remake</span>
+        </button>
+        <button class="game-card freeher sound-target" onclick="loadFreeHer()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
+          <span class="freeher-text">Free Her!</span>
+        </button>
+        <button class="game-card catmouse sound-target" onclick="loadCatAndMouse()">
+          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
+          <span class="catmouse-text">Cat and Mouse</span>
+        </button>
+        <button class="game-card homesweet sound-target" onclick="loadHomeSweetHome()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt="Home Sweet Home">
+          <span class="homesweet-text">Home Sweet Home</span>
+        </button>
+        <button class="game-card asgoredess sound-target" onclick="loadAsgoreRunsOverDess()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
+          <span class="asgoredess-text">Asgore Runs Over Dess</span>
+        </button>
+        <button class="game-card ut10th sound-target" onclick="loadUndertale10thAnniversary()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
+          <span class="ut10th-text">Undertale 10th Anniversary</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="credits-page" class="page subpage credits-page">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+        <div class="subpage-logo"><span class="extras-title">credits</span></div>
+        <span></span>
+      </header>
+      <div class="credits-content">
+        <div class="credit-panel">
+          <h3>DUL</h3>
+          <div class="source-list">
+            <a class="source-link" href="https://storynetwork.site/" target="_blank">Camzzz</a>
+            <a class="source-link" href="https://truffled.lol/" target="_blank">Bog</a>
+          </div>
+        </div>
+        <div class="credit-panel">
+          <h3>Main Games</h3>
+          <div class="source-list">
+            <a class="source-link" href="https://deltarune.com/" target="_blank">Deltarune</a>
+            <a class="source-link" href="https://undertale.com/" target="_blank">Undertale</a>
+          </div>
+        </div>
+        <div class="credit-panel">
+          <h3>Mods</h3>
+          <div class="source-list">
+            <a class="source-link kaizo" href="https://gamebanana.com/mods/662826" target="_blank">Kaizo Roaring Knight</a>
+            <a class="source-link cyan" href="https://gamebanana.com/mods/680711" target="_blank">Cyan Knight</a>
+            <a class="source-link dojo" href="https://gamebanana.com/wips/98861" target="_blank">Dojo Customizer</a>
+            <a class="source-link bossrush" href="https://gamebanana.com/mods/608558" target="_blank">Ultimate Boss Rush</a>
+            <a class="source-link network" href="https://gamebanana.com/mods/601376" target="_blank">Deltarune Network</a>
+          </div>
+        </div>
+        <div class="credit-panel">
+          <h3>Extras</h3>
+          <div class="source-list">
+            <a class="source-link" href="https://jcw87.github.io/c2-sans-fight/" target="_blank">Bad Time Simulator</a>
+            <a class="source-link" href="https://signalsphere.itch.io/deltarune-geoguessr" target="_blank">Deltarune GeoGuessr</a>
+            <a class="source-link guesswho" href="https://jan-ko-pan.itch.io/jan-ko-pans-cool-deltarune-guess-who-game" target="_blank">Deltarune Guess Who</a>
+            <a class="source-link upperhand" href="https://gamejolt.com/games/the-upper-hand/1079690" target="_blank">The Upper Hand</a>
+            <a class="source-link scampton" href="https://gamejolt.com/games/scampton/1004315" target="_blank">Scampton The Great</a>
+            <a class="source-link dreamwake" href="https://gamejolt.com/games/deltarune-dreamwake/1006670" target="_blank">Deltarune Dreamwake</a>
+            <a class="source-link soulblazers" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank">Deltarune Soulblazers</a>
+            <a class="source-link lambdarune" href="https://gamejolt.com/p/lambdarune-chapter-4-installment-1-is-out-let-the-angel-s-power-l-ijfwuric" target="_blank">LAMBDARUNE</a>
+            <a class="source-link roaringknight" href="https://turbowarp.org/1197449054" target="_blank">Full Roaring Knight Remake</a>
+            <a class="source-link freeher" href="https://selene3.itch.io/free-her" target="_blank">Free Her!</a>
+            <a class="source-link catmouse" href="https://html-classic.itch.zone/html/17991151/index.html?v=1782314504" target="_blank">Cat and Mouse</a>
+            <a class="source-link homesweet" href="https://html-classic.itch.zone/html/17849524/index.html?v=1782262338" target="_blank">Home Sweet Home</a>
+            <a class="source-link asgoredess" href="https://html-classic.itch.zone/html/14384222/index.html" target="_blank">Asgore Runs Over Dess</a>
+            <a class="source-link" href="https://ut10-battle.undertale.com/" target="_blank">Undertale 10th Anniversary</a>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="classic-page" class="page classic-page">
       <div id="credits-box">
         <a href="https://truffled.lol/" target="_blank" class="credit-link row sound-target">port by bog :o</a>
-        <a href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
+        <a href="https://storynetwork.site/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
       </div>
       <div class="logo-container">
         <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Logo" class="logo">
@@ -1133,11 +2160,53 @@
         <button class="classic-extra-btn kaizo sound-target" onclick="openCyanConfirm()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
         </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openDojoConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openBossRushConfirm()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
+        </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGuessWho()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneUpperHand()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadScamptonTheGreat()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/icon.png" alt="Scampton The Great">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneDreamwake()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneSoulblazers()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadLambdarune()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/icon.png" alt="LAMBDARUNE">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadFullRoaringKnightRemake()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@18fda31/files/full-roaring-knight-remake/icon.png" alt="Full Roaring Knight Remake">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadFreeHer()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadCatAndMouse()">
+          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadHomeSweetHome()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt="Home Sweet Home">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadAsgoreRunsOverDess()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadUndertale10thAnniversary()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
         </button>
       </div>
       <div class="menu">
@@ -1157,7 +2226,7 @@
       </div>
       <div class="watermark">
         <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled"></a>
-        <a class="brand-link sound-target" href="https://d24frvcu2hz24d.cloudfront.net/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
+        <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
       </div>
     </section>
   </main>
@@ -1174,8 +2243,103 @@
         <button class="pixel-button sound-target" onclick="chooseImport('all')">Import Whole Site Save</button>
       </div>
       <div class="settings-section">
-        <div class="credits-line">port by bog :o</div>
-        <div class="credits-line">updated by camzzz</div>
+        <div class="settings-label">Site Music Volume</div>
+        <div class="site-volume-control">
+          <input id="site-music-volume" class="site-volume-slider" type="range" min="0" max="100" step="1" value="100" aria-label="Site music volume" oninput="setSiteMusicVolume(this.value)">
+          <span id="site-music-volume-value" class="site-volume-value">100%</span>
+        </div>
+      </div>
+      <div class="settings-section background-settings">
+        <div class="settings-label">Background</div>
+        <div class="background-options" role="group" aria-label="Site Background">
+          <button type="button" class="background-option sound-target" data-background="black" onclick="setSiteBackground('black')" aria-pressed="false">
+            <span class="background-preview black"></span>
+            <span>Black</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch1" onclick="setSiteBackground('ch1')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch1.png')"></span>
+            <span>Chapter 1</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch2" onclick="setSiteBackground('ch2')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch2.png')"></span>
+            <span>Chapter 2</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch3" onclick="setSiteBackground('ch3')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch3.png')"></span>
+            <span>Chapter 3</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch4" onclick="setSiteBackground('ch4')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch4.png')"></span>
+            <span>Chapter 4</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="ch5" onclick="setSiteBackground('ch5')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch5.png')"></span>
+            <span>Chapter 5</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="tadc" onclick="setSiteBackground('tadc')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/tadc.png')"></span>
+            <span>TADC</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="backrooms" onclick="setSiteBackground('backrooms')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/backrooms.png')"></span>
+            <span>Backrooms</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="pirate" onclick="setSiteBackground('pirate')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/pirate.png')"></span>
+            <span>Pirate</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="kendrick" onclick="setSiteBackground('kendrick')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/kendrick.png')"></span>
+            <span>Kendrick</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="jackpot" onclick="setSiteBackground('jackpot')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/jackpot.png')"></span>
+            <span>Jackpot</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="dk" onclick="setSiteBackground('dk')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/dk.png')"></span>
+            <span>DK</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="tung" onclick="setSiteBackground('tung')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/tung.png')"></span>
+            <span>Tung</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="dialtone_wrong" onclick="setSiteBackground('dialtone_wrong')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/dialtone.png')"></span>
+            <span class="background-label">Dialtone</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="dialtone_normal" onclick="setSiteBackground('dialtone_normal')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/dialtone.png')"></span>
+            <span class="background-label">Sadtone</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="mad_spam" onclick="setSiteBackground('mad_spam')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/mad-spam.png')"></span>
+            <span class="background-label">Mad-Spam</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="birdbrain" onclick="setSiteBackground('birdbrain')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/birdbrain.png')"></span>
+            <span class="background-label">Birdbrain</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="imposter" onclick="setSiteBackground('imposter')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ad24077120fe45da44403e7d9d0ddd0a0818b6eb/files/backgrounds/imposter.png')"></span>
+            <span class="background-label">Imposter</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="excuseme" onclick="setSiteBackground('excuseme')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@53276f808ebe064c52ad86eb1317c97e1ee23187/files/backgrounds/excuseme.png')"></span>
+            <span class="background-label">Excuseme</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="90s" onclick="setSiteBackground('90s')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@6156c90bed1369dcfc6bcda56e95f309d4f28c23/files/backgrounds/90s.png')"></span>
+            <span class="background-label">90s</span>
+          </button>
+          <button type="button" class="background-option sound-target" data-background="hotline" onclick="setSiteBackground('hotline')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e15c0def5168551f511c7fc3c013b07078c95e20/files/backgrounds/hotline.png')"></span>
+            <span class="background-label">Hotline</span>
+          </button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <button class="pixel-button sound-target" onclick="openCreditsPage()">Credits</button>
       </div>
     </div>
   </div>
@@ -1202,6 +2366,32 @@
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadCyanKnight()">Wipe And Load</button>
         <button class="pixel-button sound-target" onclick="closeCyanConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dojo-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe your current browser save and load the <span class="dojo-text">Full Dojo Customizer</span> Chapter 4 save instead.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadDojoCustomizer()">Wipe And Load</button>
+        <button class="pixel-button sound-target" onclick="closeDojoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="bossrush-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p>This will wipe your current browser save and load <span class="bossrush-text">Ultimate Boss Rush</span> with the same Chapter 4 Dojo save file.</p>
+      <p>Back up your main save first if you want to keep it.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadUltimateBossRush()">Wipe And Load</button>
+        <button class="pixel-button sound-target" onclick="closeBossRushConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -1249,10 +2439,75 @@
 
   <script>
     const audio = document.getElementById("drone");
+    const SITE_MUSIC_VOLUME_KEY = "dul_site_music_volume";
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
+    const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
+    const SCAMPTON_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/";
+    const DREAMWAKE_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/";
+    const SOULBLAZERS_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/";
+    const LAMBDARUNE_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/";
+    const ROARING_KNIGHT_REMAKE_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/18fda31/files/full-roaring-knight-remake/";
+    const FREE_HER_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/8b73e4d/files/free-her/";
+    const EXTRA_WEBPORTS_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/";
+    const EXTRA_WEBPORTS_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/";
+    const EXTRA_RUNNER_FIX_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/c85550f/files/";
+    const EXTRA_RUNNER_FIX_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c85550f/files/";
+    const CAT_AND_MOUSE_BASE = EXTRA_WEBPORTS_RAW_BASE + "cat-and-mouse/";
+    const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_RAW_BASE + "home-sweet-home/";
+    const ASGORE_DESS_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "asgore-runs-over-dess/";
+    const THEME_ASSET_VERSION = "e15c0def5168551f511c7fc3c013b07078c95e20";
+    const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
+    const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
+    const SITE_BACKGROUNDS = {
+      black: "",
+      ch1: BACKGROUND_BASE + "ch1.png",
+      ch2: BACKGROUND_BASE + "ch2.png",
+      ch3: BACKGROUND_BASE + "ch3.png",
+      ch4: BACKGROUND_BASE + "ch4.png",
+      ch5: BACKGROUND_BASE + "ch5.png",
+      tadc: BACKGROUND_BASE + "tadc.png",
+      backrooms: BACKGROUND_BASE + "backrooms.png",
+      pirate: BACKGROUND_BASE + "pirate.png",
+      kendrick: BACKGROUND_BASE + "kendrick.png",
+      jackpot: BACKGROUND_BASE + "jackpot.png",
+      dk: BACKGROUND_BASE + "dk.png",
+      tung: BACKGROUND_BASE + "tung.png",
+      dialtone_normal: BACKGROUND_BASE + "dialtone.png",
+      dialtone_wrong: BACKGROUND_BASE + "dialtone.png",
+      mad_spam: BACKGROUND_BASE + "mad-spam.png",
+      birdbrain: BACKGROUND_BASE + "birdbrain.png",
+      imposter: BACKGROUND_BASE + "imposter.png",
+      excuseme: BACKGROUND_BASE + "excuseme.png",
+      "90s": BACKGROUND_BASE + "90s.png",
+      hotline: BACKGROUND_BASE + "hotline.png"
+    };
+    const SITE_AUDIO_TRACKS = {
+      black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
+      ch1: THEME_ASSET_BASE + "audios/theme-ch1.mp3",
+      ch2: THEME_ASSET_BASE + "audios/theme-ch2-cybers-world.mp3",
+      ch3: THEME_ASSET_BASE + "audios/theme-ch3.mp3",
+      ch4: THEME_ASSET_BASE + "audios/theme-ch4.mp3",
+      ch5: THEME_ASSET_BASE + "audios/theme-ch5-thousand-cafe-zukan.mp3",
+      tadc: THEME_ASSET_BASE + "audios/theme-tadc.mp3",
+      backrooms: THEME_ASSET_BASE + "audios/theme-backrooms.mp3",
+      pirate: THEME_ASSET_BASE + "audios/theme-pirate.mp3",
+      kendrick: THEME_ASSET_BASE + "audios/theme-kendrick.mp3",
+      jackpot: THEME_ASSET_BASE + "audios/theme-jackpot.mp3",
+      dk: THEME_ASSET_BASE + "audios/theme-dk.mp3",
+      tung: THEME_ASSET_BASE + "audios/theme-tung.mp3",
+      dialtone_normal: THEME_ASSET_BASE + "audios/theme-dialtone-normal.mp3",
+      dialtone_wrong: THEME_ASSET_BASE + "audios/theme-dialtone-somethings-wrong.mp3",
+      mad_spam: THEME_ASSET_BASE + "audios/theme-mad-spam.mp3",
+      birdbrain: THEME_ASSET_BASE + "audios/theme-birdbrain.mp3",
+      imposter: THEME_ASSET_BASE + "audios/theme-imposter.mp3",
+      excuseme: THEME_ASSET_BASE + "audios/theme-excuseme.mp3",
+      "90s": THEME_ASSET_BASE + "audios/theme-90s.mp3",
+      hotline: THEME_ASSET_BASE + "audios/theme-hotline.mp3"
+    };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
+    const homeSelectAudio = new Audio(FILES_BASE + "audios/rew.mp3");
     let gamestarted = false;
     let audioStarted = false;
     let selectedChapter = null;
@@ -1260,12 +2515,26 @@
 
     const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
     const CYAN_SAVE_URL = KAIZO_SAVE_URL;
+    const DOJO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/filech4_0";
+    const DOJO_MANAGER_DIR_KEY = "/_savedata/dojo_manager";
+    const DOJO_MANAGER_SAVE_FILES = [
+      {
+        url: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/dojo_manager/dojoManager_file2.ini",
+        key: "/_savedata/dojo_manager/dojoManager_file2.ini"
+      },
+      {
+        url: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/dojo_manager/dojoManager_stats_file2.ini",
+        key: "/_savedata/dojo_manager/dojoManager_stats_file2.ini"
+      }
+    ];
     const SAVE_DB = "/_savedata";
     const SAVE_STORE = "FILE_DATA";
     const GAME_SAVE_DB_VERSION = 21;
     const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
     const CYAN_SAVE_KEY = KAIZO_SAVE_KEY;
+    const DOJO_SAVE_KEY = "/_savedata/filech4_0";
     const KAIZO_SAVE_MODE = 33206;
+    const SAVE_DIR_MODE = 16895;
     const AUDIO_ON_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path>';
     const AUDIO_OFF_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M22 9l-6 6"></path><path d="M16 9l6 6"></path>';
     const OLD_LAYOUT_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/old-layout.html";
@@ -1273,6 +2542,8 @@
 
     function startAudio() {
       if (!audioStarted && audio) {
+        applySiteAudio(document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || "black", false);
+        applySiteMusicVolume();
         audio.play().catch(() => {});
         audioStarted = true;
       }
@@ -1295,6 +2566,13 @@
       }
     }
 
+    function playHomeSelect() {
+      if (!gamestarted) {
+        homeSelectAudio.currentTime = 0;
+        homeSelectAudio.play().catch(() => {});
+      }
+    }
+
     document.addEventListener("mouseover", event => {
       const target = event.target.closest(".sound-target, .row, .pixel-button, .save-button, .game-card, .brand-link");
       if (target) playMove();
@@ -1302,7 +2580,10 @@
 
     document.addEventListener("click", event => {
       const target = event.target.closest(".sound-target, .row, .pixel-button, .save-button, .game-card, .brand-link");
-      if (target) playSelect();
+      if (target) {
+        if (target.classList.contains("home-select-sound")) playHomeSelect();
+        else playSelect();
+      }
     });
 
     function toggleAudio() {
@@ -1318,6 +2599,69 @@
         if (icon) icon.innerHTML = muted ? AUDIO_OFF_ICON : AUDIO_ON_ICON;
         button.setAttribute("aria-pressed", muted ? "true" : "false");
       });
+    }
+
+    function getSiteMusicVolume() {
+      const storedVolume = parseInt(localStorage.getItem(SITE_MUSIC_VOLUME_KEY), 10);
+      if (Number.isFinite(storedVolume)) return Math.max(0, Math.min(100, storedVolume));
+      return 100;
+    }
+
+    function applySiteMusicVolume() {
+      const volume = getSiteMusicVolume();
+      if (audio) audio.volume = volume / 100;
+      const slider = document.getElementById("site-music-volume");
+      const value = document.getElementById("site-music-volume-value");
+      if (slider) {
+        slider.value = String(volume);
+        slider.style.setProperty("--volume-fill", volume + "%");
+        slider.setAttribute("aria-valuenow", String(volume));
+        slider.setAttribute("aria-valuetext", volume + "%");
+      }
+      if (value) value.textContent = volume + "%";
+    }
+
+    function setSiteMusicVolume(value) {
+      const nextVolume = Math.max(0, Math.min(100, parseInt(value, 10) || 0));
+      localStorage.setItem(SITE_MUSIC_VOLUME_KEY, String(nextVolume));
+      applySiteMusicVolume();
+    }
+
+    function applySiteAudio(backgroundId, shouldPlay = false) {
+      if (!audio) return;
+      const selected = Object.prototype.hasOwnProperty.call(SITE_AUDIO_TRACKS, backgroundId) ? backgroundId : "black";
+      const nextSource = SITE_AUDIO_TRACKS[selected];
+      if (audio.dataset.trackSource !== nextSource) {
+        audio.pause();
+        audio.src = nextSource;
+        audio.dataset.trackSource = nextSource;
+        audio.currentTime = 0;
+        audio.load();
+      }
+      applySiteMusicVolume();
+      if (shouldPlay) {
+        audioStarted = true;
+        audio.play().catch(() => {});
+      }
+    }
+
+    function applySiteBackground(backgroundId, shouldPlayAudio = false) {
+      const selected = Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, backgroundId) ? backgroundId : "black";
+      const imageUrl = SITE_BACKGROUNDS[selected];
+      document.documentElement.style.setProperty("--site-bg-image", imageUrl ? 'url("' + imageUrl.replace(/"/g, '\\"') + '")' : "none");
+      document.body.dataset.siteBackground = selected;
+      document.querySelectorAll(".background-option").forEach(button => {
+        const isSelected = button.dataset.background === selected;
+        button.classList.toggle("selected", isSelected);
+        button.setAttribute("aria-pressed", isSelected ? "true" : "false");
+      });
+      applySiteAudio(selected, shouldPlayAudio || audioStarted);
+    }
+
+    function setSiteBackground(backgroundId) {
+      const selected = Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, backgroundId) ? backgroundId : "black";
+      localStorage.setItem("dul_site_background", selected);
+      applySiteBackground(selected, true);
     }
 
     function showPage(name) {
@@ -1337,11 +2681,17 @@
     }
 
     function openSettings() {
+      applySiteMusicVolume();
       document.getElementById("settings-modal").classList.add("open");
     }
 
     function closeSettings() {
       document.getElementById("settings-modal").classList.remove("open");
+    }
+
+    function openCreditsPage() {
+      closeSettings();
+      showPage("credits");
     }
 
     function useClassicLayout() {
@@ -1406,11 +2756,55 @@
     }
 
     function loadDeltaruneGeoGuessr() {
-      loadRemotePage(FILES_BASE + "deltarune-geoguessr/index.html");
+      loadRemotePage(GEOGUESSR_BASE + "index.html");
     }
 
     function loadDeltaruneGuessWho() {
       loadRemotePage(FILES_BASE + "deltarune-guess-who/index.html");
+    }
+
+    function loadDeltaruneUpperHand() {
+      loadRemotePage("https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@28e34dc/files/deltarune-upper-hand/index.html?v=upperhand-audio-aliases-20260724");
+    }
+
+    function loadScamptonTheGreat() {
+      loadRemotePage(SCAMPTON_BASE + "index.html?v=scampton-working-loader-v3-20260724");
+    }
+
+    function loadDeltaruneDreamwake() {
+      loadRemotePage(DREAMWAKE_BASE + "index.html?v=dreamwake-2024-14-1-tilefix-20260725");
+    }
+
+    function loadDeltaruneSoulblazers() {
+      loadRemotePage(SOULBLAZERS_BASE + "index.html?v=soulblazers-1-0-5-20260725");
+    }
+
+    function loadLambdarune() {
+      loadRemotePage(LAMBDARUNE_BASE + "index.html?v=lambdarune-c4-20260725");
+    }
+
+    function loadFullRoaringKnightRemake() {
+      loadRemotePage(ROARING_KNIGHT_REMAKE_BASE + "index.html?v=full-roaring-knight-remake-20260726");
+    }
+
+    function loadFreeHer() {
+      loadRemotePage(FREE_HER_BASE + "index.html?v=free-her-20260726");
+    }
+
+    function loadCatAndMouse() {
+      loadRemotePage(CAT_AND_MOUSE_BASE + "index.html?v=cat-and-mouse-20260726c");
+    }
+
+    function loadHomeSweetHome() {
+      loadRemotePage(HOME_SWEET_HOME_BASE + "index.html?v=home-sweet-home-20260726c");
+    }
+
+    function loadAsgoreRunsOverDess() {
+      loadRemotePage(ASGORE_DESS_BASE + "index.html?v=asgore-runs-over-dess-20260726");
+    }
+
+    function loadUndertale10thAnniversary() {
+      loadRemotePage(FILES_BASE + "undertale-10th-anniversary/index.html?v=undertale10th-dul-20260724");
     }
 
     function openKaizoConfirm() {
@@ -1427,6 +2821,22 @@
 
     function closeCyanConfirm() {
       document.getElementById("cyan-modal").classList.remove("open");
+    }
+
+    function openDojoConfirm() {
+      document.getElementById("dojo-modal").classList.add("open");
+    }
+
+    function closeDojoConfirm() {
+      document.getElementById("dojo-modal").classList.remove("open");
+    }
+
+    function openBossRushConfirm() {
+      document.getElementById("bossrush-modal").classList.add("open");
+    }
+
+    function closeBossRushConfirm() {
+      document.getElementById("bossrush-modal").classList.remove("open");
     }
 
     function openFeaturedSaveInfo() {
@@ -1532,6 +2942,7 @@
       const keyText = keyString(key).toLowerCase();
       const basename = keyText.split("/").pop();
       const isDeltaruneRecord = keyText.includes("filech")
+        || keyText.includes("dojo_manager")
         || basename === "dr.ini"
         || basename === "decomp_vars.ini"
         || basename === "trophies.ini"
@@ -1981,6 +3392,13 @@
       });
     }
 
+    async function installModDirectory(saveKey) {
+      await putSaveRecord(saveKey, {
+        timestamp: new Date(),
+        mode: SAVE_DIR_MODE
+      });
+    }
+
     async function wipeBrowserSaveForMod() {
       localStorage.clear();
       document.cookie.split(";").forEach(cookie => {
@@ -2025,12 +3443,65 @@
       }
     }
 
+    async function loadDojoCustomizer() {
+      try {
+        closeDojoConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForMod();
+        showKaizoLoading("Installing Dojo save...");
+        await installModSave(DOJO_SAVE_URL, DOJO_SAVE_KEY, "Dojo");
+        await installModDirectory(DOJO_MANAGER_DIR_KEY);
+        for (const file of DOJO_MANAGER_SAVE_FILES) {
+          await installModSave(file.url, file.key, "Dojo manager");
+        }
+        showKaizoLoading("Loading Full Dojo Customizer...");
+        loadRemotePage(FILES_BASE + "dojo-customizer/chapter4/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Full Dojo Customizer could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    async function loadUltimateBossRush() {
+      try {
+        closeBossRushConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForMod();
+        showKaizoLoading("Installing Dojo save...");
+        await installModSave(DOJO_SAVE_URL, DOJO_SAVE_KEY, "Dojo");
+        showKaizoLoading("Loading Ultimate Boss Rush...");
+        loadRemotePage(FILES_BASE + "ultimate-boss-rush/chapter4/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Ultimate Boss Rush could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadDeltaruneNetwork() {
+      showPage("network");
+    }
+
+    function loadDeltaruneNetworkChapter(chapter) {
+      try {
+        showKaizoLoading("Loading Deltarune Network Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "deltarune-network/chapter" + chapter + "/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Deltarune Network Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     document.addEventListener("keydown", event => {
       if (gamestarted) return;
       if (event.key === "Escape") {
         closeSettings();
         closeKaizoConfirm();
         closeCyanConfirm();
+        closeDojoConfirm();
+        closeBossRushConfirm();
         return;
       }
       const rows = Array.from(document.querySelectorAll(".page.active .row"));
@@ -2057,10 +3528,11 @@
       }
     });
 
+    applySiteBackground(localStorage.getItem("dul_site_background") || "black");
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "extras", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "network", "extras", "credits", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");
