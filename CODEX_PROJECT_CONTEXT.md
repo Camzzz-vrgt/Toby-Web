@@ -803,8 +803,8 @@ Important files:
 How it connects:
 
 - The Extras card in `dltrn.html` calls `loadVsTungTungTungSahur()`.
-- That loader fetches `FILES_BASE + "vs-tung-tung-tung-sahur/index.html"` and writes it into the current document.
-- This is intended to work when `dltrn.html` is opened locally because the game package is fetched from the DUL GitHub/jsDelivr HTTPS URL.
+- That loader fetches the Tung entry page from `raw.githubusercontent.com`, injects the jsDelivr folder as the asset base, and writes the result into the current document.
+- This is intended to work when `dltrn.html` is opened locally because the game page/runtime/package are fetched from HTTPS URLs on the DUL GitHub/jsDelivr setup.
 
 What not to change casually:
 
@@ -1216,7 +1216,7 @@ Important compatibility details:
 - `loadVsTungTungTungSahur()` fetches `index.html` from `raw.githubusercontent.com` and passes the jsDelivr folder as the asset base to `loadRemotePage()`. This avoids stale jsDelivr HTML while preserving good script/WASM MIME types for the small runtime files.
 - The `index.html` intentionally points the large `.love` package at `raw.githubusercontent.com`; jsDelivr returned `403` for this 27 MB package during local-launch testing.
 - The package was built from Kristal `0.11.0-dev`, matching the mod's `mod.json`.
-- Browser-only patches inside the `.love` package disable Discord RPC and HTTPS libraries, use a synchronous asset loader instead of a LOVE thread, remove LuaJIT-only `goto` syntax, and replace global `bit` usage in tiled gid parsing with arithmetic checks.
+- Browser-only patches inside the `.love` package disable Discord RPC and HTTPS libraries, use a synchronous asset loader instead of a LOVE thread, remove LuaJIT-only `goto` syntax, replace global `bit` usage in tiled gid parsing with arithmetic checks, and fall back to the main/default font when Kristal resolves an unloaded or missing font during web play.
 - If the Kristal package is rebuilt, preserve those compatibility patches or retest the port from the local `dltrn.html` wrapper before pushing.
 
 ### Pixel Rendering Matters
@@ -1720,7 +1720,7 @@ Based on recent Git history:
 
 What appears complete:
 
-- VS Tung Tung Tung Sahur was added as an Extras card and documented as a Kristal/love.js port. It is expected to work from the single local `dltrn.html` only after its `files/vs-tung-tung-tung-sahur/` folder is pushed to the DUL repo/CDN.
+- VS Tung Tung Tung Sahur was added as an Extras card and documented as a Kristal/love.js port. The package now includes a browser-only font fallback for Kristal text/UI crashes seen during local web testing.
 - The Last Sahur theme assets and launcher option are present.
 - Excuseme2 theme assets and option are present.
 - Kromer Kollector is no longer in the active extras page.
