@@ -1160,6 +1160,7 @@ This function is used by almost every game. It:
 - Calls `ensureGameSaveDatabase()`.
 - Fetches the target page.
 - Injects a `<base>` so relative runtime files load from the correct game folder.
+- Accepts an optional asset-base override for ports that fetch HTML from one host but should resolve runtime assets from another.
 - Injects a history guard to avoid errors when the fetched game manipulates history.
 - Replaces the current document.
 
@@ -1212,6 +1213,7 @@ Important compatibility details:
 
 - The single-file local workflow is still `dltrn.html`; do not open `files/vs-tung-tung-tung-sahur/index.html` directly from disk as the supported path.
 - The local launcher works by fetching the game page and `.love` package from the DUL repo/CDN over HTTPS.
+- `loadVsTungTungTungSahur()` fetches `index.html` from `raw.githubusercontent.com` and passes the jsDelivr folder as the asset base to `loadRemotePage()`. This avoids stale jsDelivr HTML while preserving good script/WASM MIME types for the small runtime files.
 - The `index.html` intentionally points the large `.love` package at `raw.githubusercontent.com`; jsDelivr returned `403` for this 27 MB package during local-launch testing.
 - The package was built from Kristal `0.11.0-dev`, matching the mod's `mod.json`.
 - Browser-only patches inside the `.love` package disable Discord RPC and HTTPS libraries, use a synchronous asset loader instead of a LOVE thread, remove LuaJIT-only `goto` syntax, and replace global `bit` usage in tiled gid parsing with arithmetic checks.
