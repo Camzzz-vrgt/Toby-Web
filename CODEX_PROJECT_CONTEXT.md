@@ -1212,6 +1212,7 @@ Important compatibility details:
 
 - The single-file local workflow is still `dltrn.html`; do not open `files/vs-tung-tung-tung-sahur/index.html` directly from disk as the supported path.
 - The local launcher works by fetching the game page and `.love` package from the DUL repo/CDN over HTTPS.
+- The `index.html` intentionally points the large `.love` package at `raw.githubusercontent.com`; jsDelivr returned `403` for this 27 MB package during local-launch testing.
 - The package was built from Kristal `0.11.0-dev`, matching the mod's `mod.json`.
 - Browser-only patches inside the `.love` package disable Discord RPC and HTTPS libraries, use a synchronous asset loader instead of a LOVE thread, remove LuaJIT-only `goto` syntax, and replace global `bit` usage in tiled gid parsing with arithmetic checks.
 - If the Kristal package is rebuilt, preserve those compatibility patches or retest the port from the local `dltrn.html` wrapper before pushing.
