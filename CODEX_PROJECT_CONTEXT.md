@@ -313,6 +313,7 @@ Current extras:
 - Scampton The Great
 - Deltarune Dreamwake
 - Deltarune Soulblazers
+- Deltarune Plugged Dream
 - VS Tung Tung Tung Sahur
 - LAMBDARUNE
 - Full Roaring Knight Remake
@@ -769,6 +770,7 @@ Important current folder sizes:
 | `files/ultimate-boss-rush` | 65 | 343.57 | Ultimate Boss Rush mod |
 | `files/deltarune-dreamwake` | 15 | 151.55 | Dreamwake fangame port |
 | `files/deltarune-soulblazers` | 16 | 176.85 | Soulblazers fangame port |
+| `files/deltarune-plugged-dream` | 9 | 39.77 | Plugged Dream Kristal/love.js port |
 | `files/vs-tung-tung-tung-sahur` | 10 | 31.38 | Kristal/love.js port of VS Tung Tung Tung Sahur |
 | `files/lambdarune` | 118 | 145.82 | LAMBDARUNE port |
 | `files/scampton-the-great` | 17 | 193.21 | Scampton The Great port |
@@ -1205,15 +1207,45 @@ Many GameMaker ports split large files:
 
 The corresponding `index.html` or `runner.js` usually reconstructs or fetches these parts. Do not rename part files.
 
+#### `files/deltarune-plugged-dream`
+
+Purpose:
+
+Hosts the Deltarune Plugged Dream extra, converted from its Windows LOVE/Kristal build into a browser-runnable `.love` package.
+
+Important files:
+
+- `index.html`: fullscreen love.js entry page.
+- `deltarune-plugged-dream.love`: zipped Kristal build plus the `plugged_dream` mod.
+- `player.js`, `style.css`, `11.5/`, `lua/`: love.js runtime files copied from the working VS Tung setup.
+- `icon.png`: card icon used by `dltrn.html`.
+
+How it connects:
+
+- The Extras card in `dltrn.html` calls `loadDeltarunePluggedDream()`.
+- That loader fetches the Plugged Dream entry page from `raw.githubusercontent.com`, injects the jsDelivr folder as the asset base, and writes the result into the current document.
+- Boss battle music is referenced in `mods/plugged_dream/scripts/battle/encounters/romb.lua` as `self.music = "ramb_boss"` and the packaged audio is `mods/plugged_dream/assets/music/ramb_boss.ogg`.
+
+Browser compatibility patches inside the `.love` package:
+
+- Disables Discord RPC and HTTPS libraries.
+- Uses `src/engine/syncloader.lua` instead of Kristal's thread asset loader.
+- Disables the dev hotswapper, which calls Lua `package.searchpath`.
+- Removes LuaJIT-only `goto continue` usage.
+- Strips the BOM from `SoulSword.lua`.
+- Makes the Board Writer RGB shader optional and WebGL-safe.
+- Replaces `bit.band` tile gid parsing with arithmetic checks.
+- Adds a web font fallback in `Assets.getFont()`.
+
 ### Kristal/love.js Ports Need HTTPS Assets
 
-VS Tung Tung Tung Sahur is a Kristal mod packaged into `files/vs-tung-tung-tung-sahur/vs-tung-tung-tung-sahur.love` and launched through love.js.
+VS Tung Tung Tung Sahur and Deltarune Plugged Dream are Kristal/love.js ports packaged into `.love` files and launched through love.js.
 
 Important compatibility details:
 
-- The single-file local workflow is still `dltrn.html`; do not open `files/vs-tung-tung-tung-sahur/index.html` directly from disk as the supported path.
+- The single-file local workflow is still `dltrn.html`; do not open an individual Kristal port `index.html` directly from disk as the supported path.
 - The local launcher works by fetching the game page and `.love` package from the DUL repo/CDN over HTTPS.
-- `loadVsTungTungTungSahur()` fetches `index.html` from `raw.githubusercontent.com` and passes the jsDelivr folder as the asset base to `loadRemotePage()`. This avoids stale jsDelivr HTML while preserving good script/WASM MIME types for the small runtime files.
+- Kristal port loader functions fetch `index.html` from `raw.githubusercontent.com` and pass the jsDelivr folder as the asset base to `loadRemotePage()`. This avoids stale jsDelivr HTML while preserving good script/WASM MIME types for the small runtime files.
 - The `index.html` intentionally points the large `.love` package at `raw.githubusercontent.com`; jsDelivr returned `403` for this 27 MB package during local-launch testing.
 - The package was built from Kristal `0.11.0-dev`, matching the mod's `mod.json`.
 - Browser-only patches inside the `.love` package disable Discord RPC and HTTPS libraries, use a synchronous asset loader instead of a LOVE thread, remove LuaJIT-only `goto` syntax, replace global `bit` usage in tiled gid parsing with arithmetic checks, and fall back to the main/default font when Kristal resolves an unloaded or missing font during web play.
@@ -1721,6 +1753,7 @@ Based on recent Git history:
 
 What appears complete:
 
+- Deltarune Plugged Dream was added as an Extras card and classic-layout extra, packaged as a Kristal/love.js port, and smoke-tested from the local `dltrn.html` wrapper through title menu and Start into difficulty select.
 - VS Tung Tung Tung Sahur was added as an Extras card and documented as a Kristal/love.js port. The package now includes a browser-only font fallback for Kristal text/UI crashes seen during local web testing.
 - The Last Sahur theme assets and launcher option are present.
 - Excuseme2 theme assets and option are present.
@@ -1728,7 +1761,7 @@ What appears complete:
 - Lightners Live is no longer in the active extras page.
 - Mods and Extras buttons have recent separation work.
 - Extra card image/text layout has been adjusted recently.
-- Deltarune Network, Dojo Customizer, Ultimate Boss Rush, Dreamwake, Soulblazers, Lambdarune, Full Roaring Knight Remake, Free Her, Cat and Mouse, Home Sweet Home, Asgore Runs Over Dess, and Undertale 10th Anniversary are represented in `dltrn.html`.
+- Deltarune Network, Dojo Customizer, Ultimate Boss Rush, Dreamwake, Soulblazers, Plugged Dream, Lambdarune, Full Roaring Knight Remake, Free Her, Cat and Mouse, Home Sweet Home, Asgore Runs Over Dess, and Undertale 10th Anniversary are represented in `dltrn.html`.
 
 What appears in progress:
 
