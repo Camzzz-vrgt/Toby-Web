@@ -1,6 +1,6 @@
 # DUL Project Context
 
-Last inspected by Codex: July 30, 2026.
+Last inspected by Codex: August 1, 2026.
 
 Project root:
 
@@ -317,6 +317,7 @@ Current extras:
 - VS Tung Tung Tung Sahur
 - LAMBDARUNE
 - Full Roaring Knight Remake
+- Knight Rematch
 - Free Her!
 - Cat and Mouse
 - Home Sweet Home
@@ -783,6 +784,7 @@ Important current folder sizes:
 | `files/home-sweet-home` | 2 | 75.31 | Home Sweet Home packaged port |
 | `files/free-her` | 5 | 24.31 | Free Her packaged port |
 | `files/full-roaring-knight-remake` | 4 | 63.66 | Full Roaring Knight Remake packaged port |
+| `files/knight-rematch` | 8 | 205.69 | Knight Rematch TurboWarp packaged port split into GitHub-safe chunks |
 | `files/undertale-10th-anniversary` | 11 | 11.62 | Undertale 10th Anniversary port |
 | `files/audios` | 25 | 51.81 | Site sounds and theme music |
 | `files/backgrounds` | 20 | 2.44 | Site theme backgrounds |
@@ -1252,6 +1254,19 @@ Important compatibility details:
 - Browser-only patches inside the `.love` package disable Discord RPC and HTTPS libraries, use a synchronous asset loader instead of a LOVE thread, remove LuaJIT-only `goto` syntax, replace global `bit` usage in tiled gid parsing with arithmetic checks, and fall back to the main/default font when Kristal resolves an unloaded or missing font during web play.
 - The Tung package's text font aliases `assets/fonts/main.ttf`, `assets/fonts/main_mono.ttf`, and `assets/fonts/small.ttf` are intentionally replaced with the user-provided 8bitoperator font while keeping `.ttf` filenames, because the Kristal loader scans `.ttf` paths and the browser build should render Undertale-style text.
 - If the Kristal package is rebuilt, preserve those compatibility patches or retest the port from the local `dltrn.html` wrapper before pushing.
+
+### Large TurboWarp HTML Ports May Be Split
+
+Some itch/TurboWarp-packaged ports are single generated HTML files. Knight Rematch is one of these, but the source HTML is about 216 MB, which is too large for a single regular GitHub blob. The active DUL port therefore stores it in `files/knight-rematch/index.part001` through `index.part006` plus a small `files/knight-rematch/index.html` loader.
+
+Important details:
+
+- Do not delete the `index.part*` files. They are the real game HTML split into safe chunks.
+- `.gitattributes` marks `files/knight-rematch/index.part*` as `-text -diff`; keep that rule so Git does not line-ending-normalize or render diffs for packed chunks.
+- `files/knight-rematch/index.html` fetches those parts as byte arrays, concatenates them in order, decodes once, then writes the reconstructed TurboWarp page into the document. Do not change this to per-part `response.text()`; that can corrupt the packed runtime.
+- The original external `https://static.itch.io/htmlgame.js` helper tag was removed by byte-level exact replacement before chunking. Avoid text reserialization of the packed source because it previously caused `Scaffolding is not defined` / `Invalid or unexpected token` runtime failures.
+- Pixel rendering CSS is injected after the reconstructed page is written so the game canvas stays crisp without rewriting the huge packed source.
+- If the source port is updated later, regenerate all `index.part*` files together from the new full HTML and keep each part comfortably below GitHub's 100 MB file limit.
 
 ### Pixel Rendering Matters
 
@@ -1762,7 +1777,7 @@ What appears complete:
 - Lightners Live is no longer in the active extras page.
 - Mods and Extras buttons have recent separation work.
 - Extra card image/text layout has been adjusted recently.
-- Deltarune Network, Dojo Customizer, Ultimate Boss Rush, Dreamwake, Soulblazers, Plugged Dream, Lambdarune, Full Roaring Knight Remake, Free Her, Cat and Mouse, Home Sweet Home, Asgore Runs Over Dess, and Undertale 10th Anniversary are represented in `dltrn.html`.
+- Deltarune Network, Dojo Customizer, Ultimate Boss Rush, Dreamwake, Soulblazers, Plugged Dream, Lambdarune, Full Roaring Knight Remake, Knight Rematch, Free Her, Cat and Mouse, Home Sweet Home, Asgore Runs Over Dess, and Undertale 10th Anniversary are represented in `dltrn.html`.
 
 What appears in progress:
 
