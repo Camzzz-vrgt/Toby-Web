@@ -1236,6 +1236,7 @@ Browser compatibility patches inside the `.love` package:
 - Makes the Board Writer RGB shader optional and WebGL-safe.
 - Replaces `bit.band` tile gid parsing with arithmetic checks.
 - Adds a web font fallback in `Assets.getFont()`.
+- Clamps invalid audio pitch values and changes known decimal `electric_talk` pitch calls to `Utils.random(...)`, preventing battle crashes from zero/invalid pitch values in browser Lua.
 
 ### Kristal/love.js Ports Need HTTPS Assets
 
