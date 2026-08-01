@@ -1224,7 +1224,7 @@ How it connects:
 
 - The Extras card in `dltrn.html` calls `loadDeltarunePluggedDream()`.
 - That loader fetches the Plugged Dream entry page from `raw.githubusercontent.com`, injects the jsDelivr folder as the asset base, and writes the result into the current document.
-- Boss battle music is referenced in `mods/plugged_dream/scripts/battle/encounters/romb.lua` as `self.music = "ramb_boss"` and the packaged audio is `mods/plugged_dream/assets/music/ramb_boss.ogg`.
+- Boss battle music is referenced in `mods/plugged_dream/scripts/battle/encounters/romb.lua` as `self.music = "ramb_boss"` and the packaged audio is `mods/plugged_dream/assets/music/ramb_boss.ogg`. As of August 1, 2026, that packaged OGG has been replaced with the user's Haywire track.
 
 Browser compatibility patches inside the `.love` package:
 
