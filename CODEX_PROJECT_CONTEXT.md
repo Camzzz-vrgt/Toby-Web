@@ -318,6 +318,7 @@ Current extras:
 - LAMBDARUNE
 - Full Roaring Knight Remake
 - Knight Rematch
+- Lost Deltarune
 - Free Her!
 - Cat and Mouse
 - Home Sweet Home
@@ -785,6 +786,7 @@ Important current folder sizes:
 | `files/free-her` | 5 | 24.31 | Free Her packaged port |
 | `files/full-roaring-knight-remake` | 4 | 63.66 | Full Roaring Knight Remake packaged port |
 | `files/knight-rematch` | 8 | 205.69 | Knight Rematch TurboWarp packaged port split into GitHub-safe chunks |
+| `files/lost-deltarune` | 70 | 143.75 | Lost Deltarune GameMaker/Yoyo port with external localization and audio assets |
 | `files/undertale-10th-anniversary` | 11 | 11.62 | Undertale 10th Anniversary port |
 | `files/audios` | 25 | 51.81 | Site sounds and theme music |
 | `files/backgrounds` | 20 | 2.44 | Site theme backgrounds |
@@ -1778,6 +1780,7 @@ What appears complete:
 - Mods and Extras buttons have recent separation work.
 - Extra card image/text layout has been adjusted recently.
 - Deltarune Network, Dojo Customizer, Ultimate Boss Rush, Dreamwake, Soulblazers, Plugged Dream, Lambdarune, Full Roaring Knight Remake, Knight Rematch, Free Her, Cat and Mouse, Home Sweet Home, Asgore Runs Over Dess, and Undertale 10th Anniversary are represented in `dltrn.html`.
+- Lost Deltarune is represented in `dltrn.html` and packaged under `files/lost-deltarune`. Its `data.win` is stored as six `game.unx.part*` chunks, while its root OGG files and `loc/*.json` files are explicitly included in the runner manifest. The Windows-only `execute_shell_simple_ext.dll` calls are replaced by browser-safe no-op shims because web pages cannot launch local shell commands.
 
 What appears in progress:
 
