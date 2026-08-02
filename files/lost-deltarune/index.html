@@ -93,7 +93,7 @@
     </style>
   </head>
   <body>
-    <canvas class="emscripten" id="canvas" width="1280" height="720" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
+    <canvas class="emscripten" id="canvas" width="640" height="480" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
     <div class="loading" id="loading">
       <div class="spinner"></div>
       <div id="status">Downloading...</div>
@@ -113,8 +113,8 @@
       const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
       const GAME_MD5 = "5bcdfe76137c2c18d0110ca03994ce9b";
       const ASSET_VERSION = "lost-deltarune-20260801-responsive";
-      const NATIVE_GAME_WIDTH = 1280;
-      const NATIVE_GAME_HEIGHT = 720;
+      const NATIVE_GAME_WIDTH = 640;
+      const NATIVE_GAME_HEIGHT = 480;
       let mergedGameUrl = "";
       let runnerDataUrl = "";
       let startingHeight;
@@ -125,6 +125,18 @@
       const statusElement = document.getElementById("status");
       const progressElement = document.getElementById("progress");
       const canvasElement = document.getElementById("canvas");
+
+      // This Windows build positions UI using the browser window dimensions,
+      // even though its render surface is fixed at 640x480. Expose the logical
+      // game size to the runner and use visualViewport for outer-page scaling.
+      Object.defineProperty(window, "innerWidth", {
+        configurable: true,
+        get: () => NATIVE_GAME_WIDTH
+      });
+      Object.defineProperty(window, "innerHeight", {
+        configurable: true,
+        get: () => NATIVE_GAME_HEIGHT
+      });
 
       canvasElement.addEventListener("click", () => canvasElement.focus());
 
@@ -250,14 +262,16 @@
       }
 
       function ensureAspectRatio() {
-        const maxWidth = window.innerWidth;
-        const maxHeight = window.innerHeight;
+        const maxWidth = window.visualViewport ? window.visualViewport.width : document.documentElement.clientWidth;
+        const maxHeight = window.visualViewport ? window.visualViewport.height : document.documentElement.clientHeight;
+        const gameWidth = startingWidth || NATIVE_GAME_WIDTH;
+        const gameHeight = startingHeight || NATIVE_GAME_HEIGHT;
         const scale = Math.min(
-          maxWidth / NATIVE_GAME_WIDTH,
-          maxHeight / NATIVE_GAME_HEIGHT
+          maxWidth / gameWidth,
+          maxHeight / gameHeight
         );
-        const newWidth = Math.floor(NATIVE_GAME_WIDTH * scale);
-        const newHeight = Math.floor(NATIVE_GAME_HEIGHT * scale);
+        const newWidth = Math.floor(gameWidth * scale);
+        const newHeight = Math.floor(gameHeight * scale);
 
         canvasElement.style.width = newWidth + "px";
         canvasElement.style.height = newHeight + "px";
@@ -728,9 +742,9 @@
         startingWidth = width;
         startingHeight = height;
         startingAspect = startingWidth / startingHeight;
-        if (canvasElement.width !== NATIVE_GAME_WIDTH || canvasElement.height !== NATIVE_GAME_HEIGHT) {
-          canvasElement.width = NATIVE_GAME_WIDTH;
-          canvasElement.height = NATIVE_GAME_HEIGHT;
+        if (canvasElement.width !== width || canvasElement.height !== height) {
+          canvasElement.width = width;
+          canvasElement.height = height;
         }
         ensureAspectRatio();
       }
