@@ -315,6 +315,7 @@ Current extras:
 - Deltarune Soulblazers
 - Deltarune Plugged Dream
 - Deltarune Friendless
+- Deltarune Frostveil
 - VS Tung Tung Tung Sahur
 - LAMBDARUNE
 - Full Roaring Knight Remake
@@ -775,6 +776,7 @@ Important current folder sizes:
 | `files/deltarune-soulblazers` | 16 | 176.85 | Soulblazers fangame port |
 | `files/deltarune-plugged-dream` | 9 | 39.77 | Plugged Dream Kristal/love.js port |
 | `files/deltarune-friendless` | 8 | ~51.5 | Friendless Kristal/love.js port |
+| `files/deltarune-frostveil` | 10 | ~130 | Frostveil Kristal/love.js port; package is split into three GitHub-safe parts |
 | `files/vs-tung-tung-tung-sahur` | 10 | 31.38 | Kristal/love.js port of VS Tung Tung Tung Sahur |
 | `files/lambdarune` | 118 | 145.82 | LAMBDARUNE port |
 | `files/scampton-the-great` | 17 | 193.21 | Scampton The Great port |
@@ -1246,7 +1248,7 @@ Browser compatibility patches inside the `.love` package:
 
 ### Kristal/love.js Ports Need HTTPS Assets
 
-VS Tung Tung Tung Sahur, Deltarune Plugged Dream, and Deltarune Friendless are Kristal/love.js ports packaged into `.love` files and launched through love.js.
+VS Tung Tung Tung Sahur, Deltarune Plugged Dream, Deltarune Friendless, and Deltarune Frostveil are Kristal/love.js ports packaged into `.love` files and launched through love.js.
 
 Important compatibility details:
 
@@ -1259,6 +1261,7 @@ Important compatibility details:
 - The Tung package's text font aliases `assets/fonts/main.ttf`, `assets/fonts/main_mono.ttf`, and `assets/fonts/small.ttf` are intentionally replaced with the user-provided 8bitoperator font while keeping `.ttf` filenames, because the Kristal loader scans `.ttf` paths and the browser build should render Undertale-style text.
 - If the Kristal package is rebuilt, preserve those compatibility patches or retest the port from the local `dltrn.html` wrapper before pushing.
 - Friendless was extracted from its fused `DEVICE_FRIEND.exe` LOVE archive. Its browser package retains the Friendless engine and mod, removes the bundled Git history, disables native Discord/HTTPS libraries, uses a synchronous asset loader, replaces LuaJIT-only `goto` blocks, and uses arithmetic Tiled GID flag parsing.
+- Frostveil was extracted from its fused `Frostveil.exe` LOVE archive. It uses the already browser-patched Kristal 0.10 runtime from Friendless with the Frostveil `chapter5wr_windows` mod, an optional-FFI Chapter 4 library patch, and an engine-target override for mod ID `chapter_5_weird`. Its roughly 136 MB package is stored as `deltarune-frostveil.love.part1` through `.part3`; `files/deltarune-frostveil/player.js` downloads and joins those parts before starting love.js. Keep all three parts together and update the split-loader count if the package is rebuilt.
 
 ### Large TurboWarp HTML Ports May Be Split
 
@@ -1775,6 +1778,7 @@ Based on recent Git history:
 What appears complete:
 
 - Deltarune Plugged Dream was added as an Extras card and classic-layout extra, packaged as a Kristal/love.js port, and smoke-tested from the local `dltrn.html` wrapper through title menu and Start into difficulty select.
+- Deltarune Frostveil is packaged as a Kristal/love.js port and represented in both Extras layouts. Its large package is split into three remotely reassembled parts for GitHub compatibility.
 - VS Tung Tung Tung Sahur was added as an Extras card and documented as a Kristal/love.js port. The package now includes a browser-only font fallback for Kristal text/UI crashes seen during local web testing.
 - The Last Sahur theme assets and launcher option are present.
 - Excuseme2 theme assets and option are present.
