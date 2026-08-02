@@ -93,7 +93,7 @@
     </style>
   </head>
   <body>
-    <canvas class="emscripten" id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
+    <canvas class="emscripten" id="canvas" width="1280" height="720" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
     <div class="loading" id="loading">
       <div class="spinner"></div>
       <div id="status">Downloading...</div>
@@ -112,7 +112,9 @@
       const RUNNER_DATA_PARTS = ["runner.data"];
       const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
       const GAME_MD5 = "5bcdfe76137c2c18d0110ca03994ce9b";
-      const ASSET_VERSION = "lost-deltarune-20260801-locfix3";
+      const ASSET_VERSION = "lost-deltarune-20260801-responsive";
+      const NATIVE_GAME_WIDTH = 1280;
+      const NATIVE_GAME_HEIGHT = 720;
       let mergedGameUrl = "";
       let runnerDataUrl = "";
       let startingHeight;
@@ -248,24 +250,14 @@
       }
 
       function ensureAspectRatio() {
-        if (startingHeight === undefined || startingWidth === undefined) {
-          return;
-        }
-
         const maxWidth = window.innerWidth;
         const maxHeight = window.innerHeight;
-        const heightQuotient = startingHeight / maxHeight;
-        const widthQuotient = startingWidth / maxWidth;
-        let newHeight;
-        let newWidth;
-
-        if (heightQuotient > widthQuotient) {
-          newHeight = maxHeight;
-          newWidth = newHeight * startingAspect;
-        } else {
-          newWidth = maxWidth;
-          newHeight = newWidth / startingAspect;
-        }
+        const scale = Math.min(
+          maxWidth / NATIVE_GAME_WIDTH,
+          maxHeight / NATIVE_GAME_HEIGHT
+        );
+        const newWidth = Math.floor(NATIVE_GAME_WIDTH * scale);
+        const newHeight = Math.floor(NATIVE_GAME_HEIGHT * scale);
 
         canvasElement.style.width = newWidth + "px";
         canvasElement.style.height = newHeight + "px";
@@ -736,6 +728,10 @@
         startingWidth = width;
         startingHeight = height;
         startingAspect = startingWidth / startingHeight;
+        if (canvasElement.width !== NATIVE_GAME_WIDTH || canvasElement.height !== NATIVE_GAME_HEIGHT) {
+          canvasElement.width = NATIVE_GAME_WIDTH;
+          canvasElement.height = NATIVE_GAME_HEIGHT;
+        }
         ensureAspectRatio();
       }
 
