@@ -314,6 +314,7 @@ Current extras:
 - Deltarune Dreamwake
 - Deltarune Soulblazers
 - Deltarune Plugged Dream
+- Deltarune Friendless
 - VS Tung Tung Tung Sahur
 - LAMBDARUNE
 - Full Roaring Knight Remake
@@ -773,6 +774,7 @@ Important current folder sizes:
 | `files/deltarune-dreamwake` | 15 | 151.55 | Dreamwake fangame port |
 | `files/deltarune-soulblazers` | 16 | 176.85 | Soulblazers fangame port |
 | `files/deltarune-plugged-dream` | 9 | 39.77 | Plugged Dream Kristal/love.js port |
+| `files/deltarune-friendless` | 8 | ~51.5 | Friendless Kristal/love.js port |
 | `files/vs-tung-tung-tung-sahur` | 10 | 31.38 | Kristal/love.js port of VS Tung Tung Tung Sahur |
 | `files/lambdarune` | 118 | 145.82 | LAMBDARUNE port |
 | `files/scampton-the-great` | 17 | 193.21 | Scampton The Great port |
@@ -1244,7 +1246,7 @@ Browser compatibility patches inside the `.love` package:
 
 ### Kristal/love.js Ports Need HTTPS Assets
 
-VS Tung Tung Tung Sahur and Deltarune Plugged Dream are Kristal/love.js ports packaged into `.love` files and launched through love.js.
+VS Tung Tung Tung Sahur, Deltarune Plugged Dream, and Deltarune Friendless are Kristal/love.js ports packaged into `.love` files and launched through love.js.
 
 Important compatibility details:
 
@@ -1256,6 +1258,7 @@ Important compatibility details:
 - Browser-only patches inside the `.love` package disable Discord RPC and HTTPS libraries, use a synchronous asset loader instead of a LOVE thread, remove LuaJIT-only `goto` syntax, replace global `bit` usage in tiled gid parsing with arithmetic checks, and fall back to the main/default font when Kristal resolves an unloaded or missing font during web play.
 - The Tung package's text font aliases `assets/fonts/main.ttf`, `assets/fonts/main_mono.ttf`, and `assets/fonts/small.ttf` are intentionally replaced with the user-provided 8bitoperator font while keeping `.ttf` filenames, because the Kristal loader scans `.ttf` paths and the browser build should render Undertale-style text.
 - If the Kristal package is rebuilt, preserve those compatibility patches or retest the port from the local `dltrn.html` wrapper before pushing.
+- Friendless was extracted from its fused `DEVICE_FRIEND.exe` LOVE archive. Its browser package retains the Friendless engine and mod, removes the bundled Git history, disables native Discord/HTTPS libraries, uses a synchronous asset loader, replaces LuaJIT-only `goto` blocks, and uses arithmetic Tiled GID flag parsing.
 
 ### Large TurboWarp HTML Ports May Be Split
 
