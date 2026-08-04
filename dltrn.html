@@ -2051,6 +2051,9 @@
         <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
+        </button>        <button class="game-card roaringedition sound-target" onclick="loadDeltaruneRoaringEdition()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-roaring-edition/icon.png" alt="Deltarune: Roaring Edition">
+          <span>Deltarune: Roaring Edition</span>
         </button>
       </div>
     </section>
@@ -2206,6 +2209,7 @@
             <a class="source-link dojo" href="https://gamebanana.com/wips/98861" target="_blank">Dojo Customizer</a>
             <a class="source-link bossrush" href="https://gamebanana.com/mods/608558" target="_blank">Ultimate Boss Rush</a>
             <a class="source-link network" href="https://gamebanana.com/mods/601376" target="_blank">Deltarune Network</a>
+            <a class="source-link" href="https://gamebanana.com/mods/695617" target="_blank">Deltarune: Roaring Edition</a>
           </div>
         </div>
         <div class="credit-panel">
@@ -3649,6 +3653,17 @@
       }
     }
 
+
+    function loadDeltaruneRoaringEdition() {
+      try {
+        showKaizoLoading("Loading Deltarune: Roaring Edition...");
+        loadRemotePage(FILES_BASE + "deltarune-roaring-edition/chapter1/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Deltarune: Roaring Edition could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
     function loadDeltaruneNetwork() {
       showPage("network");
     }
