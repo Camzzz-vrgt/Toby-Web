@@ -203,13 +203,14 @@ Provides a `mods` page for modded DELTARUNE builds.
 Where it is located:
 
 - Markup: `#mods-page` in `dltrn.html`.
-- Loader functions: `loadKaizoRoaringKnight()`, `loadCyanKnight()`, `loadDojoCustomizer()`, `loadUltimateBossRush()`, `loadDeltaruneNetwork()`, and `loadDeltaruneNetworkChapter(chapter)`.
+- Loader functions: `loadKaizoRoaringKnight()`, `loadCyanKnight()`, `loadDojoCustomizer()`, `loadUltimateBossRush()`, `loadDeterminationFlowery()`, `loadDeltaruneNetwork()`, and `loadDeltaruneNetworkChapter(chapter)`.
 - Assets:
   - `files/kaizo-roaring-knight/`
   - `files/cyan-knight/`
   - `files/dojo-customizer/`
   - `files/ultimate-boss-rush/`
   - `files/deltarune-network/`
+  - `files/determination-flowery/`
 
 Current mod cards:
 
@@ -218,11 +219,13 @@ Current mod cards:
 - Dojo Customizer
 - Ultimate Boss Rush
 - Deltarune Network
+- Determination Flowery (Chapter 5)
 
 How it works:
 
-- Kaizo, Cyan, Dojo, and Boss Rush open confirmation modals because they wipe and replace browser save data before loading.
+- Kaizo, Cyan, Dojo, Boss Rush, and Determination Flowery open confirmation modals because they wipe and replace browser save data before loading.
 - Deltarune Network opens its own chapter selector page and does not currently use a wipe-save modal.
+- Determination Flowery installs `filech5_2`, launches its isolated Chapter 5 build, and replaces only that build's `mus/Flowerman_Arrangement.ogg` with the requested J-Rock arrangement. Its patched `game.unx` is split into 13 chunks.
 
 Important dependencies:
 
@@ -232,10 +235,12 @@ Important dependencies:
   - `KAIZO_SAVE_URL`
   - `CYAN_SAVE_URL`
   - `DOJO_SAVE_URL`
+  - `DETERMINATION_FLOWERY_SAVE_URL`
   - `DOJO_MANAGER_SAVE_FILES`
   - `KAIZO_SAVE_KEY`
   - `CYAN_SAVE_KEY`
   - `DOJO_SAVE_KEY`
+  - `DETERMINATION_FLOWERY_SAVE_KEY`
 
 Known bugs or unfinished parts:
 
@@ -256,6 +261,7 @@ Where it is located:
 - `loadCyanKnight()`
 - `loadDojoCustomizer()`
 - `loadUltimateBossRush()`
+- `loadDeterminationFlowery()`
 
 All are in `dltrn.html`.
 
@@ -1777,6 +1783,8 @@ Based on recent Git history:
 
 What appears complete:
 
+- Determination Flowery (Hard Mode) is packaged as a Chapter 5-only mod under `files/determination-flowery`, with a converted slot-2 save, a custom Vorbis Flower Man arrangement, a save-warning modal, a Mods card, and source credit. The mod's xdelta was applied to the untouched Steam Chapter 5 `data.win` through DeltaMod's bundled `g3mtool`.
+
 - Deltarune Plugged Dream was added as an Extras card and classic-layout extra, packaged as a Kristal/love.js port, and smoke-tested from the local `dltrn.html` wrapper through title menu and Start into difficulty select.
 - Deltarune Frostveil is packaged as a Kristal/love.js port and represented in both Extras layouts. Its large package is split into three remotely reassembled parts for GitHub compatibility.
 - VS Tung Tung Tung Sahur was added as an Extras card and documented as a Kristal/love.js port. The package now includes a browser-only font fallback for Kristal text/UI crashes seen during local web testing.
@@ -1791,14 +1799,13 @@ What appears complete:
 
 What appears in progress:
 
-- Chapter 5 local files are modified in the working tree.
 - Deltarune GeoGuessr remains a known unresolved or fragile port.
 
 Likely next steps:
 
 - Preserve current working extras/mods while fixing only requested issues.
 - Continue adding themes and extras through the established card/loader/credits pattern.
-- If working on chapter 5, inspect the local dirty files first.
+- If working on Chapter 5 or a Chapter 5 mod, preserve the normal `files/chapter5` build and use an isolated mod folder.
 - If working on GeoGuessr, gather browser console logs and compare runner/export behavior before attempting broad fixes.
 
 ## 13. Rules for the Next Codex
@@ -1840,24 +1847,24 @@ Use this process whenever the user requests a change:
 
 Main entry points:
 
-- Active launcher: `C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL\dltrn.html`
-- Standalone old layout: `C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL\old-layout.html`
-- Older alternate launcher: `C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL\index.html`
+- Active launcher: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\dltrn.html`
+- Matching launcher copy: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\index.html`
+- Standalone old layout: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\old-layout.html`
 
 Important directories:
 
-- Runtime assets: `C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL\files`
-- Site audio: `C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL\files\audios`
-- Site backgrounds: `C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL\files\backgrounds`
+- Runtime assets: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\files`
+- Site audio: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\files\audios`
+- Site backgrounds: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\files\backgrounds`
 - Deltarune chapters: `files\chapter1` through `files\chapter5`
 - Undertale: `files\undertale`
-- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`
+- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`
 - Extras: see `#extras-page` in `dltrn.html`.
 
 Development command:
 
 ```powershell
-Set-Location "C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL"
+Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL"
 python -m http.server 8000
 ```
 
