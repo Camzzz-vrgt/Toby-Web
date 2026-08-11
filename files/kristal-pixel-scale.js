@@ -13,16 +13,9 @@
       window.innerWidth / LOGICAL_WIDTH,
       window.innerHeight / LOGICAL_HEIGHT
     );
-    var scale;
-    if (fit >= 1) {
-      scale = Math.max(1, Math.floor(fit));
-    } else {
-      // Keep source pixels uniform on very small screens by stepping down in
-      // exact halves instead of stretching to an arbitrary fractional size.
-      scale = 1;
-      while (scale / 2 >= fit) scale /= 2;
-      if (scale > fit) scale /= 2;
-    }
+    // Fill as much of the current tab as possible while preserving 4:3.
+    // Nearest-neighbor rendering keeps fractional Chromebook scaling crisp.
+    var scale = fit;
     var width = Math.max(1, Math.floor(LOGICAL_WIDTH * scale));
     var height = Math.max(1, Math.floor(LOGICAL_HEIGHT * scale));
 
