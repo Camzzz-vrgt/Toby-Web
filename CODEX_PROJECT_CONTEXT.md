@@ -225,7 +225,7 @@ How it works:
 
 - Kaizo, Cyan, Dojo, Boss Rush, and Determination Flowery open confirmation modals because they wipe and replace browser save data before loading.
 - Deltarune Network opens its own chapter selector page and does not currently use a wipe-save modal.
-- Determination Flowery installs `filech5_2`, launches its isolated Chapter 5 build, and replaces only that build's `mus/Flowerman_Arrangement.ogg` with the requested J-Rock arrangement. Its patched `game.unx` is split into 13 chunks.
+- Determination Flowery installs `filech5_2` and launches its isolated Chapter 5 build. The patched battle requests `mus/rakuichi_buster_wip.ogg`; the mod loader redirects that request to the custom J-Rock track stored as `mus/FLOWERMAN.ogg`. Do not replace the normal Chapter 5 copy or `Flowerman_Arrangement.ogg`. Its patched `game.unx` is split into 13 chunks.
 
 Important dependencies:
 
