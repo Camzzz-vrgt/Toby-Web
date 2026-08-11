@@ -227,7 +227,7 @@ Current mod cards:
 
 How it works:
 
-- Kaizo, Cyan, Dojo, Boss Rush, Determination Flowery, and Violet Knight open confirmation modals because they wipe and replace browser save data before loading.
+- Kaizo, Cyan, Dojo, Boss Rush, Determination Flowery, and Violet Knight open confirmation modals with two launch paths. `Use Recommended Save` wipes the browser save and installs the mod's bundled save for the intended experience. `Use Existing Save` launches the same isolated mod build without wiping or installing save records. Aqua Over Kris uses the related new-save/existing-save choice described below.
 - Deltarune Network opens its own chapter selector page and does not currently use a wipe-save modal.
 - Determination Flowery installs `filech5_2` and launches its isolated Chapter 5 build through the cache-safe `flowerman-loader.html` entry. The patched battle requests `mus/rakuichi_buster_wip.ogg`; the mod loader redirects that request to the custom J-Rock track stored as `mus/FLOWERMAN.ogg`. Do not replace the normal Chapter 5 copy or `Flowerman_Arrangement.ogg`. Its patched `game.unx` is split into 13 chunks.
 - Violet Knight installs the same `filech3_0` data used by Kaizo Roaring Knight and launches the isolated build at `files/violet-knight/chapter3/index.html`. The mod xdelta targets DELTARUNE 1.06 Chapter 3. The official Black Knife runtime filename is `mus/knight.ogg`; only the Violet Knight copy is replaced with the custom cover. Its patched `game.unx` is split into eight chunks. Do not rename the replacement to a title containing `black knife`, because the game requests `knight.ogg`.
