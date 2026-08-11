@@ -203,7 +203,7 @@ Provides a `mods` page for modded DELTARUNE builds.
 Where it is located:
 
 - Markup: `#mods-page` in `dltrn.html`.
-- Loader functions: `loadKaizoRoaringKnight()`, `loadCyanKnight()`, `loadDojoCustomizer()`, `loadUltimateBossRush()`, `loadDeterminationFlowery()`, `loadVioletKnight()`, `loadDeltaruneNetwork()`, and `loadDeltaruneNetworkChapter(chapter)`.
+- Loader functions: `loadKaizoRoaringKnight()`, `loadCyanKnight()`, `loadDojoCustomizer()`, `loadUltimateBossRush()`, `loadDeterminationFlowery()`, `loadVioletKnight()`, `loadAquaOverKrisChapter(chapter)`, `loadDeltaruneNetwork()`, and `loadDeltaruneNetworkChapter(chapter)`.
 - Assets:
   - `files/kaizo-roaring-knight/`
   - `files/cyan-knight/`
@@ -212,6 +212,7 @@ Where it is located:
   - `files/deltarune-network/`
   - `files/determination-flowery/`
   - `files/violet-knight/`
+  - `files/aqua-over-kris/`
 
 Current mod cards:
 
@@ -222,6 +223,7 @@ Current mod cards:
 - Deltarune Network
 - Determination Flowery (Chapter 5)
 - Violet Knight (Chapter 3)
+- Aqua Over Kris (Chapters 1-5)
 
 How it works:
 
@@ -229,6 +231,7 @@ How it works:
 - Deltarune Network opens its own chapter selector page and does not currently use a wipe-save modal.
 - Determination Flowery installs `filech5_2` and launches its isolated Chapter 5 build through the cache-safe `flowerman-loader.html` entry. The patched battle requests `mus/rakuichi_buster_wip.ogg`; the mod loader redirects that request to the custom J-Rock track stored as `mus/FLOWERMAN.ogg`. Do not replace the normal Chapter 5 copy or `Flowerman_Arrangement.ogg`. Its patched `game.unx` is split into 13 chunks.
 - Violet Knight installs the same `filech3_0` data used by Kaizo Roaring Knight and launches the isolated build at `files/violet-knight/chapter3/index.html`. The mod xdelta targets DELTARUNE 1.06 Chapter 3. The official Black Knife runtime filename is `mus/knight.ogg`; only the Violet Knight copy is replaced with the custom cover. Its patched `game.unx` is split into eight chunks. Do not rename the replacement to a title containing `black knife`, because the game requests `knight.ogg`.
+- Aqua Over Kris has isolated patched builds at `files/aqua-over-kris/chapter1` through `chapter5`. Its opening dialog recommends a new save, then offers `Start New Save` or `Use Existing Save`. Starting new calls `wipeScopedSaveRecords("deltarune")`, preserving Undertale saves and site preferences; existing-save mode does not mutate save data. Both choices open `#aqua-page`, where the user selects a chapter. Keep all five chapter patches and runner chunk counts aligned: Chapter 1 uses one `game.unx`, Chapter 2 uses four parts, Chapters 3 and 4 use eight parts, and Chapter 5 uses ten parts.
 
 Important dependencies:
 
@@ -1786,6 +1789,7 @@ Based on recent Git history:
 
 What appears complete:
 
+- Aqua Over Kris is packaged for Chapters 1-5 under `files/aqua-over-kris`, using the five xdelta patches from DeltaMod package `skronk.aqua.assured`. It includes a save-choice dialog and a dedicated chapter selector.
 - Violet Knight is packaged as a Chapter 3-only mod under `files/violet-knight`, with the DeltaMod xdelta applied to the clean DELTARUNE 1.06 Chapter 3 archive. It uses the Kaizo Roaring Knight `filech3_0` save and replaces only its isolated `mus/knight.ogg` with the requested Black Knife cover.
 - Determination Flowery (Hard Mode) is packaged as a Chapter 5-only mod under `files/determination-flowery`, with a converted slot-2 save, a custom Vorbis Flower Man arrangement, a save-warning modal, a Mods card, and source credit. The mod's xdelta was applied to the untouched Steam Chapter 5 `data.win` through DeltaMod's bundled `g3mtool`.
 
@@ -1862,7 +1866,7 @@ Important directories:
 - Site backgrounds: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\files\backgrounds`
 - Deltarune chapters: `files\chapter1` through `files\chapter5`
 - Undertale: `files\undertale`
-- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`
+- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`
 - Extras: see `#extras-page` in `dltrn.html`.
 
 Development command:
