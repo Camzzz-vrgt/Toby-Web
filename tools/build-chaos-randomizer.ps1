@@ -15,6 +15,12 @@ New-Item -ItemType Directory -Force -Path $buildRoot, $destination | Out-Null
 $renameScript = Join-Path $buildRoot "rename.csx"
 @'
 Data.GeneralInfo.Name = Data.Strings.MakeString("DELTARUNE_chaos_randomizer");
+if (Data.Code.ByName("gml_Object_obj_king_boss_Create_0") != null)
+{
+    UndertaleModLib.Compiler.CodeImportGroup imports = new(Data);
+    imports.QueueAppend("gml_Object_obj_king_boss_Create_0", "attack = 1;");
+    imports.Import();
+}
 '@ | Set-Content -LiteralPath $renameScript -Encoding utf8NoBOM
 
 for ($chapter = 1; $chapter -le 4; $chapter++) {
