@@ -224,6 +224,7 @@ Current mod cards:
 - Determination Flowery (Chapter 5)
 - Violet Knight (Chapter 3)
 - Aqua Over Kris (Chapters 1-5)
+- No Bullet Cooldowns (Chapters 1-5)
 
 How it works:
 
@@ -250,7 +251,7 @@ Important dependencies:
 
 Known bugs or unfinished parts:
 
-- `files/no-bullet-cooldowns/icon.png` still exists, but the No Bullet Cooldowns mod is intentionally not wired into the UI because previous versions did not work.
+- No Bullet Cooldowns v1.5.0 is active. Its five DeltaMod xdelta patches target DELTARUNE `0.0.253`, were applied to checksum-matched clean Steam archives, and are packaged under `files/no-bullet-cooldowns/chapter1` through `chapter5`. It uses the player's existing DELTARUNE browser saves and has a dedicated chapter selector; it does not wipe or install saves.
 
 ### Mod Save Preinstallation
 
@@ -1322,7 +1323,7 @@ Adding a mod or extra requires updating:
 
 Examples:
 
-- No Bullet Cooldowns has only an icon folder remaining.
+- No Bullet Cooldowns is an active five-chapter mod with isolated patched runner builds.
 - `.gitattributes` still mentions Lightners Live Plus.
 
 Do not assume a folder being present means it is active in the UI.
@@ -1789,6 +1790,7 @@ Based on recent Git history:
 
 What appears complete:
 
+- No Bullet Cooldowns v1.5.0 is packaged for Chapters 1-5 under `files/no-bullet-cooldowns`. The DeltaMod patches were applied only after all five clean Steam `data.win` files matched the package's required SHA-256 hashes. The launcher includes a Mods card, dedicated chapter selector, classic-layout entry, and GameBanana credit. All five local runner entries were boot-tested through creation of their game canvases.
 - Aqua Over Kris is packaged for Chapters 1-5 under `files/aqua-over-kris`, using the five xdelta patches from DeltaMod package `skronk.aqua.assured`. It includes a save-choice dialog and a dedicated chapter selector.
 - Violet Knight is packaged as a Chapter 3-only mod under `files/violet-knight`, with the DeltaMod xdelta applied to the clean DELTARUNE 1.06 Chapter 3 archive. It uses the Kaizo Roaring Knight `filech3_0` save and replaces only its isolated `mus/knight.ogg` with the requested Black Knife cover.
 - Determination Flowery (Hard Mode) is packaged as a Chapter 5-only mod under `files/determination-flowery`, with a converted slot-2 save, a custom Vorbis Flower Man arrangement, a save-warning modal, a Mods card, and source credit. The mod's xdelta was applied to the untouched Steam Chapter 5 `data.win` through DeltaMod's bundled `g3mtool`.
@@ -1866,7 +1868,7 @@ Important directories:
 - Site backgrounds: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\files\backgrounds`
 - Deltarune chapters: `files\chapter1` through `files\chapter5`
 - Undertale: `files\undertale`
-- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`
+- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`, `files\no-bullet-cooldowns`
 - Extras: see `#extras-page` in `dltrn.html`.
 
 Development command:

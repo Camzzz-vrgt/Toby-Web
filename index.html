@@ -606,6 +606,7 @@
     .game-card.determinationflowery img,
     .game-card.violetknight img,
     .game-card.aquaoverkris img,
+    .game-card.nobulletcooldowns img,
     .game-card.geo img,
     .game-card.guesswho img,
     .game-card.upperhand img,
@@ -670,6 +671,10 @@
 
     .aqua-over-kris-text {
       color: #55ddea;
+    }
+
+    .no-bullet-cooldowns-text {
+      color: #ffb52e;
     }
 
     .geo-text {
@@ -856,6 +861,7 @@
     .source-link.determinationflowery { --source-hover: #ff8fb5; }
     .source-link.violetknight { --source-hover: #b77cff; }
     .source-link.aquaoverkris { --source-hover: #55ddea; }
+    .source-link.nobulletcooldowns { --source-hover: #ffb52e; }
     .source-link.guesswho { --source-hover: #ff2a20; }
     .source-link.upperhand { --source-hover: #c8d5ff; }
     .source-link.scampton { --source-hover: #ff9bd6; }
@@ -972,6 +978,45 @@
     }
 
     #aqua-page .row img {
+      width: 54px;
+      height: 54px;
+    }
+
+    #no-bullet-cooldowns-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 62px clamp(22px, 6vw, 86px) 32px;
+      overflow: hidden;
+    }
+
+    #no-bullet-cooldowns-page .subpage-header {
+      width: min(980px, calc(100vw - 44px));
+      margin: 0 auto 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #no-bullet-cooldowns-page .network-logo-card span {
+      color: #ffb52e;
+    }
+
+    #no-bullet-cooldowns-page .menu {
+      width: min(820px, 68vw);
+    }
+
+    #no-bullet-cooldowns-page .row {
+      min-height: 58px;
+      grid-template-columns: 1.05fr 1.25fr 64px;
+    }
+
+    #no-bullet-cooldowns-page .chapter,
+    #no-bullet-cooldowns-page .title {
+      font-size: clamp(1.25rem, 2vw, 2rem);
+    }
+
+    #no-bullet-cooldowns-page .row img {
       width: 54px;
       height: 54px;
     }
@@ -1742,6 +1787,7 @@
       .game-card.dreamwake img,
       .game-card.soulblazers img,
       .game-card.friendless img,
+      .game-card.nobulletcooldowns img,
       .game-card.tungsahur img,
       .game-card.lambdarune img,
       .game-card.roaringknight img,
@@ -1771,11 +1817,19 @@
         padding: 48px clamp(18px, 4vw, 54px) 22px;
       }
 
+      #no-bullet-cooldowns-page {
+        padding: 48px clamp(18px, 4vw, 54px) 22px;
+      }
+
       #network-page .subpage-header {
         margin: 42px auto 16px;
       }
 
       #aqua-page .subpage-header {
+        margin: 42px auto 16px;
+      }
+
+      #no-bullet-cooldowns-page .subpage-header {
         margin: 42px auto 16px;
       }
 
@@ -1801,12 +1855,21 @@
         width: min(760px, 70vw);
       }
 
+      #no-bullet-cooldowns-page .menu {
+        width: min(760px, 70vw);
+      }
+
       #network-page .row {
         min-height: 48px;
         grid-template-columns: 1.05fr 1.22fr 52px;
       }
 
       #aqua-page .row {
+        min-height: 48px;
+        grid-template-columns: 1.05fr 1.22fr 52px;
+      }
+
+      #no-bullet-cooldowns-page .row {
         min-height: 48px;
         grid-template-columns: 1.05fr 1.22fr 52px;
       }
@@ -1821,12 +1884,22 @@
         font-size: clamp(1.05rem, 2vw, 1.55rem);
       }
 
+      #no-bullet-cooldowns-page .chapter,
+      #no-bullet-cooldowns-page .title {
+        font-size: clamp(1.05rem, 2vw, 1.55rem);
+      }
+
       #network-page .row img {
         width: 44px;
         height: 44px;
       }
 
       #aqua-page .row img {
+        width: 44px;
+        height: 44px;
+      }
+
+      #no-bullet-cooldowns-page .row img {
         width: 44px;
         height: 44px;
       }
@@ -1905,6 +1978,10 @@
         padding-top: 42px;
       }
 
+      #no-bullet-cooldowns-page {
+        padding-top: 42px;
+      }
+
       .network-logo-card img {
         width: 56px;
         height: 56px;
@@ -1915,6 +1992,10 @@
       }
 
       #aqua-page .row {
+        min-height: 42px;
+      }
+
+      #no-bullet-cooldowns-page .row {
         min-height: 42px;
       }
     }
@@ -2162,6 +2243,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
           <span class="aqua-over-kris-text">Aqua Over Kris</span>
         </button>
+        <button class="game-card nobulletcooldowns sound-target" onclick="loadNoBulletCooldowns()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
+          <span class="no-bullet-cooldowns-text">No Bullet Cooldowns</span>
+        </button>
         <button class="game-card roaringedition sound-target" onclick="loadDeltaruneRoaringEdition()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-roaring-edition/icon.png" alt="Deltarune: Roaring Edition">
           <span>Deltarune: Roaring Edition</span>
@@ -2220,6 +2305,34 @@
           <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadAquaOverKrisChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="no-bullet-cooldowns-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="">
+          <span>No Bullet Cooldowns</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadNoBulletCooldownsChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadNoBulletCooldownsChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadNoBulletCooldownsChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadNoBulletCooldownsChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadNoBulletCooldownsChapter(5)" class="row sound-target">
           <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
         </a>
       </div>
@@ -2351,6 +2464,7 @@
             <a class="source-link determinationflowery" href="https://gamebanana.com/mods/701463" target="_blank">Determination Flowery</a>
             <a class="source-link violetknight" href="https://gamebanana.com/mods/700909" target="_blank">Violet Knight</a>
             <a class="source-link aquaoverkris" href="https://gamebanana.com/mods/690240" target="_blank">Aqua Over Kris</a>
+            <a class="source-link nobulletcooldowns" href="https://gamebanana.com/mods/587241" target="_blank">No Bullet Cooldowns</a>
             <a class="source-link" href="https://gamebanana.com/mods/695617" target="_blank">Deltarune: Roaring Edition</a>
           </div>
         </div>
@@ -2421,6 +2535,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openAquaOverKrisConfirm()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadNoBulletCooldowns()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
@@ -3979,6 +4096,10 @@
       showPage("network");
     }
 
+    function loadNoBulletCooldowns() {
+      showPage("no-bullet-cooldowns");
+    }
+
     function loadDeltaruneNetworkChapter(chapter) {
       try {
         showKaizoLoading("Loading Deltarune Network Chapter " + chapter + "...");
@@ -3998,6 +4119,17 @@
         hideKaizoLoading();
         gamestarted = false;
         alert("Aqua Over Kris Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadNoBulletCooldownsChapter(chapter) {
+      try {
+        showKaizoLoading("Loading No Bullet Cooldowns Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "no-bullet-cooldowns/chapter" + chapter + "/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("No Bullet Cooldowns Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
 
@@ -4042,7 +4174,7 @@
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "network", "extras", "credits", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "extras", "credits", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");
