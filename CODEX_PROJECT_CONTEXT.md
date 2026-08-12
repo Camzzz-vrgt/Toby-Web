@@ -253,6 +253,7 @@ Known bugs or unfinished parts:
 
 - No Bullet Cooldowns v1.5.0 is active. Its five DeltaMod xdelta patches target DELTARUNE `0.0.253`, were applied to checksum-matched clean Steam archives, and are packaged under `files/no-bullet-cooldowns/chapter1` through `chapter5`. It uses the player's existing DELTARUNE browser saves and has a dedicated chapter selector; it does not wipe or install saves.
 - Offline Bingo is an offline adaptation of the DELTARUNE Bingosync mod for Chapters 1-5. It keeps the in-game 25-square board and goal-tracking hooks, but removes the Bingosync room, HTTP, and WebSocket requirements. The builds use the isolated GameMaker project/save namespace `DELTARUNE_offline_bingo`; completed squares are reconstructed from locally saved goal progress when another chapter is opened. Runtime files are under `files/offline-bingo/chapter1` through `chapter5`, and the reproducible conversion script is `tools/build-offline-bingo.ps1`. The script requires the installed DeltaMod copy of `gamebanana.dr-bingosync.ners`, clean Steam DELTARUNE chapter data, DeltaMod's UndertaleModCli, and network access only while bundling the upstream goal list during a rebuild. The shipped browser builds do not require Bingosync or network APIs.
+- Chaos Randomizer v4.1.3 is packaged for Chapters 1-4 under `files/chaos-randomizer`. Its xdelta patches target DELTARUNE `0.0.253`, and its 189 bundled `mus` files must be copied into every chapter package because randomized encounters can request music from other chapters and Undertale. The GameMaker/save namespace is isolated as `DELTARUNE_chaos_randomizer`. Rebuild it with `tools/build-chaos-randomizer.ps1`.
 
 ### Mod Save Preinstallation
 
@@ -1869,7 +1870,7 @@ Important directories:
 - Site backgrounds: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\files\backgrounds`
 - Deltarune chapters: `files\chapter1` through `files\chapter5`
 - Undertale: `files\undertale`
-- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`, `files\no-bullet-cooldowns`, `files\offline-bingo`
+- Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`, `files\no-bullet-cooldowns`, `files\offline-bingo`, `files\chaos-randomizer`
 - Extras: see `#extras-page` in `dltrn.html`.
 
 Development command:

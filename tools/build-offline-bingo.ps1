@@ -95,6 +95,41 @@ for (var offline_i = 0; offline_i < 25; offline_i++)
 '@
 [IO.File]::WriteAllText($controllerPath, $controller, [Text.UTF8Encoding]::new($false))
 
+# The original mod blocks texture prefetch until its HTTP goal-list request completes.
+# Offline goals are initialized immediately after prefetch, so remove that circular gate.
+$chapterOnePrefetchStep = @'
+/// IMPORT
+
+if (prog < array_length(pages))
+{
+    texture_prefetch(pages[prog]);
+    prog++;
+}
+else
+{
+    loaded = true;
+    global.prefetchtexload = true;
+}
+'@
+[IO.File]::WriteAllText((Join-Path $codeRoot "..\chapter1\gml_Object_obj_prefetchtex_Step_0.gml"), $chapterOnePrefetchStep, [Text.UTF8Encoding]::new($false))
+
+$sharedPrefetchStep = @'
+/// PATCH .ignore if CHAPTER_1
+
+/// REPLACE
+if (instance_exists(obj_border_controller))
+/// CODE
+if (true)
+/// END
+
+/// REPLACE
+    else
+/// CODE
+    else
+/// END
+'@
+[IO.File]::WriteAllText((Join-Path $codeRoot "gml_Object_obj_prefetchtex_Step_0.gml"), $sharedPrefetchStep, [Text.UTF8Encoding]::new($false))
+
 $timeStepPath = Join-Path $codeRoot "gml_Object_obj_time_Step_1.gml"
 $timeStep = Get-Content -LiteralPath $timeStepPath -Raw
 $timeStep = [regex]::Replace($timeStep, 'internet = os_is_network_connected\(\);[\s\S]*?\r?\n\}\r?\n\r?\nif \(mouse_visible\)', "internet = false;`r`n`r`nif (mouse_visible)", 1)
