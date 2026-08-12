@@ -3015,6 +3015,7 @@
     const audio = document.getElementById("drone");
     const SITE_MUSIC_VOLUME_KEY = "dul_site_music_volume";
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
+    const FIXED_MOD_BUILD_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8514df69fec9314dcc4a7efc00d5c075255a538a/files/";
     const VS_TUNG_SAHUR_CDN_BASE = FILES_BASE + "vs-tung-tung-tung-sahur/";
     const VS_TUNG_SAHUR_INDEX_URL = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/vs-tung-tung-tung-sahur/index.html?v=fit-pixel-scale-20260810";
     const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
@@ -4276,7 +4277,8 @@
     function loadOfflineBingoChapter(chapter) {
       try {
         showKaizoLoading("Loading Offline Bingo Chapter " + chapter + "...");
-        loadRemotePage(FILES_BASE + "offline-bingo/chapter" + chapter + "/index.html");
+        const chapterBase = FIXED_MOD_BUILD_BASE + "offline-bingo/chapter" + chapter + "/";
+        loadRemotePage(chapterBase + "index.html", chapterBase);
       } catch (err) {
         hideKaizoLoading();
         gamestarted = false;
@@ -4287,7 +4289,8 @@
     function loadChaosRandomizerChapter(chapter) {
       try {
         showKaizoLoading("Loading Chaos Randomizer Chapter " + chapter + "...");
-        loadRemotePage(FILES_BASE + "chaos-randomizer/chapter" + chapter + "/index.html");
+        const chapterBase = FIXED_MOD_BUILD_BASE + "chaos-randomizer/chapter" + chapter + "/";
+        loadRemotePage(chapterBase + "index.html", chapterBase);
       } catch (err) {
         hideKaizoLoading();
         gamestarted = false;
