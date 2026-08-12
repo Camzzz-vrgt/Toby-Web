@@ -607,6 +607,7 @@
     .game-card.violetknight img,
     .game-card.aquaoverkris img,
     .game-card.nobulletcooldowns img,
+    .game-card.offlinebingo img,
     .game-card.geo img,
     .game-card.guesswho img,
     .game-card.upperhand img,
@@ -675,6 +676,10 @@
 
     .no-bullet-cooldowns-text {
       color: #ffb52e;
+    }
+
+    .offline-bingo-text {
+      color: #74e060;
     }
 
     .geo-text {
@@ -1017,6 +1022,45 @@
     }
 
     #no-bullet-cooldowns-page .row img {
+      width: 54px;
+      height: 54px;
+    }
+
+    #offline-bingo-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 62px clamp(22px, 6vw, 86px) 32px;
+      overflow: hidden;
+    }
+
+    #offline-bingo-page .subpage-header {
+      width: min(980px, calc(100vw - 44px));
+      margin: 0 auto 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #offline-bingo-page .network-logo-card span {
+      color: #74e060;
+    }
+
+    #offline-bingo-page .menu {
+      width: min(820px, 68vw);
+    }
+
+    #offline-bingo-page .row {
+      min-height: 58px;
+      grid-template-columns: 1.05fr 1.25fr 64px;
+    }
+
+    #offline-bingo-page .chapter,
+    #offline-bingo-page .title {
+      font-size: clamp(1.25rem, 2vw, 2rem);
+    }
+
+    #offline-bingo-page .row img {
       width: 54px;
       height: 54px;
     }
@@ -2247,6 +2291,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
           <span class="no-bullet-cooldowns-text">No Bullet Cooldowns</span>
         </button>
+        <button class="game-card offlinebingo sound-target" onclick="loadOfflineBingo()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/offline-bingo/icon.png" alt="Offline Bingo">
+          <span class="offline-bingo-text">Offline Bingo</span>
+        </button>
         <button class="game-card roaringedition sound-target" onclick="loadDeltaruneRoaringEdition()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-roaring-edition/icon.png" alt="Deltarune: Roaring Edition">
           <span>Deltarune: Roaring Edition</span>
@@ -2277,6 +2325,34 @@
           <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadDeltaruneNetworkChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="offline-bingo-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/offline-bingo/icon.png" alt="">
+          <span>Offline Bingo</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadOfflineBingoChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadOfflineBingoChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadOfflineBingoChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadOfflineBingoChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadOfflineBingoChapter(5)" class="row sound-target">
           <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
         </a>
       </div>
@@ -2465,6 +2541,7 @@
             <a class="source-link violetknight" href="https://gamebanana.com/mods/700909" target="_blank">Violet Knight</a>
             <a class="source-link aquaoverkris" href="https://gamebanana.com/mods/690240" target="_blank">Aqua Over Kris</a>
             <a class="source-link nobulletcooldowns" href="https://gamebanana.com/mods/587241" target="_blank">No Bullet Cooldowns</a>
+            <a class="source-link offlinebingo" href="https://gamebanana.com/mods/641640" target="_blank">Offline Bingo (based on DELTARUNE Bingosync)</a>
             <a class="source-link" href="https://gamebanana.com/mods/695617" target="_blank">Deltarune: Roaring Edition</a>
           </div>
         </div>
@@ -4100,6 +4177,10 @@
       showPage("no-bullet-cooldowns");
     }
 
+    function loadOfflineBingo() {
+      showPage("offline-bingo");
+    }
+
     function loadDeltaruneNetworkChapter(chapter) {
       try {
         showKaizoLoading("Loading Deltarune Network Chapter " + chapter + "...");
@@ -4130,6 +4211,17 @@
         hideKaizoLoading();
         gamestarted = false;
         alert("No Bullet Cooldowns Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadOfflineBingoChapter(chapter) {
+      try {
+        showKaizoLoading("Loading Offline Bingo Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "offline-bingo/chapter" + chapter + "/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Offline Bingo Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
 
@@ -4174,7 +4266,7 @@
     updateAudioButtons();
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "extras", "credits", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "extras", "credits", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");
