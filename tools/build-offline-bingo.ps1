@@ -113,6 +113,23 @@ else
 '@
 [IO.File]::WriteAllText((Join-Path $codeRoot "..\chapter1\gml_Object_obj_prefetchtex_Step_0.gml"), $chapterOnePrefetchStep, [Text.UTF8Encoding]::new($false))
 
+# Chapter 1 normally displays a blocking network/goal-list screen while its
+# texture pages are prefetched. The offline build already embeds every goal,
+# and the regular runner loads textures on demand, so allow initialization to
+# continue immediately instead of entering that network retry state.
+$chapterOnePrefetchCreate = @'
+/// IMPORT
+
+global.autoconnect = false;
+global.prefetchtexload = true;
+texturepagecount = 0;
+prog = 0;
+pages = [];
+loaded = true;
+visible = false;
+'@
+[IO.File]::WriteAllText((Join-Path $codeRoot "..\chapter1\gml_Object_obj_prefetchtex_Create_0.gml"), $chapterOnePrefetchCreate, [Text.UTF8Encoding]::new($false))
+
 $sharedPrefetchStep = @'
 /// PATCH .ignore if CHAPTER_1
 
