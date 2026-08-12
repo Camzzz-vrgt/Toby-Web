@@ -36,12 +36,7 @@ for ($chapter = 1; $chapter -le 4; $chapter++) {
     Get-ChildItem -LiteralPath $chapterDestination -Filter "game.unx*" | Remove-Item -Force
     Copy-Item -Path (Join-Path $PackageRoot "mus\*") -Destination (Join-Path $chapterDestination "mus") -Force
 
-    if ($chapter -eq 1) {
-        Copy-Item -LiteralPath $output -Destination (Join-Path $chapterDestination "game.unx")
-        continue
-    }
-
-    $partCount = switch ($chapter) { 2 { 4 } 3 { 8 } 4 { 8 } }
+    $partCount = switch ($chapter) { 1 { 4 } 2 { 4 } 3 { 8 } 4 { 8 } }
     $bytes = [IO.File]::ReadAllBytes($output)
     $partSize = [Math]::Ceiling($bytes.Length / $partCount)
     for ($part = 0; $part -lt $partCount; $part++) {
@@ -50,6 +45,50 @@ for ($chapter = 1; $chapter -le 4; $chapter++) {
         $chunk = [byte[]]::new($count)
         [Array]::Copy($bytes, $offset, $chunk, 0, $count)
         [IO.File]::WriteAllBytes((Join-Path $chapterDestination "game.unx.part$($part + 1)"), $chunk)
+    }
+
+    if ($chapter -eq 1) {
+        $indexPath = Join-Path $chapterDestination "index.html"
+        $indexHtml = Get-Content -LiteralPath $indexPath -Raw
+        $chunkSetup = @'
+    <script>
+      window.gameArchiveReady = Promise.all([1, 2, 3, 4].map(part =>
+        fetch(`game.unx.part${part}`).then(response => {
+          if (!response.ok) throw new Error(`Could not load game.unx.part${part}`);
+          return response.arrayBuffer();
+        })
+      )).then(parts => {
+        const gameUrl = URL.createObjectURL(new Blob(parts));
+        const originalFetch = window.fetch;
+        window.fetch = function(resource, options) {
+          if (typeof resource === "string" && resource.includes("game.unx")) resource = gameUrl;
+          else if (resource instanceof Request && resource.url.includes("game.unx")) resource = new Request(gameUrl, resource);
+          return originalFetch.call(this, resource, options);
+        };
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+          if (typeof url === "string" && url.includes("game.unx")) url = gameUrl;
+          return originalOpen.call(this, method, url, ...rest);
+        };
+      });
+    </script>
+'@
+        $runnerLoader = @'
+    <script>
+      window.gameArchiveReady.then(() => {
+        const runner = document.createElement("script");
+        runner.src = "runner.js";
+        document.body.appendChild(runner);
+      }).catch(error => {
+        console.error("Failed to assemble game archive:", error);
+        alert(error.message);
+      });
+    </script>
+'@
+        $mainScriptMarker = '    <script type="text/javascript">'
+        $indexHtml = $indexHtml.Replace($mainScriptMarker, $chunkSetup.TrimEnd() + "`r`n`r`n" + $mainScriptMarker)
+        $indexHtml = $indexHtml.Replace('    <script async type="text/javascript" src="runner.js"></script>', $runnerLoader.TrimEnd())
+        Set-Content -LiteralPath $indexPath -Value $indexHtml -Encoding utf8NoBOM
     }
 }
 
