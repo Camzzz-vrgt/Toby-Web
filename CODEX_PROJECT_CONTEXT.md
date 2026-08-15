@@ -1,6 +1,6 @@
 # DUL Project Context
 
-Last inspected by Codex: August 1, 2026.
+Last inspected by Codex: August 14, 2026.
 
 Project root:
 
@@ -114,6 +114,30 @@ Important dependencies:
 Known bugs or unfinished parts:
 
 - Some logo image URLs are pinned to commit hashes. If those image files are updated, the pinned URLs may need to be changed.
+
+### Deltarune Save Converter
+
+What it does:
+
+The home page has a compact `Deltarune Save Converter` button below the settings control. It accepts a native Windows DELTARUNE `filechN_S` save, lets the user choose Chapters 1-5 and slots 1-3, and converts the raw bytes into DUL's IndexedDB backup format. A matching standard filename automatically selects its chapter and slot.
+
+Where it is located:
+
+- Button, modal, styling, and all converter logic are inline in `dltrn.html` and mirrored exactly in `index.html`.
+- Main functions: `openSaveConverter()`, `convertNativeDeltaruneSave()`, `verifyConvertedSave()`, `downloadConvertedSave()`, and `useConvertedSave()`.
+
+How it works:
+
+- The target IndexedDB key is `/_savedata/filech{chapter}_{slot}`.
+- Raw bytes are stored as a `Uint8Array` with GameMaker file mode `33206`, matching the existing mod-save installer.
+- Before presenting actions, the converter JSON round-trips and byte-compares the save, then writes and reads it through the disposable `dul_save_converter_test` IndexedDB database.
+- `Download Converted Save` creates a DUL `.data` backup containing the converted record.
+- `Use Save on DUL` writes only the selected save slot and verifies the installed record; it does not wipe other DELTARUNE slots.
+
+Known limitations:
+
+- The converter validates storage compatibility and byte preservation, but it does not parse or simulate DELTARUNE's internal save semantics.
+- Nonstandard filenames do not provide chapter/slot inference; the user's selected chapter and slot are used.
 
 ### Page Navigation
 

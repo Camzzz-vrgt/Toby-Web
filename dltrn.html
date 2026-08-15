@@ -279,6 +279,35 @@
       border-color: var(--yellow);
     }
 
+    .save-converter-home {
+      position: absolute;
+      top: 76px;
+      right: 22px;
+      z-index: 20;
+      width: 238px;
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
+      color: var(--white);
+      padding: 8px 10px 7px;
+      font: inherit;
+      font-size: 1.25rem;
+      line-height: 1.05;
+      text-align: center;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .save-converter-home span {
+      display: block;
+      margin-top: 2px;
+      font-size: 1.72rem;
+    }
+
+    .save-converter-home:hover {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
     .subpage {
       width: min(980px, calc(100vw - 44px));
       margin: 0 auto;
@@ -1106,6 +1135,7 @@
     #determination-flowery-modal,
     #violet-knight-modal,
     #aqua-over-kris-modal,
+    #save-converter-modal,
     #featured-save-info-modal,
     #kaizo-loading {
       position: fixed;
@@ -1126,6 +1156,7 @@
     #determination-flowery-modal.open,
     #violet-knight-modal.open,
     #aqua-over-kris-modal.open,
+    #save-converter-modal.open,
     #featured-save-info-modal.open,
     #kaizo-loading.open {
       display: flex;
@@ -1182,6 +1213,65 @@
       display: grid;
       gap: 8px;
     }
+
+    .converter-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .converter-field {
+      display: grid;
+      gap: 6px;
+      color: var(--yellow);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .converter-field select,
+    .converter-file-label {
+      min-height: 42px;
+      border: 2px solid var(--white);
+      border-radius: 0;
+      background: #000;
+      color: var(--white);
+      padding: 8px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .converter-file-label {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .converter-file-label:hover,
+    .converter-field select:focus {
+      color: var(--yellow);
+      border-color: var(--yellow);
+      outline: none;
+    }
+
+    #native-save-file { display: none; }
+
+    .converter-status {
+      min-height: 48px;
+      margin: 0 0 14px;
+      border: 2px solid #555;
+      padding: 9px;
+      color: #bbb;
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .converter-status.success { border-color: #31d158; color: #72f594; }
+    .converter-status.error { border-color: #ff4444; color: #ff7777; }
+    #converter-result-actions[hidden] { display: none !important; }
 
     .settings-section {
       border-top: 2px solid #333;
@@ -1670,6 +1760,15 @@
       .mods-home {
         font-size: 3.3rem;
       }
+      .save-converter-home {
+        top: 60px;
+        right: 14px;
+        width: 184px;
+        font-size: 0.92rem;
+      }
+      .save-converter-home span { font-size: 1.28rem; }
+      .converter-form { grid-template-columns: 1fr; }
+      .converter-file-label { grid-column: 1; }
       .subpage {
         width: 100%;
         padding-top: 76px;
@@ -1745,6 +1844,15 @@
       .mods-home {
         font-size: clamp(3.2rem, 11vh, 5.2rem);
       }
+
+      .save-converter-home {
+        top: 58px;
+        right: 14px;
+        width: 190px;
+        font-size: 0.92rem;
+      }
+
+      .save-converter-home span { font-size: 1.3rem; }
 
       .home-nav-actions {
         gap: 12px;
@@ -2188,6 +2296,7 @@
 
   <main id="app">
     <section id="home-page" class="page home-layout active">
+      <button class="save-converter-home sound-target" onclick="openSaveConverter()">Deltarune Save<span>Converter</span></button>
       <div class="home-choices">
         <a class="home-logo-link home-deltarune sound-target home-select-sound" href="javascript:showPage('deltarune')">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-deltarune-tight.png" alt="Deltarune">
@@ -2970,6 +3079,34 @@
     </div>
   </div>
 
+  <div id="save-converter-modal">
+    <div class="modal-box">
+      <button class="pixel-button modal-close sound-target" onclick="closeSaveConverter()">X</button>
+      <h2>Deltarune Save Converter</h2>
+      <p>Convert a Windows DELTARUNE save into DUL's browser-save format.</p>
+      <div class="converter-form">
+        <label class="converter-field">Chapter
+          <select id="converter-chapter" onchange="updateConverterTarget()">
+            <option value="1">Chapter 1</option><option value="2">Chapter 2</option><option value="3">Chapter 3</option><option value="4">Chapter 4</option><option value="5">Chapter 5</option>
+          </select>
+        </label>
+        <label class="converter-field">Save Slot
+          <select id="converter-slot" onchange="updateConverterTarget()">
+            <option value="0">Slot 1</option><option value="1">Slot 2</option><option value="2">Slot 3</option>
+          </select>
+        </label>
+        <label class="converter-file-label sound-target" for="native-save-file" id="native-save-file-label">Choose Native Save File</label>
+        <input id="native-save-file" type="file" onchange="convertNativeDeltaruneSave(event)">
+      </div>
+      <div id="converter-status" class="converter-status">Target: filech1_0. Choose the matching native save file.</div>
+      <div id="converter-result-actions" class="modal-actions" hidden>
+        <button class="pixel-button sound-target" onclick="downloadConvertedSave()">Download Converted Save</button>
+        <button class="pixel-button sound-target" onclick="useConvertedSave()">Use Save on DUL</button>
+        <button class="pixel-button sound-target" onclick="resetSaveConverter()">Convert Another</button>
+      </div>
+    </div>
+  </div>
+
   <div id="featured-save-info-modal">
     <div class="modal-box">
       <button class="pixel-button modal-close sound-target" onclick="closeFeaturedSaveInfo()">X</button>
@@ -3104,6 +3241,7 @@
     let audioStarted = false;
     let selectedChapter = null;
     let importScope = "all";
+    let convertedDeltaruneSave = null;
 
     const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
     const CYAN_SAVE_URL = KAIZO_SAVE_URL;
@@ -3512,6 +3650,161 @@
 
     function closeFeaturedSaveInfo() {
       document.getElementById("featured-save-info-modal").classList.remove("open");
+    }
+
+    function converterTarget() {
+      const chapter = document.getElementById("converter-chapter").value;
+      const slot = document.getElementById("converter-slot").value;
+      return { chapter, slot, filename: `filech${chapter}_${slot}`, key: `/_savedata/filech${chapter}_${slot}` };
+    }
+
+    function setConverterStatus(message, type = "") {
+      const status = document.getElementById("converter-status");
+      status.textContent = message;
+      status.className = "converter-status" + (type ? " " + type : "");
+    }
+
+    function openSaveConverter() {
+      resetSaveConverter();
+      document.getElementById("save-converter-modal").classList.add("open");
+    }
+
+    function closeSaveConverter() {
+      document.getElementById("save-converter-modal").classList.remove("open");
+    }
+
+    function updateConverterTarget() {
+      convertedDeltaruneSave = null;
+      document.getElementById("converter-result-actions").hidden = true;
+      const target = converterTarget();
+      setConverterStatus(`Target: ${target.filename}. Choose the matching native save file.`);
+    }
+
+    function resetSaveConverter() {
+      convertedDeltaruneSave = null;
+      const input = document.getElementById("native-save-file");
+      if (input) input.value = "";
+      const label = document.getElementById("native-save-file-label");
+      if (label) label.textContent = "Choose Native Save File";
+      const actions = document.getElementById("converter-result-actions");
+      if (actions) actions.hidden = true;
+      if (document.getElementById("converter-chapter")) updateConverterTarget();
+    }
+
+    function inferConverterTargetFromFilename(filename) {
+      const match = String(filename || "").match(/^filech([1-5])_([0-2])(?:\.[^.]+)?$/i);
+      if (!match) return;
+      document.getElementById("converter-chapter").value = match[1];
+      document.getElementById("converter-slot").value = match[2];
+    }
+
+    function createConvertedSavePackage(target, bytes) {
+      return {
+        format: "deltarune-snxtr-save",
+        version: 3,
+        scope: "deltarune",
+        exportedAt: new Date().toISOString(),
+        localStorage: {},
+        cookies: "",
+        indexedDB: [{
+          name: SAVE_DB,
+          version: GAME_SAVE_DB_VERSION,
+          stores: [{
+            name: SAVE_STORE,
+            keyPath: null,
+            autoIncrement: false,
+            indexes: [{ name: "timestamp", keyPath: "timestamp", unique: false, multiEntry: false }],
+            records: [{
+              key: target.key,
+              value: {
+                timestamp: { __type: "Date", data: new Date().toISOString() },
+                mode: KAIZO_SAVE_MODE,
+                contents: { __type: "TypedArray", name: "Uint8Array", data: arrayBufferToBase64(bytes.buffer) }
+              }
+            }]
+          }]
+        }]
+      };
+    }
+
+    async function verifyConvertedSave(packageData, originalBytes) {
+      const reparsed = JSON.parse(JSON.stringify(packageData));
+      const record = reparsed.indexedDB?.[0]?.stores?.[0]?.records?.[0];
+      if (!record || !/^\/_savedata\/filech[1-5]_[0-2]$/.test(record.key)) throw new Error("The converted save key is invalid.");
+      const decoded = decodeFromSave(record.value);
+      const roundTrip = decoded.contents instanceof Uint8Array ? decoded.contents : new Uint8Array(decoded.contents);
+      if (roundTrip.length !== originalBytes.length) throw new Error("The converted save changed size during verification.");
+      for (let i = 0; i < originalBytes.length; i++) {
+        if (roundTrip[i] !== originalBytes[i]) throw new Error("The converted save failed its byte check.");
+      }
+
+      const testDBName = "dul_save_converter_test";
+      await deleteIndexedDB(testDBName).catch(() => {});
+      const db = await openIndexedDB(testDBName, 1, openedDB => openedDB.createObjectStore(SAVE_STORE));
+      try {
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction(SAVE_STORE, "readwrite");
+          tx.objectStore(SAVE_STORE).put(decoded, record.key);
+          tx.oncomplete = resolve;
+          tx.onerror = () => reject(tx.error);
+          tx.onabort = () => reject(tx.error);
+        });
+        const saved = await requestToPromise(db.transaction(SAVE_STORE, "readonly").objectStore(SAVE_STORE).get(record.key));
+        if (!saved || saved.mode !== KAIZO_SAVE_MODE || saved.contents.length !== originalBytes.length) {
+          throw new Error("The browser-storage compatibility check failed.");
+        }
+      } finally {
+        db.close();
+        await deleteIndexedDB(testDBName).catch(() => {});
+      }
+    }
+
+    async function convertNativeDeltaruneSave(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      convertedDeltaruneSave = null;
+      document.getElementById("converter-result-actions").hidden = true;
+      document.getElementById("native-save-file-label").textContent = file.name;
+      inferConverterTargetFromFilename(file.name);
+      const target = converterTarget();
+      setConverterStatus(`Converting ${file.name} to ${target.filename} and testing it...`);
+      try {
+        if (!file.size) throw new Error("The selected save file is empty.");
+        if (file.size > 8 * 1024 * 1024) throw new Error("This file is too large to be a DELTARUNE save.");
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        const packageData = createConvertedSavePackage(target, bytes);
+        await verifyConvertedSave(packageData, bytes);
+        convertedDeltaruneSave = { target, packageData, bytes, sourceName: file.name };
+        setConverterStatus(`Verified! ${file.name} is ready as ${target.filename} (${bytes.length.toLocaleString()} bytes).`, "success");
+        document.getElementById("converter-result-actions").hidden = false;
+      } catch (err) {
+        setConverterStatus("Conversion failed: " + (err && err.message ? err.message : err), "error");
+      }
+    }
+
+    function downloadConvertedSave() {
+      if (!convertedDeltaruneSave) return;
+      const data = JSON.stringify(convertedDeltaruneSave.packageData);
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([data], { type: "application/json" }));
+      link.download = `dul_${convertedDeltaruneSave.target.filename}.data`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }
+
+    async function useConvertedSave() {
+      if (!convertedDeltaruneSave) return;
+      const { target, bytes } = convertedDeltaruneSave;
+      if (!confirm(`Use this save as Chapter ${target.chapter}, Slot ${Number(target.slot) + 1}?\n\nOnly ${target.filename} will be replaced.`)) return;
+      try {
+        await putSaveRecord(target.key, { timestamp: new Date(), mode: KAIZO_SAVE_MODE, contents: new Uint8Array(bytes) });
+        const stored = await getSaveRecord(target.key);
+        if (!stored || stored.contents.length !== bytes.length) throw new Error("The installed save could not be verified.");
+        alert(`${target.filename} was installed and verified. You can now start Chapter ${target.chapter}.`);
+        closeSaveConverter();
+      } catch (err) {
+        setConverterStatus("The save could not be installed: " + (err && err.message ? err.message : err), "error");
+      }
     }
 
     function showKaizoLoading(text) {
@@ -4309,6 +4602,7 @@
         closeDeterminationFloweryConfirm();
         closeVioletKnightConfirm();
         closeAquaOverKrisConfirm();
+        closeSaveConverter();
         return;
       }
       const rows = Array.from(document.querySelectorAll(".page.active .row"));
