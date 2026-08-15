@@ -115,6 +115,40 @@ Known bugs or unfinished parts:
 
 - Some logo image URLs are pinned to commit hashes. If those image files are updated, the pinned URLs may need to be changed.
 
+### Live Online Presence Counter
+
+What it does:
+
+The home page displays `Online: #` beside the bottom-left brand links. Each open DUL tab maintains one WebSocket connection, so opening a tab increments the count and closing it decrements the count. The number is green; `--` is shown when the service is unavailable.
+
+Where it is located:
+
+- Client markup, CSS, and reconnection logic: `dltrn.html`, mirrored in `index.html`.
+- Cloudflare backend: `presence-worker/`.
+- Worker entry point: `presence-worker/src/index.js`.
+- Worker configuration and Durable Object binding: `presence-worker/wrangler.jsonc`.
+
+How it works:
+
+- The launcher connects to `wss://dul-presence.dul-presence-worker.workers.dev/presence`.
+- One SQLite-backed Durable Object named `dul-global` coordinates all live connections.
+- The Worker broadcasts the number of active sockets whenever a tab connects or disconnects.
+- The client sends a heartbeat every 25 seconds and reconnects five seconds after a failure.
+- No identity, IP address, account, or historical visitor record is stored by project code.
+
+Deployment:
+
+```powershell
+Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\presence-worker"
+npm install
+npx wrangler login
+npx wrangler deploy
+```
+
+Important limitation:
+
+- This is an open-tab count, not a guaranteed unique-human count. Multiple tabs from one person count separately.
+
 ### Deltarune Save Converter
 
 What it does:
@@ -956,8 +990,9 @@ Frameworks:
 
 Libraries and packages:
 
-- No package manager configuration was found.
-- No `package.json`, Vite, Webpack, Jest, Vitest, Cypress, Playwright, or pytest config was found during inspection.
+- The static launcher has no package dependency or build step.
+- `presence-worker/package.json` installs Cloudflare Wrangler 4 for the online presence service.
+- No Vite, Webpack, Jest, Vitest, Cypress, Playwright, or pytest config is used by the launcher.
 
 Runtime/game technologies represented in assets:
 
@@ -972,13 +1007,14 @@ APIs and external services:
 - `https://raw.githubusercontent.com/storynetwork-camzzz/DUL/.../`
 - Some external image URLs from CodeHS are still used for Undertale and Sans icons.
 - Credits links point to GameBanana, GameJolt, itch.io, Turbowarp, official sites, and Story Network/Truffled.
+- Cloudflare Workers and a SQLite-backed Durable Object provide the optional live presence counter at `dul-presence.dul-presence-worker.workers.dev`.
 
 Database or storage systems:
 
 - Browser `IndexedDB`.
 - Browser `localStorage`.
 - Browser cookies.
-- No server database.
+- The presence Durable Object uses no persistent application records; SQLite is enabled because the Workers Free plan requires the SQLite-backed Durable Object class type.
 
 Authentication systems:
 
@@ -990,6 +1026,7 @@ Hosting and deployment platforms:
 - Static hosting is implied by `.nojekyll` and CDN usage.
 - jsDelivr is used heavily as the CDN for GitHub files.
 - raw GitHub URLs are used for some ports where jsDelivr behavior was not suitable.
+- Cloudflare Workers hosts the live presence service. Deploy it independently from `presence-worker/` with `npx wrangler deploy`.
 
 Build and development tools:
 
@@ -1896,6 +1933,7 @@ Important directories:
 - Undertale: `files\undertale`
 - Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`, `files\no-bullet-cooldowns`, `files\offline-bingo`, `files\chaos-randomizer`
 - Extras: see `#extras-page` in `dltrn.html`.
+- Presence backend: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\presence-worker`
 
 Development command:
 
@@ -1926,6 +1964,14 @@ git status --short
 git add -- <changed-files>
 git commit -m "Describe the DUL change"
 git push
+```
+
+When the presence backend changes, also run:
+
+```powershell
+Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\presence-worker"
+npm install
+npx wrangler deploy
 ```
 
 Environment-variable names:

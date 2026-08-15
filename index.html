@@ -248,6 +248,27 @@
       image-rendering: auto;
     }
 
+    .online-presence {
+      align-self: center;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 7px 9px 6px;
+      border: 2px solid var(--white);
+      background: var(--panel-solid);
+      color: var(--white);
+      font-size: clamp(0.72rem, 1.15vw, 1rem);
+      line-height: 1;
+      white-space: nowrap;
+      pointer-events: auto;
+    }
+
+    .online-presence-count {
+      min-width: 1ch;
+      color: #00ff38;
+      text-align: left;
+    }
+
     .home-nav-actions {
       position: absolute;
       right: 0;
@@ -2326,6 +2347,10 @@
           <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank" title="Story Network">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network">
           </a>
+          <div class="online-presence" title="People currently using DUL" aria-live="polite">
+            <span>Online:</span>
+            <span id="online-presence-count" class="online-presence-count">--</span>
+          </div>
         </div>
         <span></span>
         <div class="home-nav-actions">
@@ -3653,6 +3678,69 @@
       }
     }
 
+    const PRESENCE_SOCKET_URL = "wss://dul-presence.dul-presence-worker.workers.dev/presence";
+    let presenceSocket = null;
+    let presenceReconnectTimer = 0;
+    let presenceHeartbeatTimer = 0;
+
+    function setPresenceCount(value) {
+      const counter = document.getElementById("online-presence-count");
+      if (counter) counter.textContent = value;
+    }
+
+    function clearPresenceTimers() {
+      clearTimeout(presenceReconnectTimer);
+      clearInterval(presenceHeartbeatTimer);
+      presenceReconnectTimer = 0;
+      presenceHeartbeatTimer = 0;
+    }
+
+    function connectPresenceCounter() {
+      clearPresenceTimers();
+      setPresenceCount("--");
+
+      try {
+        presenceSocket = new WebSocket(PRESENCE_SOCKET_URL);
+      } catch {
+        presenceReconnectTimer = setTimeout(connectPresenceCounter, 5000);
+        return;
+      }
+
+      presenceSocket.addEventListener("open", () => {
+        presenceHeartbeatTimer = setInterval(() => {
+          if (presenceSocket && presenceSocket.readyState === WebSocket.OPEN) {
+            presenceSocket.send("ping");
+          }
+        }, 25000);
+      });
+
+      presenceSocket.addEventListener("message", event => {
+        try {
+          const message = JSON.parse(event.data);
+          if (message.type === "presence" && Number.isInteger(message.count) && message.count >= 0) {
+            setPresenceCount(String(message.count));
+          }
+        } catch {
+          // Heartbeat responses and malformed messages do not affect the display.
+        }
+      });
+
+      presenceSocket.addEventListener("close", () => {
+        clearPresenceTimers();
+        setPresenceCount("--");
+        presenceReconnectTimer = setTimeout(connectPresenceCounter, 5000);
+      });
+
+      presenceSocket.addEventListener("error", () => {
+        if (presenceSocket) presenceSocket.close();
+      });
+    }
+
+    window.addEventListener("beforeunload", () => {
+      clearPresenceTimers();
+      if (presenceSocket) presenceSocket.close(1000, "Page closed");
+    });
+
     function startAquaOverKrisExistingSave() {
       closeAquaOverKrisConfirm();
       showPage("aqua");
@@ -4660,6 +4748,7 @@
 
     applySiteBackground(localStorage.getItem("dul_site_background") || "black");
     updateAudioButtons();
+    connectPresenceCounter();
 
     const initialPage = location.hash.replace("#", "");
     if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "extras", "credits", "classic"].includes(initialPage)) {
