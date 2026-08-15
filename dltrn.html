@@ -1250,6 +1250,11 @@
       text-align: center;
     }
 
+    .converter-detect-button {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
     .converter-file-label:hover,
     .converter-field select:focus {
       color: var(--yellow);
@@ -1769,6 +1774,7 @@
       .save-converter-home span { font-size: 1.28rem; }
       .converter-form { grid-template-columns: 1fr; }
       .converter-file-label { grid-column: 1; }
+      .converter-detect-button { grid-column: 1; }
       .subpage {
         width: 100%;
         padding-top: 76px;
@@ -3097,6 +3103,7 @@
         </label>
         <label class="converter-file-label sound-target" for="native-save-file" id="native-save-file-label">Choose Native Save File</label>
         <input id="native-save-file" type="file" onchange="convertNativeDeltaruneSave(event)">
+        <button type="button" class="pixel-button converter-detect-button sound-target" onclick="detectSelectedSaveTarget()">Auto Detect Chapter &amp; Slot</button>
       </div>
       <div id="converter-status" class="converter-status">Target: filech1_0. Choose the matching native save file.</div>
       <div id="converter-result-actions" class="modal-actions" hidden>
@@ -3692,10 +3699,25 @@
     }
 
     function inferConverterTargetFromFilename(filename) {
-      const match = String(filename || "").match(/^filech([1-5])_([0-2])(?:\.[^.]+)?$/i);
-      if (!match) return;
+      const match = String(filename || "").match(/^filech([1-5])_([0-2])(?:\s*\(\d+\))?(?:\.[^.]+)?$/i);
+      if (!match) return false;
       document.getElementById("converter-chapter").value = match[1];
       document.getElementById("converter-slot").value = match[2];
+      return true;
+    }
+
+    function detectSelectedSaveTarget() {
+      const file = document.getElementById("native-save-file").files[0];
+      if (!file) {
+        setConverterStatus("Choose a native save file first, then press Auto Detect.", "error");
+        return;
+      }
+      if (!inferConverterTargetFromFilename(file.name)) {
+        setConverterStatus("Could not detect the chapter and slot. Keep the original filechN_S filename, or select them manually.", "error");
+        return;
+      }
+      const target = converterTarget();
+      setConverterStatus(`Detected Chapter ${target.chapter}, Slot ${Number(target.slot) + 1} from ${file.name}.`, "success");
     }
 
     function createConvertedSavePackage(target, bytes) {
