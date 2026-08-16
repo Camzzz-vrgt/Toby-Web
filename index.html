@@ -3679,9 +3679,21 @@
     }
 
     const PRESENCE_SOCKET_URL = "wss://dul-presence.dul-presence-worker.workers.dev/presence";
+    const FIREBASE_SDK_VERSION = "12.17.1";
+    const FIREBASE_PRESENCE_CONFIG = {
+      apiKey: "AIzaSyBv-N9koL3MII3slC858NkJh3V_rpb5Nmc",
+      authDomain: "dul-presence.firebaseapp.com",
+      databaseURL: "https://dul-presence-default-rtdb.firebaseio.com",
+      projectId: "dul-presence",
+      storageBucket: "dul-presence.firebasestorage.app",
+      messagingSenderId: "685393349297",
+      appId: "1:685393349297:web:0a13a5fdec45ab67277090"
+    };
     let presenceSocket = null;
     let presenceReconnectTimer = 0;
     let presenceHeartbeatTimer = 0;
+    let presenceFallbackTimer = 0;
+    let presenceBackend = "connecting";
 
     function setPresenceCount(value) {
       const counter = document.getElementById("online-presence-count");
@@ -3691,18 +3703,35 @@
     function clearPresenceTimers() {
       clearTimeout(presenceReconnectTimer);
       clearInterval(presenceHeartbeatTimer);
+      clearTimeout(presenceFallbackTimer);
       presenceReconnectTimer = 0;
       presenceHeartbeatTimer = 0;
+      presenceFallbackTimer = 0;
     }
 
-    function connectPresenceCounter() {
-      clearPresenceTimers();
-      setPresenceCount("--");
+    function disconnectCloudflarePresence() {
+      clearTimeout(presenceReconnectTimer);
+      clearInterval(presenceHeartbeatTimer);
+      presenceReconnectTimer = 0;
+      presenceHeartbeatTimer = 0;
+      if (presenceSocket) {
+        const socket = presenceSocket;
+        presenceSocket = null;
+        socket.close(1000, "Using Firebase");
+      }
+    }
+
+    function connectCloudflarePresenceCounter() {
+      if (presenceBackend === "firebase") return;
+      presenceBackend = "cloudflare";
+      clearTimeout(presenceReconnectTimer);
+      clearInterval(presenceHeartbeatTimer);
 
       try {
         presenceSocket = new WebSocket(PRESENCE_SOCKET_URL);
       } catch {
-        presenceReconnectTimer = setTimeout(connectPresenceCounter, 5000);
+        setPresenceCount("--");
+        presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, 5000);
         return;
       }
 
@@ -3726,14 +3755,79 @@
       });
 
       presenceSocket.addEventListener("close", () => {
-        clearPresenceTimers();
-        setPresenceCount("--");
-        presenceReconnectTimer = setTimeout(connectPresenceCounter, 5000);
+        clearInterval(presenceHeartbeatTimer);
+        presenceHeartbeatTimer = 0;
+        if (presenceBackend !== "firebase") {
+          setPresenceCount("--");
+          presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, 5000);
+        }
       });
 
       presenceSocket.addEventListener("error", () => {
         if (presenceSocket) presenceSocket.close();
       });
+    }
+
+    function scheduleCloudflarePresenceFallback() {
+      clearTimeout(presenceFallbackTimer);
+      presenceFallbackTimer = setTimeout(() => {
+        if (presenceBackend !== "firebase") connectCloudflarePresenceCounter();
+      }, 7000);
+    }
+
+    async function connectFirebasePresenceCounter() {
+      setPresenceCount("--");
+      presenceBackend = "connecting";
+      scheduleCloudflarePresenceFallback();
+
+      try {
+        const sdkBase = "https://www.gstatic.com/firebasejs/" + FIREBASE_SDK_VERSION + "/";
+        const [appSdk, authSdk, databaseSdk] = await Promise.all([
+          import(sdkBase + "firebase-app.js"),
+          import(sdkBase + "firebase-auth.js"),
+          import(sdkBase + "firebase-database.js")
+        ]);
+        const app = appSdk.initializeApp(FIREBASE_PRESENCE_CONFIG, "dul-presence-counter");
+        const auth = authSdk.getAuth(app);
+        const credential = await authSdk.signInAnonymously(auth);
+        const database = databaseSdk.getDatabase(app);
+        const connectedRef = databaseSdk.ref(database, ".info/connected");
+        const presenceRootRef = databaseSdk.ref(database, "presence");
+
+        databaseSdk.onValue(presenceRootRef, snapshot => {
+          let count = 0;
+          snapshot.forEach(userSnapshot => {
+            userSnapshot.forEach(() => { count += 1; });
+          });
+          if (presenceBackend === "firebase") setPresenceCount(String(count));
+        });
+
+        databaseSdk.onValue(connectedRef, async snapshot => {
+          if (snapshot.val() !== true) {
+            if (presenceBackend === "firebase") {
+              presenceBackend = "connecting";
+              setPresenceCount("--");
+              scheduleCloudflarePresenceFallback();
+            }
+            return;
+          }
+
+          try {
+            const userConnectionsRef = databaseSdk.ref(database, "presence/" + credential.user.uid);
+            const connectionRef = databaseSdk.push(userConnectionsRef);
+            await databaseSdk.onDisconnect(connectionRef).remove();
+            presenceBackend = "firebase";
+            clearTimeout(presenceFallbackTimer);
+            disconnectCloudflarePresence();
+            await databaseSdk.set(connectionRef, true);
+          } catch {
+            presenceBackend = "connecting";
+            connectCloudflarePresenceCounter();
+          }
+        });
+      } catch {
+        connectCloudflarePresenceCounter();
+      }
     }
 
     window.addEventListener("beforeunload", () => {
@@ -4748,7 +4842,7 @@
 
     applySiteBackground(localStorage.getItem("dul_site_background") || "black");
     updateAudioButtons();
-    connectPresenceCounter();
+    connectFirebasePresenceCounter();
 
     const initialPage = location.hash.replace("#", "");
     if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "extras", "credits", "classic"].includes(initialPage)) {
