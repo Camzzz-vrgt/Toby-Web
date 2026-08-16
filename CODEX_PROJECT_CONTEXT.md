@@ -119,19 +119,21 @@ Known bugs or unfinished parts:
 
 What it does:
 
-The home page displays `Online: #` beside the bottom-left brand links. Each open DUL tab creates one Firebase Realtime Database presence record, so opening a tab increments the count and closing it decrements the count. The number is green; `--` is shown while neither backend is available.
+The home page displays `Online: #` beside the bottom-left brand links. Each open DUL tab creates one presence connection, so opening a tab increments the count and closing it decrements the count. The number is green; `--` is shown while the selected backend is unavailable. Settings contains a two-option Online Counter control for Firebase or Cloudflare; Firebase is the default and is labeled as recommended for school Chromebooks.
 
 Where it is located:
 
-- Client markup, CSS, Firebase configuration, and fallback logic: `dltrn.html`, mirrored in `index.html`.
-- Primary backend: Firebase Anonymous Authentication and Realtime Database project `dul-presence`.
-- Fallback backend: `presence-worker/`.
+- Client markup, CSS, service preference, Firebase configuration, and fallback logic: `dltrn.html`, mirrored in `index.html`.
+- Firebase backend: Firebase Anonymous Authentication and Realtime Database project `dul-presence`.
+- Cloudflare backend: `presence-worker/`.
 - Worker entry point: `presence-worker/src/index.js`.
 - Worker configuration and Durable Object binding: `presence-worker/wrangler.jsonc`.
 
 How it works:
 
 - The launcher dynamically imports Firebase Web SDK 12.17.1 directly from `www.gstatic.com`; it remains a single HTML file and has no local package dependency.
+- The selected service is stored in browser `localStorage` under `dul_presence_service`. Missing or invalid values default to `firebase`.
+- Changing the service in Settings reloads the launcher so the old connection closes cleanly before the selected backend starts.
 - Firebase signs each browser session in anonymously, writes one pushed child below `presence/{anonymousUid}`, and registers `onDisconnect(...).remove()` before publishing the record.
 - A listener counts all live child records under `presence`. Multiple tabs intentionally count separately.
 - If Firebase does not become available within seven seconds, the launcher connects to `wss://dul-presence.dul-presence-worker.workers.dev/presence` as a fallback.
@@ -1017,8 +1019,8 @@ APIs and external services:
 - `https://raw.githubusercontent.com/storynetwork-camzzz/DUL/.../`
 - Some external image URLs from CodeHS are still used for Undertale and Sans icons.
 - Credits links point to GameBanana, GameJolt, itch.io, Turbowarp, official sites, and Story Network/Truffled.
-- Firebase Anonymous Authentication and Realtime Database provide the primary live presence counter through project `dul-presence`.
-- Cloudflare Workers and a SQLite-backed Durable Object provide the fallback live presence counter at `dul-presence.dul-presence-worker.workers.dev`.
+- Firebase Anonymous Authentication and Realtime Database provide the default live presence counter through project `dul-presence`.
+- Cloudflare Workers and a SQLite-backed Durable Object provide the selectable Cloudflare counter and Firebase fallback at `dul-presence.dul-presence-worker.workers.dev`.
 
 Database or storage systems:
 

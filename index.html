@@ -1315,6 +1315,44 @@
       text-transform: uppercase;
     }
 
+    .presence-service-control {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      padding: 6px;
+      border: 2px solid var(--white);
+      background: #000;
+    }
+
+    .presence-service-option {
+      min-height: 42px;
+      border: 2px solid #555;
+      border-radius: 0;
+      background: #000;
+      color: var(--white);
+      padding: 7px 5px;
+      font: inherit;
+      font-size: 0.72rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .presence-service-option:hover,
+    .presence-service-option:focus-visible,
+    .presence-service-option.selected {
+      border-color: var(--yellow);
+      color: var(--yellow);
+      outline: none;
+    }
+
+    .presence-service-note {
+      margin: 0;
+      color: var(--white);
+      font-size: 0.68rem;
+      line-height: 1.35;
+    }
+
     .site-volume-control {
       display: grid;
       grid-template-columns: minmax(0, 1fr) 58px;
@@ -2916,6 +2954,14 @@
           <span id="site-music-volume-value" class="site-volume-value">100%</span>
         </div>
       </div>
+      <div class="settings-section">
+        <div class="settings-label">Online Counter</div>
+        <div class="presence-service-control" role="group" aria-label="Online counter service">
+          <button type="button" class="presence-service-option sound-target" data-presence-service="firebase" onclick="setPresenceService('firebase')" aria-pressed="false">Firebase</button>
+          <button type="button" class="presence-service-option sound-target" data-presence-service="cloudflare" onclick="setPresenceService('cloudflare')" aria-pressed="false">Cloudflare</button>
+        </div>
+        <p class="presence-service-note">Firebase is recommended when using a school Chromebook.</p>
+      </div>
       <div class="settings-section background-settings">
         <div class="settings-label">Background</div>
         <div class="background-options" role="group" aria-label="Site Background">
@@ -3679,6 +3725,7 @@
     }
 
     const PRESENCE_SOCKET_URL = "wss://dul-presence.dul-presence-worker.workers.dev/presence";
+    const PRESENCE_SERVICE_STORAGE_KEY = "dul_presence_service";
     const FIREBASE_SDK_VERSION = "12.17.1";
     const FIREBASE_PRESENCE_CONFIG = {
       apiKey: "AIzaSyBv-N9koL3MII3slC858NkJh3V_rpb5Nmc",
@@ -3694,6 +3741,27 @@
     let presenceHeartbeatTimer = 0;
     let presenceFallbackTimer = 0;
     let presenceBackend = "connecting";
+
+    function getPresenceService() {
+      return localStorage.getItem(PRESENCE_SERVICE_STORAGE_KEY) === "cloudflare" ? "cloudflare" : "firebase";
+    }
+
+    function updatePresenceServiceButtons() {
+      const selectedService = getPresenceService();
+      document.querySelectorAll("[data-presence-service]").forEach(button => {
+        const selected = button.dataset.presenceService === selectedService;
+        button.classList.toggle("selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+    }
+
+    function setPresenceService(service) {
+      if (service !== "firebase" && service !== "cloudflare") return;
+      if (getPresenceService() === service) return;
+      localStorage.setItem(PRESENCE_SERVICE_STORAGE_KEY, service);
+      updatePresenceServiceButtons();
+      location.reload();
+    }
 
     function setPresenceCount(value) {
       const counter = document.getElementById("online-presence-count");
@@ -4842,7 +4910,9 @@
 
     applySiteBackground(localStorage.getItem("dul_site_background") || "black");
     updateAudioButtons();
-    connectFirebasePresenceCounter();
+    updatePresenceServiceButtons();
+    if (getPresenceService() === "cloudflare") connectCloudflarePresenceCounter();
+    else connectFirebasePresenceCounter();
 
     const initialPage = location.hash.replace("#", "");
     if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "extras", "credits", "classic"].includes(initialPage)) {
