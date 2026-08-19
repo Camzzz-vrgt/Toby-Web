@@ -3948,27 +3948,33 @@
 
     function connectCloudflarePresenceCounter() {
       if (presenceBackend === "firebase") return;
+      if (presenceSocket && (
+        presenceSocket.readyState === WebSocket.CONNECTING ||
+        presenceSocket.readyState === WebSocket.OPEN
+      )) return;
       presenceBackend = "cloudflare";
       clearTimeout(presenceReconnectTimer);
       clearInterval(presenceHeartbeatTimer);
 
+      let socket;
       try {
-        presenceSocket = new WebSocket(PRESENCE_SOCKET_URL);
+        socket = new WebSocket(PRESENCE_SOCKET_URL);
+        presenceSocket = socket;
       } catch {
         setPresenceCount("--");
         presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, 5000);
         return;
       }
 
-      presenceSocket.addEventListener("open", () => {
+      socket.addEventListener("open", () => {
         presenceHeartbeatTimer = setInterval(() => {
-          if (presenceSocket && presenceSocket.readyState === WebSocket.OPEN) {
-            presenceSocket.send("ping");
+          if (socket === presenceSocket && socket.readyState === WebSocket.OPEN) {
+            socket.send("ping");
           }
-        }, 25000);
+        }, 240000);
       });
 
-      presenceSocket.addEventListener("message", event => {
+      socket.addEventListener("message", event => {
         try {
           const message = JSON.parse(event.data);
           if (message.type === "presence" && Number.isInteger(message.count) && message.count >= 0) {
@@ -3979,7 +3985,9 @@
         }
       });
 
-      presenceSocket.addEventListener("close", () => {
+      socket.addEventListener("close", () => {
+        if (socket !== presenceSocket) return;
+        presenceSocket = null;
         clearInterval(presenceHeartbeatTimer);
         presenceHeartbeatTimer = 0;
         if (presenceBackend !== "firebase") {
@@ -3988,8 +3996,8 @@
         }
       });
 
-      presenceSocket.addEventListener("error", () => {
-        if (presenceSocket) presenceSocket.close();
+      socket.addEventListener("error", () => {
+        if (socket === presenceSocket) socket.close();
       });
     }
 

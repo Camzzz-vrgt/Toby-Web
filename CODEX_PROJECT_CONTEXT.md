@@ -137,7 +137,7 @@ How it works:
 - Firebase signs each browser session in anonymously, writes one pushed child below `presence/{anonymousUid}`, and registers `onDisconnect(...).remove()` before publishing the record.
 - A listener counts all live child records under `presence`. Multiple tabs intentionally count separately.
 - If Firebase does not become available within seven seconds, the launcher connects to `wss://dul-presence.dul-presence-worker.workers.dev/presence` as a fallback.
-- The fallback uses one SQLite-backed Durable Object named `dul-global`, sends a heartbeat every 25 seconds, and reconnects five seconds after a failure.
+- The fallback uses one SQLite-backed Durable Object named `dul-global`, sends a heartbeat every four minutes, and reconnects five seconds after a failure. The client guards against duplicate connecting/open sockets so a reconnect race cannot count one tab more than once.
 - Firebase stores an anonymous authentication account and temporary presence keys. The project code does not store names, email addresses, IP addresses, or historical visitor records.
 
 Firebase setup requirements:
