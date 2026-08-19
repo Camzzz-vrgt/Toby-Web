@@ -48,7 +48,14 @@ export class PresenceRoom {
 
     if (!attachment.verified) {
       try {
-        const hello = JSON.parse(message);
+        const hello = message === "ping" ? { type: "legacy" } : JSON.parse(message);
+        if (hello.type === "legacy" || (hello.type === "hello" && hello.version === 2)) {
+          socket.serializeAttachment({ legacy: true, lastSeen: Date.now() });
+          socket.send(JSON.stringify({ type: "presence", count: this.getVerifiedSockets().length }));
+          if (message === "ping") socket.send("pong");
+          return;
+        }
+
         if (
           hello.type !== "hello" ||
           hello.version !== 3 ||
@@ -99,10 +106,10 @@ export class PresenceRoom {
 
     for (const socket of this.ctx.getWebSockets()) {
       const attachment = socket.deserializeAttachment() || {};
+      const currentClient = attachment.verified && attachment.version === 3 && attachment.clientId;
+      const legacyClient = attachment.legacy === true;
       if (
-        !attachment.verified ||
-        attachment.version !== 3 ||
-        !attachment.clientId ||
+        (!currentClient && !legacyClient) ||
         !attachment.lastSeen ||
         attachment.lastSeen < staleBefore
       ) {
@@ -123,11 +130,7 @@ export class PresenceRoom {
   }
 
   broadcastCount(excludedSocket = null) {
-    const sockets = this.ctx.getWebSockets().filter(socket => {
-      if (socket === excludedSocket) return false;
-      const attachment = socket.deserializeAttachment() || {};
-      return attachment.verified === true && attachment.version === 3 && Boolean(attachment.clientId);
-    });
+    const sockets = this.getVerifiedSockets(excludedSocket);
     const payload = JSON.stringify({ type: "presence", count: sockets.length });
 
     for (const socket of sockets) {
@@ -137,5 +140,13 @@ export class PresenceRoom {
         // A closing socket will disappear from getWebSockets automatically.
       }
     }
+  }
+
+  getVerifiedSockets(excludedSocket = null) {
+    return this.ctx.getWebSockets().filter(socket => {
+      if (socket === excludedSocket) return false;
+      const attachment = socket.deserializeAttachment() || {};
+      return attachment.verified === true && attachment.version === 3 && Boolean(attachment.clientId);
+    });
   }
 }

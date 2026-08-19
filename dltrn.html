@@ -3972,7 +3972,6 @@
       }
 
       socket.addEventListener("open", () => {
-        presenceReconnectDelay = 5000;
         socket.send(JSON.stringify({ type: "hello", version: 3, clientId: getPresenceClientId() }));
         presenceHeartbeatTimer = setInterval(() => {
           if (socket === presenceSocket && socket.readyState === WebSocket.OPEN) {
@@ -3985,6 +3984,7 @@
         try {
           const message = JSON.parse(event.data);
           if (message.type === "presence" && Number.isInteger(message.count) && message.count >= 0) {
+            presenceReconnectDelay = 5000;
             setPresenceCount(String(message.count));
           }
         } catch {
