@@ -3887,6 +3887,7 @@
 
     const PRESENCE_SOCKET_URL = "wss://dul-presence.dul-presence-worker.workers.dev/presence";
     const PRESENCE_ENABLED_STORAGE_KEY = "dul_presence_enabled";
+    const PRESENCE_CLIENT_ID_STORAGE_KEY = "toby_web_presence_client_id";
     let presenceSocket = null;
     let presenceReconnectTimer = 0;
     let presenceHeartbeatTimer = 0;
@@ -3894,6 +3895,17 @@
 
     function isPresenceEnabled() {
       return localStorage.getItem(PRESENCE_ENABLED_STORAGE_KEY) !== "off";
+    }
+
+    function getPresenceClientId() {
+      let clientId = localStorage.getItem(PRESENCE_CLIENT_ID_STORAGE_KEY);
+      if (!clientId) {
+        clientId = typeof crypto.randomUUID === "function"
+          ? crypto.randomUUID()
+          : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+        localStorage.setItem(PRESENCE_CLIENT_ID_STORAGE_KEY, clientId);
+      }
+      return clientId;
     }
 
     function updatePresenceControls() {
@@ -3961,7 +3973,7 @@
 
       socket.addEventListener("open", () => {
         presenceReconnectDelay = 5000;
-        socket.send(JSON.stringify({ type: "hello", version: 2 }));
+        socket.send(JSON.stringify({ type: "hello", version: 3, clientId: getPresenceClientId() }));
         presenceHeartbeatTimer = setInterval(() => {
           if (socket === presenceSocket && socket.readyState === WebSocket.OPEN) {
             socket.send("ping");

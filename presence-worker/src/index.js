@@ -37,7 +37,7 @@ export class PresenceRoom {
     const pair = new WebSocketPair();
     const [client, server] = Object.values(pair);
     this.ctx.acceptWebSocket(server);
-    server.serializeAttachment({ verified: false, lastSeen: Date.now() });
+    server.serializeAttachment({ verified: false, version: 0, lastSeen: Date.now() });
     this.scheduleCleanup();
 
     return new Response(null, { status: 101, webSocket: client });
@@ -49,20 +49,39 @@ export class PresenceRoom {
     if (!attachment.verified) {
       try {
         const hello = JSON.parse(message);
-        if (hello.type !== "hello" || hello.version !== 2) throw new Error("Unsupported client");
+        if (
+          hello.type !== "hello" ||
+          hello.version !== 3 ||
+          typeof hello.clientId !== "string" ||
+          !/^[a-zA-Z0-9-]{8,80}$/.test(hello.clientId)
+        ) throw new Error("Unsupported client");
+
+        for (const existingSocket of this.ctx.getWebSockets()) {
+          if (existingSocket === socket) continue;
+          const existing = existingSocket.deserializeAttachment() || {};
+          if (existing.clientId === hello.clientId) {
+            existingSocket.close(1000, "Replaced by a newer connection");
+          }
+        }
+
+        attachment = {
+          verified: true,
+          version: 3,
+          clientId: hello.clientId,
+          lastSeen: Date.now()
+        };
       } catch {
         socket.close(1008, "Please refresh Toby Web");
         return;
       }
 
-      attachment = { verified: true, lastSeen: Date.now() };
       socket.serializeAttachment(attachment);
       this.broadcastCount();
       return;
     }
 
     if (message === "ping") {
-      socket.serializeAttachment({ verified: true, lastSeen: Date.now() });
+      socket.serializeAttachment({ ...attachment, lastSeen: Date.now() });
       socket.send("pong");
     }
   }
@@ -80,7 +99,13 @@ export class PresenceRoom {
 
     for (const socket of this.ctx.getWebSockets()) {
       const attachment = socket.deserializeAttachment() || {};
-      if (!attachment.verified || !attachment.lastSeen || attachment.lastSeen < staleBefore) {
+      if (
+        !attachment.verified ||
+        attachment.version !== 3 ||
+        !attachment.clientId ||
+        !attachment.lastSeen ||
+        attachment.lastSeen < staleBefore
+      ) {
         try {
           socket.close(1001, "Presence connection expired");
         } catch {
@@ -101,7 +126,7 @@ export class PresenceRoom {
     const sockets = this.ctx.getWebSockets().filter(socket => {
       if (socket === excludedSocket) return false;
       const attachment = socket.deserializeAttachment() || {};
-      return attachment.verified === true;
+      return attachment.verified === true && attachment.version === 3 && Boolean(attachment.clientId);
     });
     const payload = JSON.stringify({ type: "presence", count: sockets.length });
 

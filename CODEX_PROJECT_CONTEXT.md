@@ -133,7 +133,7 @@ How it works:
 - The enabled setting is stored in browser `localStorage` under `dul_presence_enabled`; only the literal value `off` disables it.
 - The launcher connects to `wss://dul-presence.dul-presence-worker.workers.dev/presence` when enabled.
 - One SQLite-backed Durable Object named `dul-global` tracks verified current-version sockets, broadcasts counts immediately on joins/leaves, and receives a heartbeat every four minutes.
-- Clients send a version-2 hello message immediately after connecting. The Worker rejects old launcher clients, excludes unverified sockets from the count, and expires sockets that have not sent a heartbeat for six minutes.
+- Clients send a version-3 hello message with a persistent random browser ID immediately after connecting. The Worker rejects old launcher clients, replaces duplicate sockets from the same browser, excludes unverified/outdated sockets from the count, and expires sockets that have not sent a heartbeat for six minutes.
 - Failed connections retry with exponential backoff from five seconds up to two minutes, preventing blocked networks from repeatedly invoking the Worker.
 - The client guards against duplicate connecting/open sockets so a reconnect race cannot count one tab more than once.
 - The project code does not send names, email addresses, or account identifiers to the presence service.
