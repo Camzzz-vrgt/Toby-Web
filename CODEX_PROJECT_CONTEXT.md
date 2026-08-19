@@ -1,10 +1,10 @@
 # DUL Project Context
 
-Last inspected by Codex: August 14, 2026.
+Last inspected by Codex: August 19, 2026.
 
 Project root:
 
-`C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL`
+`C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL`
 
 Common local single-file copy used by the user:
 
@@ -18,7 +18,7 @@ This document is a handoff for future Codex instances. It is based on the curren
 
 ## 1. Project Overview
 
-DUL is a static, browser-based launcher for web ports of DELTARUNE, UNDERTALE, DELTARUNE mods, and DELTARUNE/UNDERTALE fan games. The main user-facing file is `dltrn.html`, which is intended to work as a single HTML entry point: the user can double-click it locally, put it in an HTML runner, or host it on a website, and it fetches the game files from the DUL GitHub repository.
+DUL is the repository and internal project name for **Toby Web**, a static, browser-based launcher for web ports of DELTARUNE, UNDERTALE, DELTARUNE mods, and DELTARUNE/UNDERTALE fan games. The public site name changed to Toby Web on August 19, 2026; do not rename the GitHub repository, asset URLs, storage keys, or existing internal `DUL` identifiers unless explicitly requested. The main user-facing file is `dltrn.html`, which is intended to work as a single HTML entry point: the user can double-click it locally, put it in an HTML runner, or host it on a website, and it fetches the game files from the DUL GitHub repository.
 
 The project solves a practical problem for the user: it centralizes many separate web ports and modded game builds into one stylized launcher with save import/export tools, themed backgrounds, site music, credits, and pages for main games, mods, and extras.
 
@@ -439,22 +439,26 @@ Known bugs or unfinished parts:
 
 What it does:
 
-Provides a simple credits page listing DUL, main games, mods, and extras with links to original pages.
+Provides a full-screen Toby Web credits page. Site credits are presented first in a vertical layout. A full-width `Game Credits` disclosure at the bottom is collapsed by default and expands into image-backed credits for the original games, mods, and extras, with links to original pages where known.
 
 Where it is located:
 
 - Markup: `#credits-page` in `dltrn.html`.
-- Opened by the settings modal via `openCreditsPage()`.
+- Opened by the settings modal or by clicking the Toby Web logo on the home page via `openCreditsPage()`.
 
 How it works:
 
 - Settings has a Credits button.
-- Clicking Credits closes settings and calls `showPage('credits')`.
+- The home page has a borderless `files/toby-web-logo.png` logo button in the top-left where the Save Converter shortcut previously appeared.
+- Clicking either entry point closes settings when necessary and calls `showPage('credits')`.
+- `Game Credits` uses a native `<details>` element without `open`, so it must remain collapsed on initial entry.
+- Game credit rows include artwork and use the corresponding card accent color on hover.
 - Links open in new tabs.
 
 Known bugs or unfinished parts:
 
-- Credit links are hand-maintained. If a new mod or extra is added, update this page too.
+- Credit links and images are hand-maintained. If a new mod or extra is added, update this page too.
+- Camzzz and Bog currently use letter placeholders for profile pictures. Replace those placeholders when the user supplies the requested PFP assets.
 
 ### Settings Modal
 
@@ -1397,6 +1401,8 @@ Adding a mod or extra requires updating:
 - The credits page.
 - Sometimes the classic page.
 
+The public site brand is Toby Web, but repository paths remain `storynetwork-camzzz/DUL`. Do not mechanically replace `DUL` inside URLs, save formats, database names, or compatibility code.
+
 ### Removed Items May Leave Assets Behind
 
 Examples:
@@ -1780,12 +1786,12 @@ How to run tests:
 Manual verification checklist:
 
 1. Open `dltrn.html`.
-2. Confirm the home page renders with Deltarune, Undertale, Mods, Extras, settings icon, Truffled link, and Story Network link.
+2. Confirm the home page renders with the top-left Toby Web logo, Deltarune, Undertale, Mods, Extras, settings icon, Truffled link, and Story Network link.
 3. Hover and click UI elements and confirm sounds play.
 4. Open Settings.
 5. Change background themes and confirm background image and site music change.
 6. Move Site Music Volume slider and confirm volume changes and persists after refresh.
-7. Click Credits and confirm the credits page opens and links are visible.
+7. Click the Toby Web logo and confirm the credits page opens, Site Credits fills the first view, Game Credits starts closed, and opening it reveals image-backed game links.
 8. Click Back from credits, mods, extras, Deltarune, Undertale, and Network pages.
 9. Open Deltarune page and verify chapter 1-5 rows display with icons.
 10. Launch one stable Deltarune chapter and check it starts.
