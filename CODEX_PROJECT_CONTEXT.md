@@ -119,34 +119,24 @@ Known bugs or unfinished parts:
 
 What it does:
 
-The home page displays `Online: #` beside the bottom-left brand links. Each open DUL tab creates one presence connection, so opening a tab increments the count and closing it decrements the count. The number is green; `--` is shown while the selected backend is unavailable. Settings contains a two-option Online Counter control for Firebase or Cloudflare; Firebase is the default and is labeled as recommended for school Chromebooks.
+The home page displays `Online: #` beside the bottom-left brand links. Each open DUL tab creates one Cloudflare presence connection, so opening a tab increments the count and closing it decrements the count. The number is green; `--` is shown while Cloudflare is unavailable. Settings contains an On/Off control. Turning it off closes the tab's socket and hides the counter.
 
 Where it is located:
 
-- Client markup, CSS, service preference, Firebase configuration, and fallback logic: `dltrn.html`, mirrored in `index.html`.
-- Firebase backend: Firebase Anonymous Authentication and Realtime Database project `dul-presence`.
+- Client markup, CSS, enabled preference, and socket logic: `dltrn.html`, mirrored in `index.html`.
 - Cloudflare backend: `presence-worker/`.
 - Worker entry point: `presence-worker/src/index.js`.
 - Worker configuration and Durable Object binding: `presence-worker/wrangler.jsonc`.
 
 How it works:
 
-- The launcher dynamically imports Firebase Web SDK 12.17.1 directly from `www.gstatic.com`; it remains a single HTML file and has no local package dependency.
-- The selected service is stored in browser `localStorage` under `dul_presence_service`. Missing or invalid values default to `firebase`.
-- Changing the service in Settings reloads the launcher so the old connection closes cleanly before the selected backend starts.
-- Firebase signs each browser session in anonymously, writes one pushed child below `presence/{anonymousUid}`, and registers `onDisconnect(...).remove()` before publishing the record.
-- A listener counts all live child records under `presence`. Multiple tabs intentionally count separately.
-- If Firebase does not become available within seven seconds, the launcher connects to `wss://dul-presence.dul-presence-worker.workers.dev/presence` as a fallback.
-- The fallback uses one SQLite-backed Durable Object named `dul-global`, sends a heartbeat every four minutes, and reconnects five seconds after a failure. The client guards against duplicate connecting/open sockets so a reconnect race cannot count one tab more than once.
-- Firebase stores an anonymous authentication account and temporary presence keys. The project code does not store names, email addresses, IP addresses, or historical visitor records.
+- The enabled setting is stored in browser `localStorage` under `dul_presence_enabled`; only the literal value `off` disables it.
+- The launcher connects to `wss://dul-presence.dul-presence-worker.workers.dev/presence` when enabled.
+- One SQLite-backed Durable Object named `dul-global` tracks open sockets, broadcasts counts immediately on joins/leaves, receives a heartbeat every four minutes, and reconnects clients five seconds after a failure.
+- The client guards against duplicate connecting/open sockets so a reconnect race cannot count one tab more than once.
+- The project code does not send names, email addresses, or account identifiers to the presence service.
 
-Firebase setup requirements:
-
-- Anonymous Authentication must remain enabled in Firebase Authentication.
-- Realtime Database rules must permit authenticated users to read `presence` and write only below their own `presence/$uid` path.
-- The public Firebase web-app configuration is embedded in both entry files. It is not a private server credential.
-
-Cloudflare fallback deployment:
+Cloudflare deployment:
 
 ```powershell
 Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\presence-worker"
@@ -158,7 +148,6 @@ npx wrangler deploy
 Important limitation:
 
 - This is an open-tab count, not a guaranteed unique-human count. Multiple tabs from one person count separately.
-- During a Firebase outage, clients that fall back to Cloudflare form a separate fallback count until Firebase reconnects.
 
 ### Deltarune Save Converter
 
@@ -1006,7 +995,6 @@ Frameworks:
 Libraries and packages:
 
 - The static launcher has no package dependency or build step.
-- Firebase Web SDK 12.17.1 is dynamically imported from Google's hosted ES modules for authentication and Realtime Database presence.
 - `presence-worker/package.json` installs Cloudflare Wrangler 4 for the online presence service.
 - No Vite, Webpack, Jest, Vitest, Cypress, Playwright, or pytest config is used by the launcher.
 
@@ -1023,20 +1011,18 @@ APIs and external services:
 - `https://raw.githubusercontent.com/storynetwork-camzzz/DUL/.../`
 - Some external image URLs from CodeHS are still used for Undertale and Sans icons.
 - Credits links point to GameBanana, GameJolt, itch.io, Turbowarp, official sites, and Story Network/Truffled.
-- Firebase Anonymous Authentication and Realtime Database provide the default live presence counter through project `dul-presence`.
-- Cloudflare Workers and a SQLite-backed Durable Object provide the selectable Cloudflare counter and Firebase fallback at `dul-presence.dul-presence-worker.workers.dev`.
+- Cloudflare Workers and a SQLite-backed Durable Object provide the optional online counter at `dul-presence.dul-presence-worker.workers.dev`.
 
 Database or storage systems:
 
 - Browser `IndexedDB`.
 - Browser `localStorage`.
 - Browser cookies.
-- Firebase Realtime Database stores transient records below `presence/{anonymousUid}/{connectionId}`. `onDisconnect` removes each record when its connection ends.
 - The presence Durable Object uses no persistent application records; SQLite is enabled because the Workers Free plan requires the SQLite-backed Durable Object class type.
 
 Authentication systems:
 
-- Firebase Anonymous Authentication is used only to scope and secure online-presence records. DUL has no user account UI and does not request personal login details.
+- No authentication system is used. DUL has no user account UI and does not request personal login details.
 
 Hosting and deployment platforms:
 
@@ -1044,8 +1030,7 @@ Hosting and deployment platforms:
 - Static hosting is implied by `.nojekyll` and CDN usage.
 - jsDelivr is used heavily as the CDN for GitHub files.
 - raw GitHub URLs are used for some ports where jsDelivr behavior was not suitable.
-- Firebase hosts the primary live presence service. Firebase console configuration (Anonymous Authentication and Realtime Database rules) is managed separately from the static-site Git deployment.
-- Cloudflare Workers hosts the fallback presence service. Deploy it independently from `presence-worker/` with `npx wrangler deploy`.
+- Cloudflare Workers hosts the optional presence service. Deploy it independently from `presence-worker/` with `npx wrangler deploy`.
 
 Build and development tools:
 
@@ -1954,7 +1939,7 @@ Important directories:
 - Undertale: `files\undertale`
 - Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`, `files\no-bullet-cooldowns`, `files\offline-bingo`, `files\chaos-randomizer`
 - Extras: see `#extras-page` in `dltrn.html`.
-- Presence client and Firebase configuration: the presence block in `dltrn.html` and `index.html`.
+- Presence client and On/Off setting: the presence block in `dltrn.html` and `index.html`.
 - Presence fallback backend: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\presence-worker`
 
 Development command:
@@ -1988,7 +1973,7 @@ git commit -m "Describe the DUL change"
 git push
 ```
 
-When the Cloudflare fallback backend changes, also run:
+When the Cloudflare presence backend changes, also run:
 
 ```powershell
 Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\presence-worker"
@@ -1999,7 +1984,7 @@ npx wrangler deploy
 Environment-variable names:
 
 - None currently used.
-- Firebase's public browser configuration is inline in the entry files; there is no `.env` file. Never place Firebase Admin credentials or service-account keys in the repository.
+- The Cloudflare Worker has no project secrets or `.env` file. Never add private credentials to the entry files or repository.
 
 Important configuration files:
 

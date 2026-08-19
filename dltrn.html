@@ -264,6 +264,10 @@
       pointer-events: auto;
     }
 
+    .online-presence[hidden] {
+      display: none;
+    }
+
     .online-presence-count {
       min-width: 1ch;
       color: #00ff38;
@@ -2516,7 +2520,7 @@
           <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank" title="Story Network">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network">
           </a>
-          <div class="online-presence" title="People currently using Toby Web" aria-live="polite">
+          <div id="online-presence" class="online-presence" title="People currently using Toby Web" aria-live="polite">
             <span>Online:</span>
             <span id="online-presence-count" class="online-presence-count">--</span>
           </div>
@@ -3113,11 +3117,11 @@
       </div>
       <div class="settings-section">
         <div class="settings-label">Online Counter</div>
-        <div class="presence-service-control" role="group" aria-label="Online counter service">
-          <button type="button" class="presence-service-option sound-target" data-presence-service="firebase" onclick="setPresenceService('firebase')" aria-pressed="false">Firebase</button>
-          <button type="button" class="presence-service-option sound-target" data-presence-service="cloudflare" onclick="setPresenceService('cloudflare')" aria-pressed="false">Cloudflare</button>
+        <div class="presence-service-control" role="group" aria-label="Online counter setting">
+          <button type="button" class="presence-service-option sound-target" data-presence-enabled="on" onclick="setPresenceEnabled(true)" aria-pressed="false">On</button>
+          <button type="button" class="presence-service-option sound-target" data-presence-enabled="off" onclick="setPresenceEnabled(false)" aria-pressed="false">Off</button>
         </div>
-        <p class="presence-service-note">Firebase is recommended when using a school Chromebook.</p>
+        <p class="presence-service-note">Turn this off to disconnect this tab from the online counter.</p>
       </div>
       <div class="settings-section background-settings">
         <div class="settings-label">Background</div>
@@ -3882,42 +3886,32 @@
     }
 
     const PRESENCE_SOCKET_URL = "wss://dul-presence.dul-presence-worker.workers.dev/presence";
-    const PRESENCE_SERVICE_STORAGE_KEY = "dul_presence_service";
-    const FIREBASE_SDK_VERSION = "12.17.1";
-    const FIREBASE_PRESENCE_CONFIG = {
-      apiKey: "AIzaSyBv-N9koL3MII3slC858NkJh3V_rpb5Nmc",
-      authDomain: "dul-presence.firebaseapp.com",
-      databaseURL: "https://dul-presence-default-rtdb.firebaseio.com",
-      projectId: "dul-presence",
-      storageBucket: "dul-presence.firebasestorage.app",
-      messagingSenderId: "685393349297",
-      appId: "1:685393349297:web:0a13a5fdec45ab67277090"
-    };
+    const PRESENCE_ENABLED_STORAGE_KEY = "dul_presence_enabled";
     let presenceSocket = null;
     let presenceReconnectTimer = 0;
     let presenceHeartbeatTimer = 0;
-    let presenceFallbackTimer = 0;
-    let presenceBackend = "connecting";
 
-    function getPresenceService() {
-      return localStorage.getItem(PRESENCE_SERVICE_STORAGE_KEY) === "cloudflare" ? "cloudflare" : "firebase";
+    function isPresenceEnabled() {
+      return localStorage.getItem(PRESENCE_ENABLED_STORAGE_KEY) !== "off";
     }
 
-    function updatePresenceServiceButtons() {
-      const selectedService = getPresenceService();
-      document.querySelectorAll("[data-presence-service]").forEach(button => {
-        const selected = button.dataset.presenceService === selectedService;
+    function updatePresenceControls() {
+      const enabled = isPresenceEnabled();
+      document.querySelectorAll("[data-presence-enabled]").forEach(button => {
+        const selected = button.dataset.presenceEnabled === (enabled ? "on" : "off");
         button.classList.toggle("selected", selected);
         button.setAttribute("aria-pressed", String(selected));
       });
+      const display = document.getElementById("online-presence");
+      if (display) display.hidden = !enabled;
     }
 
-    function setPresenceService(service) {
-      if (service !== "firebase" && service !== "cloudflare") return;
-      if (getPresenceService() === service) return;
-      localStorage.setItem(PRESENCE_SERVICE_STORAGE_KEY, service);
-      updatePresenceServiceButtons();
-      location.reload();
+    function setPresenceEnabled(enabled) {
+      localStorage.setItem(PRESENCE_ENABLED_STORAGE_KEY, enabled ? "on" : "off");
+      localStorage.removeItem("dul_presence_service");
+      updatePresenceControls();
+      if (enabled) connectCloudflarePresenceCounter();
+      else disconnectCloudflarePresence();
     }
 
     function setPresenceCount(value) {
@@ -3928,10 +3922,8 @@
     function clearPresenceTimers() {
       clearTimeout(presenceReconnectTimer);
       clearInterval(presenceHeartbeatTimer);
-      clearTimeout(presenceFallbackTimer);
       presenceReconnectTimer = 0;
       presenceHeartbeatTimer = 0;
-      presenceFallbackTimer = 0;
     }
 
     function disconnectCloudflarePresence() {
@@ -3942,17 +3934,16 @@
       if (presenceSocket) {
         const socket = presenceSocket;
         presenceSocket = null;
-        socket.close(1000, "Using Firebase");
+        socket.close(1000, "Online counter disabled");
       }
     }
 
     function connectCloudflarePresenceCounter() {
-      if (presenceBackend === "firebase") return;
+      if (!isPresenceEnabled()) return;
       if (presenceSocket && (
         presenceSocket.readyState === WebSocket.CONNECTING ||
         presenceSocket.readyState === WebSocket.OPEN
       )) return;
-      presenceBackend = "cloudflare";
       clearTimeout(presenceReconnectTimer);
       clearInterval(presenceHeartbeatTimer);
 
@@ -3990,7 +3981,7 @@
         presenceSocket = null;
         clearInterval(presenceHeartbeatTimer);
         presenceHeartbeatTimer = 0;
-        if (presenceBackend !== "firebase") {
+        if (isPresenceEnabled()) {
           setPresenceCount("--");
           presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, 5000);
         }
@@ -3999,68 +3990,6 @@
       socket.addEventListener("error", () => {
         if (socket === presenceSocket) socket.close();
       });
-    }
-
-    function scheduleCloudflarePresenceFallback() {
-      clearTimeout(presenceFallbackTimer);
-      presenceFallbackTimer = setTimeout(() => {
-        if (presenceBackend !== "firebase") connectCloudflarePresenceCounter();
-      }, 7000);
-    }
-
-    async function connectFirebasePresenceCounter() {
-      setPresenceCount("--");
-      presenceBackend = "connecting";
-      scheduleCloudflarePresenceFallback();
-
-      try {
-        const sdkBase = "https://www.gstatic.com/firebasejs/" + FIREBASE_SDK_VERSION + "/";
-        const [appSdk, authSdk, databaseSdk] = await Promise.all([
-          import(sdkBase + "firebase-app.js"),
-          import(sdkBase + "firebase-auth.js"),
-          import(sdkBase + "firebase-database.js")
-        ]);
-        const app = appSdk.initializeApp(FIREBASE_PRESENCE_CONFIG, "dul-presence-counter");
-        const auth = authSdk.getAuth(app);
-        const credential = await authSdk.signInAnonymously(auth);
-        const database = databaseSdk.getDatabase(app);
-        const connectedRef = databaseSdk.ref(database, ".info/connected");
-        const presenceRootRef = databaseSdk.ref(database, "presence");
-
-        databaseSdk.onValue(presenceRootRef, snapshot => {
-          let count = 0;
-          snapshot.forEach(userSnapshot => {
-            userSnapshot.forEach(() => { count += 1; });
-          });
-          if (presenceBackend === "firebase") setPresenceCount(String(count));
-        });
-
-        databaseSdk.onValue(connectedRef, async snapshot => {
-          if (snapshot.val() !== true) {
-            if (presenceBackend === "firebase") {
-              presenceBackend = "connecting";
-              setPresenceCount("--");
-              scheduleCloudflarePresenceFallback();
-            }
-            return;
-          }
-
-          try {
-            const userConnectionsRef = databaseSdk.ref(database, "presence/" + credential.user.uid);
-            const connectionRef = databaseSdk.push(userConnectionsRef);
-            await databaseSdk.onDisconnect(connectionRef).remove();
-            presenceBackend = "firebase";
-            clearTimeout(presenceFallbackTimer);
-            disconnectCloudflarePresence();
-            await databaseSdk.set(connectionRef, true);
-          } catch {
-            presenceBackend = "connecting";
-            connectCloudflarePresenceCounter();
-          }
-        });
-      } catch {
-        connectCloudflarePresenceCounter();
-      }
     }
 
     window.addEventListener("beforeunload", () => {
@@ -5075,9 +5004,9 @@
 
     applySiteBackground(localStorage.getItem("dul_site_background") || "black");
     updateAudioButtons();
-    updatePresenceServiceButtons();
-    if (getPresenceService() === "cloudflare") connectCloudflarePresenceCounter();
-    else connectFirebasePresenceCounter();
+    localStorage.removeItem("dul_presence_service");
+    updatePresenceControls();
+    if (isPresenceEnabled()) connectCloudflarePresenceCounter();
 
     const initialPage = location.hash.replace("#", "");
     if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "extras", "credits", "classic"].includes(initialPage)) {
