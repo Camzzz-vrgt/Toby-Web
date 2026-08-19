@@ -164,7 +164,7 @@ Important limitation:
 
 What it does:
 
-The home page has a compact `Deltarune Save Converter` button below the settings control. It accepts a native Windows DELTARUNE `filechN_S` save, lets the user choose Chapters 1-5 and slots 1-3, and converts the raw bytes into DUL's IndexedDB backup format. A matching standard filename automatically selects its chapter and slot.
+The Extras page has a `Deltarune Save Converter` card that opens the existing converter modal. It accepts a native Windows DELTARUNE `filechN_S` save, lets the user choose Chapters 1-5 and slots 1-3, and converts the raw bytes into DUL's IndexedDB backup format. A matching standard filename automatically selects its chapter and slot.
 
 Where it is located:
 
