@@ -458,7 +458,7 @@ How it works:
 Known bugs or unfinished parts:
 
 - Credit links and images are hand-maintained. If a new mod or extra is added, update this page too.
-- Camzzz and Bog currently use letter placeholders for profile pictures. Replace those placeholders when the user supplies the requested PFP assets.
+- Camzzz and Bog use profile pictures stored in `files/credits/`; the Credits page references their raw GitHub URLs so they also render when the single-file launcher is opened locally.
 
 ### Settings Modal
 
