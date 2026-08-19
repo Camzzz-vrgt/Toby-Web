@@ -918,13 +918,17 @@
       object-fit: contain;
       border: 2px solid currentColor;
       background: #000;
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
       box-sizing: border-box;
     }
 
     .person-credit-image {
       display: block;
+      image-rendering: auto;
+    }
+
+    .game-credit-row img {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
     }
 
     .person-credit strong,
