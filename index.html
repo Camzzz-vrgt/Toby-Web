@@ -3890,6 +3890,7 @@
     let presenceSocket = null;
     let presenceReconnectTimer = 0;
     let presenceHeartbeatTimer = 0;
+    let presenceReconnectDelay = 5000;
 
     function isPresenceEnabled() {
       return localStorage.getItem(PRESENCE_ENABLED_STORAGE_KEY) !== "off";
@@ -3953,11 +3954,14 @@
         presenceSocket = socket;
       } catch {
         setPresenceCount("--");
-        presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, 5000);
+        presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, presenceReconnectDelay);
+        presenceReconnectDelay = Math.min(presenceReconnectDelay * 2, 120000);
         return;
       }
 
       socket.addEventListener("open", () => {
+        presenceReconnectDelay = 5000;
+        socket.send(JSON.stringify({ type: "hello", version: 2 }));
         presenceHeartbeatTimer = setInterval(() => {
           if (socket === presenceSocket && socket.readyState === WebSocket.OPEN) {
             socket.send("ping");
@@ -3983,7 +3987,8 @@
         presenceHeartbeatTimer = 0;
         if (isPresenceEnabled()) {
           setPresenceCount("--");
-          presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, 5000);
+          presenceReconnectTimer = setTimeout(connectCloudflarePresenceCounter, presenceReconnectDelay);
+          presenceReconnectDelay = Math.min(presenceReconnectDelay * 2, 120000);
         }
       });
 
