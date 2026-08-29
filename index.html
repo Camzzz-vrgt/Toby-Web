@@ -3262,6 +3262,10 @@
             <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/backgrounds/knight-shanty.png')"></span>
             <span class="background-label">Knight Shanty</span>
           </button>
+          <button type="button" class="background-option sound-target" data-background="aqua" onclick="setSiteBackground('aqua')" aria-pressed="false">
+            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/backgrounds/aqua.png')"></span>
+            <span class="background-label">Aqua</span>
+          </button>
         </div>
       </div>
       <div class="settings-section">
@@ -3498,7 +3502,8 @@
       last_sahur: FILES_BASE + "backgrounds/last-sahur.png",
       "90s": BACKGROUND_BASE + "90s.png",
       hotline: BACKGROUND_BASE + "hotline.png",
-      knight_shanty: FILES_BASE + "backgrounds/knight-shanty.png"
+      knight_shanty: FILES_BASE + "backgrounds/knight-shanty.png",
+      aqua: FILES_BASE + "backgrounds/aqua.png"
     };
     const SITE_AUDIO_TRACKS = {
       black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
@@ -3524,7 +3529,8 @@
       last_sahur: FILES_BASE + "audios/theme-last-sahur.mp3",
       "90s": THEME_ASSET_BASE + "audios/theme-90s.mp3",
       hotline: THEME_ASSET_BASE + "audios/theme-hotline.mp3",
-      knight_shanty: FILES_BASE + "audios/theme-knight-shanty.mp3"
+      knight_shanty: FILES_BASE + "audios/theme-knight-shanty.mp3",
+      aqua: FILES_BASE + "audios/theme-aqua.mp3"
     };
     const menumoveaudio = new Audio(FILES_BASE + "audios/snd_menumove.mp3");
     const menuselectaudio = new Audio(FILES_BASE + "audios/snd_select.mp3");
