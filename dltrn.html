@@ -312,7 +312,7 @@
       left: 20px;
       z-index: 20;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 10px;
       pointer-events: auto;
     }
@@ -330,7 +330,8 @@
     .toby-web-byline {
       flex: 0 0 auto;
       color: var(--white);
-      font-size: clamp(0.55rem, 1.15vw, 0.82rem);
+      margin-bottom: 5px;
+      font-size: clamp(0.68rem, 1.35vw, 0.96rem);
       line-height: 1;
       white-space: nowrap;
       text-decoration: none;
@@ -339,7 +340,7 @@
 
     .toby-web-byline:hover,
     .toby-web-byline:focus-visible {
-      color: var(--yellow);
+      color: #b56cff;
       outline: none;
     }
 
@@ -2447,6 +2448,10 @@
         top: 14px;
         left: 14px;
         gap: 6px;
+      }
+
+      .toby-web-byline {
+        margin-bottom: 3px;
       }
 
       .toby-web-logo-home {
