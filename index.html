@@ -328,6 +328,9 @@
     }
 
     .toby-web-byline {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
       flex: 0 0 auto;
       color: var(--white);
       margin-bottom: 19px;
@@ -336,11 +339,15 @@
       white-space: nowrap;
       text-decoration: none;
       filter: drop-shadow(2px 0 #000) drop-shadow(-2px 0 #000) drop-shadow(0 2px #000) drop-shadow(0 -2px #000);
+      transition: color 100ms linear, filter 100ms linear, transform 100ms linear;
+      pointer-events: auto;
     }
 
-    .toby-web-byline:hover,
-    .toby-web-byline:focus-visible {
-      color: #b56cff;
+    .toby-web-brand-home .toby-web-byline:hover,
+    .toby-web-brand-home .toby-web-byline:focus-visible {
+      color: #b56cff !important;
+      filter: drop-shadow(2px 0 #000) drop-shadow(-2px 0 #000) drop-shadow(0 2px #000) drop-shadow(0 -2px #000) drop-shadow(0 0 4px #8f35ff);
+      transform: translateY(-1px) scale(1.08);
       outline: none;
     }
 
