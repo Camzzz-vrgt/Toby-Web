@@ -249,6 +249,21 @@
       image-rendering: auto;
     }
 
+    .discord-link {
+      width: 78px;
+      height: 78px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .discord-link img {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: cover;
+    }
+
     .online-presence {
       align-self: center;
       display: inline-flex;
@@ -2554,7 +2569,7 @@
       </div>
       <div class="home-footer">
         <div class="brand-links">
-          <a class="brand-link sound-target" href="https://discord.gg/RjpzzRXNn6" target="_blank" rel="noopener noreferrer" title="Join the Toby Web Discord">
+          <a class="brand-link discord-link sound-target" href="https://discord.gg/RjpzzRXNn6" target="_blank" rel="noopener noreferrer" title="Join the Toby Web Discord">
             <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/discord-icon.png" alt="Discord">
           </a>
           <div id="online-presence" class="online-presence" title="People currently using Toby Web" aria-live="polite">
