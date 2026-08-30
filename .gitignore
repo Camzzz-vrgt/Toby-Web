@@ -1,0 +1,14 @@
+# Local reverse-engineering and web-port scratch files
+.tmp-*
+compare-*.png
+matrix-*.png
+fnaftale-*.png
+
+# Abandoned FNAFtale experiments
+files/fnaftale/
+files/fnaftale-candidate/
+files/fnaftale-rawtest/
+files/fnaftale-runner-test/
+
+# Downloaded local tooling cache
+tools/utmt-cli/
