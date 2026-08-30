@@ -392,6 +392,7 @@ Current extras:
 - Deltarune Plugged Dream
 - Deltarune Friendless
 - Deltarune Frostveil
+- FNAFTale: William Afton Fight
 - VS Tung Tung Tung Sahur
 - LAMBDARUNE
 - Full Roaring Knight Remake
@@ -857,6 +858,7 @@ Important current folder sizes:
 | `files/deltarune-plugged-dream` | 9 | 39.77 | Plugged Dream Kristal/love.js port |
 | `files/deltarune-friendless` | 8 | ~51.5 | Friendless Kristal/love.js port |
 | `files/deltarune-frostveil` | 10 | ~130 | Frostveil Kristal/love.js port; package is split into three GitHub-safe parts |
+| `files/fnaftale` | 117 | ~75 | FNAFTale GameMaker web port; game data is split into two GitHub-safe parts and streamed audio is exported under `audio/` |
 | `files/vs-tung-tung-tung-sahur` | 10 | 31.38 | Kristal/love.js port of VS Tung Tung Tung Sahur |
 | `files/lambdarune` | 118 | 145.82 | LAMBDARUNE port |
 | `files/scampton-the-great` | 17 | 193.21 | Scampton The Great port |
@@ -1869,6 +1871,7 @@ What appears complete:
 
 - Deltarune Plugged Dream was added as an Extras card and classic-layout extra, packaged as a Kristal/love.js port, and smoke-tested from the local `dltrn.html` wrapper through title menu and Start into difficulty select.
 - Deltarune Frostveil is packaged as a Kristal/love.js port and represented in both Extras layouts. Its large package is split into three remotely reassembled parts for GitHub compatibility.
+- FNAFTale: William Afton Fight is packaged under `files/fnaftale` and represented in both Extras layouts. Its GameMaker 2024.8 `data.win` is patched for the older HTML5 runner, split into `game.unx.part1` and `game.unx.part2`, and loaded by `files/fnaftale/index.html`. `tools/build-fnaftale-web.csx` is the reproducible compatibility patch: it enters through `rm_menu`, uses the game's 480x270 logical size, redirects streamed sound filenames to `audio/`, initializes the persistent settings object, replaces unsupported named-layer creation in the menu/cutscene/battle path, and supplies runtime layer records. `tools/fnaftale-menu-draw-web.gml` contains the complete patched menu Draw event, while `tools/utmt-export-web-audio.csx` reproduces the external web-audio directory. The normal intro and Skip Entire Intro paths were browser-smoke-tested; the latter reached the William Afton battle with no runtime dialog.
 - VS Tung Tung Tung Sahur was added as an Extras card and documented as a Kristal/love.js port. The package now includes a browser-only font fallback for Kristal text/UI crashes seen during local web testing.
 - The Last Sahur theme assets and launcher option are present.
 - Excuseme2 theme assets and option are present.
@@ -1941,7 +1944,7 @@ Important directories:
 - Deltarune chapters: `files\chapter1` through `files\chapter5`
 - Undertale: `files\undertale`
 - Mods: `files\kaizo-roaring-knight`, `files\cyan-knight`, `files\dojo-customizer`, `files\ultimate-boss-rush`, `files\deltarune-network`, `files\determination-flowery`, `files\violet-knight`, `files\aqua-over-kris`, `files\no-bullet-cooldowns`, `files\offline-bingo`, `files\chaos-randomizer`
-- Extras: see `#extras-page` in `dltrn.html`.
+- Extras: see `#extras-page` in `dltrn.html`; FNAFTale runtime files are under `files\fnaftale` and its reproducible conversion sources are `tools\build-fnaftale-web.csx`, `tools\fnaftale-menu-draw-web.gml`, and `tools\utmt-export-web-audio.csx`.
 - Presence client and On/Off setting: the presence block in `dltrn.html` and `index.html`.
 - Presence fallback backend: `C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL\presence-worker`
 

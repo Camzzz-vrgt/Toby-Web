@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+    <title>FNAFTale: William Afton Fight</title>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: #000;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-family: "Lucida Console", Monaco, monospace;
+      }
+
+      canvas.emscripten {
+        display: none;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        background: #000;
+        outline: none;
+        opacity: 0;
+        image-rendering: optimizeSpeed;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: -o-crisp-edges;
+        image-rendering: pixelated;
+        -ms-interpolation-mode: nearest-neighbor;
+      }
+
+      canvas.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        background: #000;
+        pointer-events: none;
+      }
+
+      .loading.hidden {
+        display: none;
+      }
+
+      .spinner {
+        width: 34px;
+        height: 34px;
+        border: 5px solid #444;
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      #status {
+        min-height: 20px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #progress {
+        width: min(320px, 70vw);
+        height: 12px;
+        accent-color: #fff;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas class="emscripten" id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <div id="status">Downloading...</div>
+      <progress id="progress" value="0" max="100"></progress>
+    </div>
+
+    <script>
+      const GAME_PARTS = ["game.unx.part1", "game.unx.part2"];
+      const RUNNER_DATA_PARTS = ["runner.data"];
+      const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
+      const GAME_MD5 = "fa0ff502b8af189dde81a9ea075d44ff";
+      const ASSET_VERSION = "fnaftale-webport-20260829o";
+      let mergedGameUrl = "";
+      let runnerDataUrl = "";
+      let startingHeight;
+      let startingWidth;
+      let startingAspect;
+
+      const loadingElement = document.getElementById("loading");
+      const statusElement = document.getElementById("status");
+      const progressElement = document.getElementById("progress");
+      const canvasElement = document.getElementById("canvas");
+
+      canvasElement.addEventListener("click", () => canvasElement.focus());
+
+
+      function splitUrlSuffix(url) {
+        const queryIndex = url.indexOf("?");
+        const hashIndex = url.indexOf("#");
+        let suffixIndex = -1;
+        if (queryIndex !== -1 && hashIndex !== -1) {
+          suffixIndex = Math.min(queryIndex, hashIndex);
+        } else {
+          suffixIndex = Math.max(queryIndex, hashIndex);
+        }
+        return suffixIndex === -1
+          ? { clean: url, suffix: "" }
+          : { clean: url.slice(0, suffixIndex), suffix: url.slice(suffixIndex) };
+      }
+
+      function resolveAudioAlias(url) {
+        if (typeof url !== "string") {
+          return url;
+        }
+        const split = splitUrlSuffix(url);
+        const lowerClean = split.clean.toLowerCase();
+        const markers = ["assets/audio/", "audio/", "assets/"];
+        for (let i = 0; i < markers.length; i++) {
+          const marker = markers[i];
+          const markerIndex = lowerClean.lastIndexOf(marker);
+          if (markerIndex === -1) {
+            continue;
+          }
+          const requestedPath = lowerClean.slice(markerIndex);
+          const canonicalPath = AUDIO_FILE_ALIASES[requestedPath];
+          if (canonicalPath) {
+            return split.clean.slice(0, markerIndex) + canonicalPath + split.suffix;
+          }
+        }
+        return url;
+      }
+
+      function cacheBustAssetUrl(url) {
+        if (typeof url !== "string" || url.indexOf("blob:") === 0 || url.indexOf("data:") === 0) {
+          return url;
+        }
+        url = resolveAudioAlias(url);
+        if (url.indexOf("game.unx") !== -1 || url.indexOf("runner.data") !== -1 || url.toLowerCase().indexOf("audio/") !== -1) {
+          if (url.indexOf("v=" + ASSET_VERSION) !== -1) {
+            return url;
+          }
+          return url + (url.indexOf("?") === -1 ? "?" : "&") + "v=" + ASSET_VERSION;
+        }
+        return url;
+      }
+
+      function setStatusText(text) {
+        statusElement.textContent = text || "";
+      }
+
+      function showCanvas() {
+        loadingElement.classList.add("hidden");
+        canvasElement.classList.add("active");
+        canvasElement.focus();
+      }
+
+      async function fetchParts(parts, label, progressState) {
+        const buffers = [];
+        for (let i = 0; i < parts.length; i++) {
+          setStatusText("Downloading " + label + "... " + (i + 1) + "/" + parts.length);
+          const response = await fetch(cacheBustAssetUrl(parts[i]), { cache: "reload" });
+          if (!response.ok) {
+            throw new Error("Could not load " + parts[i]);
+          }
+          const data = await response.arrayBuffer();
+          buffers.push(data);
+          progressState.done++;
+          progressElement.value = Math.round((progressState.done / TOTAL_ASSET_PARTS) * 100);
+        }
+        return buffers;
+      }
+
+      function makeBlobUrl(buffers) {
+        return URL.createObjectURL(new Blob(buffers, { type: "application/octet-stream" }));
+      }
+
+      async function prepareGameAssets() {
+        const progressState = { done: 0 };
+        mergedGameUrl = makeBlobUrl(await fetchParts(GAME_PARTS, "game data", progressState));
+        const runnerDataBuffers = await fetchParts(RUNNER_DATA_PARTS, "runner package", progressState);
+        runnerDataUrl = makeBlobUrl(runnerDataBuffers);
+        setStatusText("Preparing data...");
+      }
+
+      function installGameDataInterceptor() {
+        const originalFetch = window.fetch.bind(window);
+        window.fetch = function(resource, options) {
+          if (typeof resource === "string" && resource.indexOf("game.unx") !== -1) {
+            resource = mergedGameUrl;
+          } else if (typeof resource === "string" && resource.indexOf("runner.data") !== -1) {
+            resource = runnerDataUrl;
+          } else if (typeof resource === "string" && (resource.indexOf("audio/") !== -1 || resource.indexOf("assets/") !== -1)) {
+            resource = cacheBustAssetUrl(resource);
+          } else if (resource instanceof Request && resource.url.indexOf("game.unx") !== -1) {
+            resource = new Request(mergedGameUrl, resource);
+          } else if (resource instanceof Request && resource.url.indexOf("runner.data") !== -1) {
+            resource = new Request(runnerDataUrl, resource);
+          } else if (resource instanceof Request && (resource.url.indexOf("audio/") !== -1 || resource.url.indexOf("assets/") !== -1)) {
+            resource = new Request(cacheBustAssetUrl(resource.url), resource);
+          }
+          return originalFetch(resource, options);
+        };
+
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+          if (typeof url === "string" && url.indexOf("game.unx") !== -1) {
+            url = mergedGameUrl;
+          } else if (typeof url === "string" && url.indexOf("runner.data") !== -1) {
+            url = runnerDataUrl;
+          } else if (typeof url === "string" && (url.indexOf("audio/") !== -1 || url.indexOf("assets/") !== -1)) {
+            url = cacheBustAssetUrl(url);
+          }
+          return originalOpen.call(this, method, url, async, user, password);
+        };
+      }
+
+      function ensureAspectRatio() {
+        if (startingHeight === undefined || startingWidth === undefined) {
+          return;
+        }
+
+        const maxWidth = window.innerWidth;
+        const maxHeight = window.innerHeight;
+        const heightQuotient = startingHeight / maxHeight;
+        const widthQuotient = startingWidth / maxWidth;
+        let newHeight;
+        let newWidth;
+
+        if (heightQuotient > widthQuotient) {
+          newHeight = maxHeight;
+          newWidth = newHeight * startingAspect;
+        } else {
+          newWidth = maxWidth;
+          newHeight = newWidth / startingAspect;
+        }
+
+        canvasElement.style.width = newWidth + "px";
+        canvasElement.style.height = newHeight + "px";
+      }
+
+      window.addEventListener("resize", () => window.requestAnimationFrame(ensureAspectRatio));
+      setInterval(() => window.requestAnimationFrame(ensureAspectRatio), 1000);
+
+      var Module = {
+        preRun: [],
+        postRun: [],
+        print: function(text) {
+          if (arguments.length > 1) {
+            text = Array.prototype.slice.call(arguments).join(" ");
+          }
+          if (text === "Entering main loop.") {
+            ensureAspectRatio();
+          }
+          console.log(text);
+        },
+        printErr: function(text) {
+          if (arguments.length > 1) {
+            text = Array.prototype.slice.call(arguments).join(" ");
+          }
+          console.error(text);
+        },
+        canvas: canvasElement,
+        setStatus: function(text) {
+          if (!Module.setStatus.last) {
+            Module.setStatus.last = { time: Date.now(), text: "" };
+          }
+          if (text === Module.setStatus.last.text) return;
+          const match = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+          const now = Date.now();
+          if (match && now - Module.setStatus.last.time < 30) return;
+          Module.setStatus.last = { time: now, text: text };
+          if (!text) {
+            showCanvas();
+          } else if (text.indexOf("Downloading data...") !== -1) {
+            setStatusText("Downloading data...");
+          } else {
+            setStatusText(match ? match[1] : text);
+          }
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? "Preparing... (" + (this.totalDependencies - left) + "/" + this.totalDependencies + ")" : "All downloads complete.");
+        },
+        arguments: []
+      };
+
+      var g_pWadLoadCallback;
+      function setWadLoadCallback(wadLoadCallback) {
+        g_pWadLoadCallback = wadLoadCallback;
+      }
+
+      var g_pAddAsyncMethod = -1;
+      function setAddAsyncMethod(asyncMethod) {
+        g_pAddAsyncMethod = asyncMethod;
+      }
+
+      var g_pJSExceptionHandler;
+      function setJSExceptionHandler(exceptionHandler) {
+        if (typeof exceptionHandler === "function") {
+          g_pJSExceptionHandler = exceptionHandler;
+        }
+      }
+
+      function hasJSExceptionHandler() {
+        return typeof g_pJSExceptionHandler === "function";
+      }
+
+      function doJSExceptionHandler(exceptionJSON) {
+        if (typeof g_pJSExceptionHandler === "function") {
+          g_pJSExceptionHandler(JSON.parse(exceptionJSON));
+        }
+      }
+      const EXTERNAL_AUDIO_FILES = [
+          "audio/snd_6am.wav",
+          "audio/snd_big_twisted.ogg",
+          "audio/snd_blarg.wav",
+          "audio/snd_blip_bonk.wav",
+          "audio/snd_blip_cas.wav",
+          "audio/snd_blip_chik.wav",
+          "audio/snd_blip_foxk.wav",
+          "audio/snd_blip_frk.wav",
+          "audio/snd_blip_tor.wav",
+          "audio/snd_blip_wil.wav",
+          "audio/snd_blip.wav",
+          "audio/snd_break_1.wav",
+          "audio/snd_break_2.wav",
+          "audio/snd_break_3.wav",
+          "audio/snd_break_4.wav",
+          "audio/snd_break_5.wav",
+          "audio/snd_break_6.wav",
+          "audio/snd_break_bwow.wav",
+          "audio/snd_bwouw.ogg",
+          "audio/snd_cameras.wav",
+          "audio/snd_cancel.wav",
+          "audio/snd_cant.ogg",
+          "audio/snd_chair_go.wav",
+          "audio/snd_chair_super.wav",
+          "audio/snd_chair_zjierb.wav",
+          "audio/snd_chucklefuck1.wav",
+          "audio/snd_chucklefuck2.wav",
+          "audio/snd_classic_ecstatic_itsmagic.wav",
+          "audio/snd_crickets.wav",
+          "audio/snd_danger.ogg",
+          "audio/snd_darkspawn_music.ogg",
+          "audio/snd_door.wav",
+          "audio/snd_entrance.ogg",
+          "audio/snd_evillaugh.ogg",
+          "audio/snd_fight_enter.wav",
+          "audio/snd_flash_beacon.wav",
+          "audio/snd_fnaf_ohno.wav",
+          "audio/snd_fnaf3.wav",
+          "audio/snd_foxy_door.wav",
+          "audio/snd_foxy_run.wav",
+          "audio/snd_foxydrawing.wav",
+          "audio/snd_fredlaugh_far.wav",
+          "audio/snd_fredlaugh.wav",
+          "audio/snd_fredopenopenopen.wav",
+          "audio/snd_fucking_why_is_this_called_b.wav",
+          "audio/snd_fuckingkilleverybody.wav",
+          "audio/snd_ghost1.wav",
+          "audio/snd_ghost2.wav",
+          "audio/snd_gift1.wav",
+          "audio/snd_goldentalk.wav",
+          "audio/snd_happy_town.ogg",
+          "audio/snd_heal.wav",
+          "audio/snd_hi_shibe.wav",
+          "audio/snd_im_freddy_fazbear.wav",
+          "audio/snd_im_upset.wav",
+          "audio/snd_knife.wav",
+          "audio/snd_knight_box.wav",
+          "audio/snd_knight_charg.wav",
+          "audio/snd_knight_slash.wav",
+          "audio/snd_knight_whoosh.wav",
+          "audio/snd_light_scare.wav",
+          "audio/snd_light.wav",
+          "audio/snd_mask_block.wav",
+          "audio/snd_mask.wav",
+          "audio/snd_metroid_dread.wav",
+          "audio/snd_mous_go.wav",
+          "audio/snd_noise.wav",
+          "audio/snd_nose_boop.wav",
+          "audio/snd_ooouuuu.ogg",
+          "audio/snd_openopenopen.wav",
+          "audio/snd_ouch.wav",
+          "audio/snd_peennitus.wav",
+          "audio/snd_phase1.ogg",
+          "audio/snd_phase2.ogg",
+          "audio/snd_phase3.ogg",
+          "audio/snd_phase4.ogg",
+          "audio/snd_phone.wav",
+          "audio/snd_pingas.wav",
+          "audio/snd_piratesong.wav",
+          "audio/snd_pizza.wav",
+          "audio/snd_power_no.wav",
+          "audio/snd_pushing.wav",
+          "audio/snd_saw1idea.wav",
+          "audio/snd_scream.wav",
+          "audio/snd_selec.wav",
+          "audio/snd_shred_off.wav",
+          "audio/snd_slash_hit.wav",
+          "audio/snd_slash_levelup.wav",
+          "audio/snd_soul_break_1.wav",
+          "audio/snd_soul_break_2.wav",
+          "audio/snd_soul_hurt.wav",
+          "audio/snd_soul_shot.wav",
+          "audio/snd_sparkles.wav",
+          "audio/snd_sproinglock.wav",
+          "audio/snd_summon.wav",
+          "audio/snd_target.wav",
+          "audio/snd_taser_charge.wav",
+          "audio/snd_taser_loop.wav",
+          "audio/snd_thanks_alex_jauk.ogg",
+          "audio/snd_thanks_u_mx4xkr2bzy.wav",
+          "audio/snd_uh_spoilers.ogg",
+          "audio/snd_uhoh.wav",
+          "audio/snd_und_selec.wav",
+          "audio/snd_und_selec2.wav",
+          "audio/snd_wobbler_dog.ogg",
+          "audio/snd_wrong.wav",
+          "audio/snd_wubba.wav",
+          "audio/snd_yahoo.wav",
+          "audio/snd_yeti_stomp.wav",
+          "audio/snd_zap_smal.wav",
+          "audio/snd_zap.wav"
+        ];
+      const EXTERNAL_AUDIO_MD5 = [
+          "3439c5e432b9e7c3f48b7551445f84a8",
+          "002a1224c4cdfdebafa99a1d8fadc613",
+          "5c8a867c7fff35aa96d030fe0d4a977b",
+          "8c544baf0bc01aca592b65f867992377",
+          "367c2a1adb4fa5546e631d276bcada48",
+          "06f939cde20aa6d701e962298cafabf4",
+          "dbac1039ed522c021a012722f1f4f838",
+          "b14a74da368a179e214ba2f50f3dcd71",
+          "07d117d2c005f752481be37782189ad7",
+          "a607feb6d56e41ef85586df406cccebf",
+          "d5bc90fdac8d85840929561df75338cc",
+          "046083112a4598b2277a82a89485c45a",
+          "54b52d8ef3c3804e32f89b4ad87e2926",
+          "c56764e54a289484ceaf061669caac82",
+          "878674c39cb50e54f505653bb64045f3",
+          "b8ab23071e120265eb0e0e51b4fd0f57",
+          "9460c50dfb6febf85222e8f7812bff28",
+          "073e6ebe2417b880a291292affc6cbcf",
+          "f5c4f336ee8ced2fc4c6aefc84425088",
+          "b3c2f9ed00f5cf4510dc09decd89362f",
+          "0ce8182de0592d47df9ae494efe7118a",
+          "a10400bba137166bc418bb063c9e8f0d",
+          "23485c36857449cd918123af46bc8c04",
+          "d844c07357cb2034b6559170f8dcdeba",
+          "e6e10fefd3d2e65e9b621d5c8a2c4436",
+          "c02c3fcbcc379d4a134e77862bee073d",
+          "4394b42df6f1d7fa9699761ed7e36140",
+          "03e92184b5439b5ce4877d3958a68bfa",
+          "729909ae5a2849b8a05c124276a8521e",
+          "15bc32027a9350b1e8f87ea342a5de5f",
+          "2c14aae1ddf7e53a7e784c7cbc5cfb1f",
+          "97f252e002fd8aa5693eed863c1976e7",
+          "a2124c8c7339f77fc3b1fabb9f59775f",
+          "0487b48fbecbbe122407b17ab2e639a4",
+          "3bb0286eabde8c99aa90cd0a118ef8a6",
+          "0ec551554bb92d45a3d4f663f773094e",
+          "5e544ac51a09dc39249a5d16ecad9534",
+          "d14aa739fa3cdc6fafaa04f3107b9a6c",
+          "e8fda275cafe6d725e90ed78aa024ad2",
+          "5075210878f382074fe92f5f2bc4f1bb",
+          "231cebc2c6bd132fc30d809dea1e9c46",
+          "c6399582785d64052da764685e17f983",
+          "0b3aad56294f0b621bd16a10e4b74391",
+          "88d02784864afcf4aa4a68ff2abbfdf9",
+          "96bc0645fed65301ce18556c0000f5eb",
+          "0ef53f412577632188ce8e60fe56e561",
+          "d7b7bc4326170af3d4dfe9741aa8c608",
+          "d0a9b12887a8be4ad5deff7ae4e857b4",
+          "de357af7c20e7f1dea1b6b704bc537fb",
+          "9212110c6fe1cf5edb66b9eff2ce0236",
+          "d8d80947b98863a09788005a32e3ae29",
+          "f60b5f85e90d2540e528dda05a1d153f",
+          "4c1dc3a927bb7a587b8a06dc44b40a33",
+          "720ed00042951779d644088d331c9cac",
+          "44082bc32b0a5e3f1d2cae156423f987",
+          "314d6e18c5682ff2978ac3640e626a3d",
+          "045134651e49939659379344e6f22ccb",
+          "0ffc3151656eca464aadf266cc28c311",
+          "7e90642441e790c6cb4156b0495bc8c0",
+          "603c5a5eda25d97147c8c45ba10d4c55",
+          "0970eb0b0ac4b15fc5e90b9441e8e233",
+          "5e11c964161d98fca460b485e5dc4f1b",
+          "b3f859baebee69d31ee07a4645a63d3a",
+          "df5e844b78ba9cf327d74769b08dcba2",
+          "7e171865c9b7f49de58284b3c4acb5d0",
+          "890ef735b70967b21d4ccdb177d86a22",
+          "4885f43bbe53617bb7bce85d3a9fe016",
+          "45169d6e196f755e19c31ecd8309d241",
+          "948cc1ea2b77a1f1fbdadb18b8ed87dc",
+          "541550022d52ea6bb600eca5dc82b08d",
+          "9dc8a3a8d90c276d66f5d3d75f91cfbe",
+          "e61cbea30d758f9097a97d27e7b18604",
+          "8dd7b085b5dcf31f3dcba9c3a81d5808",
+          "0620fe545f4d077cf48ec5a8896458bc",
+          "694fdf662f444fec3da0baef1df78de5",
+          "a07eaf10f74aabdb27bb3707a2274520",
+          "521f1aea71e4f075aeb688d330c5e66e",
+          "e8ef840556d1bee9fd97beb2e68dac0a",
+          "b1c1aed7289f4091aed6c2a8ed008553",
+          "460140fefb6559a751f253a54ce041a4",
+          "22e196357fdecfd0a1f9a80da9d91557",
+          "b94b1d412538e22b421e25658c506915",
+          "9711c86652f41a92c42056a22a9a765b",
+          "a5b34cbe766d383b70602eda18bde879",
+          "06a848a45047084aac60a2845424d0de",
+          "1ecbbb78bef77dcfd49e774cb16034d5",
+          "bb9362fedc16d6e41cf6f21190de4e86",
+          "84dad3bd51a1e760f7b8dfebb6fa2d84",
+          "8f190ba0c548d9761c94ae547d23012a",
+          "ae06b4b28332282e79deb1064cfb5900",
+          "be1adc0066ce13405554ee503ce3ea36",
+          "3b71c994444c18f2820ef3317a7efc15",
+          "de2d7831dd1084a9d36ddabedc0bcdcb",
+          "cffaaf13d7e64b5e8d0e906327c918f6",
+          "a91e5dec70fc265b87203bafef8b9a6e",
+          "e44cdaf713ef7212edc5ce7ea2990b8b",
+          "f27d947b7506f84dc81e49c435a21e17",
+          "5c6d8e80e60163c209512b43489a1f12",
+          "1f7eb90cfb6ffc4356740f27e66d1535",
+          "768c5b98d926e818988a25ce56118a15",
+          "2700ca05479841f633b1655a4365374e",
+          "dfb4361221c3fb9bbdc35c70640dddf7",
+          "921ce8c7811e4824f5ae0d156e1f5457",
+          "80f71fad80bfa1c9e6b4bbacb59700f2",
+          "861ab134d29ec946bbc4786cee2b9d7d",
+          "a879587b4eaacd10b4cd3518a455cb25",
+          "9ab8bebdb6a914221f7ee3b2dbd87e39",
+          "ecabb240054daf3c9ea1e575f792bac5",
+          "8e7aa9a55c6296d1188a2870fd671de3",
+          "628d003a49c4276a955341d7e003a1c1",
+          "fa89f233b887b8fbcfc3c8f8ab6105cf"
+        ];
+      const AUDIO_FILE_ALIASES = {};
+      const EXTERNAL_AUDIO_ALIAS_FILES = [];
+      const EXTERNAL_AUDIO_ALIAS_MD5 = [];
+      const KNOWN_EXTERNAL_AUDIO_FILES = {};
+
+      for (let i = 0; i < EXTERNAL_AUDIO_FILES.length; i++) {
+        KNOWN_EXTERNAL_AUDIO_FILES[EXTERNAL_AUDIO_FILES[i]] = true;
+      }
+
+      for (let i = 0; i < EXTERNAL_AUDIO_FILES.length; i++) {
+        const file = EXTERNAL_AUDIO_FILES[i];
+        const lowerFile = file.toLowerCase();
+        const looseFile = lowerFile.indexOf("audio/") === 0 ? lowerFile.slice(6) : lowerFile;
+        const aliases = [lowerFile, "assets/" + lowerFile, "assets/" + looseFile];
+        AUDIO_FILE_ALIASES[lowerFile] = file;
+        AUDIO_FILE_ALIASES["assets/" + lowerFile] = file;
+        AUDIO_FILE_ALIASES["assets/" + looseFile] = file;
+
+        for (let j = 0; j < aliases.length; j++) {
+          const alias = aliases[j];
+          if (alias !== file && !KNOWN_EXTERNAL_AUDIO_FILES[alias]) {
+            KNOWN_EXTERNAL_AUDIO_FILES[alias] = true;
+            EXTERNAL_AUDIO_ALIAS_FILES.push(alias);
+            EXTERNAL_AUDIO_ALIAS_MD5.push(EXTERNAL_AUDIO_MD5[i]);
+          }
+        }
+      }
+
+      function manifestFiles() {
+        return [
+          "runner.data",
+          "runner.js",
+          "runner.wasm",
+          "audio-worklet.js",
+          "game.unx"
+        ].concat(EXTERNAL_AUDIO_FILES, EXTERNAL_AUDIO_ALIAS_FILES).join(";");
+      }
+
+      function manifestFilesMD5() {
+        return [
+          "34565020f46a5d5930f86f613c522c8c",
+          "7a638151dad629fabd8c75a53cf53a72",
+          "974de43c7679838b00db32032d23f470",
+          "5d0a0227c50a283fe2af3066b3b0a104",
+          "fa0ff502b8af189dde81a9ea075d44ff"
+        ].concat(EXTERNAL_AUDIO_MD5, EXTERNAL_AUDIO_ALIAS_MD5);
+      }
+      function onFirstFrameRendered() {
+      }
+
+      function onGameSetWindowSize(width, height) {
+        startingWidth = width;
+        startingHeight = height;
+        startingAspect = startingWidth / startingHeight;
+        ensureAspectRatio();
+      }
+
+      function pause() {
+        if (typeof GM_pause === "function" && canvasElement.classList.contains("active")) {
+          GM_pause();
+        }
+      }
+
+      function resume() {
+        if (typeof GM_unpause === "function" && canvasElement.classList.contains("active")) {
+          GM_unpause();
+          ensureAspectRatio();
+        }
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState !== "visible") {
+          pause();
+        } else {
+          resume();
+        }
+      });
+
+      window.addEventListener("error", event => {
+        if (!canvasElement.classList.contains("active")) {
+          setStatusText("Exception thrown, see JavaScript console");
+        }
+        console.error(event.error || event.message);
+      });
+
+      const browserAlert = window.alert.bind(window);
+      window.alert = message => {
+        console.error("GameMaker alert:", message);
+        browserAlert(message);
+      };
+
+      setWadLoadCallback(function() {});
+
+      prepareGameAssets()
+        .then(() => {
+          installGameDataInterceptor();
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = "runner.js?v=" + ASSET_VERSION;
+          document.body.appendChild(script);
+        })
+        .catch(error => {
+          setStatusText("Failed to load game data");
+          console.error(error);
+          alert("FNAFTale: William Afton Fight could not load.\n\n" + (error && error.message ? error.message : error));
+        });
+    </script>
+  </body>
+</html>

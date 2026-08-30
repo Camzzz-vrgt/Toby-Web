@@ -840,6 +840,11 @@
       font-size: 0.66rem;
     }
 
+    .fnaftale-text {
+      color: #b88cff;
+      font-size: 0.66rem;
+    }
+
     .differentsnowgrave-text {
       color: #f2d91d;
       font-size: 0.66rem;
@@ -1079,6 +1084,7 @@
     .source-link.pluggeddream, .game-credit-row.pluggeddream { --source-hover: #c217ff; }
     .source-link.friendless, .game-credit-row.friendless { --source-hover: #ff5f7f; }
     .source-link.frostveil, .game-credit-row.frostveil { --source-hover: #79cfff; }
+    .source-link.fnaftale, .game-credit-row.fnaftale { --source-hover: #b88cff; }
     .source-link.differentsnowgrave, .game-credit-row.differentsnowgrave { --source-hover: #f2d91d; }
     .source-link.tungsahur, .game-credit-row.tungsahur { --source-hover: #ffdf45; }
     .source-link.lambdarune, .game-credit-row.lambdarune { --source-hover: #9eff66; }
@@ -2879,6 +2885,10 @@
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
           <span class="frostveil-text">Deltarune Frostveil</span>
         </button>
+        <button class="game-card fnaftale sound-target" onclick="loadFnaftale()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/fnaftale/icon.png" alt="FNAFTale: William Afton Fight">
+          <span class="fnaftale-text">FNAFTale</span>
+        </button>
         <button class="game-card differentsnowgrave sound-target" onclick="loadDifferentSnowgrave()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/a-different-snowgrave/icon.png" alt="A Different Snowgrave">
           <span class="differentsnowgrave-text">A Different Snowgrave</span>
@@ -2996,6 +3006,7 @@
                   <a class="game-credit-row pluggeddream sound-target" href="https://gamejolt.com/games/pluggeddream/1019739" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-plugged-dream/icon.png" alt=""><span><strong>Deltarune Plugged Dream</strong><small>View the original game</small></span></a>
                   <div class="game-credit-row friendless"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-friendless/icon.png" alt=""><span><strong>Deltarune Friendless</strong><small>Original page unavailable</small></span></div>
                   <div class="game-credit-row frostveil"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-frostveil/icon.png" alt=""><span><strong>Deltarune Frostveil</strong><small>Original page unavailable</small></span></div>
+                  <a class="game-credit-row fnaftale sound-target" href="https://gamejolt.com/games/fnaftale/1090259" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/fnaftale/icon.png" alt=""><span><strong>FNAFTale</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row differentsnowgrave sound-target" href="https://serve.gamejolt.net/4818ec959f095ffc812c68dfa0021283147ce27099cd9b39dbccecc8c1c852a6,1785771734,7/data/games/11/215/726965/files/62b05262e5f27/index.html" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/a-different-snowgrave/icon.png" alt=""><span><strong>A Different Snowgrave</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row tungsahur sound-target" href="https://colinstick.itch.io/vs-tung-tung-tung-sahur" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/vs-tung-tung-tung-sahur/icon.png" alt=""><span><strong>VS Tung Tung Tung Sahur</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row lambdarune sound-target" href="https://gamejolt.com/p/lambdarune-chapter-4-installment-1-is-out-let-the-angel-s-power-l-ijfwuric" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/icon.png" alt=""><span><strong>LAMBDARUNE</strong><small>View the original game</small></span></a>
@@ -3083,6 +3094,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneFrostveil()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadFnaftale()">
+          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/fnaftale/icon.png" alt="FNAFTale">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadVsTungTungTungSahur()">
           <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/vs-tung-tung-tung-sahur/icon.png" alt="VS Tung Tung Tung Sahur">
@@ -3821,6 +3835,10 @@
 
     function loadDeltaruneFrostveil() {
       loadRemotePage(FROSTVEIL_INDEX_URL, FROSTVEIL_CDN_BASE);
+    }
+
+    function loadFnaftale() {
+        loadRemotePage(FILES_BASE + "fnaftale/index.html?v=fnaftale-webport-20260829o");
     }
 
     function loadDifferentSnowgrave() {
