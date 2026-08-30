@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UndertaleModLib.Compiler;
 using UndertaleModLib.Models;
 
@@ -71,16 +72,44 @@ foreach (var room in Data.Rooms)
 }
 
 var imports = new CodeImportGroup(Data);
+
+// The HTML5 runner does not reliably expose room layer names to
+// instance_create_layer(). FNAFTale creates nearly every dialogue/cutscene
+// object on a layer named "Text", which made dialogue crash in rooms where
+// that lookup failed. Preserve the intended front-most ordering with depth.
+foreach (var code in Data.Code)
+{
+    if (code?.Name?.Content is null)
+        continue;
+
+    string source = GetDecompiledText(code.Name.Content);
+    if (!source.Contains("\"Text\""))
+        continue;
+
+    string patched = Regex.Replace(
+        source,
+        @"instance_create_layer\(([^,]+),\s*([^,]+),\s*\""Text\"",\s*([^\)]+)\)",
+        "instance_create_depth($1, $2, -1000, $3)"
+    );
+
+    if (code.Name.Content == "gml_Object_obj_squeak_Draw_0")
+    {
+        patched = patched.Replace(
+            "draw_text_transformed(130 - ((image_alpha == 0) * 70), y + -29, \"\" + string(string_copy(scarab, 0, ceil(text_scroll))), image_xscale + 0, image_yscale + 0, 0);",
+            "draw_text(130 - ((image_alpha == 0) * 70), y - 29, string_copy(scarab, 0, ceil(text_scroll)));"
+        );
+    }
+
+    if (patched != source)
+        imports.QueueReplace(code.Name.Content, patched);
+}
+
 string boxCreateSource = GetDecompiledText("gml_Object_obj_box_Create_0");
 boxCreateSource = boxCreateSource.Replace(
     "national_spamton = part_system_create_layer(\"Building\", 0);",
     "national_spamton = part_system_create();\npart_system_depth(national_spamton, 0);"
 );
 imports.QueueReplace("gml_Object_obj_box_Create_0", boxCreateSource);
-imports.QueueReplace(
-    "gml_Object_obj_cutscene_Alarm_0",
-    "instance_create_depth(86, diag_y, -1000, obj_squeak);\n"
-);
 imports.QueuePrepend(
     "gml_Object_obj_menu_bobbler_Create_0",
     "if (!instance_exists(obj_settings)) instance_create_depth(0, 0, 1000000, obj_settings);\n"
