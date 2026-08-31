@@ -1525,7 +1525,7 @@
     }
 
     .site-volume-slider {
-      --volume-fill: 100%;
+      --volume-fill: 33%;
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
@@ -1591,6 +1591,53 @@
       line-height: 1;
       text-align: right;
       white-space: nowrap;
+    }
+
+    .tab-appearance-control {
+      position: relative;
+      border: 2px solid var(--white);
+      background: #000;
+    }
+
+    .tab-appearance-control::after {
+      content: "\25BC";
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      color: var(--yellow);
+      font-size: 0.72rem;
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+
+    .tab-appearance-control:hover,
+    .tab-appearance-control:focus-within {
+      border-color: var(--white);
+      box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--yellow);
+    }
+
+    .tab-appearance-select {
+      width: 100%;
+      height: 44px;
+      padding: 0 42px 0 10px;
+      border: 0;
+      border-radius: 0;
+      color: var(--white);
+      background: #000;
+      font: inherit;
+      font-size: 0.82rem;
+      line-height: 44px;
+      text-align: center;
+      text-align-last: center;
+      text-transform: uppercase;
+      appearance: none;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .tab-appearance-select option {
+      color: var(--white);
+      background: #000;
     }
 
     .background-options {
@@ -3163,8 +3210,27 @@
       <div class="settings-section">
         <div class="settings-label">Site Music Volume</div>
         <div class="site-volume-control">
-          <input id="site-music-volume" class="site-volume-slider" type="range" min="0" max="100" step="1" value="100" aria-label="Site music volume" oninput="setSiteMusicVolume(this.value)">
-          <span id="site-music-volume-value" class="site-volume-value">100%</span>
+          <input id="site-music-volume" class="site-volume-slider" type="range" min="0" max="100" step="1" value="33" aria-label="Site music volume" oninput="setSiteMusicVolume(this.value)">
+          <span id="site-music-volume-value" class="site-volume-value">33%</span>
+        </div>
+      </div>
+      <div class="settings-section">
+        <label class="settings-label" for="tab-appearance-select">Site Name &amp; Favicon</label>
+        <div class="tab-appearance-control">
+          <select id="tab-appearance-select" class="tab-appearance-select sound-target" aria-label="Site name and favicon" onchange="setTabAppearance(this.value)">
+            <option value="toby-web">Toby Web (Current)</option>
+            <option value="google-classroom">Google Classroom</option>
+            <option value="infinite-campus">Infinite Campus</option>
+            <option value="khan-academy">Khan Academy</option>
+            <option value="securly-dashboard">Securly Dashboard</option>
+            <option value="canvas-lms">Canvas LMS</option>
+            <option value="schoology">Schoology</option>
+            <option value="ixl-learning">IXL Learning</option>
+            <option value="quizlet">Quizlet</option>
+            <option value="duolingo">Duolingo</option>
+            <option value="google">Google</option>
+            <option value="google-docs">Google Docs</option>
+          </select>
         </div>
       </div>
       <div class="settings-section">
@@ -3461,7 +3527,23 @@
   <script>
     const audio = document.getElementById("drone");
     const SITE_MUSIC_VOLUME_KEY = "dul_site_music_volume";
+    const TAB_APPEARANCE_KEY = "dul_tab_appearance";
     const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
+    const DEFAULT_TAB_APPEARANCE = "toby-web";
+    const TAB_APPEARANCES = {
+      "toby-web": { title: "Toby Web", icon: FILES_BASE + "favicon.png" },
+      "google-classroom": { title: "Google Classroom", icon: FILES_BASE + "tab-presets/google-classroom.png" },
+      "infinite-campus": { title: "Infinite Campus", icon: FILES_BASE + "tab-presets/infinite-campus.png" },
+      "khan-academy": { title: "Khan Academy", icon: FILES_BASE + "tab-presets/khan-academy.png" },
+      "securly-dashboard": { title: "Securly Dashboard", icon: FILES_BASE + "tab-presets/securly-dashboard.png" },
+      "canvas-lms": { title: "Canvas LMS", icon: FILES_BASE + "tab-presets/canvas-lms.png" },
+      "schoology": { title: "Schoology", icon: FILES_BASE + "tab-presets/schoology.png" },
+      "ixl-learning": { title: "IXL Learning", icon: FILES_BASE + "tab-presets/ixl-learning.png" },
+      "quizlet": { title: "Quizlet", icon: FILES_BASE + "tab-presets/quizlet.png" },
+      "duolingo": { title: "Duolingo", icon: FILES_BASE + "tab-presets/duolingo.png" },
+      "google": { title: "Google", icon: FILES_BASE + "tab-presets/google.png" },
+      "google-docs": { title: "Google Docs", icon: FILES_BASE + "tab-presets/google-docs.png" }
+    };
     const FIXED_MOD_BUILD_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8514df69fec9314dcc4a7efc00d5c075255a538a/files/";
     const VS_TUNG_SAHUR_CDN_BASE = FILES_BASE + "vs-tung-tung-tung-sahur/";
     const VS_TUNG_SAHUR_INDEX_URL = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/vs-tung-tung-tung-sahur/index.html?v=fit-pixel-scale-20260810";
@@ -3654,7 +3736,36 @@
     function getSiteMusicVolume() {
       const storedVolume = parseInt(localStorage.getItem(SITE_MUSIC_VOLUME_KEY), 10);
       if (Number.isFinite(storedVolume)) return Math.max(0, Math.min(100, storedVolume));
-      return 100;
+      return 33;
+    }
+
+    function getTabAppearance() {
+      const savedAppearance = localStorage.getItem(TAB_APPEARANCE_KEY);
+      return Object.prototype.hasOwnProperty.call(TAB_APPEARANCES, savedAppearance)
+        ? savedAppearance
+        : DEFAULT_TAB_APPEARANCE;
+    }
+
+    function applyTabAppearance(appearanceId = getTabAppearance()) {
+      const selectedId = Object.prototype.hasOwnProperty.call(TAB_APPEARANCES, appearanceId)
+        ? appearanceId
+        : DEFAULT_TAB_APPEARANCE;
+      const appearance = TAB_APPEARANCES[selectedId];
+      document.title = appearance.title;
+      document.querySelectorAll('link[rel~="icon"]').forEach(link => {
+        link.href = appearance.icon;
+        link.type = "image/png";
+      });
+      const select = document.getElementById("tab-appearance-select");
+      if (select) select.value = selectedId;
+    }
+
+    function setTabAppearance(appearanceId) {
+      const selectedId = Object.prototype.hasOwnProperty.call(TAB_APPEARANCES, appearanceId)
+        ? appearanceId
+        : DEFAULT_TAB_APPEARANCE;
+      localStorage.setItem(TAB_APPEARANCE_KEY, selectedId);
+      applyTabAppearance(selectedId);
     }
 
     function applySiteMusicVolume() {
@@ -5090,6 +5201,7 @@
     });
 
     applySiteBackground(localStorage.getItem("dul_site_background") || "ch3");
+    applyTabAppearance();
     updateAudioButtons();
     localStorage.removeItem("dul_presence_service");
     updatePresenceControls();

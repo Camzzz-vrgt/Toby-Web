@@ -463,21 +463,23 @@ Provides site-wide controls:
 - Use New Layout
 - Export Whole Site Save
 - Import Whole Site Save
-- Site Music Volume slider
+- Site Music Volume slider (33% default for users without a saved preference)
+- Site Name & Favicon dropdown with Toby Web and school/search tab presets
 - Background/theme picker
 - Credits page button
 
 Where it is located:
 
 - Markup: `#settings-modal` in `dltrn.html`.
-- CSS: `.settings-*`, `.background-option`, `.site-volume-*`.
-- Functions: `openSettings()`, `closeSettings()`, `toggleAudio()`, `setSiteMusicVolume()`, `setSiteBackground()`, `useClassicLayout()`, `useNewLayout()`.
+- CSS: `.settings-*`, `.background-option`, `.site-volume-*`, `.tab-appearance-*`.
+- Functions: `openSettings()`, `closeSettings()`, `toggleAudio()`, `setSiteMusicVolume()`, `setTabAppearance()`, `setSiteBackground()`, `useClassicLayout()`, `useNewLayout()`.
 
 How it works:
 
 - The settings icon only appears on the home page through `body.home-mode .settings-toggle`.
 - Background choice is stored in `localStorage.dul_site_background`.
 - Site music volume is stored in `localStorage.dul_site_music_volume`.
+- Tab appearance is stored in `localStorage.dul_tab_appearance`; `applyTabAppearance()` updates `document.title` and both favicon links.
 - `applySiteBackground()` updates CSS variable `--site-bg-image`.
 - `applySiteAudio()` swaps the looped `audio#drone` source to the chosen theme track.
 
@@ -487,6 +489,7 @@ Important dependencies:
 - `files/audios/theme-*.mp3`
 - `files/audios/AUDIO_DRONE.ogg`
 - `files/settings-icon.png`
+- `files/tab-presets/*.png`
 
 Known bugs or unfinished parts:
 
