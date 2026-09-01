@@ -1,6 +1,6 @@
 # DUL Project Context
 
-Last inspected by Codex: August 19, 2026.
+Last inspected by Codex: September 1, 2026.
 
 Project root:
 
@@ -10,9 +10,23 @@ Common local single-file copy used by the user:
 
 `C:\Users\cmrns_4sj17yr\Desktop\Deltarune SNxTr\dltrn.html`
 
-Remote repository:
+Primary remote repository:
 
-`https://github.com/storynetwork-camzzz/DUL.git`
+`https://github.com/camzzz-vrgt/Toby-Web.git`
+
+The previous `storynetwork-camzzz/DUL` repository was made private during the September 2026 account migration. Do not publish or push new releases there unless the user explicitly requests it.
+
+### September 2026 Offline Runtime Update
+
+This section supersedes older references below to jsDelivr, raw GitHub runtime loading, `file://`, and `python -m http.server`.
+
+- The repository root is now the web root. `index.html` and `dltrn.html` are byte-identical launchers and use `files/` directly.
+- Runtime assets, game entry pages, runner scripts, WASM, saves, themes, images, fonts, audio, and video are served from this repository. External links remain only for credits/navigation and are not required to load the launcher or games.
+- Start the supported offline server with `start-local.bat`, or run `py -3 tools\local_server.py --port 2000` from the repository root. Open `http://127.0.0.1:2000/index.html`.
+- `tools/local_server.py` supplies required game MIME types, disables caching during development, and sends a Content Security Policy that blocks non-local runtime requests while allowing local `blob:` and `data:` assets used by the packaged runners.
+- `tools/audit_offline.py` checks local HTML/CSS asset references and reports missing or remote load-bearing references.
+- Presence remains a hosted-only optional feature. It defaults off on localhost, and failure cannot block launcher/game startup.
+- Do not restore a remote `<base>` element or DUL-owned jsDelivr/raw-GitHub fallback. Do not test this offline build with `file://`.
 
 This document is a handoff for future Codex instances. It is based on the current files in the repository, especially `dltrn.html`, the `files/` runtime asset tree, root metadata, and recent Git history. If anything here conflicts with the current code later, trust the current code after inspecting it.
 
@@ -1074,40 +1088,24 @@ No secrets are required to run the project locally. Never add secrets to this re
 
 ### Configure Services
 
-No external services need local configuration.
+No external service is required for local play. Presence is optional and defaults off on localhost.
 
-The browser must be able to reach:
+### Run Locally
 
-- `https://cdn.jsdelivr.net`
-- `https://raw.githubusercontent.com`
-- Any still-referenced external image URLs.
+Do not use `file://`; browser security rules and WASM MIME requirements make that unsupported. From the repository root, double-click `start-local.bat`, or run:
 
-### Run Locally by Double-Clicking
+```powershell
+Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL"
+py -3 tools\local_server.py --port 2000
+```
 
-The user's common workflow is to open:
-
-`C:\Users\cmrns_4sj17yr\Desktop\Deltarune SNxTr\dltrn.html`
-
-or the repo copy:
-
-`C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL\dltrn.html`
-
-The launcher itself should appear from the local file. Game launches still fetch remote assets.
+Then open `http://127.0.0.1:2000/index.html` (or `/dltrn.html`).
 
 ### Run Locally with a Static Server
 
 This is useful when testing relative paths, fetched HTML, or browser console behavior.
 
-```powershell
-Set-Location "C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL"
-python -m http.server 8000
-```
-
-Then open:
-
-`http://localhost:8000/dltrn.html`
-
-If `python` is unavailable, use another static file server. Do not add a server dependency unless the user asks.
+Use the same `tools\local_server.py` command above. A generic static server does not provide the offline-only Content Security Policy used by the verification workflow.
 
 ### Build
 
@@ -1132,21 +1130,14 @@ Deployment is by committing and pushing static files to GitHub.
 Typical workflow:
 
 ```powershell
-Set-Location "C:\Users\cmrns_4sj17yr\Documents\Codex\2026-06-28\c-users-cmrns-4sj17yr-desktop-deltarune\work\DUL"
+Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL"
 git status --short
 git add -- dltrn.html files/<changed-folder-or-file>
 git commit -m "Describe the DUL change"
 git push
 ```
 
-Important deployment note:
-
-If `dltrn.html` references an asset through a pinned commit hash, pushing the asset to `main` is not enough. The HTML must point to a commit that contains the asset. For theme assets, this usually means:
-
-1. Add and commit the new asset files.
-2. Update `THEME_ASSET_VERSION` or any other pinned URL in `dltrn.html` to the asset commit.
-3. Commit the HTML change.
-4. Push both commits.
+Important deployment note: runtime paths are repository-relative. Keep `index.html` and `dltrn.html` synchronized and deploy the complete changed local asset set; do not replace paths with pinned CDN commits.
 
 ### Sync the Desktop Copy
 
@@ -1168,10 +1159,10 @@ flowchart TD
   B --> C{"User action"}
   C --> D["showPage(name): switch internal launcher page"]
   C --> E["openSettings(): theme/save/credits controls"]
-  C --> F["loadRemotePage(url): launch game"]
+  C --> F["loadStandalonePage(url): launch local game"]
   F --> G["ensureGameSaveDatabase(): normalize IndexedDB /_savedata"]
-  G --> H["fetch game index.html from GitHub/jsDelivr"]
-  H --> I["Inject base href and history guard"]
+  G --> H["fetch game index.html from the local files/ tree"]
+  H --> I["Resolve the local game folder and install history guard"]
   I --> J["document.write fetched game HTML"]
   J --> K["Game runner loads assets from its folder"]
   K --> L["Game reads/writes browser storage"]
@@ -1392,7 +1383,7 @@ Adding a mod or extra requires updating:
 - The credits page.
 - Sometimes the classic page.
 
-The public site brand is Toby Web, but repository paths remain `storynetwork-camzzz/DUL`. Do not mechanically replace `DUL` inside URLs, save formats, database names, or compatibility code.
+The public site brand is Toby Web and the primary repository is `camzzz-vrgt/Toby-Web`. Internal folder names, save formats, database names, and compatibility identifiers may still use `DUL`; do not mechanically rename those identifiers.
 
 ### Removed Items May Leave Assets Behind
 
@@ -1952,8 +1943,10 @@ Development command:
 
 ```powershell
 Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL"
-python -m http.server 8000
+py -3 tools\local_server.py --port 2000
 ```
+
+Development URL: `http://127.0.0.1:2000/index.html`
 
 Build command:
 
@@ -1965,10 +1958,14 @@ Set-Location "C:\Users\cmrns_4sj17yr\Documents\GitHub\DUL"
 .\tools\build-offline-bingo.ps1
 ```
 
-Test command:
+Test commands:
 
-- None.
-- Use the manual checklist in section 10.
+```powershell
+py -3 tools\audit_offline.py
+py -3 -m py_compile tools\local_server.py tools\audit_offline.py
+```
+
+These static checks do not replace browser click-through testing under the offline server's CSP.
 
 Deployment process:
 
@@ -2002,10 +1999,9 @@ Important configuration files:
 
 Major services:
 
-- GitHub repository: `https://github.com/storynetwork-camzzz/DUL`
-- jsDelivr CDN for GitHub files.
-- raw GitHub static file URLs.
+- GitHub repository: `https://github.com/camzzz-vrgt/Toby-Web`
 - Browser IndexedDB/localStorage/cookies.
+- Optional hosted Cloudflare presence worker (disabled by default on localhost).
 
 Areas currently under development or fragile:
 

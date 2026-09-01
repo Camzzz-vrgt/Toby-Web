@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toby Web</title>
-  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a1e9773f385eb6fa08fa989537bdfd87e4fdafa8/files/favicon.png">
-  <link rel="shortcut icon" type="image/png" href="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a1e9773f385eb6fa08fa989537bdfd87e4fdafa8/files/favicon.png">
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="files/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="files/favicon.png">
+  <link rel="stylesheet" href="files/style.css">
   <style>
     :root {
       --white: #ffffff;
@@ -2589,14 +2588,14 @@
 </head>
 <body>
   <button class="settings-toggle sound-target" onclick="openSettings()" aria-label="Settings">
-    <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5d1bc8b/files/settings-icon.png" alt="Settings">
+    <img src="files/settings-icon.png" alt="Settings">
   </button>
 
   <input type="file" id="importData" onchange="loadData(event)">
   <input type="file" id="siteImportData" onchange="loadWholeSiteData(event)">
 
   <audio id="drone" loop hidden>
-    <source src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/audios/AUDIO_DRONE.ogg" type="audio/ogg">
+    <source src="files/audios/AUDIO_DRONE.ogg" type="audio/ogg">
   </audio>
 
   <main id="app">
@@ -2609,16 +2608,16 @@
       </div>
       <div class="home-choices">
         <a class="home-logo-link home-deltarune sound-target home-select-sound" href="javascript:showPage('deltarune')">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-deltarune-tight.png" alt="Deltarune">
+          <img src="files/home-deltarune-tight.png" alt="Deltarune">
         </a>
         <a class="home-logo-link home-undertale sound-target home-select-sound" href="javascript:showPage('undertale')">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-undertale-tight.png" alt="Undertale">
+          <img src="files/home-undertale-tight.png" alt="Undertale">
         </a>
       </div>
       <div class="home-footer">
         <div class="brand-links">
           <a class="brand-link discord-link sound-target" href="https://discord.gg/RjpzzRXNn6" target="_blank" rel="noopener noreferrer" title="Join the Toby Web Discord">
-            <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/discord-icon.png" alt="Discord">
+            <img src="files/discord-icon.png" alt="Discord">
           </a>
           <div id="online-presence" class="online-presence" title="People currently using Toby Web" aria-live="polite">
             <span>Online:</span>
@@ -2650,7 +2649,7 @@
             Import Save
           </button>
         </div>
-        <div class="subpage-logo"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Deltarune"></div>
+        <div class="subpage-logo"><img src="files/logo.png" alt="Deltarune"></div>
         <div class="save-menu">
           <button class="save-button sound-target audio-toggle" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Audio</button>
           <button class="save-button sound-target" onclick="saveData('deltarune')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Export Save</button>
@@ -2660,25 +2659,25 @@
       </header>
       <div class="menu">
         <a href="javascript:loadChapter(1)" class="row sound-target">
-          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
         </a>
         <a href="javascript:loadChapter(2)" class="row sound-target">
-          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
         </a>
         <a href="javascript:loadChapter(3)" class="row sound-target">
-          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
         </a>
         <a href="javascript:loadChapter(4)" class="row sound-target">
-          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadChapter(5)" class="row sound-target">
-          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
         </a>
         <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row">
-          <span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt="">
+          <span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="files/icons/0.png" alt="">
         </a>
         <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row">
-          <span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt="">
+          <span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="files/icons/0.png" alt="">
         </a>
       </div>
     </section>
@@ -2686,7 +2685,7 @@
     <section id="undertale-page" class="page classic-game-page undertale-game-page">
       <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
       <div class="logo-container">
-        <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale" class="logo">
+        <img src="files/home-undertale-tight.png" alt="Undertale" class="logo">
       </div>
       <div class="menu">
         <a href="javascript:loadUndertale()" class="row sound-target">
@@ -2709,51 +2708,51 @@
       </header>
       <div class="extras-grid">
         <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+          <img src="files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
           <span class="kaizo-text">Kaizo Roaring Knight</span>
         </button>
         <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
+          <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
         </button>
         <button class="game-card dojo sound-target" onclick="openDojoConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
+          <img src="files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
           <span class="dojo-text">Dojo Customizer</span>
         </button>
         <button class="game-card bossrush sound-target" onclick="openBossRushConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
+          <img src="files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
           <span class="bossrush-text">Ultimate Boss Rush</span>
         </button>
         <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
+          <img src="files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
         </button>
         <button class="game-card determinationflowery sound-target" onclick="openDeterminationFloweryConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/determination-flowery/icon.png" alt="Determination Flowery">
+          <img src="files/determination-flowery/icon.png" alt="Determination Flowery">
           <span class="determination-flowery-text">Determination Flowery</span>
         </button>
         <button class="game-card violetknight sound-target" onclick="openVioletKnightConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/violet-knight/icon.png" alt="Violet Knight">
+          <img src="files/violet-knight/icon.png" alt="Violet Knight">
           <span class="violet-knight-text">Violet Knight</span>
         </button>
         <button class="game-card aquaoverkris sound-target" onclick="openAquaOverKrisConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
+          <img src="files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
           <span class="aqua-over-kris-text">Aqua Over Kris</span>
         </button>
         <button class="game-card nobulletcooldowns sound-target" onclick="loadNoBulletCooldowns()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
+          <img src="files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
           <span class="no-bullet-cooldowns-text">No Bullet Cooldowns</span>
         </button>
         <button class="game-card offlinebingo sound-target" onclick="loadOfflineBingo()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/offline-bingo/icon.png" alt="Offline Bingo">
+          <img src="files/offline-bingo/icon.png" alt="Offline Bingo">
           <span class="offline-bingo-text">Offline Bingo</span>
         </button>
         <button class="game-card chaosrandomizer sound-target" onclick="loadChaosRandomizer()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/chaos-randomizer/icon.png" alt="Chaos Randomizer">
+          <img src="files/chaos-randomizer/icon.png" alt="Chaos Randomizer">
           <span class="chaos-randomizer-text">Chaos Randomizer</span>
         </button>
         <button class="game-card roaringedition sound-target" onclick="loadDeltaruneRoaringEdition()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-roaring-edition/icon.png" alt="Deltarune: Roaring Edition">
+          <img src="files/deltarune-roaring-edition/icon.png" alt="Deltarune: Roaring Edition">
           <span>Deltarune: Roaring Edition</span>
         </button>
       </div>
@@ -2763,26 +2762,26 @@
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
         <div class="network-logo-card">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="">
+          <img src="files/deltarune-network/icon.png" alt="">
           <span>Deltarune Network</span>
         </div>
         <span></span>
       </header>
       <div class="menu">
         <a href="javascript:loadDeltaruneNetworkChapter(1)" class="row sound-target">
-          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
         </a>
         <a href="javascript:loadDeltaruneNetworkChapter(2)" class="row sound-target">
-          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
         </a>
         <a href="javascript:loadDeltaruneNetworkChapter(3)" class="row sound-target">
-          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
         </a>
         <a href="javascript:loadDeltaruneNetworkChapter(4)" class="row sound-target">
-          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadDeltaruneNetworkChapter(5)" class="row sound-target">
-          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
         </a>
       </div>
     </section>
@@ -2791,26 +2790,26 @@
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
         <div class="network-logo-card">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/offline-bingo/icon.png" alt="">
+          <img src="files/offline-bingo/icon.png" alt="">
           <span>Offline Bingo</span>
         </div>
         <span></span>
       </header>
       <div class="menu">
         <a href="javascript:loadOfflineBingoChapter(1)" class="row sound-target">
-          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
         </a>
         <a href="javascript:loadOfflineBingoChapter(2)" class="row sound-target">
-          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
         </a>
         <a href="javascript:loadOfflineBingoChapter(3)" class="row sound-target">
-          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
         </a>
         <a href="javascript:loadOfflineBingoChapter(4)" class="row sound-target">
-          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadOfflineBingoChapter(5)" class="row sound-target">
-          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
         </a>
       </div>
     </section>
@@ -2819,16 +2818,16 @@
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
         <div class="network-logo-card">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/chaos-randomizer/icon.png" alt="">
+          <img src="files/chaos-randomizer/icon.png" alt="">
           <span>Chaos Randomizer</span>
         </div>
         <span></span>
       </header>
       <div class="menu">
-        <a href="javascript:loadChaosRandomizerChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt=""></a>
-        <a href="javascript:loadChaosRandomizerChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt=""></a>
-        <a href="javascript:loadChaosRandomizerChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt=""></a>
-        <a href="javascript:loadChaosRandomizerChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt=""></a>
+        <a href="javascript:loadChaosRandomizerChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt=""></a>
+        <a href="javascript:loadChaosRandomizerChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
+        <a href="javascript:loadChaosRandomizerChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
+        <a href="javascript:loadChaosRandomizerChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt=""></a>
       </div>
     </section>
 
@@ -2836,26 +2835,26 @@
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
         <div class="network-logo-card">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/aqua-over-kris/icon.png" alt="">
+          <img src="files/aqua-over-kris/icon.png" alt="">
           <span>Aqua Over Kris</span>
         </div>
         <span></span>
       </header>
       <div class="menu">
         <a href="javascript:loadAquaOverKrisChapter(1)" class="row sound-target">
-          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
         </a>
         <a href="javascript:loadAquaOverKrisChapter(2)" class="row sound-target">
-          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
         </a>
         <a href="javascript:loadAquaOverKrisChapter(3)" class="row sound-target">
-          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
         </a>
         <a href="javascript:loadAquaOverKrisChapter(4)" class="row sound-target">
-          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadAquaOverKrisChapter(5)" class="row sound-target">
-          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
         </a>
       </div>
     </section>
@@ -2864,26 +2863,26 @@
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
         <div class="network-logo-card">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="">
+          <img src="files/no-bullet-cooldowns/icon.png" alt="">
           <span>No Bullet Cooldowns</span>
         </div>
         <span></span>
       </header>
       <div class="menu">
         <a href="javascript:loadNoBulletCooldownsChapter(1)" class="row sound-target">
-          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt="">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
         </a>
         <a href="javascript:loadNoBulletCooldownsChapter(2)" class="row sound-target">
-          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt="">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
         </a>
         <a href="javascript:loadNoBulletCooldownsChapter(3)" class="row sound-target">
-          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt="">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
         </a>
         <a href="javascript:loadNoBulletCooldownsChapter(4)" class="row sound-target">
-          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt="">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadNoBulletCooldownsChapter(5)" class="row sound-target">
-          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt="">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
         </a>
       </div>
     </section>
@@ -2900,87 +2899,87 @@
           <span class="save-converter-text">Deltarune Save Converter</span>
         </button>
         <button class="game-card sans sound-target" onclick="loadBadTimeSim()">
-          <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
+          <img src="files/badtimesim/icon-256.png" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
         <button class="game-card geo sound-target" onclick="loadDeltaruneGeoGuessr()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
+          <img src="files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
           <span class="geo-text">Deltarune GeoGuessr</span>
         </button>
         <button class="game-card guesswho sound-target" onclick="loadDeltaruneGuessWho()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
+          <img src="files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
           <span class="guesswho-text">Deltarune Guess Who</span>
         </button>
         <button class="game-card upperhand sound-target" onclick="loadDeltaruneUpperHand()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
+          <img src="files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
           <span class="upperhand-text">The Upper Hand</span>
         </button>
         <button class="game-card scampton sound-target" onclick="loadScamptonTheGreat()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/icon.png" alt="Scampton The Great">
+          <img src="files/scampton-the-great/icon.png" alt="Scampton The Great">
           <span class="scampton-text">Scampton The Great</span>
         </button>
         <button class="game-card dreamwake sound-target" onclick="loadDeltaruneDreamwake()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
+          <img src="files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
           <span class="dreamwake-text">Deltarune Dreamwake</span>
         </button>
         <button class="game-card soulblazers sound-target" onclick="loadDeltaruneSoulblazers()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
+          <img src="files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
           <span class="soulblazers-text">Deltarune Soulblazers</span>
         </button>
         <button class="game-card pluggeddream sound-target" onclick="loadDeltarunePluggedDream()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
+          <img src="files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
           <span class="pluggeddream-text">Deltarune Plugged Dream</span>
         </button>
         <button class="game-card friendless sound-target" onclick="loadDeltaruneFriendless()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-friendless/icon.png" alt="Deltarune Friendless">
+          <img src="files/deltarune-friendless/icon.png" alt="Deltarune Friendless">
           <span class="friendless-text">Deltarune Friendless</span>
         </button>
         <button class="game-card frostveil sound-target" onclick="loadDeltaruneFrostveil()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
+          <img src="files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
           <span class="frostveil-text">Deltarune Frostveil</span>
         </button>
         <button class="game-card differentsnowgrave sound-target" onclick="loadDifferentSnowgrave()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/a-different-snowgrave/icon.png" alt="A Different Snowgrave">
+          <img src="files/a-different-snowgrave/icon.png" alt="A Different Snowgrave">
           <span class="differentsnowgrave-text">A Different Snowgrave</span>
         </button>
         <button class="game-card tungsahur sound-target" onclick="loadVsTungTungTungSahur()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/vs-tung-tung-tung-sahur/icon.png" alt="VS Tung Tung Tung Sahur">
+          <img src="files/vs-tung-tung-tung-sahur/icon.png" alt="VS Tung Tung Tung Sahur">
           <span class="tungsahur-text">VS Tung Tung Tung Sahur</span>
         </button>
         <button class="game-card lambdarune sound-target" onclick="loadLambdarune()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/icon.png" alt="LAMBDARUNE">
+          <img src="files/lambdarune/icon.png" alt="LAMBDARUNE">
           <span class="lambdarune-text">LAMBDARUNE</span>
         </button>
         <button class="game-card roaringknight sound-target" onclick="loadFullRoaringKnightRemake()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@18fda31/files/full-roaring-knight-remake/icon.png" alt="Full Roaring Knight Remake">
+          <img src="files/full-roaring-knight-remake/icon.png" alt="Full Roaring Knight Remake">
           <span class="roaringknight-text">Full Roaring Knight Remake</span>
         </button>
         <button class="game-card knightrematch sound-target" onclick="loadKnightRematch()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/knight-rematch/icon.png" alt="Knight Rematch">
+          <img src="files/knight-rematch/icon.png" alt="Knight Rematch">
           <span class="knightrematch-text">Knight Rematch</span>
         </button>
         <button class="game-card lostdeltarune sound-target" onclick="loadLostDeltarune()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/lost-deltarune/icon.png" alt="Lost Deltarune">
+          <img src="files/lost-deltarune/icon.png" alt="Lost Deltarune">
           <span class="lostdeltarune-text">Lost Deltarune</span>
         </button>
         <button class="game-card freeher sound-target" onclick="loadFreeHer()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
+          <img src="files/free-her/icon.png" alt="Free Her!">
           <span class="freeher-text">Free Her!</span>
         </button>
         <button class="game-card catmouse sound-target" onclick="loadCatAndMouse()">
-          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
+          <img src="files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
           <span class="catmouse-text">Cat and Mouse</span>
         </button>
         <button class="game-card homesweet sound-target" onclick="loadHomeSweetHome()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt="Home Sweet Home">
+          <img src="files/home-sweet-home/icon.png" alt="Home Sweet Home">
           <span class="homesweet-text">Home Sweet Home</span>
         </button>
         <button class="game-card asgoredess sound-target" onclick="loadAsgoreRunsOverDess()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
+          <img src="files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
           <span class="asgoredess-text">Asgore Runs Over Dess</span>
         </button>
         <button class="game-card ut10th sound-target" onclick="loadUndertale10thAnniversary()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
+          <img src="files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
           <span class="ut10th-text">Undertale 10th Anniversary</span>
         </button>
       </div>
@@ -2997,19 +2996,19 @@
           <h2 class="credits-section-title">Site Credits</h2>
           <div class="people-credits">
             <a class="person-credit sound-target" href="https://gtag.pro/camzzz" target="_blank" rel="noopener noreferrer">
-              <img class="person-credit-image" src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/credits/camzzz.png" alt="Camzzz profile picture">
+              <img class="person-credit-image" src="files/credits/camzzz.png" alt="Camzzz profile picture">
               <span><strong>Camzzz</strong><small>Lead dev, made the site, uhh other stuff!</small></span>
             </a>
             <a class="person-credit sound-target" href="https://truffled.lol/" target="_blank">
-              <img class="person-credit-image" src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/credits/bog.png" alt="Bog profile picture">
+              <img class="person-credit-image" src="files/credits/bog.png" alt="Bog profile picture">
               <span><strong>Bog</strong><small>Made the original Deltarune webport, and helps with webporting</small></span>
             </a>
             <a class="person-credit sound-target" href="https://chatgpt.com/" target="_blank">
-              <img class="person-credit-image" src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/credits/chatgpt.png" alt="ChatGPT logo">
+              <img class="person-credit-image" src="files/credits/chatgpt.png" alt="ChatGPT logo">
               <span><strong>ChatGPT</strong><small>Coding help :p</small></span>
             </a>
             <a class="person-credit sound-target" href="https://deltarune.com/" target="_blank">
-              <img class="person-credit-image" src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/credits/toby-fox.png" alt="Toby Fox profile picture">
+              <img class="person-credit-image" src="files/credits/toby-fox.png" alt="Toby Fox profile picture">
               <span><strong>Toby Fox</strong><small>Wait wtf why am I here</small></span>
             </a>
           </div>
@@ -3020,53 +3019,53 @@
               <section class="game-credit-group">
                 <h3>Original Games</h3>
                 <div class="game-credit-list">
-                  <a class="game-credit-row sound-target" href="https://deltarune.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-deltarune-tight.png" alt=""><span><strong>Deltarune</strong><small>Created by Toby Fox and the Deltarune team</small></span></a>
-                  <a class="game-credit-row sound-target" href="https://undertale.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ff3de1a4160eeaf37b2f340193d4fbc0c52d790a/files/home-undertale-tight.png" alt=""><span><strong>Undertale</strong><small>Created by Toby Fox</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://deltarune.com/" target="_blank"><img src="files/home-deltarune-tight.png" alt=""><span><strong>Deltarune</strong><small>Created by Toby Fox and the Deltarune team</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://undertale.com/" target="_blank"><img src="files/home-undertale-tight.png" alt=""><span><strong>Undertale</strong><small>Created by Toby Fox</small></span></a>
                 </div>
               </section>
 
               <section class="game-credit-group">
                 <h3>Mods</h3>
                 <div class="game-credit-list">
-                  <a class="game-credit-row kaizo sound-target" href="https://gamebanana.com/mods/662826" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/icon.png" alt=""><span><strong>Kaizo Roaring Knight</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row cyan sound-target" href="https://gamebanana.com/mods/680711" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt=""><span><strong>Cyan Knight</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row dojo sound-target" href="https://gamebanana.com/wips/98861" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt=""><span><strong>Dojo Customizer</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row bossrush sound-target" href="https://gamebanana.com/mods/608558" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/ultimate-boss-rush/icon.png" alt=""><span><strong>Ultimate Boss Rush</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row network sound-target" href="https://gamebanana.com/mods/601376" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt=""><span><strong>Deltarune Network</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row determinationflowery sound-target" href="https://gamebanana.com/mods/701463" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/determination-flowery/icon.png" alt=""><span><strong>Determination Flowery</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row violetknight sound-target" href="https://gamebanana.com/mods/700909" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/violet-knight/icon.png" alt=""><span><strong>Violet Knight</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row aquaoverkris sound-target" href="https://gamebanana.com/mods/690240" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/aqua-over-kris/icon.png" alt=""><span><strong>Aqua Over Kris</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row nobulletcooldowns sound-target" href="https://gamebanana.com/mods/587241" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt=""><span><strong>No Bullet Cooldowns</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row offlinebingo sound-target" href="https://gamebanana.com/mods/641640" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/offline-bingo/icon.png" alt=""><span><strong>Offline Bingo</strong><small>Based on Deltarune Bingosync</small></span></a>
-                  <a class="game-credit-row chaosrandomizer sound-target" href="https://gamebanana.com/mods/650496" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/chaos-randomizer/icon.png" alt=""><span><strong>Chaos Randomizer</strong><small>View the original mod</small></span></a>
-                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/695617" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-roaring-edition/icon.png" alt=""><span><strong>Deltarune: Roaring Edition</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row kaizo sound-target" href="https://gamebanana.com/mods/662826" target="_blank"><img src="files/kaizo-roaring-knight/icon.png" alt=""><span><strong>Kaizo Roaring Knight</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row cyan sound-target" href="https://gamebanana.com/mods/680711" target="_blank"><img src="files/cyan-knight/icon.png" alt=""><span><strong>Cyan Knight</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row dojo sound-target" href="https://gamebanana.com/wips/98861" target="_blank"><img src="files/dojo-customizer/icon.png" alt=""><span><strong>Dojo Customizer</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row bossrush sound-target" href="https://gamebanana.com/mods/608558" target="_blank"><img src="files/ultimate-boss-rush/icon.png" alt=""><span><strong>Ultimate Boss Rush</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row network sound-target" href="https://gamebanana.com/mods/601376" target="_blank"><img src="files/deltarune-network/icon.png" alt=""><span><strong>Deltarune Network</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row determinationflowery sound-target" href="https://gamebanana.com/mods/701463" target="_blank"><img src="files/determination-flowery/icon.png" alt=""><span><strong>Determination Flowery</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row violetknight sound-target" href="https://gamebanana.com/mods/700909" target="_blank"><img src="files/violet-knight/icon.png" alt=""><span><strong>Violet Knight</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row aquaoverkris sound-target" href="https://gamebanana.com/mods/690240" target="_blank"><img src="files/aqua-over-kris/icon.png" alt=""><span><strong>Aqua Over Kris</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row nobulletcooldowns sound-target" href="https://gamebanana.com/mods/587241" target="_blank"><img src="files/no-bullet-cooldowns/icon.png" alt=""><span><strong>No Bullet Cooldowns</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row offlinebingo sound-target" href="https://gamebanana.com/mods/641640" target="_blank"><img src="files/offline-bingo/icon.png" alt=""><span><strong>Offline Bingo</strong><small>Based on Deltarune Bingosync</small></span></a>
+                  <a class="game-credit-row chaosrandomizer sound-target" href="https://gamebanana.com/mods/650496" target="_blank"><img src="files/chaos-randomizer/icon.png" alt=""><span><strong>Chaos Randomizer</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/695617" target="_blank"><img src="files/deltarune-roaring-edition/icon.png" alt=""><span><strong>Deltarune: Roaring Edition</strong><small>View the original mod</small></span></a>
                 </div>
               </section>
 
               <section class="game-credit-group">
                 <h3>Extras</h3>
                 <div class="game-credit-list">
-                  <a class="game-credit-row sound-target" href="https://jcw87.github.io/c2-sans-fight/" target="_blank"><img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt=""><span><strong>Bad Time Simulator</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row sound-target" href="https://signalsphere.itch.io/deltarune-geoguessr" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/icon.png" alt=""><span><strong>Deltarune GeoGuessr</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row guesswho sound-target" href="https://jan-ko-pan.itch.io/jan-ko-pans-cool-deltarune-guess-who-game" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt=""><span><strong>Deltarune Guess Who</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row upperhand sound-target" href="https://gamejolt.com/games/the-upper-hand/1079690" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-upper-hand/icon.png" alt=""><span><strong>The Upper Hand</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row scampton sound-target" href="https://gamejolt.com/games/scampton/1004315" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/icon.png" alt=""><span><strong>Scampton The Great</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row dreamwake sound-target" href="https://gamejolt.com/games/deltarune-dreamwake/1006670" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/icon.png" alt=""><span><strong>Deltarune Dreamwake</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row soulblazers sound-target" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/icon.webp" alt=""><span><strong>Deltarune Soulblazers</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row pluggeddream sound-target" href="https://gamejolt.com/games/pluggeddream/1019739" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-plugged-dream/icon.png" alt=""><span><strong>Deltarune Plugged Dream</strong><small>View the original game</small></span></a>
-                  <div class="game-credit-row friendless"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-friendless/icon.png" alt=""><span><strong>Deltarune Friendless</strong><small>Original page unavailable</small></span></div>
-                  <div class="game-credit-row frostveil"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-frostveil/icon.png" alt=""><span><strong>Deltarune Frostveil</strong><small>Original page unavailable</small></span></div>
-                  <a class="game-credit-row differentsnowgrave sound-target" href="https://serve.gamejolt.net/4818ec959f095ffc812c68dfa0021283147ce27099cd9b39dbccecc8c1c852a6,1785771734,7/data/games/11/215/726965/files/62b05262e5f27/index.html" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/a-different-snowgrave/icon.png" alt=""><span><strong>A Different Snowgrave</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row tungsahur sound-target" href="https://colinstick.itch.io/vs-tung-tung-tung-sahur" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/vs-tung-tung-tung-sahur/icon.png" alt=""><span><strong>VS Tung Tung Tung Sahur</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row lambdarune sound-target" href="https://gamejolt.com/p/lambdarune-chapter-4-installment-1-is-out-let-the-angel-s-power-l-ijfwuric" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/icon.png" alt=""><span><strong>LAMBDARUNE</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row roaringknight sound-target" href="https://turbowarp.org/1197449054" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@18fda31/files/full-roaring-knight-remake/icon.png" alt=""><span><strong>Full Roaring Knight Remake</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row knightrematch sound-target" href="https://selene3.itch.io/knight-rematch" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/knight-rematch/icon.png" alt=""><span><strong>Knight Rematch</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row lostdeltarune sound-target" href="https://x.com/Spoofymaru" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/lost-deltarune/icon.png" alt=""><span><strong>Lost Deltarune</strong><small>View the creator page</small></span></a>
-                  <a class="game-credit-row freeher sound-target" href="https://selene3.itch.io/free-her" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt=""><span><strong>Free Her!</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row catmouse sound-target" href="https://html-classic.itch.zone/html/17991151/index.html?v=1782314504" target="_blank"><img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt=""><span><strong>Cat and Mouse</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row homesweet sound-target" href="https://html-classic.itch.zone/html/17849524/index.html?v=1782262338" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt=""><span><strong>Home Sweet Home</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row asgoredess sound-target" href="https://html-classic.itch.zone/html/14384222/index.html" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt=""><span><strong>Asgore Runs Over Dess</strong><small>View the original game</small></span></a>
-                  <a class="game-credit-row sound-target" href="https://ut10-battle.undertale.com/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt=""><span><strong>Undertale 10th Anniversary</strong><small>Official anniversary game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://jcw87.github.io/c2-sans-fight/" target="_blank"><img src="files/badtimesim/icon-256.png" alt=""><span><strong>Bad Time Simulator</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://signalsphere.itch.io/deltarune-geoguessr" target="_blank"><img src="files/deltarune-geoguessr/icon.png" alt=""><span><strong>Deltarune GeoGuessr</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row guesswho sound-target" href="https://jan-ko-pan.itch.io/jan-ko-pans-cool-deltarune-guess-who-game" target="_blank"><img src="files/deltarune-guess-who/icon.png" alt=""><span><strong>Deltarune Guess Who</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row upperhand sound-target" href="https://gamejolt.com/games/the-upper-hand/1079690" target="_blank"><img src="files/deltarune-upper-hand/icon.png" alt=""><span><strong>The Upper Hand</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row scampton sound-target" href="https://gamejolt.com/games/scampton/1004315" target="_blank"><img src="files/scampton-the-great/icon.png" alt=""><span><strong>Scampton The Great</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row dreamwake sound-target" href="https://gamejolt.com/games/deltarune-dreamwake/1006670" target="_blank"><img src="files/deltarune-dreamwake/icon.png" alt=""><span><strong>Deltarune Dreamwake</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row soulblazers sound-target" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank"><img src="files/deltarune-soulblazers/icon.webp" alt=""><span><strong>Deltarune Soulblazers</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row pluggeddream sound-target" href="https://gamejolt.com/games/pluggeddream/1019739" target="_blank"><img src="files/deltarune-plugged-dream/icon.png" alt=""><span><strong>Deltarune Plugged Dream</strong><small>View the original game</small></span></a>
+                  <div class="game-credit-row friendless"><img src="files/deltarune-friendless/icon.png" alt=""><span><strong>Deltarune Friendless</strong><small>Original page unavailable</small></span></div>
+                  <div class="game-credit-row frostveil"><img src="files/deltarune-frostveil/icon.png" alt=""><span><strong>Deltarune Frostveil</strong><small>Original page unavailable</small></span></div>
+                  <a class="game-credit-row differentsnowgrave sound-target" href="https://serve.gamejolt.net/4818ec959f095ffc812c68dfa0021283147ce27099cd9b39dbccecc8c1c852a6,1785771734,7/data/games/11/215/726965/files/62b05262e5f27/index.html" target="_blank"><img src="files/a-different-snowgrave/icon.png" alt=""><span><strong>A Different Snowgrave</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row tungsahur sound-target" href="https://colinstick.itch.io/vs-tung-tung-tung-sahur" target="_blank"><img src="files/vs-tung-tung-tung-sahur/icon.png" alt=""><span><strong>VS Tung Tung Tung Sahur</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row lambdarune sound-target" href="https://gamejolt.com/p/lambdarune-chapter-4-installment-1-is-out-let-the-angel-s-power-l-ijfwuric" target="_blank"><img src="files/lambdarune/icon.png" alt=""><span><strong>LAMBDARUNE</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row roaringknight sound-target" href="https://turbowarp.org/1197449054" target="_blank"><img src="files/full-roaring-knight-remake/icon.png" alt=""><span><strong>Full Roaring Knight Remake</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row knightrematch sound-target" href="https://selene3.itch.io/knight-rematch" target="_blank"><img src="files/knight-rematch/icon.png" alt=""><span><strong>Knight Rematch</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row lostdeltarune sound-target" href="https://x.com/Spoofymaru" target="_blank"><img src="files/lost-deltarune/icon.png" alt=""><span><strong>Lost Deltarune</strong><small>View the creator page</small></span></a>
+                  <a class="game-credit-row freeher sound-target" href="https://selene3.itch.io/free-her" target="_blank"><img src="files/free-her/icon.png" alt=""><span><strong>Free Her!</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row catmouse sound-target" href="https://html-classic.itch.zone/html/17991151/index.html?v=1782314504" target="_blank"><img src="files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt=""><span><strong>Cat and Mouse</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row homesweet sound-target" href="https://html-classic.itch.zone/html/17849524/index.html?v=1782262338" target="_blank"><img src="files/home-sweet-home/icon.png" alt=""><span><strong>Home Sweet Home</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row asgoredess sound-target" href="https://html-classic.itch.zone/html/14384222/index.html" target="_blank"><img src="files/asgore-runs-over-dess/icon.png" alt=""><span><strong>Asgore Runs Over Dess</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://ut10-battle.undertale.com/" target="_blank"><img src="files/undertale-10th-anniversary/icon.svg" alt=""><span><strong>Undertale 10th Anniversary</strong><small>Official anniversary game</small></span></a>
                 </div>
               </section>
             </div>
@@ -3081,108 +3080,108 @@
         <a href="https://storynetwork.site/" target="_blank" class="credit-link row sound-target">updated by camzzz</a>
       </div>
       <div class="logo-container">
-        <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/logo.png" alt="Logo" class="logo">
+        <img src="files/logo.png" alt="Logo" class="logo">
       </div>
       <div class="classic-extras">
         <button class="classic-extra-btn sound-target" onclick="loadUndertale()">
-          <img src="https://codehs.com/uploads/089aea6a35b1783812dfb832bdeb971a" alt="Undertale">
+          <img src="files/home-undertale-tight.png" alt="Undertale">
         </button>
         <button class="classic-extra-btn small sound-target" onclick="loadBadTimeSim()">
-          <img src="https://codehs.com/uploads/c6199e36298599c8c675e133008ed88a" alt="Bad Time Simulator">
+          <img src="files/badtimesim/icon-256.png" alt="Bad Time Simulator">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openKaizoConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
+          <img src="files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openCyanConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/cyan-knight/icon.png" alt="Cyan Knight">
+          <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openDojoConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
+          <img src="files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openBossRushConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
+          <img src="files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneNetwork()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-network/icon.png" alt="Deltarune Network">
+          <img src="files/deltarune-network/icon.png" alt="Deltarune Network">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openDeterminationFloweryConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/determination-flowery/icon.png" alt="Determination Flowery">
+          <img src="files/determination-flowery/icon.png" alt="Determination Flowery">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openVioletKnightConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/violet-knight/icon.png" alt="Violet Knight">
+          <img src="files/violet-knight/icon.png" alt="Violet Knight">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openAquaOverKrisConfirm()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
+          <img src="files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadNoBulletCooldowns()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
+          <img src="files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGeoGuessr()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
+          <img src="files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneGuessWho()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
+          <img src="files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneUpperHand()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
+          <img src="files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadScamptonTheGreat()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/icon.png" alt="Scampton The Great">
+          <img src="files/scampton-the-great/icon.png" alt="Scampton The Great">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneDreamwake()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
+          <img src="files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneSoulblazers()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
+          <img src="files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltarunePluggedDream()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
+          <img src="files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneFriendless()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-friendless/icon.png" alt="Deltarune Friendless">
+          <img src="files/deltarune-friendless/icon.png" alt="Deltarune Friendless">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneFrostveil()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
+          <img src="files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadVsTungTungTungSahur()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/vs-tung-tung-tung-sahur/icon.png" alt="VS Tung Tung Tung Sahur">
+          <img src="files/vs-tung-tung-tung-sahur/icon.png" alt="VS Tung Tung Tung Sahur">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadLambdarune()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/icon.png" alt="LAMBDARUNE">
+          <img src="files/lambdarune/icon.png" alt="LAMBDARUNE">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadFullRoaringKnightRemake()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@18fda31/files/full-roaring-knight-remake/icon.png" alt="Full Roaring Knight Remake">
+          <img src="files/full-roaring-knight-remake/icon.png" alt="Full Roaring Knight Remake">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadKnightRematch()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/knight-rematch/icon.png" alt="Knight Rematch">
+          <img src="files/knight-rematch/icon.png" alt="Knight Rematch">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadLostDeltarune()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/lost-deltarune/icon.png" alt="Lost Deltarune">
+          <img src="files/lost-deltarune/icon.png" alt="Lost Deltarune">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadFreeHer()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8b73e4d/files/free-her/icon.png" alt="Free Her!">
+          <img src="files/free-her/icon.png" alt="Free Her!">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadCatAndMouse()">
-          <img src="https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
+          <img src="files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadHomeSweetHome()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/home-sweet-home/icon.png" alt="Home Sweet Home">
+          <img src="files/home-sweet-home/icon.png" alt="Home Sweet Home">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadAsgoreRunsOverDess()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
+          <img src="files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadUndertale10thAnniversary()">
-          <img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
+          <img src="files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
         </button>
       </div>
       <div class="menu">
-        <a href="javascript:loadChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/1.png" alt=""></a>
-        <a href="javascript:loadChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/2.png" alt=""></a>
-        <a href="javascript:loadChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/3.png" alt=""></a>
-        <a href="javascript:loadChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/4.png" alt=""></a>
-        <a href="javascript:loadChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/5.png" alt=""></a>
-        <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row"><span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt=""></a>
-        <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row"><span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/icons/0.png" alt=""></a>
+        <a href="javascript:loadChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt=""></a>
+        <a href="javascript:loadChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
+        <a href="javascript:loadChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
+        <a href="javascript:loadChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt=""></a>
+        <a href="javascript:loadChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt=""></a>
+        <a href="javascript:alert('Chapter 6 coming soon!')" class="disabled-row"><span class="chapter">Chapter 6</span><span class="disabled-title">--</span><img src="files/icons/0.png" alt=""></a>
+        <a href="javascript:alert('Chapter 7 coming soon!')" class="disabled-row"><span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="files/icons/0.png" alt=""></a>
       </div>
       <div id="data-toolbar" class="save-menu">
         <button class="save-button sound-target audio-toggle" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Audio</button>
@@ -3191,8 +3190,8 @@
         <button class="save-button danger sound-target" onclick="wipeData('all')">Wipe Save</button>
       </div>
       <div class="watermark">
-        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/story-network-logo.png" alt="Truffled"></a>
-        <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a85abd9/files/truffled-logo.png" alt="Story Network"></a>
+        <a class="brand-link sound-target" href="https://truffled.lol/" target="_blank"><img src="files/story-network-logo.png" alt="Truffled"></a>
+        <a class="brand-link sound-target" href="https://storynetwork.site/" target="_blank"><img src="files/truffled-logo.png" alt="Story Network"></a>
       </div>
     </section>
   </main>
@@ -3250,103 +3249,103 @@
             <span>Black</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch1" onclick="setSiteBackground('ch1')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch1.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch1.png')"></span>
             <span>Chapter 1</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch2" onclick="setSiteBackground('ch2')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch2.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch2.png')"></span>
             <span>Chapter 2</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch3" onclick="setSiteBackground('ch3')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch3.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch3.png')"></span>
             <span>Chapter 3</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch4" onclick="setSiteBackground('ch4')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch4.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch4.png')"></span>
             <span>Chapter 4</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="ch5" onclick="setSiteBackground('ch5')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/ch5.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch5.png')"></span>
             <span>Chapter 5</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="tadc" onclick="setSiteBackground('tadc')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/tadc.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/tadc.png')"></span>
             <span>TADC</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="backrooms" onclick="setSiteBackground('backrooms')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/backrooms.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/backrooms.png')"></span>
             <span>Backrooms</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="pirate" onclick="setSiteBackground('pirate')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/pirate.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/pirate.png')"></span>
             <span>Pirate</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="kendrick" onclick="setSiteBackground('kendrick')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/kendrick.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/kendrick.png')"></span>
             <span>Kendrick</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="jackpot" onclick="setSiteBackground('jackpot')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/jackpot.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/jackpot.png')"></span>
             <span>Jackpot</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="dk" onclick="setSiteBackground('dk')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/dk.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/dk.png')"></span>
             <span>DK</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="tung" onclick="setSiteBackground('tung')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/tung.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/tung.png')"></span>
             <span>Tung</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="dialtone_wrong" onclick="setSiteBackground('dialtone_wrong')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/dialtone.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/dialtone.png')"></span>
             <span class="background-label">Dialtone</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="dialtone_normal" onclick="setSiteBackground('dialtone_normal')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/dialtone.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/dialtone.png')"></span>
             <span class="background-label">Sadtone</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="mad_spam" onclick="setSiteBackground('mad_spam')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/mad-spam.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/mad-spam.png')"></span>
             <span class="background-label">Mad-Spam</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="birdbrain" onclick="setSiteBackground('birdbrain')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@7c145b99b63384cf8316f270127022114c5156fa/files/backgrounds/birdbrain.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/birdbrain.png')"></span>
             <span class="background-label">Birdbrain</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="imposter" onclick="setSiteBackground('imposter')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@ad24077120fe45da44403e7d9d0ddd0a0818b6eb/files/backgrounds/imposter.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/imposter.png')"></span>
             <span class="background-label">Imposter</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="excuseme" onclick="setSiteBackground('excuseme')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@53276f808ebe064c52ad86eb1317c97e1ee23187/files/backgrounds/excuseme.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/excuseme.png')"></span>
             <span class="background-label">Excuseme</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="excuseme2" onclick="setSiteBackground('excuseme2')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@50ee38ce99b8ab2c9a689815e8bb36d0ee371885/files/backgrounds/excuseme2.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/excuseme2.png')"></span>
             <span class="background-label">Excuseme2</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="last_sahur" onclick="setSiteBackground('last_sahur')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/backgrounds/last-sahur.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/last-sahur.png')"></span>
             <span class="background-label">Last Sahur</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="90s" onclick="setSiteBackground('90s')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@6156c90bed1369dcfc6bcda56e95f309d4f28c23/files/backgrounds/90s.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/90s.png')"></span>
             <span class="background-label">90s</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="hotline" onclick="setSiteBackground('hotline')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e15c0def5168551f511c7fc3c013b07078c95e20/files/backgrounds/hotline.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/hotline.png')"></span>
             <span class="background-label">Hotline</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="knight_shanty" onclick="setSiteBackground('knight_shanty')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/backgrounds/knight-shanty.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/knight-shanty.png')"></span>
             <span class="background-label">Knight Shanty</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="aqua" onclick="setSiteBackground('aqua')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/backgrounds/aqua.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/aqua.png')"></span>
             <span class="background-label">Aqua</span>
           </button>
           <button type="button" class="background-option sound-target" data-background="washy_washy" onclick="setSiteBackground('washy_washy')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/backgrounds/washy-washy.png')"></span>
+            <span class="background-preview" style="--bg-preview: url('files/backgrounds/washy-washy.png')"></span>
             <span class="background-label">WASHY WASHY</span>
           </button>
         </div>
@@ -3529,7 +3528,7 @@
     const audio = document.getElementById("drone");
     const SITE_MUSIC_VOLUME_KEY = "dul_site_music_volume";
     const TAB_APPEARANCE_KEY = "dul_tab_appearance";
-    const FILES_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/";
+    const FILES_BASE = "files/";
     const DEFAULT_TAB_APPEARANCE = "toby-web";
     const TAB_APPEARANCES = {
       "toby-web": { title: "Toby Web", icon: FILES_BASE + "favicon.png" },
@@ -3545,37 +3544,37 @@
       "google": { title: "Google", icon: FILES_BASE + "tab-presets/google.png" },
       "google-docs": { title: "Google Docs", icon: FILES_BASE + "tab-presets/google-docs.png" }
     };
-    const FIXED_MOD_BUILD_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@8514df69fec9314dcc4a7efc00d5c075255a538a/files/";
+    const FIXED_MOD_BUILD_BASE = FILES_BASE;
     const VS_TUNG_SAHUR_CDN_BASE = FILES_BASE + "vs-tung-tung-tung-sahur/";
-    const VS_TUNG_SAHUR_INDEX_URL = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/vs-tung-tung-tung-sahur/index.html?v=fit-pixel-scale-20260810";
-    const CHAPTER5_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@aa7528a/files/chapter5/";
-    const GEOGUESSR_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@cefefbf2686a70e7eacb8121f6fb820f0eb13a03/files/deltarune-geoguessr/";
-    const SCAMPTON_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a5ef682526d2888e828f7528c675c71e8c802fa9/files/scampton-the-great/";
-    const DREAMWAKE_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@e0c61c8/files/deltarune-dreamwake/";
-    const SOULBLAZERS_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@a415449/files/deltarune-soulblazers/";
+    const VS_TUNG_SAHUR_INDEX_URL = VS_TUNG_SAHUR_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
+    const CHAPTER5_BASE = FILES_BASE + "chapter5/";
+    const GEOGUESSR_BASE = FILES_BASE + "deltarune-geoguessr/";
+    const SCAMPTON_BASE = FILES_BASE + "scampton-the-great/";
+    const DREAMWAKE_BASE = FILES_BASE + "deltarune-dreamwake/";
+    const SOULBLAZERS_BASE = FILES_BASE + "deltarune-soulblazers/";
     const PLUGGED_DREAM_CDN_BASE = FILES_BASE + "deltarune-plugged-dream/";
-    const PLUGGED_DREAM_INDEX_URL = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/deltarune-plugged-dream/index.html?v=fit-pixel-scale-20260810";
+    const PLUGGED_DREAM_INDEX_URL = PLUGGED_DREAM_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
     const FRIENDLESS_CDN_BASE = FILES_BASE + "deltarune-friendless/";
-    const FRIENDLESS_INDEX_URL = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/deltarune-friendless/index.html?v=fit-pixel-scale-20260810";
+    const FRIENDLESS_INDEX_URL = FRIENDLESS_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
     const FROSTVEIL_CDN_BASE = FILES_BASE + "deltarune-frostveil/";
-    const FROSTVEIL_INDEX_URL = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/deltarune-frostveil/index.html?v=fit-pixel-scale-20260810";
+    const FROSTVEIL_INDEX_URL = FROSTVEIL_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
     const DIFFERENT_SNOWGRAVE_CDN_BASE = FILES_BASE + "a-different-snowgrave/";
-    const DIFFERENT_SNOWGRAVE_INDEX_URL = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/a-different-snowgrave/index.html?v=different-snowgrave-20260802-basefix";
-    const LAMBDARUNE_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@5626f0b/files/lambdarune/";
-    const ROARING_KNIGHT_REMAKE_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/18fda31/files/full-roaring-knight-remake/";
-    const FREE_HER_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/8b73e4d/files/free-her/";
-    const EXTRA_WEBPORTS_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/main/files/";
-    const EXTRA_WEBPORTS_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@0b1d87a/files/";
-    const EXTRA_RUNNER_FIX_RAW_BASE = "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/c85550f/files/";
-    const EXTRA_RUNNER_FIX_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@c85550f/files/";
+    const DIFFERENT_SNOWGRAVE_INDEX_URL = DIFFERENT_SNOWGRAVE_CDN_BASE + "index.html?v=different-snowgrave-20260802-basefix";
+    const LAMBDARUNE_BASE = FILES_BASE + "lambdarune/";
+    const ROARING_KNIGHT_REMAKE_BASE = FILES_BASE + "full-roaring-knight-remake/";
+    const FREE_HER_BASE = FILES_BASE + "free-her/";
+    const EXTRA_WEBPORTS_RAW_BASE = FILES_BASE;
+    const EXTRA_WEBPORTS_CDN_BASE = FILES_BASE;
+    const EXTRA_RUNNER_FIX_RAW_BASE = FILES_BASE;
+    const EXTRA_RUNNER_FIX_CDN_BASE = FILES_BASE;
     const CAT_AND_MOUSE_BASE = EXTRA_WEBPORTS_RAW_BASE + "cat-and-mouse/";
     const HOME_SWEET_HOME_BASE = EXTRA_WEBPORTS_RAW_BASE + "home-sweet-home/";
     const ASGORE_DESS_BASE = EXTRA_RUNNER_FIX_RAW_BASE + "asgore-runs-over-dess/";
     const KNIGHT_REMATCH_BASE = EXTRA_WEBPORTS_RAW_BASE + "knight-rematch/";
     const LOST_DELTARUNE_BASE = EXTRA_WEBPORTS_RAW_BASE + "lost-deltarune/";
-    const LOST_DELTARUNE_CDN_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@126703c/files/lost-deltarune/";
+    const LOST_DELTARUNE_CDN_BASE = FILES_BASE + "lost-deltarune/";
     const THEME_ASSET_VERSION = "50ee38ce99b8ab2c9a689815e8bb36d0ee371885";
-    const THEME_ASSET_BASE = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@" + THEME_ASSET_VERSION + "/files/";
+    const THEME_ASSET_BASE = FILES_BASE;
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
     const SITE_BACKGROUNDS = {
       black: "",
@@ -3642,19 +3641,19 @@
     let importScope = "all";
     let convertedDeltaruneSave = null;
 
-    const KAIZO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/kaizo-roaring-knight/saves/filech3_0";
+    const KAIZO_SAVE_URL = "files/kaizo-roaring-knight/saves/filech3_0";
     const CYAN_SAVE_URL = KAIZO_SAVE_URL;
-    const DOJO_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/filech4_0";
-    const DETERMINATION_FLOWERY_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/determination-flowery/saves/filech5_2";
-    const VIOLET_KNIGHT_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/violet-knight/saves/filech3_0";
+    const DOJO_SAVE_URL = "files/dojo-customizer/saves/filech4_0";
+    const DETERMINATION_FLOWERY_SAVE_URL = "files/determination-flowery/saves/filech5_2";
+    const VIOLET_KNIGHT_SAVE_URL = "files/violet-knight/saves/filech3_0";
     const DOJO_MANAGER_DIR_KEY = "/_savedata/dojo_manager";
     const DOJO_MANAGER_SAVE_FILES = [
       {
-        url: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/dojo_manager/dojoManager_file2.ini",
+        url: "files/dojo-customizer/saves/dojo_manager/dojoManager_file2.ini",
         key: "/_savedata/dojo_manager/dojoManager_file2.ini"
       },
       {
-        url: "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/files/dojo-customizer/saves/dojo_manager/dojoManager_stats_file2.ini",
+        url: "files/dojo-customizer/saves/dojo_manager/dojoManager_stats_file2.ini",
         key: "/_savedata/dojo_manager/dojoManager_stats_file2.ini"
       }
     ];
@@ -3670,8 +3669,8 @@
     const SAVE_DIR_MODE = 16895;
     const AUDIO_ON_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path>';
     const AUDIO_OFF_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M22 9l-6 6"></path><path d="M16 9l6 6"></path>';
-    const OLD_LAYOUT_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@main/old-layout.html";
-    const FEATURED_SAVE_URL = "https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@3b5c507/camzzz_deltarune_allbossessave.data";
+    const OLD_LAYOUT_URL = "old-layout.html";
+    const FEATURED_SAVE_URL = "camzzz_deltarune_allbossessave.data";
 
     function startAudio() {
       if (!audioStarted && audio) {
@@ -3926,7 +3925,7 @@
     }
 
     function loadDeltaruneUpperHand() {
-      loadRemotePage("https://cdn.jsdelivr.net/gh/storynetwork-camzzz/DUL@28e34dc/files/deltarune-upper-hand/index.html?v=upperhand-audio-aliases-20260724");
+      loadRemotePage(FILES_BASE + "deltarune-upper-hand/index.html?v=upperhand-audio-aliases-20260724");
     }
 
     function loadScamptonTheGreat() {
@@ -4075,8 +4074,15 @@
     let presenceHeartbeatTimer = 0;
     let presenceReconnectDelay = 5000;
 
+    function isLocalRuntime() {
+      return location.protocol === "file:" || ["localhost", "127.0.0.1", "::1"].includes(location.hostname);
+    }
+
     function isPresenceEnabled() {
-      return localStorage.getItem(PRESENCE_ENABLED_STORAGE_KEY) !== "off";
+      const stored = localStorage.getItem(PRESENCE_ENABLED_STORAGE_KEY);
+      if (stored === "off") return false;
+      if (stored === "on") return true;
+      return !isLocalRuntime();
     }
 
     function getPresenceClientId() {
@@ -4761,12 +4767,7 @@
     }
 
     async function fetchFeaturedSaveText() {
-      const urls = [
-        FEATURED_SAVE_URL,
-        "https://raw.githubusercontent.com/storynetwork-camzzz/DUL/3b5c507/camzzz_deltarune_allbossessave.data",
-        "camzzz_deltarune_allbossessave.data",
-        "../camzzz_deltarune_allbossessave.data"
-      ];
+      const urls = [FEATURED_SAVE_URL];
       let lastError;
       for (const url of urls) {
         try {
