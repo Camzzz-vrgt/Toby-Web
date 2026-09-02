@@ -839,6 +839,10 @@
       color: #ff6b72;
     }
 
+    .tsunderswap-text {
+      color: #ffd84a;
+    }
+
     .pluggeddream-text {
       color: #c217ff;
       font-size: 0.66rem;
@@ -1090,6 +1094,7 @@
     .source-link.scampton, .game-credit-row.scampton { --source-hover: #ff9bd6; }
     .source-link.dreamwake, .game-credit-row.dreamwake { --source-hover: #bba8ff; }
     .source-link.soulblazers, .game-credit-row.soulblazers { --source-hover: #ff6b72; }
+    .source-link.tsunderswap, .game-credit-row.tsunderswap { --source-hover: #ffd84a; }
     .source-link.pluggeddream, .game-credit-row.pluggeddream { --source-hover: #c217ff; }
     .source-link.friendless, .game-credit-row.friendless { --source-hover: #ff5f7f; }
     .source-link.frostveil, .game-credit-row.frostveil { --source-hover: #79cfff; }
@@ -2926,6 +2931,14 @@
           <img src="files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
           <span class="soulblazers-text">Deltarune Soulblazers</span>
         </button>
+        <button class="game-card tsunderswap sound-target" onclick="loadTSUnderswap()">
+          <img src="files/ts-underswap/icon.png" alt="TS!UNDERSWAP">
+          <span class="tsunderswap-text">TS!UNDERSWAP</span>
+        </button>
+        <button class="game-card undertaleyellow sound-target" onclick="loadUndertaleYellow()">
+          <img src="files/undertale-yellow/icon.png" alt="Undertale Yellow">
+          <span>Undertale Yellow</span>
+        </button>
         <button class="game-card pluggeddream sound-target" onclick="loadDeltarunePluggedDream()">
           <img src="files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
           <span class="pluggeddream-text">Deltarune Plugged Dream</span>
@@ -3052,6 +3065,8 @@
                   <a class="game-credit-row scampton sound-target" href="https://gamejolt.com/games/scampton/1004315" target="_blank"><img src="files/scampton-the-great/icon.png" alt=""><span><strong>Scampton The Great</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row dreamwake sound-target" href="https://gamejolt.com/games/deltarune-dreamwake/1006670" target="_blank"><img src="files/deltarune-dreamwake/icon.png" alt=""><span><strong>Deltarune Dreamwake</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row soulblazers sound-target" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank"><img src="files/deltarune-soulblazers/icon.webp" alt=""><span><strong>Deltarune Soulblazers</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row tsunderswap sound-target" href="https://gamejolt.com/games/tsunderswap/160094" target="_blank"><img src="files/ts-underswap/icon.png" alt=""><span><strong>TS!UNDERSWAP</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/UndertaleYellow/136925" target="_blank"><img src="files/undertale-yellow/icon.png" alt=""><span><strong>Undertale Yellow</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row pluggeddream sound-target" href="https://gamejolt.com/games/pluggeddream/1019739" target="_blank"><img src="files/deltarune-plugged-dream/icon.png" alt=""><span><strong>Deltarune Plugged Dream</strong><small>View the original game</small></span></a>
                   <div class="game-credit-row friendless"><img src="files/deltarune-friendless/icon.png" alt=""><span><strong>Deltarune Friendless</strong><small>Original page unavailable</small></span></div>
                   <div class="game-credit-row frostveil"><img src="files/deltarune-frostveil/icon.png" alt=""><span><strong>Deltarune Frostveil</strong><small>Original page unavailable</small></span></div>
@@ -3133,6 +3148,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneSoulblazers()">
           <img src="files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadTSUnderswap()">
+          <img src="files/ts-underswap/icon.png" alt="TS!UNDERSWAP">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltarunePluggedDream()">
           <img src="files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
@@ -3552,6 +3570,8 @@
     const SCAMPTON_BASE = FILES_BASE + "scampton-the-great/";
     const DREAMWAKE_BASE = FILES_BASE + "deltarune-dreamwake/";
     const SOULBLAZERS_BASE = FILES_BASE + "deltarune-soulblazers/";
+    const TS_UNDERSWAP_BASE = FILES_BASE + "ts-underswap/";
+    const UNDERTALE_YELLOW_BASE = FILES_BASE + "undertale-yellow/";
     const PLUGGED_DREAM_CDN_BASE = FILES_BASE + "deltarune-plugged-dream/";
     const PLUGGED_DREAM_INDEX_URL = PLUGGED_DREAM_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
     const FRIENDLESS_CDN_BASE = FILES_BASE + "deltarune-friendless/";
@@ -3938,6 +3958,14 @@
 
     function loadDeltaruneSoulblazers() {
       loadRemotePage(SOULBLAZERS_BASE + "index.html?v=soulblazers-1-0-5-20260725");
+    }
+
+    function loadTSUnderswap() {
+      loadRemotePage(TS_UNDERSWAP_BASE + "index.html?v=ts-underswap-2-1-2-20260901h");
+    }
+
+    function loadUndertaleYellow() {
+      loadRemotePage(UNDERTALE_YELLOW_BASE + "index.html?v=undertale-yellow-20260901a");
     }
 
     function loadDeltarunePluggedDream() {
