@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toby Web</title>
+  <script>
+    (() => {
+      const measurementId = 'G-FNYYWHP35B';
+      const localHosts = new Set(['localhost', '127.0.0.1', '[::1]']);
+      if (location.protocol !== 'https:' || localHosts.has(location.hostname)) return;
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', measurementId);
+
+      const analyticsScript = document.createElement('script');
+      analyticsScript.async = true;
+      analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      document.head.appendChild(analyticsScript);
+    })();
+  </script>
   <link rel="icon" type="image/png" href="files/favicon.png">
   <link rel="shortcut icon" type="image/png" href="files/favicon.png">
   <link rel="stylesheet" href="files/style.css">
