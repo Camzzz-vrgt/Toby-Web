@@ -792,6 +792,14 @@
       color: #8fd8ff;
     }
 
+    .jevil-kaizo-text {
+      color: #c79cff;
+    }
+
+    .dynamic-equips-text {
+      color: #ffcf46;
+    }
+
     .cyan-text {
       color: #55f4ff;
     }
@@ -1331,8 +1339,35 @@
     #chaos-randomizer-page .title { font-size: clamp(1.25rem, 2vw, 2rem); }
     #chaos-randomizer-page .row img { width: 54px; height: 54px; }
 
+    #dynamic-equips-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 62px clamp(22px, 6vw, 86px) 32px;
+      overflow: hidden;
+    }
+
+    #dynamic-equips-page .subpage-header {
+      width: min(980px, calc(100vw - 44px));
+      margin: 0 auto 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #dynamic-equips-page .network-logo-card span { color: #ffcf46; }
+    #dynamic-equips-page .menu { width: min(820px, calc(100vw - 44px)); }
+    #dynamic-equips-page .row {
+      min-height: 58px;
+      grid-template-columns: 1.05fr 1.25fr 64px;
+    }
+    #dynamic-equips-page .chapter,
+    #dynamic-equips-page .title { font-size: clamp(1.05rem, 2vw, 2rem); }
+    #dynamic-equips-page .row img { width: 54px; height: 54px; }
+
     #settings-modal,
     #kaizo-modal,
+    #jevil-kaizo-modal,
     #cyan-modal,
     #dojo-modal,
     #bossrush-modal,
@@ -1354,6 +1389,7 @@
 
     #settings-modal.open,
     #kaizo-modal.open,
+    #jevil-kaizo-modal.open,
     #cyan-modal.open,
     #dojo-modal.open,
     #bossrush-modal.open,
@@ -2733,6 +2769,14 @@
           <img src="files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
           <span class="kaizo-text">Kaizo Roaring Knight</span>
         </button>
+        <button class="game-card jevilkaizo sound-target" onclick="openJevilKaizoConfirm()">
+          <img src="files/jevil-kaizo/icon.png" alt="Jevil Kaizo V4">
+          <span class="jevil-kaizo-text">Jevil Kaizo V4</span>
+        </button>
+        <button class="game-card dynamicequips sound-target" onclick="loadDynamicEquips()">
+          <img src="files/dynamic-equips/icon.png" alt="Dynamic Equips">
+          <span class="dynamic-equips-text">Dynamic Equips</span>
+        </button>
         <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
           <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
@@ -2777,6 +2821,24 @@
           <img src="files/deltarune-roaring-edition/icon.png" alt="Deltarune: Roaring Edition">
           <span>Deltarune: Roaring Edition</span>
         </button>
+      </div>
+    </section>
+
+    <section id="dynamic-equips-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/dynamic-equips/icon.png" alt="">
+          <span>Dynamic Equips</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadDynamicEquipsChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt=""></a>
+        <a href="javascript:loadDynamicEquipsChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
+        <a href="javascript:loadDynamicEquipsChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
+        <a href="javascript:loadDynamicEquipsChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt=""></a>
+        <a href="javascript:loadDynamicEquipsChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt=""></a>
       </div>
     </section>
 
@@ -3448,6 +3510,20 @@
     </div>
   </div>
 
+  <div id="jevil-kaizo-modal">
+    <div class="modal-box">
+      <h2>Jevil Kaizo V4</h2>
+      <p>The included Chapter 1 slot-2 save starts immediately before the Jevil fight.</p>
+      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadJevilKaizo()">Use Pre-Jevil Save</button>
+        <button class="pixel-button sound-target" onclick="loadJevilKaizoExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeJevilKaizoConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div id="determination-flowery-modal">
     <div class="modal-box">
       <h2>Are You Sure?</h2>
@@ -3679,6 +3755,7 @@
     let convertedDeltaruneSave = null;
 
     const KAIZO_SAVE_URL = "files/kaizo-roaring-knight/saves/filech3_0";
+    const JEVIL_KAIZO_SAVE_URL = "files/jevil-kaizo/saves/filech1_1";
     const CYAN_SAVE_URL = KAIZO_SAVE_URL;
     const DOJO_SAVE_URL = "files/dojo-customizer/saves/filech4_0";
     const DETERMINATION_FLOWERY_SAVE_URL = "files/determination-flowery/saves/filech5_2";
@@ -3698,6 +3775,7 @@
     const SAVE_STORE = "FILE_DATA";
     const GAME_SAVE_DB_VERSION = 21;
     const KAIZO_SAVE_KEY = "/_savedata/filech3_0";
+    const JEVIL_KAIZO_SAVE_KEY = "/_savedata/filech1_1";
     const CYAN_SAVE_KEY = KAIZO_SAVE_KEY;
     const DOJO_SAVE_KEY = "/_savedata/filech4_0";
     const DETERMINATION_FLOWERY_SAVE_KEY = "/_savedata/filech5_2";
@@ -4047,6 +4125,14 @@
 
     function closeKaizoConfirm() {
       document.getElementById("kaizo-modal").classList.remove("open");
+    }
+
+    function openJevilKaizoConfirm() {
+      document.getElementById("jevil-kaizo-modal").classList.add("open");
+    }
+
+    function closeJevilKaizoConfirm() {
+      document.getElementById("jevil-kaizo-modal").classList.remove("open");
     }
 
     function openCyanConfirm() {
@@ -5005,6 +5091,10 @@
       loadModWithExistingSave(closeKaizoConfirm, "Kaizo Roaring Knight", FILES_BASE + "kaizo-roaring-knight/chapter3/index.html", "Kaizo Roaring Knight");
     }
 
+    function loadJevilKaizoExistingSave() {
+      loadModWithExistingSave(closeJevilKaizoConfirm, "Jevil Kaizo V4", FILES_BASE + "jevil-kaizo/chapter1/index.html?v=4.0.2", "Jevil Kaizo V4");
+    }
+
     function loadCyanKnightExistingSave() {
       loadModWithExistingSave(closeCyanConfirm, "Cyan Knight", FILES_BASE + "cyan-knight/chapter3/index.html", "Cyan Knight");
     }
@@ -5093,6 +5183,22 @@
       }
     }
 
+    async function loadJevilKaizo() {
+      try {
+        closeJevilKaizoConfirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForMod();
+        showKaizoLoading("Installing the pre-Jevil save...");
+        await installModSave(JEVIL_KAIZO_SAVE_URL, JEVIL_KAIZO_SAVE_KEY, "Jevil Kaizo");
+        showKaizoLoading("Loading Jevil Kaizo V4...");
+        loadRemotePage(FILES_BASE + "jevil-kaizo/chapter1/index.html?v=4.0.2");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Jevil Kaizo V4 could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     async function loadDeterminationFlowery() {
       try {
         closeDeterminationFloweryConfirm();
@@ -5150,6 +5256,21 @@
 
     function loadChaosRandomizer() {
       showPage("chaos-randomizer");
+    }
+
+    function loadDynamicEquips() {
+      showPage("dynamic-equips");
+    }
+
+    function loadDynamicEquipsChapter(chapter) {
+      try {
+        showKaizoLoading("Loading Dynamic Equips Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "dynamic-equips/chapter" + chapter + "/index.html?v=1.0.0");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Dynamic Equips Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
     }
 
     function loadDeltaruneNetworkChapter(chapter) {
@@ -5214,6 +5335,7 @@
       if (event.key === "Escape") {
         closeSettings();
         closeKaizoConfirm();
+        closeJevilKaizoConfirm();
         closeCyanConfirm();
         closeDojoConfirm();
         closeBossRushConfirm();
@@ -5255,7 +5377,7 @@
     if (isPresenceEnabled()) connectCloudflarePresenceCounter();
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "extras", "credits", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "dynamic-equips", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "extras", "credits", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");
