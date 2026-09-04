@@ -800,6 +800,10 @@
       color: #ffcf46;
     }
 
+    .four-party-members-text {
+      color: #ff8dce;
+    }
+
     .cyan-text {
       color: #55f4ff;
     }
@@ -1368,6 +1372,7 @@
     #settings-modal,
     #kaizo-modal,
     #jevil-kaizo-modal,
+    #four-party-members-modal,
     #cyan-modal,
     #dojo-modal,
     #bossrush-modal,
@@ -1390,6 +1395,7 @@
     #settings-modal.open,
     #kaizo-modal.open,
     #jevil-kaizo-modal.open,
+    #four-party-members-modal.open,
     #cyan-modal.open,
     #dojo-modal.open,
     #bossrush-modal.open,
@@ -2777,6 +2783,10 @@
           <img src="files/dynamic-equips/icon.png" alt="Dynamic Equips">
           <span class="dynamic-equips-text">Dynamic Equips</span>
         </button>
+        <button class="game-card fourpartymembers sound-target" onclick="openFourPartyMembersConfirm()">
+          <img src="files/four-party-members/icon.png" alt="Four Party Members">
+          <span class="four-party-members-text">Four Party Members</span>
+        </button>
         <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
           <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
@@ -3565,6 +3575,19 @@
     </div>
   </div>
 
+  <div id="four-party-members-modal">
+    <div class="modal-box">
+      <h2>Four Party Members</h2>
+      <p>This port uses the included custom Chapter 2 save, which is incompatible with vanilla DELTARUNE.</p>
+      <p>Playing wipes your current DELTARUNE browser saves before installing it. Export a backup first if you want to keep them.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="startFourPartyMembersIncludedSave()">Play With Custom Save</button>
+        <button class="pixel-button sound-target" onclick="closeFourPartyMembersConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div id="save-converter-modal">
     <div class="modal-box">
       <button class="pixel-button modal-close sound-target" onclick="closeSaveConverter()">X</button>
@@ -3756,6 +3779,12 @@
 
     const KAIZO_SAVE_URL = "files/kaizo-roaring-knight/saves/filech3_0";
     const JEVIL_KAIZO_SAVE_URL = "files/jevil-kaizo/saves/filech1_1";
+    const FOUR_PARTY_MEMBERS_SAVE_FILES = [
+      "dr.ini",
+      "filech2_0",
+      "keyconfig_0.ini",
+      "true_config.ini"
+    ];
     const CYAN_SAVE_URL = KAIZO_SAVE_URL;
     const DOJO_SAVE_URL = "files/dojo-customizer/saves/filech4_0";
     const DETERMINATION_FLOWERY_SAVE_URL = "files/determination-flowery/saves/filech5_2";
@@ -4181,6 +4210,39 @@
 
     function closeAquaOverKrisConfirm() {
       document.getElementById("aqua-over-kris-modal").classList.remove("open");
+    }
+
+    function openFourPartyMembersConfirm() {
+      document.getElementById("four-party-members-modal").classList.add("open");
+    }
+
+    function closeFourPartyMembersConfirm() {
+      document.getElementById("four-party-members-modal").classList.remove("open");
+    }
+
+    function launchFourPartyMembers() {
+      showKaizoLoading("Loading Four Party Members...");
+      loadRemotePage(FILES_BASE + "four-party-members/chapter2/index.html?v=1.0.5");
+    }
+
+    async function startFourPartyMembersIncludedSave() {
+      try {
+        closeFourPartyMembersConfirm();
+        showKaizoLoading("Installing the Four Party Members save...");
+        await wipeBrowserSaveForMod();
+        for (const fileName of FOUR_PARTY_MEMBERS_SAVE_FILES) {
+          await installModSave(
+            FILES_BASE + "four-party-members/saves/" + fileName,
+            "/_savedata/" + fileName,
+            "Four Party Members"
+          );
+        }
+        launchFourPartyMembers();
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("The Four Party Members save could not be installed.\n\n" + (err && err.message ? err.message : err));
+      }
     }
 
     async function startAquaOverKrisNewSave() {
@@ -5186,6 +5248,7 @@
     async function loadJevilKaizo() {
       try {
         closeJevilKaizoConfirm();
+        closeFourPartyMembersConfirm();
         showKaizoLoading("Wiping old save...");
         await wipeBrowserSaveForMod();
         showKaizoLoading("Installing the pre-Jevil save...");
