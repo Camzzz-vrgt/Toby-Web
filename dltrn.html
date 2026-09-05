@@ -792,6 +792,13 @@
       color: #8fd8ff;
     }
 
+    .game-card.supercharged img {
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
     .jevil-kaizo-text {
       color: #c79cff;
     }
@@ -802,6 +809,14 @@
 
     .four-party-members-text {
       color: #ff8dce;
+    }
+
+    .supercharged-knight-text {
+      color: #fff760;
+    }
+
+    .undertale-roaring-knight-text {
+      color: #f4f4f4;
     }
 
     .cyan-text {
@@ -1373,6 +1388,7 @@
     #kaizo-modal,
     #jevil-kaizo-modal,
     #four-party-members-modal,
+    #supercharged-knight-modal,
     #cyan-modal,
     #dojo-modal,
     #bossrush-modal,
@@ -1396,6 +1412,7 @@
     #kaizo-modal.open,
     #jevil-kaizo-modal.open,
     #four-party-members-modal.open,
+    #supercharged-knight-modal.open,
     #cyan-modal.open,
     #dojo-modal.open,
     #bossrush-modal.open,
@@ -2787,6 +2804,14 @@
           <img src="files/four-party-members/icon.png" alt="Four Party Members">
           <span class="four-party-members-text">Four Party Members</span>
         </button>
+        <button class="game-card supercharged sound-target" onclick="openSuperchargedKnightConfirm()">
+          <img src="files/supercharged-knight/icon.png" alt="Supercharged Knight">
+          <span class="supercharged-knight-text">Supercharged Knight</span>
+        </button>
+        <button class="game-card sound-target" onclick="loadUndertaleRoaringKnight()">
+          <img src="files/undertale-roaring-knight/icon.jpg" alt="Undertale: The Roaring Knight">
+          <span class="undertale-roaring-knight-text">Undertale: The Roaring Knight</span>
+        </button>
         <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
           <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
@@ -3584,6 +3609,20 @@
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="startFourPartyMembersIncludedSave()">Play With Custom Save</button>
         <button class="pixel-button sound-target" onclick="closeFourPartyMembersConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="supercharged-knight-modal">
+    <div class="modal-box">
+      <h2>Supercharged Knight</h2>
+      <p>The included Kaizo Chapter 3 save is recommended for the best <span class="supercharged-knight-text">Supercharged Knight</span> experience.</p>
+      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadSuperchargedKnightRecommendedSave()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadSuperchargedKnightExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeSuperchargedKnightConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -5157,6 +5196,24 @@
       loadModWithExistingSave(closeJevilKaizoConfirm, "Jevil Kaizo V4", FILES_BASE + "jevil-kaizo/chapter1/index.html?v=4.0.2", "Jevil Kaizo V4");
     }
 
+    function loadSuperchargedKnightExistingSave() {
+      loadModWithExistingSave(closeSuperchargedKnightConfirm, "Supercharged Knight", FILES_BASE + "supercharged-knight/chapter3/index.html?v=2.0.0", "Supercharged Knight");
+    }
+
+    async function loadSuperchargedKnightRecommendedSave() {
+      try {
+        closeSuperchargedKnightConfirm();
+        showKaizoLoading("Installing the Kaizo Chapter 3 save...");
+        await wipeBrowserSaveForMod();
+        await installModSave(KAIZO_SAVE_URL, KAIZO_SAVE_KEY, "Kaizo Chapter 3");
+        launchSuperchargedKnight();
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Supercharged Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     function loadCyanKnightExistingSave() {
       loadModWithExistingSave(closeCyanConfirm, "Cyan Knight", FILES_BASE + "cyan-knight/chapter3/index.html", "Cyan Knight");
     }
@@ -5323,6 +5380,29 @@
 
     function loadDynamicEquips() {
       showPage("dynamic-equips");
+    }
+
+    function loadUndertaleRoaringKnight() {
+      window.location.assign(FILES_BASE + "undertale-roaring-knight/index.html?v=2.1");
+    }
+
+    function openSuperchargedKnightConfirm() {
+      document.getElementById("supercharged-knight-modal").classList.add("open");
+    }
+
+    function closeSuperchargedKnightConfirm() {
+      document.getElementById("supercharged-knight-modal").classList.remove("open");
+    }
+
+    function launchSuperchargedKnight() {
+      try {
+        showKaizoLoading("Loading Supercharged Knight...");
+        loadRemotePage(FILES_BASE + "supercharged-knight/chapter3/index.html?v=2.0.0");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Supercharged Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
     }
 
     function loadDynamicEquipsChapter(chapter) {
