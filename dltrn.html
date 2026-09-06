@@ -4053,32 +4053,12 @@
       showPage("home");
     }
 
-    function isScramjetRuntime() {
-      try {
-        return Boolean(document[Symbol.for("scramjet client global")]);
-      } catch (err) {
-        return false;
-      }
-    }
-
-    async function loadRemotePage(url, assetBaseOverride) {
+    async function loadRemotePage(url) {
       gamestarted = true;
       try {
         await ensureGameSaveDatabase();
         const pageUrl = new URL(url, document.baseURI).href;
-        if (isScramjetRuntime()) {
-          window.location.assign(pageUrl);
-          return;
-        }
-        const res = await fetch(pageUrl);
-        if (!res.ok) throw new Error("Could not load " + pageUrl);
-        let html = await res.text();
-        const pageBase = assetBaseOverride ? new URL(assetBaseOverride, document.baseURI).href : pageUrl.slice(0, pageUrl.lastIndexOf("/") + 1);
-        const historyGuard = '<script>["pushState","replaceState"].forEach(function(name){var original=history[name].bind(history);history[name]=function(state,title,url){try{return original(state,title,url)}catch(error){return original(state,title,location.href)}}});<\/script>';
-        html = html.replace(/<head([^>]*)>/i, '<head$1><base href="' + pageBase + '">' + historyGuard);
-        document.open();
-        document.write(html);
-        document.close();
+        window.location.assign(pageUrl);
       } catch (err) {
         gamestarted = false;
         alert("Sorry, that game could not load.\n\n" + (err && err.message ? err.message : err));
