@@ -2812,6 +2812,10 @@
           <img src="files/undertale-roaring-knight/icon.jpg" alt="Undertale: The Roaring Knight">
           <span class="undertale-roaring-knight-text">Undertale: The Roaring Knight</span>
         </button>
+        <button class="game-card sound-target" onclick="loadUndertaleSpamton()">
+          <img src="files/undertale-spamton/icon.jpg" alt="Undertale: You Play as Spamton">
+          <span>Undertale: You Play as Spamton</span>
+        </button>
         <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
           <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
@@ -5384,6 +5388,10 @@
 
     function loadUndertaleRoaringKnight() {
       window.location.assign(FILES_BASE + "undertale-roaring-knight/index.html?v=2.1");
+    }
+
+    function loadUndertaleSpamton() {
+      window.location.assign(FILES_BASE + "undertale-spamton/index.html?v=1.0");
     }
 
     function openSuperchargedKnightConfirm() {
