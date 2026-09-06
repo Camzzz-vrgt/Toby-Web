@@ -4053,11 +4053,23 @@
       showPage("home");
     }
 
+    function isScramjetRuntime() {
+      try {
+        return Boolean(document[Symbol.for("scramjet client global")]);
+      } catch (err) {
+        return false;
+      }
+    }
+
     async function loadRemotePage(url, assetBaseOverride) {
       gamestarted = true;
       try {
         await ensureGameSaveDatabase();
         const pageUrl = new URL(url, document.baseURI).href;
+        if (isScramjetRuntime()) {
+          window.location.assign(pageUrl);
+          return;
+        }
         const res = await fetch(pageUrl);
         if (!res.ok) throw new Error("Could not load " + pageUrl);
         let html = await res.text();
