@@ -2,6 +2,10 @@
 <html lang="en-us">
 
 <head>
+  <base id="game-asset-base" href="./">
+  <script>
+    document.getElementById("game-asset-base").href = new URL("./", window.location.href).href;
+  </script>
     <body oncontextmenu="return false;">
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -807,6 +811,9 @@ progress[value]::-webkit-progress-value {
             var Module = {
                 preRun: [],
                 postRun: [],
+                locateFile: function (path) {
+                  return new URL(path, window.location.href).href;
+                },
                 print: (function() {
                     var element = document.getElementById("output");
                     if (element) element.value = "";

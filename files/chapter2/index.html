@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <base href="./">
+    <base id="game-asset-base" href="./">
+
+    <script>
+
+      document.getElementById("game-asset-base").href = new URL("./", window.location.href).href;
+
+    </script>
     <script>
       // better debugging for me
       const ogalert = window.alert;
