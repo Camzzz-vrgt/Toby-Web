@@ -3361,6 +3361,10 @@
           <img src="files/undertale-red-yellow/icon.png" alt="Undertale Red &amp; Yellow">
           <span>Undertale Red &amp; Yellow</span>
         </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadDeltatraveler()">
+          <img src="files/deltatraveler/icon.png" alt="DELTATRAVELER">
+          <span>DELTATRAVELER</span>
+        </button>
         <button class="game-card sound-target" data-category="kristal" onclick="loadStarRune()">
           <img src="files/starrune/icon.png" alt="Star Rune">
           <span>Star Rune</span>
@@ -3511,6 +3515,7 @@
                   <a class="game-credit-row soulblazers sound-target" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank"><img src="files/deltarune-soulblazers/icon.webp" alt=""><span><strong>Deltarune Soulblazers</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/UndertaleYellow/136925" target="_blank"><img src="files/undertale-yellow/icon.png" alt=""><span><strong>Undertale Yellow</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/undertale-red-yellow/877387" target="_blank"><img src="files/undertale-red-yellow/icon.png" alt=""><span><strong>Undertale Red &amp; Yellow</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://cake-logic.itch.io/deltatraveler-web-port" target="_blank"><img src="files/deltatraveler/icon.png" alt=""><span><strong>DELTATRAVELER</strong><small>Web port by Cake Logic; original game by VyletBunni</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/343672" target="_blank"><img src="files/godhome/icon.png" alt=""><span><strong>Godhome</strong><small>View the original project</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/starrune/716680" target="_blank"><img src="files/starrune/icon.png" alt=""><span><strong>Star Rune</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row pluggeddream sound-target" href="https://gamejolt.com/games/pluggeddream/1019739" target="_blank"><img src="files/deltarune-plugged-dream/icon.png" alt=""><span><strong>Deltarune Plugged Dream</strong><small>View the original game</small></span></a>
@@ -3665,7 +3670,7 @@
         <article class="changelog-entry">
           <div class="changelog-entry-header">
             <h3>Update 1.1</h3>
-            <span class="changelog-date">September 18, 2026</span>
+            <span class="changelog-date">September 19, 2026</span>
           </div>
           <section class="changelog-section">
             <h4>New Ports</h4>
@@ -3673,6 +3678,7 @@
               <li>Undertale Red &amp; Yellow</li>
               <li>Godhome</li>
               <li>Star Rune</li>
+              <li>DELTATRAVELER</li>
             </ul>
           </section>
           <section class="changelog-section">
@@ -3691,10 +3697,10 @@
           <section class="changelog-section">
             <h4>New Features</h4>
             <ul>
-              <li>Added optional mobile controls, disabled by default.</li>
+              <li>Added optional Vinetrap-style mobile controls to every game and runner, disabled by default.</li>
               <li>Changed the default site theme to Chapter 5.</li>
               <li>Added new filters to the Mods and Extras tabs.</li>
-              <li>Added a downloadable GitHub-backed single-file launcher and download button.</li>
+              <li>Added a downloadable single-file launcher that loads game files from the Toby Web GitHub CDN.</li>
             </ul>
           </section>
           <section class="changelog-section">
@@ -3703,7 +3709,7 @@
               <li>Updated Deltarune: Sword Route to version 3.3 and fixed its Chapter 1 progression crash.</li>
               <li>Updated Chapter 5 and repaired WebGL shaders that made some areas render too dark.</li>
               <li>Removed TS!UNDERSWAP while its web runner remains unstable.</li>
-              <li>Repaired the downloadable single-file launcher.</li>
+              <li>Fixed the single-file launcher to keep games in-page and correctly resolve GameMaker and CDN asset paths.</li>
               <li>Fixed audio and game speed in Undertale Red &amp; Yellow and DR Chapter 1 Noelle Edition.</li>
               <li>Fixed duplicate menu hover sounds and cleaned up the Settings menu.</li>
               <li>Expanded the in-site credits for the newest mods and web ports.</li>
@@ -4564,6 +4570,10 @@
 
     function loadUndertaleRedYellow() {
       loadRemotePage(FILES_BASE + "undertale-red-yellow/index.html?v=undertale-red-yellow-2.2-worker");
+    }
+
+    function loadDeltatraveler() {
+      loadRemotePage(FILES_BASE + "deltatraveler/index.html?v=2.5");
     }
 
     function loadStarRune() {

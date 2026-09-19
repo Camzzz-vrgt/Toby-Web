@@ -8,7 +8,7 @@
 
   if (!enabled) return;
 
-  const existingControls = document.querySelector("#mobile-controls");
+  const existingControls = document.querySelector("#toby-mobile-controls, #mobile-controls");
   if (existingControls) {
     existingControls.style.display = "block";
     return;
@@ -31,8 +31,9 @@
       left: max(18px, env(safe-area-inset-left));
       bottom: max(18px, env(safe-area-inset-bottom));
       display: grid;
-      grid-template-columns: repeat(3, 52px);
-      grid-template-rows: repeat(3, 52px);
+      grid-template-columns: repeat(3, 54px);
+      grid-template-rows: repeat(3, 54px);
+      filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.7));
     }
     #toby-mobile-controls .toby-actions {
       position: absolute;
@@ -43,13 +44,14 @@
       grid-template-rows: repeat(2, 64px);
       gap: 12px;
       transform: rotate(-10deg);
+      filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.7));
     }
     #toby-mobile-controls button {
       width: 100%;
       height: 100%;
-      border: 3px solid rgba(255, 255, 255, 0.82);
+      border: 3px solid rgba(255, 255, 255, 0.9);
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.58);
+      background: rgba(0, 0, 0, 0.66);
       color: #fff;
       font: 700 25px/1 Arial, sans-serif;
       letter-spacing: 0;
@@ -58,7 +60,7 @@
       -webkit-tap-highlight-color: transparent;
       box-sizing: border-box;
     }
-    #toby-mobile-controls button[data-key^="Arrow"] { border-radius: 6px; }
+    #toby-mobile-controls button[data-key^="Arrow"] { border-radius: 8px; }
     #toby-mobile-controls button.is-pressed {
       color: #ffff00;
       border-color: #ffff00;
@@ -105,22 +107,31 @@
   `;
 
   const held = new Map();
-  const target = () => document.querySelector("canvas") || document.body;
-  const send = (button, type) => {
+  const target = () => document.querySelector("canvas") || document.activeElement || document.body;
+  const makeKeyboardEvent = (button, type) => {
     const keyCode = Number(button.dataset.keyCode);
     const event = new KeyboardEvent(type, {
       key: button.dataset.key,
       code: button.dataset.code,
       bubbles: true,
       cancelable: true,
+      composed: true,
+      repeat: type === "keydown" && held.has(button),
     });
     try {
       Object.defineProperties(event, {
         keyCode: { get: () => keyCode },
+        charCode: { get: () => type === "keypress" ? keyCode : 0 },
         which: { get: () => keyCode },
       });
     } catch (_) {}
-    target().dispatchEvent(event);
+    return event;
+  };
+  const send = (button, type) => {
+    const primaryTarget = target();
+    primaryTarget.dispatchEvent(makeKeyboardEvent(button, type));
+    if (primaryTarget !== document) document.dispatchEvent(makeKeyboardEvent(button, type));
+    window.dispatchEvent(makeKeyboardEvent(button, type));
   };
 
   const release = button => {
@@ -139,6 +150,7 @@
       held.set(button, event.pointerId);
       button.classList.add("is-pressed");
       send(button, "keydown");
+      if (!button.dataset.key.startsWith("Arrow")) send(button, "keypress");
     });
     button.addEventListener("pointerup", event => {
       event.preventDefault();
