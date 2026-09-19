@@ -18,6 +18,7 @@ CODEX_PROJECT_CONTEXT.md
 OFFLINE_RUNTIME.md
 start-local.bat
 tools/
+.wrangler/
 
 # Deployed separately; not required by the static Toby Web runtime
 presence-worker/
