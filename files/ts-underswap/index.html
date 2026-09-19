@@ -121,7 +121,7 @@
       const RUNNER_DATA_PARTS = ["runner.data"];
       let totalAssetParts = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
       const GAME_MD5 = "12fc1d30df4254d7675f40a82a1b0b9d";
-      const ASSET_VERSION = "ts-underswap-2-1-2-20260901h";
+      const ASSET_VERSION = "ts-underswap-2-1-2-20260917-runner-fix";
       const NATIVE_GAME_WIDTH = 640;
       const NATIVE_GAME_HEIGHT = 480;
       let externalGameFiles = [];
@@ -785,9 +785,9 @@
 
       function manifestFilesMD5() {
         return [
-          "99c48166b13217332bc5a402e15d27b4",
-          "e061ebc57bfed7095750ce7195fe5589",
-          "974de43c7679838b00db32032d23f470",
+          "34565020f46a5d5930f86f613c522c8c",
+          "5649ccaaf2e4465ee8abb692111738ab",
+          "54facb1a5bb9a9f44824c3a32b9d289f",
           "e8f1e8db8cf996f8715a6f2164c2e44e",
           GAME_MD5
         ].concat(externalGameMd5, EXTERNAL_AUDIO_MD5, EXTERNAL_AUDIO_ALIAS_MD5);
@@ -806,14 +806,18 @@
         ensureAspectRatio();
       }
 
+      let pausedByVisibility = false;
+
       function pause() {
-        if (typeof GM_pause === "function" && canvasElement.classList.contains("active")) {
+        if (!pausedByVisibility && typeof GM_pause === "function" && canvasElement.classList.contains("active")) {
+          pausedByVisibility = true;
           GM_pause();
         }
       }
 
       function resume() {
-        if (typeof GM_unpause === "function" && canvasElement.classList.contains("active")) {
+        if (pausedByVisibility && typeof GM_unpause === "function" && canvasElement.classList.contains("active")) {
+          pausedByVisibility = false;
           GM_unpause();
           ensureAspectRatio();
         }
@@ -850,5 +854,6 @@
           alert("TS!UNDERSWAP could not load.\n\n" + (error && error.message ? error.message : error));
         });
     </script>
-  </body>
+    <script src="/files/mobile-controls.js" defer></script>
+</body>
 </html>

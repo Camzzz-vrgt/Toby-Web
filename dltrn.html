@@ -25,6 +25,12 @@
   <link rel="shortcut icon" type="image/png" href="files/favicon.png">
   <link rel="stylesheet" href="files/style.css">
   <style>
+    @font-face {
+      font-family: "Monster Friend";
+      src: url("files/monster-friend-fore.woff2") format("woff2");
+      font-display: swap;
+    }
+
     :root {
       --white: #ffffff;
       --yellow: #ffff00;
@@ -133,26 +139,57 @@
       display: grid;
     }
 
-    .settings-toggle {
+    .settings-toggle,
+    .download-toggle,
+    .changelog-toggle {
       display: none;
       position: fixed;
       top: 20px;
-      right: 22px;
       z-index: 1000;
-      width: 34px;
       height: 34px;
       border: 2px solid var(--white);
-      background: transparent;
+      background: #000;
       color: var(--white);
       cursor: pointer;
+      font: inherit;
+    }
+
+    .settings-toggle {
+      right: 22px;
+      width: 34px;
       padding: 1px;
     }
 
-    body.home-mode .settings-toggle {
+    .download-toggle {
+      right: 64px;
+      width: 34px;
+      padding: 4px;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .changelog-toggle {
+      right: 106px;
+      padding: 3px 9px;
+      font-size: 0.68rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    body.home-mode .settings-toggle,
+    body.home-mode .download-toggle,
+    body.home-mode .changelog-toggle {
       display: block;
     }
 
+    body.home-mode .download-toggle {
+      display: flex;
+    }
+
     .settings-toggle:hover,
+    .download-toggle:hover,
+    .changelog-toggle:hover,
     .pixel-button:hover,
     .save-button:hover,
     .home-logo-link:hover,
@@ -169,10 +206,11 @@
     }
 
     .settings-toggle img {
+      display: block;
       width: 100%;
       height: 100%;
-      display: block;
       object-fit: contain;
+      filter: grayscale(1) contrast(100);
       image-rendering: pixelated;
       image-rendering: crisp-edges;
     }
@@ -226,6 +264,33 @@
       object-fit: contain;
       image-rendering: crisp-edges;
       image-rendering: pixelated;
+    }
+
+    .download-pixel-icon {
+      position: relative;
+      display: block;
+      width: 20px;
+      height: 20px;
+      color: currentColor;
+    }
+
+    .download-pixel-icon::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 5px;
+      background: currentColor;
+      clip-path: polygon(40% 0, 60% 0, 60% 47%, 85% 47%, 85% 67%, 70% 67%, 70% 80%, 60% 80%, 60% 93%, 40% 93%, 40% 80%, 30% 80%, 30% 67%, 15% 67%, 15% 47%, 40% 47%);
+    }
+
+    .download-pixel-icon::after {
+      content: "";
+      position: absolute;
+      right: 1px;
+      bottom: 0;
+      left: 1px;
+      height: 5px;
+      border: 3px solid currentColor;
+      border-top: 0;
     }
 
     .home-footer {
@@ -365,6 +430,7 @@
       flex: 0 0 auto;
       color: var(--white);
       margin-bottom: 19px;
+      font-family: "Monster Friend", "Deltarune", monospace;
       font-size: clamp(0.68rem, 1.35vw, 0.96rem);
       line-height: 1;
       white-space: nowrap;
@@ -659,6 +725,54 @@
       padding: 4px 10px 8px;
     }
 
+    .catalog-heading {
+      display: flex;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 14px 18px;
+      max-width: calc(100vw - 144px);
+    }
+
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-bottom: 3px;
+    }
+
+    .category-filter {
+      min-height: 36px;
+      border: 2px solid #777;
+      border-radius: 0;
+      background: var(--panel-solid);
+      color: #999;
+      padding: 5px 9px;
+      font: inherit;
+      font-size: 0.8rem;
+      line-height: 1;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .category-filter[aria-pressed="true"] {
+      border-color: var(--white);
+      background: var(--white);
+      color: #000;
+    }
+
+    .category-filter:hover,
+    .category-filter:focus-visible {
+      border-color: var(--purple);
+      color: var(--purple);
+      outline: none;
+    }
+
+    .category-filter[aria-pressed="true"]:hover,
+    .category-filter[aria-pressed="true"]:focus-visible {
+      background: var(--purple);
+      color: var(--white);
+    }
+
     #credits-page .extras-title {
       line-height: 1.25;
       padding: 10px 10px 12px;
@@ -813,6 +927,22 @@
 
     .supercharged-knight-text {
       color: #fff760;
+    }
+
+    .jevilstale-text {
+      color: #c79cff;
+    }
+
+    .knight-over-kris-text {
+      color: #f2f2f2;
+    }
+
+    .godhome-text {
+      color: #e5bc8d;
+    }
+
+    .berdly-com-text {
+      color: #7fc9ff;
     }
 
     .undertale-roaring-knight-text {
@@ -1222,6 +1352,10 @@
       overflow: hidden;
     }
 
+    .game-card[hidden] {
+      display: none;
+    }
+
     #aqua-page .subpage-header {
       width: min(980px, calc(100vw - 44px));
       margin: 0 auto 22px;
@@ -1384,11 +1518,41 @@
     #dynamic-equips-page .title { font-size: clamp(1.05rem, 2vw, 2rem); }
     #dynamic-equips-page .row img { width: 54px; height: 54px; }
 
+    .mod-chapter-page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 62px clamp(22px, 6vw, 86px) 32px;
+      overflow: hidden;
+    }
+
+    .mod-chapter-page .subpage-header {
+      width: min(980px, calc(100vw - 44px));
+      margin: 0 auto 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mod-chapter-page .menu { width: min(820px, calc(100vw - 44px)); }
+    .mod-chapter-page .row {
+      min-height: 58px;
+      grid-template-columns: 1.05fr 1.25fr 64px;
+    }
+    .mod-chapter-page .chapter,
+    .mod-chapter-page .title { font-size: clamp(1.05rem, 2vw, 2rem); }
+    .mod-chapter-page .row img { width: 54px; height: 54px; }
+    .game-card.update11-final img { object-fit: cover; }
+
     #settings-modal,
+    #changelog-modal,
     #kaizo-modal,
     #jevil-kaizo-modal,
     #four-party-members-modal,
     #supercharged-knight-modal,
+    #thorn-knight-modal,
+    #knight-over-kris-modal,
+    #noelle-edition-modal,
     #cyan-modal,
     #dojo-modal,
     #bossrush-modal,
@@ -1409,10 +1573,14 @@
     }
 
     #settings-modal.open,
+    #changelog-modal.open,
     #kaizo-modal.open,
     #jevil-kaizo-modal.open,
     #four-party-members-modal.open,
     #supercharged-knight-modal.open,
+    #thorn-knight-modal.open,
+    #knight-over-kris-modal.open,
+    #noelle-edition-modal.open,
     #cyan-modal.open,
     #dojo-modal.open,
     #bossrush-modal.open,
@@ -1454,16 +1622,6 @@
       margin: 0 0 14px;
       font-size: 1.35rem;
       text-transform: uppercase;
-    }
-
-    .settings-version {
-      color: var(--white);
-      font-size: 0.68rem;
-      line-height: 1;
-      text-transform: lowercase;
-      justify-self: end;
-      margin-top: 2px;
-      pointer-events: none;
     }
 
     .modal-box p {
@@ -1552,6 +1710,62 @@
     .settings-label {
       color: var(--yellow);
       font-size: 0.9rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .changelog-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .changelog-entry {
+      border: 2px solid var(--white);
+      padding: 12px;
+    }
+
+    .changelog-entry-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+
+    .changelog-entry h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .changelog-date {
+      color: #aaa;
+      font-size: 0.64rem;
+      white-space: nowrap;
+    }
+
+    .changelog-entry ul {
+      margin: 0;
+      padding-left: 22px;
+      font-size: 0.76rem;
+      line-height: 1.45;
+    }
+
+    .changelog-entry li + li {
+      margin-top: 7px;
+    }
+
+    .changelog-section + .changelog-section {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 2px solid #333;
+    }
+
+    .changelog-section h4 {
+      margin: 0 0 8px;
+      color: var(--yellow);
+      font-size: 0.82rem;
       line-height: 1;
       text-transform: uppercase;
     }
@@ -2165,6 +2379,16 @@
         padding: 1px;
       }
 
+      .download-toggle {
+        top: 12px;
+        right: 56px;
+      }
+
+      .changelog-toggle {
+        top: 12px;
+        right: 98px;
+      }
+
       .home-choices {
         width: min(1030px, calc(100vw - 118px));
         gap: clamp(34px, 6vw, 78px);
@@ -2668,8 +2892,12 @@
   </style>
 </head>
 <body>
+  <button class="changelog-toggle sound-target" onclick="openChangelog()">Changelog</button>
+  <a class="download-toggle sound-target" href="tobywebsinglefile.html" download="tobywebsinglefile.html" aria-label="Download Toby Web single-file launcher" title="Download single-file launcher">
+    <span class="download-pixel-icon" aria-hidden="true"></span>
+  </a>
   <button class="settings-toggle sound-target" onclick="openSettings()" aria-label="Settings">
-    <img src="files/settings-icon.png" alt="Settings">
+    <img src="files/settings-icon.png" alt="">
   </button>
 
   <input type="file" id="importData" onchange="loadData(event)">
@@ -2784,81 +3012,122 @@
     <section id="mods-page" class="page subpage">
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
-        <div class="subpage-logo"><span class="extras-title">mods</span></div>
+        <div class="subpage-logo">
+          <div class="catalog-heading">
+            <span class="extras-title">mods</span>
+            <div class="category-filters" role="group" aria-label="Filter mods">
+              <button class="category-filter sound-target" type="button" data-category="deltarune" aria-pressed="true" onclick="toggleCatalogCategory('mods-page', 'deltarune', this)">Deltarune</button>
+              <button class="category-filter sound-target" type="button" data-category="undertale" aria-pressed="true" onclick="toggleCatalogCategory('mods-page', 'undertale', this)">Undertale</button>
+              <button class="category-filter sound-target" type="button" data-category="knight" aria-pressed="true" onclick="toggleCatalogCategory('mods-page', 'knight', this)">Knight Mods</button>
+            </div>
+          </div>
+        </div>
         <span></span>
       </header>
       <div class="extras-grid">
-        <button class="game-card kaizo sound-target" onclick="openKaizoConfirm()">
+        <button class="game-card kaizo sound-target" data-category="knight" onclick="openKaizoConfirm()">
           <img src="files/kaizo-roaring-knight/icon.png" alt="Kaizo Roaring Knight">
           <span class="kaizo-text">Kaizo Roaring Knight</span>
         </button>
-        <button class="game-card jevilkaizo sound-target" onclick="openJevilKaizoConfirm()">
+        <button class="game-card jevilkaizo sound-target" data-category="deltarune" onclick="openJevilKaizoConfirm()">
           <img src="files/jevil-kaizo/icon.png" alt="Jevil Kaizo V4">
           <span class="jevil-kaizo-text">Jevil Kaizo V4</span>
         </button>
-        <button class="game-card dynamicequips sound-target" onclick="loadDynamicEquips()">
+        <button class="game-card dynamicequips sound-target" data-category="deltarune" onclick="loadDynamicEquips()">
           <img src="files/dynamic-equips/icon.png" alt="Dynamic Equips">
           <span class="dynamic-equips-text">Dynamic Equips</span>
         </button>
-        <button class="game-card fourpartymembers sound-target" onclick="openFourPartyMembersConfirm()">
+        <button class="game-card fourpartymembers sound-target" data-category="deltarune" onclick="openFourPartyMembersConfirm()">
           <img src="files/four-party-members/icon.png" alt="Four Party Members">
           <span class="four-party-members-text">Four Party Members</span>
         </button>
-        <button class="game-card supercharged sound-target" onclick="openSuperchargedKnightConfirm()">
+        <button class="game-card sound-target" data-category="deltarune" onclick="openNoelleEditionConfirm()">
+          <img src="files/dr-ch1-noelle/icon.webp" alt="DR. CHAP.1 NOELLE EDITION">
+          <span>DR. CHAP.1 NOELLE EDITION</span>
+        </button>
+        <button class="game-card supercharged sound-target" data-category="knight" onclick="openSuperchargedKnightConfirm()">
           <img src="files/supercharged-knight/icon.png" alt="Supercharged Knight">
           <span class="supercharged-knight-text">Supercharged Knight</span>
         </button>
-        <button class="game-card sound-target" onclick="loadUndertaleRoaringKnight()">
+        <button class="game-card jevilstale sound-target" data-category="undertale" onclick="loadJevilStale()">
+          <img src="files/jevilstale/icon.webp" alt="JEVILSTALE">
+          <span class="jevilstale-text">JEVILSTALE</span>
+        </button>
+        <button class="game-card knight-over-kris sound-target" data-category="deltarune" onclick="openKnightOverKrisConfirm()">
+          <img src="files/knight-over-kris/icon.png" alt="Chapter 2 Knight over Kris">
+          <span class="knight-over-kris-text">Knight over Kris</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadBerdlyCom()">
+          <img src="files/berdly-com/icon.png" alt="berdly.com">
+          <span class="berdly-com-text">berdly.com</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleRoaringKnight()">
           <img src="files/undertale-roaring-knight/icon.jpg" alt="Undertale: The Roaring Knight">
           <span class="undertale-roaring-knight-text">Undertale: The Roaring Knight</span>
         </button>
-        <button class="game-card sound-target" onclick="loadUndertaleSpamton()">
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleSpamton()">
           <img src="files/undertale-spamton/icon.jpg" alt="Undertale: You Play as Spamton">
           <span>Undertale: You Play as Spamton</span>
         </button>
-        <button class="game-card cyan sound-target" onclick="openCyanConfirm()">
+        <button class="game-card cyan sound-target" data-category="knight" onclick="openCyanConfirm()">
           <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
         </button>
-        <button class="game-card dojo sound-target" onclick="openDojoConfirm()">
+        <button class="game-card dojo sound-target" data-category="deltarune" onclick="openDojoConfirm()">
           <img src="files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
           <span class="dojo-text">Dojo Customizer</span>
         </button>
-        <button class="game-card bossrush sound-target" onclick="openBossRushConfirm()">
+        <button class="game-card bossrush sound-target" data-category="deltarune" onclick="openBossRushConfirm()">
           <img src="files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
           <span class="bossrush-text">Ultimate Boss Rush</span>
         </button>
-        <button class="game-card network sound-target" onclick="loadDeltaruneNetwork()">
+        <button class="game-card network sound-target" data-category="deltarune" onclick="loadDeltaruneNetwork()">
           <img src="files/deltarune-network/icon.png" alt="Deltarune Network">
           <span class="network-text">Deltarune Network</span>
         </button>
-        <button class="game-card determinationflowery sound-target" onclick="openDeterminationFloweryConfirm()">
+        <button class="game-card determinationflowery sound-target" data-category="deltarune" onclick="openDeterminationFloweryConfirm()">
           <img src="files/determination-flowery/icon.png" alt="Determination Flowery">
           <span class="determination-flowery-text">Determination Flowery</span>
         </button>
-        <button class="game-card violetknight sound-target" onclick="openVioletKnightConfirm()">
+        <button class="game-card violetknight sound-target" data-category="knight" onclick="openVioletKnightConfirm()">
           <img src="files/violet-knight/icon.png" alt="Violet Knight">
           <span class="violet-knight-text">Violet Knight</span>
         </button>
-        <button class="game-card aquaoverkris sound-target" onclick="openAquaOverKrisConfirm()">
+        <button class="game-card aquaoverkris sound-target" data-category="deltarune" onclick="openAquaOverKrisConfirm()">
           <img src="files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
           <span class="aqua-over-kris-text">Aqua Over Kris</span>
         </button>
-        <button class="game-card nobulletcooldowns sound-target" onclick="loadNoBulletCooldowns()">
+        <button class="game-card nobulletcooldowns sound-target" data-category="deltarune" onclick="loadNoBulletCooldowns()">
           <img src="files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
           <span class="no-bullet-cooldowns-text">No Bullet Cooldowns</span>
         </button>
-        <button class="game-card offlinebingo sound-target" onclick="loadOfflineBingo()">
+        <button class="game-card offlinebingo sound-target" data-category="deltarune" onclick="loadOfflineBingo()">
           <img src="files/offline-bingo/icon.png" alt="Offline Bingo">
           <span class="offline-bingo-text">Offline Bingo</span>
         </button>
-        <button class="game-card chaosrandomizer sound-target" onclick="loadChaosRandomizer()">
+        <button class="game-card chaosrandomizer sound-target" data-category="deltarune" onclick="loadChaosRandomizer()">
           <img src="files/chaos-randomizer/icon.png" alt="Chaos Randomizer">
           <span class="chaos-randomizer-text">Chaos Randomizer</span>
         </button>
-        <button class="game-card roaringedition sound-target" onclick="loadDeltaruneRoaringEdition()">
+        <button class="game-card roaringedition sound-target" data-category="deltarune" onclick="loadDeltaruneRoaringEdition()">
           <img src="files/deltarune-roaring-edition/icon.png" alt="Deltarune: Roaring Edition">
           <span>Deltarune: Roaring Edition</span>
+        </button>
+        <button class="game-card update11-final sound-target" data-category="knight" onclick="openThornKnightConfirm()">
+          <img src="files/thorn-knight/icon.jpg" alt="Thorn Knight">
+          <span>Thorn Knight</span>
+        </button>
+        <button class="game-card update11-final sound-target" data-category="deltarune" onclick="loadSideBExtended()">
+          <img src="files/side-b-extended/icon.jpg" alt="Side B Extended">
+          <span>Side B Extended</span>
+        </button>
+        <button class="game-card update11-final sound-target" data-category="deltarune" onclick="loadSwordRoute()">
+          <img src="files/sword-route/icon.jpg" alt="Deltarune Sword Route">
+          <span>Deltarune: Sword Route</span>
+        </button>
+        <button class="game-card update11-final sound-target" data-category="deltarune" onclick="loadChapter1Genocide()">
+          <img src="files/chapter1-genocide/icon.jpg" alt="Deltarune Chapter 1 Genocide Retake">
+          <span>Chapter 1 Genocide Retake</span>
         </button>
       </div>
     </section>
@@ -2878,6 +3147,36 @@
         <a href="javascript:loadDynamicEquipsChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
         <a href="javascript:loadDynamicEquipsChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt=""></a>
         <a href="javascript:loadDynamicEquipsChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt=""></a>
+      </div>
+    </section>
+
+    <section id="side-b-extended-page" class="page subpage mod-chapter-page">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/side-b-extended/icon.jpg" alt="">
+          <span>Side B Extended</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadSideBExtendedChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
+        <a href="javascript:loadSideBExtendedChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
+      </div>
+    </section>
+
+    <section id="sword-route-page" class="page subpage mod-chapter-page">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/sword-route/icon.jpg" alt="">
+          <span>Deltarune: Sword Route</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadSwordRouteChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt=""></a>
+        <a href="javascript:loadSwordRouteChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
       </div>
     </section>
 
@@ -3013,103 +3312,125 @@
     <section id="extras-page" class="page subpage">
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
-        <div class="subpage-logo"><span class="extras-title">extras</span></div>
+        <div class="subpage-logo">
+          <div class="catalog-heading">
+            <span class="extras-title">extras</span>
+            <div class="category-filters" role="group" aria-label="Filter extras">
+              <button class="category-filter sound-target" type="button" data-category="deltarune" aria-pressed="true" onclick="toggleCatalogCategory('extras-page', 'deltarune', this)">Deltarune</button>
+              <button class="category-filter sound-target" type="button" data-category="undertale" aria-pressed="true" onclick="toggleCatalogCategory('extras-page', 'undertale', this)">Undertale</button>
+              <button class="category-filter sound-target" type="button" data-category="kristal" aria-pressed="true" onclick="toggleCatalogCategory('extras-page', 'kristal', this)">Kristal</button>
+              <button class="category-filter sound-target" type="button" data-category="other" aria-pressed="true" onclick="toggleCatalogCategory('extras-page', 'other', this)">Other</button>
+            </div>
+          </div>
+        </div>
         <span></span>
       </header>
       <div class="extras-grid">
-        <button class="game-card saveconverter sound-target" onclick="openSaveConverter()">
+        <button class="game-card saveconverter sound-target" data-category="other" onclick="openSaveConverter()">
           <div class="save-converter-card-art" aria-hidden="true"><b>DELTARUNE</b><b>SAVE</b><b>CONVERTER</b></div>
           <span class="save-converter-text">Deltarune Save Converter</span>
         </button>
-        <button class="game-card sans sound-target" onclick="loadBadTimeSim()">
+        <button class="game-card sans sound-target" data-category="undertale" onclick="loadBadTimeSim()">
           <img src="files/badtimesim/icon-256.png" alt="Bad Time Simulator">
           <span>Bad Time Simulator</span>
         </button>
-        <button class="game-card geo sound-target" onclick="loadDeltaruneGeoGuessr()">
+        <button class="game-card geo sound-target" data-category="deltarune" onclick="loadDeltaruneGeoGuessr()">
           <img src="files/deltarune-geoguessr/icon.png" alt="Deltarune GeoGuessr">
           <span class="geo-text">Deltarune GeoGuessr</span>
         </button>
-        <button class="game-card guesswho sound-target" onclick="loadDeltaruneGuessWho()">
+        <button class="game-card guesswho sound-target" data-category="deltarune" onclick="loadDeltaruneGuessWho()">
           <img src="files/deltarune-guess-who/icon.png" alt="Deltarune Guess Who">
           <span class="guesswho-text">Deltarune Guess Who</span>
         </button>
-        <button class="game-card upperhand sound-target" onclick="loadDeltaruneUpperHand()">
+        <button class="game-card upperhand sound-target" data-category="deltarune" onclick="loadDeltaruneUpperHand()">
           <img src="files/deltarune-upper-hand/icon.png" alt="DELTARUNE The Upper Hand">
           <span class="upperhand-text">The Upper Hand</span>
         </button>
-        <button class="game-card scampton sound-target" onclick="loadScamptonTheGreat()">
+        <button class="game-card scampton sound-target" data-category="deltarune" onclick="loadScamptonTheGreat()">
           <img src="files/scampton-the-great/icon.png" alt="Scampton The Great">
           <span class="scampton-text">Scampton The Great</span>
         </button>
-        <button class="game-card dreamwake sound-target" onclick="loadDeltaruneDreamwake()">
+        <button class="game-card dreamwake sound-target" data-category="deltarune" onclick="loadDeltaruneDreamwake()">
           <img src="files/deltarune-dreamwake/icon.png" alt="DELTARUNE Dreamwake">
           <span class="dreamwake-text">Deltarune Dreamwake</span>
         </button>
-        <button class="game-card soulblazers sound-target" onclick="loadDeltaruneSoulblazers()">
+        <button class="game-card soulblazers sound-target" data-category="deltarune" onclick="loadDeltaruneSoulblazers()">
           <img src="files/deltarune-soulblazers/icon.webp" alt="DELTARUNE Soulblazers">
           <span class="soulblazers-text">Deltarune Soulblazers</span>
         </button>
-        <button class="game-card tsunderswap sound-target" onclick="loadTSUnderswap()">
+        <button class="game-card tsunderswap sound-target" data-category="undertale" onclick="loadTSUnderswap()">
           <img src="files/ts-underswap/icon.png" alt="TS!UNDERSWAP">
           <span class="tsunderswap-text">TS!UNDERSWAP</span>
         </button>
-        <button class="game-card undertaleyellow sound-target" onclick="loadUndertaleYellow()">
+        <button class="game-card undertaleyellow sound-target" data-category="undertale" onclick="loadUndertaleYellow()">
           <img src="files/undertale-yellow/icon.png" alt="Undertale Yellow">
           <span>Undertale Yellow</span>
         </button>
-        <button class="game-card pluggeddream sound-target" onclick="loadDeltarunePluggedDream()">
+        <button class="game-card undertalery sound-target" data-category="undertale" onclick="loadUndertaleRedYellow()">
+          <img src="files/undertale-red-yellow/icon.png" alt="Undertale Red &amp; Yellow">
+          <span>Undertale Red &amp; Yellow</span>
+        </button>
+        <button class="game-card sound-target" data-category="kristal" onclick="loadStarRune()">
+          <img src="files/starrune/icon.png" alt="Star Rune">
+          <span>Star Rune</span>
+        </button>
+        <button class="game-card godhome sound-target" data-category="kristal" onclick="loadGodhome()">
+          <img src="files/godhome/icon.png" alt="Godhome">
+          <span class="godhome-text">Godhome</span>
+        </button>
+        <button class="game-card pluggeddream sound-target" data-category="kristal" onclick="loadDeltarunePluggedDream()">
           <img src="files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
           <span class="pluggeddream-text">Deltarune Plugged Dream</span>
         </button>
-        <button class="game-card friendless sound-target" onclick="loadDeltaruneFriendless()">
+        <button class="game-card friendless sound-target" data-category="kristal" onclick="loadDeltaruneFriendless()">
           <img src="files/deltarune-friendless/icon.png" alt="Deltarune Friendless">
           <span class="friendless-text">Deltarune Friendless</span>
         </button>
-        <button class="game-card frostveil sound-target" onclick="loadDeltaruneFrostveil()">
+        <button class="game-card frostveil sound-target" data-category="kristal" onclick="loadDeltaruneFrostveil()">
           <img src="files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
           <span class="frostveil-text">Deltarune Frostveil</span>
         </button>
-        <button class="game-card differentsnowgrave sound-target" onclick="loadDifferentSnowgrave()">
+        <button class="game-card differentsnowgrave sound-target" data-category="deltarune" onclick="loadDifferentSnowgrave()">
           <img src="files/a-different-snowgrave/icon.png" alt="A Different Snowgrave">
           <span class="differentsnowgrave-text">A Different Snowgrave</span>
         </button>
-        <button class="game-card tungsahur sound-target" onclick="loadVsTungTungTungSahur()">
+        <button class="game-card tungsahur sound-target" data-category="kristal" onclick="loadVsTungTungTungSahur()">
           <img src="files/vs-tung-tung-tung-sahur/icon.png" alt="VS Tung Tung Tung Sahur">
           <span class="tungsahur-text">VS Tung Tung Tung Sahur</span>
         </button>
-        <button class="game-card lambdarune sound-target" onclick="loadLambdarune()">
+        <button class="game-card lambdarune sound-target" data-category="deltarune" onclick="loadLambdarune()">
           <img src="files/lambdarune/icon.png" alt="LAMBDARUNE">
           <span class="lambdarune-text">LAMBDARUNE</span>
         </button>
-        <button class="game-card roaringknight sound-target" onclick="loadFullRoaringKnightRemake()">
+        <button class="game-card roaringknight sound-target" data-category="deltarune" onclick="loadFullRoaringKnightRemake()">
           <img src="files/full-roaring-knight-remake/icon.png" alt="Full Roaring Knight Remake">
           <span class="roaringknight-text">Full Roaring Knight Remake</span>
         </button>
-        <button class="game-card knightrematch sound-target" onclick="loadKnightRematch()">
+        <button class="game-card knightrematch sound-target" data-category="deltarune" onclick="loadKnightRematch()">
           <img src="files/knight-rematch/icon.png" alt="Knight Rematch">
           <span class="knightrematch-text">Knight Rematch</span>
         </button>
-        <button class="game-card lostdeltarune sound-target" onclick="loadLostDeltarune()">
+        <button class="game-card lostdeltarune sound-target" data-category="deltarune" onclick="loadLostDeltarune()">
           <img src="files/lost-deltarune/icon.png" alt="Lost Deltarune">
           <span class="lostdeltarune-text">Lost Deltarune</span>
         </button>
-        <button class="game-card freeher sound-target" onclick="loadFreeHer()">
+        <button class="game-card freeher sound-target" data-category="deltarune" onclick="loadFreeHer()">
           <img src="files/free-her/icon.png" alt="Free Her!">
           <span class="freeher-text">Free Her!</span>
         </button>
-        <button class="game-card catmouse sound-target" onclick="loadCatAndMouse()">
+        <button class="game-card catmouse sound-target" data-category="deltarune" onclick="loadCatAndMouse()">
           <img src="files/cat-and-mouse/card-icon.png?v=cat-card-20260726b" alt="Cat and Mouse">
           <span class="catmouse-text">Cat and Mouse</span>
         </button>
-        <button class="game-card homesweet sound-target" onclick="loadHomeSweetHome()">
+        <button class="game-card homesweet sound-target" data-category="deltarune" onclick="loadHomeSweetHome()">
           <img src="files/home-sweet-home/icon.png" alt="Home Sweet Home">
           <span class="homesweet-text">Home Sweet Home</span>
         </button>
-        <button class="game-card asgoredess sound-target" onclick="loadAsgoreRunsOverDess()">
+        <button class="game-card asgoredess sound-target" data-category="deltarune" onclick="loadAsgoreRunsOverDess()">
           <img src="files/asgore-runs-over-dess/icon.png" alt="Asgore Runs Over Dess">
           <span class="asgoredess-text">Asgore Runs Over Dess</span>
         </button>
-        <button class="game-card ut10th sound-target" onclick="loadUndertale10thAnniversary()">
+        <button class="game-card ut10th sound-target" data-category="undertale" onclick="loadUndertale10thAnniversary()">
           <img src="files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
           <span class="ut10th-text">Undertale 10th Anniversary</span>
         </button>
@@ -3169,7 +3490,21 @@
                   <a class="game-credit-row nobulletcooldowns sound-target" href="https://gamebanana.com/mods/587241" target="_blank"><img src="files/no-bullet-cooldowns/icon.png" alt=""><span><strong>No Bullet Cooldowns</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row offlinebingo sound-target" href="https://gamebanana.com/mods/641640" target="_blank"><img src="files/offline-bingo/icon.png" alt=""><span><strong>Offline Bingo</strong><small>Based on Deltarune Bingosync</small></span></a>
                   <a class="game-credit-row chaosrandomizer sound-target" href="https://gamebanana.com/mods/650496" target="_blank"><img src="files/chaos-randomizer/icon.png" alt=""><span><strong>Chaos Randomizer</strong><small>View the original mod</small></span></a>
+                  <div class="game-credit-row"><img src="files/jevil-kaizo/icon.png" alt=""><span><strong>Jevil Kaizo V4</strong><small>Created by Jaau</small></span></div>
+                  <div class="game-credit-row"><img src="files/dynamic-equips/icon.png" alt=""><span><strong>Dynamic Equips</strong><small>Original Deltamod package</small></span></div>
+                  <div class="game-credit-row"><img src="files/four-party-members/icon.png" alt=""><span><strong>Four Party Members</strong><small>Original Deltarune mod</small></span></div>
+                  <div class="game-credit-row"><img src="files/supercharged-knight/icon.png" alt=""><span><strong>Supercharged Knight</strong><small>Created by ElecKnight and Egochka11</small></span></div>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/713789" target="_blank"><img src="files/knight-over-kris/icon.png" alt=""><span><strong>Knight Over Kris</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/376524" target="_blank"><img src="files/dr-ch1-noelle/icon.webp" alt=""><span><strong>DR Chapter 1 Noelle Edition</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/648391" target="_blank"><img src="files/berdly-com/icon.png" alt=""><span><strong>berdly.com</strong><small>Created by rrigatoni</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/695617" target="_blank"><img src="files/deltarune-roaring-edition/icon.png" alt=""><span><strong>Deltarune: Roaring Edition</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/618914" target="_blank"><img src="files/undertale-roaring-knight/icon.jpg" alt=""><span><strong>Undertale: The Roaring Knight</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/707315" target="_blank"><img src="files/undertale-spamton/icon.jpg" alt=""><span><strong>Undertale: You Play as Spamton</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/JEVILSTALE/1060819" target="_blank"><img src="files/jevilstale/icon.webp" alt=""><span><strong>JEVILSTALE</strong><small>Undertale mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/685457" target="_blank"><img src="files/thorn-knight/icon.jpg" alt=""><span><strong>Thorn Knight</strong><small>Created by Sens2011</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/711394" target="_blank"><img src="files/side-b-extended/icon.jpg" alt=""><span><strong>Side B Extended</strong><small>Created by JonaGamerYT</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/676327" target="_blank"><img src="files/sword-route/icon.jpg" alt=""><span><strong>Deltarune: Sword Route</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/679321" target="_blank"><img src="files/chapter1-genocide/icon.jpg" alt=""><span><strong>Chapter 1 Genocide Retake</strong><small>View the original mod</small></span></a>
                 </div>
               </section>
 
@@ -3185,6 +3520,9 @@
                   <a class="game-credit-row soulblazers sound-target" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank"><img src="files/deltarune-soulblazers/icon.webp" alt=""><span><strong>Deltarune Soulblazers</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row tsunderswap sound-target" href="https://gamejolt.com/games/tsunderswap/160094" target="_blank"><img src="files/ts-underswap/icon.png" alt=""><span><strong>TS!UNDERSWAP</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/UndertaleYellow/136925" target="_blank"><img src="files/undertale-yellow/icon.png" alt=""><span><strong>Undertale Yellow</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/undertale-red-yellow/877387" target="_blank"><img src="files/undertale-red-yellow/icon.png" alt=""><span><strong>Undertale Red &amp; Yellow</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/343672" target="_blank"><img src="files/godhome/icon.png" alt=""><span><strong>Godhome</strong><small>View the original project</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/starrune/716680" target="_blank"><img src="files/starrune/icon.png" alt=""><span><strong>Star Rune</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row pluggeddream sound-target" href="https://gamejolt.com/games/pluggeddream/1019739" target="_blank"><img src="files/deltarune-plugged-dream/icon.png" alt=""><span><strong>Deltarune Plugged Dream</strong><small>View the original game</small></span></a>
                   <div class="game-credit-row friendless"><img src="files/deltarune-friendless/icon.png" alt=""><span><strong>Deltarune Friendless</strong><small>Original page unavailable</small></span></div>
                   <div class="game-credit-row frostveil"><img src="files/deltarune-frostveil/icon.png" alt=""><span><strong>Deltarune Frostveil</strong><small>Original page unavailable</small></span></div>
@@ -3332,14 +3670,66 @@
     </section>
   </main>
 
+  <div id="changelog-modal">
+    <div class="modal-box">
+      <button class="pixel-button modal-close sound-target" onclick="closeChangelog()">X</button>
+      <h2>Changelog</h2>
+      <div class="changelog-list">
+        <article class="changelog-entry">
+          <div class="changelog-entry-header">
+            <h3>Update 1.1</h3>
+            <span class="changelog-date">September 18, 2026</span>
+          </div>
+          <section class="changelog-section">
+            <h4>New Ports</h4>
+            <ul>
+              <li>Undertale Red &amp; Yellow</li>
+              <li>Godhome</li>
+              <li>Star Rune</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>New Mods</h4>
+            <ul>
+              <li>JEVILSTALE</li>
+              <li>Knight Over Kris</li>
+              <li>berdly.com</li>
+              <li>DR Chapter 1 Noelle Edition</li>
+              <li>Thorn Knight</li>
+              <li>Side B Extended</li>
+              <li>Deltarune: Sword Route</li>
+              <li>Deltarune Chapter 1 Genocide Retake</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>New Features</h4>
+            <ul>
+              <li>Added optional mobile controls, disabled by default.</li>
+              <li>Changed the default site theme to Chapter 5.</li>
+              <li>Added new filters to the Mods and Extras tabs.</li>
+              <li>Added a downloadable GitHub-backed single-file launcher and download button.</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>Fixes &amp; Improvements</h4>
+            <ul>
+              <li>Fixed TS!UNDERSWAP crashes, audio callback faults, and speed changes after leaving the tab.</li>
+              <li>Fixed audio and game speed in Undertale Red &amp; Yellow and DR Chapter 1 Noelle Edition.</li>
+              <li>Fixed duplicate menu hover sounds and cleaned up the Settings menu.</li>
+              <li>Expanded the in-site credits for the newest mods and web ports.</li>
+            </ul>
+          </section>
+        </article>
+      </div>
+    </div>
+  </div>
+
   <div id="settings-modal">
     <div class="modal-box">
       <button class="pixel-button modal-close sound-target" onclick="closeSettings()">X</button>
       <h2>Settings</h2>
       <div class="settings-actions">
         <button class="pixel-button sound-target audio-toggle" onclick="toggleAudio()"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>Toggle Audio</button>
-        <button class="pixel-button sound-target" onclick="useClassicLayout()">Use Old Layout</button>
-        <button class="pixel-button sound-target" onclick="useNewLayout()">Use New Layout</button>
         <button class="pixel-button sound-target" onclick="saveData('all')">Export Whole Site Save</button>
         <button class="pixel-button sound-target" onclick="chooseImport('all')">Import Whole Site Save</button>
       </div>
@@ -3376,6 +3766,14 @@
           <button type="button" class="presence-service-option sound-target" data-presence-enabled="off" onclick="setPresenceEnabled(false)" aria-pressed="false">Off</button>
         </div>
         <p class="presence-service-note">Turn this off to disconnect this tab from the online counter.</p>
+      </div>
+      <div class="settings-section">
+        <div class="settings-label">Mobile Controls</div>
+        <div class="presence-service-control" role="group" aria-label="Mobile controls setting">
+          <button type="button" class="presence-service-option sound-target" data-mobile-controls="on" onclick="setMobileControlsEnabled(true)" aria-pressed="false">On</button>
+          <button type="button" class="presence-service-option sound-target" data-mobile-controls="off" onclick="setMobileControlsEnabled(false)" aria-pressed="false">Off</button>
+        </div>
+        <p class="presence-service-note">Show touch controls inside games.</p>
       </div>
       <div class="settings-section background-settings">
         <div class="settings-label">Background</div>
@@ -3488,7 +3886,6 @@
       </div>
       <div class="settings-section">
         <button class="pixel-button sound-target" onclick="openCreditsPage()">Credits</button>
-        <div class="settings-version">ver 2.0</div>
       </div>
     </div>
   </div>
@@ -3545,6 +3942,20 @@
         <button class="pixel-button danger sound-target" onclick="loadUltimateBossRush()">Use Recommended Save</button>
         <button class="pixel-button sound-target" onclick="loadUltimateBossRushExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeBossRushConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="thorn-knight-modal">
+    <div class="modal-box">
+      <h2>Thorn Knight</h2>
+      <p>The included Chapter 3 Knight save is recommended so you can reach the modded fight immediately.</p>
+      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadThornKnightRecommendedSave()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadThornKnightExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeThornKnightConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -3627,6 +4038,33 @@
         <button class="pixel-button danger sound-target" onclick="loadSuperchargedKnightRecommendedSave()">Use Recommended Save</button>
         <button class="pixel-button sound-target" onclick="loadSuperchargedKnightExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeSuperchargedKnightConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="knight-over-kris-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p><span class="knight-over-kris-text">Knight Over Kris</span> is best played from a new Chapter 2 save.</p>
+      <p>Starting fresh wipes only your DELTARUNE browser save records. Using your existing save keeps them unchanged.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="startKnightOverKrisNewSave()">Start New Save</button>
+        <button class="pixel-button sound-target" onclick="startKnightOverKrisExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeKnightOverKrisConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="noelle-edition-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p><strong>DR. CHAP.1 NOELLE EDITION</strong> is best played from the beginning.</p>
+      <p>Starting fresh wipes only Noelle Edition's separate browser save. Your regular DELTARUNE saves are not affected.</p>
+      <div class="modal-actions">
+        <button class="pixel-button danger sound-target" onclick="startNoelleEditionNewSave()">Start New Save</button>
+        <button class="pixel-button sound-target" onclick="startNoelleEditionExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeNoelleEditionConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -3856,12 +4294,11 @@
     const SAVE_DIR_MODE = 16895;
     const AUDIO_ON_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path>';
     const AUDIO_OFF_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M22 9l-6 6"></path><path d="M16 9l6 6"></path>';
-    const OLD_LAYOUT_URL = "old-layout.html";
     const FEATURED_SAVE_URL = "camzzz_deltarune_allbossessave.data";
 
     function startAudio() {
       if (!audioStarted && audio) {
-        applySiteAudio(document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || "ch3", false);
+        applySiteAudio(document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || "ch5", false);
         applySiteMusicVolume();
         audio.play().catch(() => {});
         audioStarted = true;
@@ -3894,7 +4331,7 @@
 
     document.addEventListener("mouseover", event => {
       const target = event.target.closest(".sound-target, .row, .pixel-button, .save-button, .game-card, .brand-link");
-      if (target) playMove();
+      if (target && !target.contains(event.relatedTarget)) playMove();
     });
 
     document.addEventListener("click", event => {
@@ -4029,6 +4466,7 @@
     }
 
     function openSettings() {
+      closeChangelog();
       applySiteMusicVolume();
       document.getElementById("settings-modal").classList.add("open");
     }
@@ -4037,20 +4475,32 @@
       document.getElementById("settings-modal").classList.remove("open");
     }
 
+    function openChangelog() {
+      closeSettings();
+      document.getElementById("changelog-modal").classList.add("open");
+    }
+
+    function closeChangelog() {
+      document.getElementById("changelog-modal").classList.remove("open");
+    }
+
     function openCreditsPage() {
       closeSettings();
       showPage("credits");
     }
 
-    function useClassicLayout() {
-      closeSettings();
-      loadStandalonePage(OLD_LAYOUT_URL);
-    }
-
-    function useNewLayout() {
-      localStorage.setItem("dul_layout", "new");
-      closeSettings();
-      showPage("home");
+    function toggleCatalogCategory(pageId, category, button) {
+      const page = document.getElementById(pageId);
+      if (!page) return;
+      const nextPressed = button.getAttribute("aria-pressed") !== "true";
+      button.setAttribute("aria-pressed", nextPressed ? "true" : "false");
+      const activeCategories = new Set(
+        Array.from(page.querySelectorAll(".category-filter[aria-pressed='true']"))
+          .map(filter => filter.dataset.category)
+      );
+      page.querySelectorAll(".game-card[data-category]").forEach(card => {
+        card.hidden = !activeCategories.has(card.dataset.category);
+      });
     }
 
     async function loadRemotePage(url) {
@@ -4120,11 +4570,19 @@
     }
 
     function loadTSUnderswap() {
-      loadRemotePage(TS_UNDERSWAP_BASE + "index.html?v=ts-underswap-2-1-2-20260901h");
+      loadRemotePage(TS_UNDERSWAP_BASE + "index.html?v=ts-underswap-2-1-2-20260917-runner-fix");
     }
 
     function loadUndertaleYellow() {
       loadRemotePage(UNDERTALE_YELLOW_BASE + "index.html?v=undertale-yellow-20260901a");
+    }
+
+    function loadUndertaleRedYellow() {
+      loadRemotePage(FILES_BASE + "undertale-red-yellow/index.html?v=undertale-red-yellow-2.2-worker");
+    }
+
+    function loadStarRune() {
+      loadRemotePage(FILES_BASE + "starrune/index.html?v=starrune-1.1");
     }
 
     function loadDeltarunePluggedDream() {
@@ -4255,6 +4713,22 @@
       document.getElementById("four-party-members-modal").classList.remove("open");
     }
 
+    function openKnightOverKrisConfirm() {
+      document.getElementById("knight-over-kris-modal").classList.add("open");
+    }
+
+    function closeKnightOverKrisConfirm() {
+      document.getElementById("knight-over-kris-modal").classList.remove("open");
+    }
+
+    function openNoelleEditionConfirm() {
+      document.getElementById("noelle-edition-modal").classList.add("open");
+    }
+
+    function closeNoelleEditionConfirm() {
+      document.getElementById("noelle-edition-modal").classList.remove("open");
+    }
+
     function launchFourPartyMembers() {
       showKaizoLoading("Loading Four Party Members...");
       loadRemotePage(FILES_BASE + "four-party-members/chapter2/index.html?v=1.0.5");
@@ -4296,6 +4770,7 @@
 
     const PRESENCE_SOCKET_URL = "wss://dul-presence.dul-presence-worker.workers.dev/presence";
     const PRESENCE_ENABLED_STORAGE_KEY = "dul_presence_enabled";
+    const MOBILE_CONTROLS_STORAGE_KEY = "toby_web_mobile_controls";
     const PRESENCE_CLIENT_ID_STORAGE_KEY = "toby_web_presence_client_id";
     let presenceSocket = null;
     let presenceReconnectTimer = 0;
@@ -4341,6 +4816,24 @@
       updatePresenceControls();
       if (enabled) connectCloudflarePresenceCounter();
       else disconnectCloudflarePresence();
+    }
+
+    function isMobileControlsEnabled() {
+      return localStorage.getItem(MOBILE_CONTROLS_STORAGE_KEY) === "on";
+    }
+
+    function updateMobileControlsSetting() {
+      const enabled = isMobileControlsEnabled();
+      document.querySelectorAll("[data-mobile-controls]").forEach(button => {
+        const selected = button.dataset.mobileControls === (enabled ? "on" : "off");
+        button.classList.toggle("selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+    }
+
+    function setMobileControlsEnabled(enabled) {
+      localStorage.setItem(MOBILE_CONTROLS_STORAGE_KEY, enabled ? "on" : "off");
+      updateMobileControlsSetting();
     }
 
     function setPresenceCount(value) {
@@ -5378,12 +5871,110 @@
       showPage("dynamic-equips");
     }
 
+    function loadSideBExtended() {
+      showPage("side-b-extended");
+    }
+
+    function loadSwordRoute() {
+      showPage("sword-route");
+    }
+
+    function loadChapter1Genocide() {
+      loadRemotePage(FILES_BASE + "chapter1-genocide/chapter1/index.html?v=1.0");
+    }
+
+    function openThornKnightConfirm() {
+      document.getElementById("thorn-knight-modal").classList.add("open");
+    }
+
+    function closeThornKnightConfirm() {
+      document.getElementById("thorn-knight-modal").classList.remove("open");
+    }
+
+    function loadThornKnightExistingSave() {
+      loadModWithExistingSave(closeThornKnightConfirm, "Thorn Knight", FILES_BASE + "thorn-knight/chapter3/index.html?v=2.3", "Thorn Knight");
+    }
+
+    async function loadThornKnightRecommendedSave() {
+      try {
+        closeThornKnightConfirm();
+        showKaizoLoading("Loading Thorn Knight...");
+        await installModSave(KAIZO_SAVE_URL, KAIZO_SAVE_KEY, "Thorn Knight");
+        loadRemotePage(FILES_BASE + "thorn-knight/chapter3/index.html?v=2.3");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Thorn Knight could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     function loadUndertaleRoaringKnight() {
       window.location.assign(FILES_BASE + "undertale-roaring-knight/index.html?v=2.1");
     }
 
     function loadUndertaleSpamton() {
       window.location.assign(FILES_BASE + "undertale-spamton/index.html?v=1.0");
+    }
+
+    function loadJevilStale() {
+      window.location.assign(FILES_BASE + "jevilstale/index.html?v=1.0");
+    }
+
+    function loadKnightOverKris() {
+      window.location.assign(FILES_BASE + "knight-over-kris/chapter2/index.html?v=1.0");
+    }
+
+    async function startKnightOverKrisNewSave() {
+      try {
+        closeKnightOverKrisConfirm();
+        showKaizoLoading("Starting a new Knight Over Kris save...");
+        await ensureGameSaveDatabase();
+        await wipeScopedSaveRecords("deltarune");
+        loadKnightOverKris();
+      } catch (err) {
+        hideKaizoLoading();
+        alert("A new Knight Over Kris save could not be prepared.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function startKnightOverKrisExistingSave() {
+      closeKnightOverKrisConfirm();
+      loadKnightOverKris();
+    }
+
+    function loadGodhome() {
+      window.location.assign(FILES_BASE + "godhome/index.html?v=1.0");
+    }
+
+    function loadBerdlyCom() {
+      window.location.assign(FILES_BASE + "berdly-com/index.html?v=1.0.27");
+    }
+
+    function loadNoelleEdition() {
+      window.location.assign(FILES_BASE + "dr-ch1-noelle/index.html?v=3.2-worker");
+    }
+
+    async function startNoelleEditionNewSave() {
+      try {
+        closeNoelleEditionConfirm();
+        showKaizoLoading("Starting a new Noelle Edition save...");
+        const root = await navigator.storage.getDirectory();
+        try {
+          const saves = await root.getDirectoryHandle("saves", { create: false });
+          await saves.removeEntry("dr-ch1-noelle", { recursive: true });
+        } catch (error) {
+          if (error.name !== "NotFoundError") throw error;
+        }
+        loadNoelleEdition();
+      } catch (err) {
+        hideKaizoLoading();
+        alert("A new Noelle Edition save could not be prepared.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function startNoelleEditionExistingSave() {
+      closeNoelleEditionConfirm();
+      loadNoelleEdition();
     }
 
     function openSuperchargedKnightConfirm() {
@@ -5414,6 +6005,14 @@
         gamestarted = false;
         alert("Dynamic Equips Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
       }
+    }
+
+    function loadSideBExtendedChapter(chapter) {
+      loadRemotePage(FILES_BASE + "side-b-extended/chapter" + chapter + "/index.html?v=2.1");
+    }
+
+    function loadSwordRouteChapter(chapter) {
+      loadRemotePage(FILES_BASE + "sword-route/chapter" + chapter + "/index.html?v=3.3");
     }
 
     function loadDeltaruneNetworkChapter(chapter) {
@@ -5476,6 +6075,7 @@
     document.addEventListener("keydown", event => {
       if (gamestarted) return;
       if (event.key === "Escape") {
+        closeChangelog();
         closeSettings();
         closeKaizoConfirm();
         closeJevilKaizoConfirm();
@@ -5485,6 +6085,8 @@
         closeDeterminationFloweryConfirm();
         closeVioletKnightConfirm();
         closeAquaOverKrisConfirm();
+        closeKnightOverKrisConfirm();
+        closeNoelleEditionConfirm();
         closeSaveConverter();
         return;
       }
@@ -5512,11 +6114,12 @@
       }
     });
 
-    applySiteBackground(localStorage.getItem("dul_site_background") || "ch3");
+    applySiteBackground(localStorage.getItem("dul_site_background") || "ch5");
     applyTabAppearance();
     updateAudioButtons();
     localStorage.removeItem("dul_presence_service");
     updatePresenceControls();
+    updateMobileControlsSetting();
     if (isPresenceEnabled()) connectCloudflarePresenceCounter();
 
     const initialPage = location.hash.replace("#", "");

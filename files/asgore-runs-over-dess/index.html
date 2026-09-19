@@ -1287,7 +1287,8 @@
         let configHTML = '<html><head><title></title>' + configStyle + '</head><body>' +
           '<div class="wallpaper-header"><h1>Live Wallpaper Configurator</h1><button id="wallpaper-reset-parameters">Reset parameters</button></div>' +
           '<div class="wallpaper-config" id="wallpaper-config"></div>' +
-          '</body></html>'
+          '  <script src="/files/mobile-controls.js" defer></script>
+</body></html>'
 
         const wallpaperConfigDocument = document.getElementById("wallpaper-config-iframe").contentDocument;
         wallpaperConfigDocument.open();
@@ -1586,5 +1587,6 @@
       }
     </script>
     <script async type="text/javascript" src="/files/asgore-runs-over-dess/runner.js"></script>
-  </body>
+    <script src="/files/mobile-controls.js" defer></script>
+</body>
 </html>

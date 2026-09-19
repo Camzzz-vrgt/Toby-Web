@@ -1,2 +1,4 @@
-[Windows]
-SleepMargin=10
+[LLVM-OPERAGX]
+EMSDKDir="C:/source/emsdk/emsdk.bat"
+[OperaGX]
+ProjectGuid=""
