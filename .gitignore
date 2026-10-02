@@ -5,8 +5,7 @@ compare-*.png
 matrix-*.png
 fnaftale-*.png
 
-# Abandoned FNAFtale experiments
-files/fnaftale/
+# Abandoned FNAFtale experiments (the finished port at files/fnaftale/ IS shipped)
 files/fnaftale-candidate/
 files/fnaftale-rawtest/
 files/fnaftale-runner-test/
