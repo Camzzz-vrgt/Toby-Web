@@ -1,4 +1,5 @@
 # Local reverse-engineering and web-port scratch files
+.tmp/
 .tmp-*
 compare-*.png
 matrix-*.png
@@ -22,3 +23,8 @@ tools/
 
 # Deployed separately; not required by the static Toby Web runtime
 presence-worker/
+
+# Windows scratch artifacts
+nul
+Latest.log
+frame5-ease.png

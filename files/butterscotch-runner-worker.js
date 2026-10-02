@@ -73,6 +73,9 @@ self.addEventListener("message", async event => {
   if (message.type === "start") {
     module.specialHTMLTargets["#canvas"] = message.canvas;
     module.canvas = message.canvas;
+    if (module._setCanvasSize && message.canvas.width > 0 && message.canvas.height > 0) {
+      module._setCanvasSize(message.canvas.width, message.canvas.height);
+    }
     module.ccall(
       "startRunner",
       null,
@@ -90,6 +93,38 @@ self.addEventListener("message", async event => {
     if (message.key >= 0 && message.key < count) {
       module.HEAPU8[pointer + message.key] = 1;
     }
+    return;
+  }
+
+  if (message.type === "mouse" && module._setMousePos) {
+    module._setMousePos(message.x, message.y);
+    return;
+  }
+
+  if (message.type === "mouseButton" && module._setMouseButton) {
+    module._setMouseButton(message.button, message.down ? 1 : 0);
+    return;
+  }
+
+  if (message.type === "dumpState") {
+    if (module._requestDump) {
+      module._requestDump(); // game thread posts the dump itself
+    } else if (module._dumpStateJson) {
+      const ptr = module._dumpStateJson();
+      const json = ptr ? module.UTF8ToString(ptr) : null;
+      if (ptr) module._free(ptr);
+      self.postMessage({ type: "dumpState", json });
+    }
+    return;
+  }
+
+  if (message.type === "gotoRoom" && module._debugGotoRoom) {
+    module._debugGotoRoom(message.room);
+    return;
+  }
+
+  if (message.type === "stepFrames" && module._debugStepFrames) {
+    module._debugStepFrames(message.frames);
     return;
   }
 

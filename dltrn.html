@@ -34,6 +34,7 @@
     :root {
       --white: #ffffff;
       --yellow: #ffff00;
+      --purple: var(--yellow);
       --red: #ff2d4f;
       --blue: #aee8ff;
       --panel: rgba(0, 0, 0, 0.9);
@@ -194,7 +195,6 @@
     .save-button:hover,
     .home-logo-link:hover,
     .brand-link:hover,
-    .background-option:hover,
     .row:hover {
       color: var(--yellow);
       border-color: var(--yellow);
@@ -238,7 +238,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 230px;
+      justify-self: center;
       border: 2px solid transparent;
       background: transparent;
       text-decoration: none;
@@ -264,6 +264,33 @@
       object-fit: contain;
       image-rendering: crisp-edges;
       image-rendering: pixelated;
+    }
+
+    body[data-button-layout^="stacked-"] .home-choices {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: clamp(44px, 9vh, 84px);
+      width: min(680px, calc(100vw - 80px));
+      box-sizing: border-box;
+    }
+
+    body[data-button-layout="stacked-left"] .home-choices {
+      left: clamp(60px, 10vw, 170px);
+      transform: translateY(-50%);
+    }
+
+    body[data-button-layout="stacked-right"] .home-choices {
+      left: auto;
+      right: clamp(36px, 6vw, 96px);
+      transform: translateY(-50%);
+    }
+
+    body[data-button-layout^="stacked-"] .home-logo-link {
+      height: auto;
+    }
+
+    body[data-button-layout^="stacked-"] .home-logo-link img {
+      width: min(100%, 620px);
     }
 
     .download-pixel-icon {
@@ -345,8 +372,26 @@
       object-fit: cover;
     }
 
+    .theme-page-link {
+      width: 78px;
+      height: 78px;
+      padding: 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .theme-page-link img {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+
+
     .online-presence {
-      align-self: center;
+      align-self: end;
       display: inline-flex;
       align-items: baseline;
       gap: 8px;
@@ -773,6 +818,40 @@
       color: var(--white);
     }
 
+    .catalog-search {
+      min-height: 36px;
+      width: 190px;
+      border: 2px solid #777;
+      border-radius: 0;
+      background: var(--panel-solid);
+      color: var(--white);
+      padding: 5px 9px;
+      font: inherit;
+      font-size: 0.8rem;
+      line-height: 1;
+      text-transform: uppercase;
+      box-sizing: border-box;
+    }
+
+    .catalog-search::placeholder {
+      color: #999;
+      text-transform: uppercase;
+    }
+
+    .catalog-search:hover {
+      border-color: var(--purple);
+    }
+
+    .catalog-search:focus,
+    .catalog-search:focus-visible {
+      border-color: var(--purple);
+      outline: none;
+    }
+
+    .catalog-search:focus::placeholder {
+      color: #666;
+    }
+
     #credits-page .extras-title {
       line-height: 1.25;
       padding: 10px 10px 12px;
@@ -786,6 +865,7 @@
     }
 
     .game-card {
+      position: relative;
       width: var(--extra-card-size);
       height: calc(var(--extra-card-size) + var(--extra-card-label-height));
       min-height: calc(var(--extra-card-size) + var(--extra-card-label-height));
@@ -832,6 +912,25 @@
       line-height: 1.15;
       overflow: hidden;
       overflow-wrap: anywhere;
+    }
+
+    .game-card .new-badge {
+      position: absolute;
+      z-index: 2;
+      top: 6px;
+      right: 6px;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 24px;
+      padding: 0;
+      border: 2px solid var(--white);
+      background: #000;
+      color: var(--yellow);
+      font-size: 0.62rem;
+      line-height: 1;
+      text-align: center;
+      pointer-events: none;
     }
 
     .save-converter-card-art {
@@ -906,6 +1005,11 @@
       color: #8fd8ff;
     }
 
+    .game-card.dojo-demo3 img {
+      object-fit: cover;
+      image-rendering: auto;
+    }
+
     .game-card.supercharged img {
       width: 100%;
       height: 100%;
@@ -975,6 +1079,14 @@
 
     .aqua-over-kris-text {
       color: #55ddea;
+    }
+
+    .noelle-over-kris-text {
+      color: #ffe08a;
+    }
+
+    .kris-in-a-skirt-text {
+      color: #ffa2b4;
     }
 
     .no-bullet-cooldowns-text {
@@ -1085,12 +1197,10 @@
 
     .credits-content {
       width: calc(100vw - 144px);
-      max-width: 1120px;
       padding-bottom: 28px;
     }
 
     .site-credits-stage {
-      min-height: calc(100vh - 190px);
       display: flex;
       flex-direction: column;
     }
@@ -1106,7 +1216,9 @@
     .people-credits {
       display: grid;
       gap: 14px;
-      width: min(760px, 100%);
+      width: 100%;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      align-items: stretch;
     }
 
     .person-credit,
@@ -1170,7 +1282,6 @@
     }
 
     .game-credits-disclosure {
-      margin-top: auto;
       padding-top: 28px;
     }
 
@@ -1217,6 +1328,8 @@
     .game-credit-list {
       display: grid;
       gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      align-items: stretch;
     }
 
     .game-credit-row {
@@ -1256,6 +1369,8 @@
     .source-link.determinationflowery, .game-credit-row.determinationflowery { --source-hover: #ff8fb5; }
     .source-link.violetknight, .game-credit-row.violetknight { --source-hover: #b77cff; }
     .source-link.aquaoverkris, .game-credit-row.aquaoverkris { --source-hover: #55ddea; }
+    .source-link.noelleoverkris, .game-credit-row.noelleoverkris { --source-hover: #ffe08a; }
+    .source-link.krisinaskirt, .game-credit-row.krisinaskirt { --source-hover: #ffa2b4; }
     .source-link.nobulletcooldowns, .game-credit-row.nobulletcooldowns { --source-hover: #ffb52e; }
     .source-link.offlinebingo, .game-credit-row.offlinebingo { --source-hover: #74e060; }
     .source-link.chaosrandomizer, .game-credit-row.chaosrandomizer { --source-hover: #727cff; }
@@ -1545,17 +1660,22 @@
     #jevil-kaizo-modal,
     #four-party-members-modal,
     #supercharged-knight-modal,
+    #knight-restoration-modal,
     #thorn-knight-modal,
     #knight-over-kris-modal,
     #noelle-edition-modal,
     #cyan-modal,
     #dojo-modal,
+    #dojo-demo3-modal,
     #bossrush-modal,
     #determination-flowery-modal,
     #violet-knight-modal,
     #aqua-over-kris-modal,
+    #noelle-over-kris-modal,
+    #kris-in-a-skirt-modal,
     #save-converter-modal,
     #featured-save-info-modal,
+    #ut-saves-modal,
     #kaizo-loading {
       position: fixed;
       inset: 0;
@@ -1573,17 +1693,22 @@
     #jevil-kaizo-modal.open,
     #four-party-members-modal.open,
     #supercharged-knight-modal.open,
+    #knight-restoration-modal.open,
     #thorn-knight-modal.open,
     #knight-over-kris-modal.open,
     #noelle-edition-modal.open,
     #cyan-modal.open,
     #dojo-modal.open,
+    #dojo-demo3-modal.open,
     #bossrush-modal.open,
     #determination-flowery-modal.open,
     #violet-knight-modal.open,
     #aqua-over-kris-modal.open,
+    #noelle-over-kris-modal.open,
+    #kris-in-a-skirt-modal.open,
     #save-converter-modal.open,
     #featured-save-info-modal.open,
+    #ut-saves-modal.open,
     #kaizo-loading.open {
       display: flex;
     }
@@ -1774,6 +1899,12 @@
       background: #000;
     }
 
+    .presence-service-control.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      padding: 4px;
+    }
+
     .presence-service-option {
       min-height: 42px;
       border: 2px solid #555;
@@ -1930,66 +2061,12 @@
       background: #000;
     }
 
-    .background-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
-      gap: 8px;
-      max-height: 260px;
-      overflow: auto;
-      padding-right: 4px;
-    }
 
-    .background-option {
-      min-height: 92px;
-      border: 2px solid var(--white);
-      background: #000;
-      color: var(--white);
-      padding: 6px;
-      cursor: pointer;
-      display: grid;
-      grid-template-rows: 58px auto;
-      gap: 6px;
-      text-transform: uppercase;
-      font-family: inherit;
-      font-size: 0.72rem;
-      line-height: 1.1;
-    }
 
-    .background-option .background-label {
-      align-self: center;
-      justify-self: center;
-      max-width: 100%;
-      text-align: center;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
 
-    .background-option .background-label.long {
-      font-size: 0.52rem;
-      line-height: 0.95;
-    }
 
-    .background-option.selected {
-      color: var(--yellow);
-      border-color: var(--yellow);
-    }
 
-    .background-preview {
-      width: 100%;
-      height: 58px;
-      border: 2px solid #555;
-      background-color: #000;
-      background-image: var(--bg-preview, none);
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      image-rendering: crisp-edges;
-      image-rendering: pixelated;
-    }
 
-    .background-preview.black {
-      border-color: var(--white);
-    }
 
     #featured-save-box {
       position: fixed;
@@ -2035,8 +2112,8 @@
     }
 
     .featured-save-info-btn:hover {
-      color: #ffff00;
-      border-color: #ffff00;
+      color: var(--yellow);
+      border-color: var(--yellow);
     }
 
     .featured-save-btn {
@@ -2057,7 +2134,7 @@
     }
 
     .featured-save-btn:hover {
-      color: #ffff00;
+      color: var(--yellow);
       border-color: #ffffff;
     }
 
@@ -2081,7 +2158,7 @@
     .save-info-chapter h3 {
       margin: 0 0 8px;
       font-size: 1rem;
-      color: #ffff00;
+      color: var(--yellow);
       text-transform: uppercase;
     }
 
@@ -2132,6 +2209,50 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
+    }
+
+    #undertale-saves-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 900;
+      padding: 8px 14px;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .ut-save-group {
+      margin-top: 14px;
+    }
+
+    .ut-save-group h3 {
+      margin: 0 0 4px;
+      color: var(--yellow);
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .ut-save-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-top: 1px solid #333;
+    }
+
+    .ut-save-row .save-name {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ut-save-row .save-name small {
+      display: block;
+      color: #ff6666;
+      font-size: 0.78em;
+      margin-top: 2px;
     }
 
     .undertale-game-page {
@@ -2310,7 +2431,7 @@
         gap: 24px;
       }
       .home-logo-link {
-        height: 140px;
+        height: auto;
       }
       .home-logo-link img {
         width: min(86vw, 560px);
@@ -2884,9 +3005,100 @@
         font-size: clamp(1.5rem, 7.8vh, 2rem);
       }
     }
+
+    .game-card[class] img {
+      image-rendering: auto;
+    }
+
+    .row:hover .chapter,
+    .row.selected .chapter,
+    .row.selected .title,
+    .row:hover .title {
+      color: var(--yellow);
+    }
+
+    body.community-theme {
+      color: var(--theme-text, #fff);
+    }
+
+    body.community-theme .settings-toggle:hover,
+    body.community-theme .download-toggle:hover,
+    body.community-theme .changelog-toggle:hover,
+    body.community-theme .pixel-button:hover,
+    body.community-theme .save-button:hover,
+    body.community-theme .brand-link:hover,
+    body.community-theme .game-card:hover,
+    body.community-theme .extras-home:hover,
+    body.community-theme .mods-home:hover,
+    body.community-theme .featured-save-info-btn:hover,
+    body.community-theme .game-credits-disclosure summary:hover,
+    body.community-theme .converter-file-label:hover,
+    body.community-theme .presence-service-option:hover {
+      color: var(--theme-hover);
+      border-color: var(--theme-hover);
+    }
+
+    body.community-theme .home-logo-link:hover img,
+    body.community-theme .site-volume-slider:hover {
+      border-color: var(--theme-hover);
+    }
+
+    body.community-theme .category-filter:hover,
+    body.community-theme .person-credit:hover,
+    body.community-theme .game-credit-row:hover,
+    body.community-theme .row:hover,
+    body.community-theme .row:hover .chapter,
+    body.community-theme .row:hover .title,
+    body.community-theme .featured-save-btn:hover {
+      color: var(--theme-hover);
+    }
+
+    body.community-theme .category-filter:hover,
+    body.community-theme .catalog-search:hover,
+    body.community-theme .catalog-search:focus,
+    body.community-theme .person-credit:hover,
+    body.community-theme .game-credit-row:hover,
+    body.community-theme .row:hover {
+      border-color: var(--theme-hover);
+    }
+
+    body.community-theme .category-filter[aria-pressed="true"]:hover,
+    body.community-theme .site-volume-slider:hover::-webkit-slider-thumb,
+    body.community-theme .site-volume-slider:hover::-moz-range-thumb {
+      background: var(--theme-hover);
+    }
+
+    body.community-theme .site-volume-slider:hover,
+    body.community-theme .tab-appearance-control:hover {
+      box-shadow: 0 0 0 2px #000, 0 0 0 4px var(--theme-hover);
+    }
+
+    body.community-theme .site-volume-slider:hover::-webkit-slider-thumb,
+    body.community-theme .site-volume-slider:hover::-moz-range-thumb {
+      box-shadow: 0 0 0 2px var(--theme-hover);
+    }
+
+    body.community-theme .toby-web-byline:hover,
+    body.community-theme .toby-web-byline:focus-visible {
+      color: #b56cff !important;
+    }
+
+    body.community-theme .home-logo-link:hover {
+      filter: url(#accent-tint);
+    }
+
+    body.community-theme .toby-web-logo-home:hover img,
+    body.community-theme .toby-web-logo-home:focus-visible img {
+      filter: url(#accent-silhouette) drop-shadow(2px 0 #000) drop-shadow(-2px 0 #000) drop-shadow(0 2px #000) drop-shadow(0 -2px #000);
+    }
+
+    .accent-flood {
+      flood-color: var(--theme-hover, #ffff00);
+    }
   </style>
 </head>
 <body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden"><filter id="accent-tint"><feFlood class="accent-flood" flood-color="#ffff00" result="f"/><feComposite in="f" in2="SourceGraphic" operator="arithmetic" k1="1" k2="0" k3="0" k4="0"/></filter><filter id="accent-silhouette"><feFlood class="accent-flood" flood-color="#ffff00" result="f"/><feComposite in="f" in2="SourceAlpha" operator="in"/></filter></svg>
   <button class="changelog-toggle sound-target" onclick="openChangelog()">Changelog</button>
   <a class="download-toggle sound-target" href="tobywebsinglefile.html" download="tobywebsinglefile.html" aria-label="Download Toby Web single-file launcher" title="Download single-file launcher">
     <span class="download-pixel-icon" aria-hidden="true"></span>
@@ -2922,6 +3134,9 @@
         <div class="brand-links">
           <a class="brand-link discord-link sound-target" href="https://discord.gg/RjpzzRXNn6" target="_blank" rel="noopener noreferrer" title="Join the Toby Web Discord">
             <img src="files/discord-icon.png" alt="Discord">
+          </a>
+          <a class="brand-link theme-page-link sound-target" href="themes.html" title="Themes" aria-label="Open themes">
+            <img src="files/theme-page-icon.png" alt="">
           </a>
           <div id="online-presence" class="online-presence" title="People currently using Toby Web" aria-live="polite">
             <span>Online:</span>
@@ -2988,6 +3203,7 @@
 
     <section id="undertale-page" class="page classic-game-page undertale-game-page">
       <button class="pixel-button back-button sound-target" onclick="showPage('home')">Back</button>
+      <button id="undertale-saves-btn" class="pixel-button sound-target" onclick="openUtSaves()">Undertale Boss Saves</button>
       <div class="logo-container">
         <img src="files/home-undertale-tight.png" alt="Undertale" class="logo">
       </div>
@@ -3011,6 +3227,7 @@
           <div class="catalog-heading">
             <span class="extras-title">mods</span>
             <div class="category-filters" role="group" aria-label="Filter mods">
+              <input class="catalog-search" type="search" placeholder="Search" aria-label="Search mods" autocomplete="off" spellcheck="false" oninput="searchCatalog('mods-page')">
               <button class="category-filter sound-target" type="button" data-category="deltarune" aria-pressed="true" onclick="toggleCatalogCategory('mods-page', 'deltarune', this)">Deltarune</button>
               <button class="category-filter sound-target" type="button" data-category="undertale" aria-pressed="true" onclick="toggleCatalogCategory('mods-page', 'undertale', this)">Undertale</button>
               <button class="category-filter sound-target" type="button" data-category="knight" aria-pressed="true" onclick="toggleCatalogCategory('mods-page', 'knight', this)">Knight Mods</button>
@@ -3064,6 +3281,51 @@
           <img src="files/undertale-spamton/icon.jpg" alt="Undertale: You Play as Spamton">
           <span>Undertale: You Play as Spamton</span>
         </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleAqua()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-aqua/icon.png" alt="Undertale but You're Aqua">
+          <span>Undertale but You're Aqua</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleSplitJump()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-split-jump/icon.jpg" alt="Undertale: Split Jump">
+          <span>Undertale: Split Jump</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleChooseYourSoul()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-choose-your-soul/icon.png" alt="Undertale: Choose Your Own Soul">
+          <span>Undertale: Choose Your Own Soul</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleManySouls()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-many-souls/icon.png" alt="Undertale: Many Souls">
+          <span>Undertale: Many Souls</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleGasterBlaster()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-gaster-blaster/icon.png" alt="Undertale with a Gaster Blaster">
+          <span>Undertale: Gaster Blaster</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadBedLump()">
+          <span class="new-badge">NEW</span>
+          <img src="files/bedlump/icon.png" alt="Bed Lump">
+          <span>Bed Lump</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadCUndertale()">
+          <span class="new-badge">NEW</span>
+          <img src="files/c-undertale/icon.png" alt="C!UNDERTALE Redux">
+          <span>C!UNDERTALE</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleMagmatomb()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-magmatomb/icon.png" alt="Undertale Magmatomb">
+          <span>Undertale Magmatomb</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadWordleOrDie()">
+          <span class="new-badge">NEW</span>
+          <img src="files/wordle-or-die/icon.png" alt="Deltarune: Wordle or Die">
+          <span>Wordle or Die</span>
+        </button>
         <button class="game-card cyan sound-target" data-category="knight" onclick="openCyanConfirm()">
           <img src="files/cyan-knight/icon.png" alt="Cyan Knight">
           <span class="cyan-text">Cyan Knight</span>
@@ -3071,6 +3333,11 @@
         <button class="game-card dojo sound-target" data-category="deltarune" onclick="openDojoConfirm()">
           <img src="files/dojo-customizer/icon.png" alt="Full Dojo Customizer">
           <span class="dojo-text">Dojo Customizer</span>
+        </button>
+        <button class="game-card dojo dojo-demo3 sound-target" data-category="deltarune" onclick="openDojoDemo3Confirm()">
+          <span class="new-badge">NEW</span>
+          <img src="files/dojo-customizer-demo3/cover.jpg" alt="Full Dojo Customizer: Battle Any Enemies">
+          <span class="dojo-text">Full Dojo Customizer (Every Enemy)</span>
         </button>
         <button class="game-card bossrush sound-target" data-category="deltarune" onclick="openBossRushConfirm()">
           <img src="files/ultimate-boss-rush/icon.png" alt="Ultimate Boss Rush">
@@ -3091,6 +3358,16 @@
         <button class="game-card aquaoverkris sound-target" data-category="deltarune" onclick="openAquaOverKrisConfirm()">
           <img src="files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
           <span class="aqua-over-kris-text">Aqua Over Kris</span>
+        </button>
+        <button class="game-card noelleoverkris sound-target" data-category="deltarune" onclick="openNoelleOverKrisConfirm()">
+          <span class="new-badge">NEW</span>
+          <img src="files/noelle-over-kris/icon.png" alt="Noelle Over Kris">
+          <span class="noelle-over-kris-text">Noelle Over Kris</span>
+        </button>
+        <button class="game-card krisinaskirt sound-target" data-category="deltarune" onclick="openKrisInASkirtConfirm()">
+          <span class="new-badge">NEW</span>
+          <img src="files/kris-in-a-skirt/icon.png" alt="Kris In A Skirt">
+          <span class="kris-in-a-skirt-text">Kris In A Skirt</span>
         </button>
         <button class="game-card nobulletcooldowns sound-target" data-category="deltarune" onclick="loadNoBulletCooldowns()">
           <img src="files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
@@ -3116,13 +3393,29 @@
           <img src="files/side-b-extended/icon.jpg" alt="Side B Extended">
           <span>Side B Extended</span>
         </button>
-        <button class="game-card update11-final sound-target" data-category="deltarune" onclick="loadSwordRoute()">
-          <img src="files/sword-route/icon.jpg" alt="Deltarune Sword Route">
-          <span>Deltarune: Sword Route</span>
-        </button>
         <button class="game-card update11-final sound-target" data-category="deltarune" onclick="loadChapter1Genocide()">
           <img src="files/chapter1-genocide/icon.jpg" alt="Deltarune Chapter 1 Genocide Retake">
           <span>Chapter 1 Genocide Retake</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadANewDragon()">
+          <span class="new-badge">NEW</span>
+          <img src="files/a-new-dragon/icon.jpg" alt="Deltarune: A New Dragon">
+          <span>Deltarune: A New Dragon</span>
+        </button>
+        <button class="game-card sound-target" data-category="knight" onclick="openKnightRestorationConfirm()">
+          <span class="new-badge">NEW</span>
+          <img src="files/knight-restoration/icon.jpg" alt="Knight Restoration Project">
+          <span>Knight Restoration Project</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadKrisBleeding()">
+          <span class="new-badge">NEW</span>
+          <img src="files/kris-bleeding/icon.png" alt="Deltarune but Kris is Bleeding">
+          <span>Kris Is Bleeding</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadNxrune()">
+          <span class="new-badge">NEW</span>
+          <img src="files/nxrune/icon.png" alt="NXRUNE">
+          <span>NXRUNE</span>
         </button>
       </div>
     </section>
@@ -3157,21 +3450,6 @@
       <div class="menu">
         <a href="javascript:loadSideBExtendedChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
         <a href="javascript:loadSideBExtendedChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
-      </div>
-    </section>
-
-    <section id="sword-route-page" class="page subpage mod-chapter-page">
-      <header class="subpage-header">
-        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
-        <div class="network-logo-card">
-          <img src="files/sword-route/icon.jpg" alt="">
-          <span>Deltarune: Sword Route</span>
-        </div>
-        <span></span>
-      </header>
-      <div class="menu">
-        <a href="javascript:loadSwordRouteChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt=""></a>
-        <a href="javascript:loadSwordRouteChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
       </div>
     </section>
 
@@ -3248,6 +3526,61 @@
       </div>
     </section>
 
+    <section id="kris-bleeding-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/kris-bleeding/icon.png" alt="">
+          <span>Kris Is Bleeding</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadKrisBleedingChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt=""></a>
+        <a href="javascript:loadKrisBleedingChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
+        <a href="javascript:loadKrisBleedingChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
+        <a href="javascript:loadKrisBleedingChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt=""></a>
+        <a href="javascript:loadKrisBleedingChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt=""></a>
+      </div>
+    </section>
+
+    <section id="nxrune-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/nxrune/icon.png" alt="">
+          <span>NXRUNE</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadNxruneChapter(1)" class="row sound-target"><span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt=""></a>
+        <a href="javascript:loadNxruneChapter(2)" class="row sound-target"><span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt=""></a>
+        <a href="javascript:loadNxruneChapter(3)" class="row sound-target"><span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt=""></a>
+        <a href="javascript:loadNxruneChapter(4)" class="row sound-target"><span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt=""></a>
+        <a href="javascript:loadNxruneChapter(5)" class="row sound-target"><span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt=""></a>
+      </div>
+    </section>
+
+    <section id="cyf-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('extras')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/create-your-frisk/icon.png" alt="">
+          <span>Create Your Frisk</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadCyfMod('')" class="row sound-target"><span class="chapter">Hub</span><span class="title">Mod Selector</span><img src="files/create-your-frisk/icon.png" alt=""></a>
+        <a href="javascript:loadCyfMod('Rouxls')" class="row sound-target"><span class="chapter">Mod</span><span class="title">Deltarune: Rouxls Kaard</span><img src="files/icons/1.png" alt=""></a>
+        <a href="javascript:loadCyfMod('VsTung')" class="row sound-target"><span class="chapter">Mod</span><span class="title">VS Tung Tung Tung Sahur</span><img src="files/icons/2.png" alt=""></a>
+        <a href="javascript:loadCyfMod('Pomni')" class="row sound-target"><span class="chapter">Mod</span><span class="title">Pomni Battle V2</span><img src="files/icons/3.png" alt=""></a>
+        <a href="javascript:loadCyfMod('SmurfCat')" class="row sound-target"><span class="chapter">Mod</span><span class="title">Smurf Cat Fight</span><img src="files/icons/4.png" alt=""></a>
+        <a href="javascript:loadCyfMod('NightmareSans')" class="row sound-target"><span class="chapter">Mod</span><span class="title">Nightmare Mode Sans</span><img src="files/icons/5.png" alt=""></a>
+      </div>
+    </section>
+
     <section id="aqua-page" class="page subpage">
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
@@ -3271,6 +3604,62 @@
           <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
         </a>
         <a href="javascript:loadAquaOverKrisChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="noelle-over-kris-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/noelle-over-kris/icon.png" alt="">
+          <span>Noelle Over Kris</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadNoelleOverKrisChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadNoelleOverKrisChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadNoelleOverKrisChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadNoelleOverKrisChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadNoelleOverKrisChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="kris-in-a-skirt-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/kris-in-a-skirt/icon.png" alt="">
+          <span>Kris In A Skirt</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadKrisInASkirtChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadKrisInASkirtChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadKrisInASkirtChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadKrisInASkirtChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadKrisInASkirtChapter(5)" class="row sound-target">
           <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
         </a>
       </div>
@@ -3311,6 +3700,7 @@
           <div class="catalog-heading">
             <span class="extras-title">extras</span>
             <div class="category-filters" role="group" aria-label="Filter extras">
+              <input class="catalog-search" type="search" placeholder="Search" aria-label="Search extras" autocomplete="off" spellcheck="false" oninput="searchCatalog('extras-page')">
               <button class="category-filter sound-target" type="button" data-category="deltarune" aria-pressed="true" onclick="toggleCatalogCategory('extras-page', 'deltarune', this)">Deltarune</button>
               <button class="category-filter sound-target" type="button" data-category="undertale" aria-pressed="true" onclick="toggleCatalogCategory('extras-page', 'undertale', this)">Undertale</button>
               <button class="category-filter sound-target" type="button" data-category="kristal" aria-pressed="true" onclick="toggleCatalogCategory('extras-page', 'kristal', this)">Kristal</button>
@@ -3361,6 +3751,116 @@
           <img src="files/undertale-red-yellow/icon.png" alt="Undertale Red &amp; Yellow">
           <span>Undertale Red &amp; Yellow</span>
         </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleYellowSoj()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-yellow-soj/icon.png" alt="Undertale Yellow: Shades of Justice">
+          <span>Undertale Yellow: Shades of Justice</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadFnaftale()">
+          <span class="new-badge">NEW</span>
+          <img src="files/fnaftale/icon.png" alt="FNAFtale">
+          <span>FNAFtale</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadOutertale()">
+          <span class="new-badge">NEW</span>
+          <img src="files/outertale/icon.png" alt="Outertale">
+          <span>Outertale</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUndertaleUncanny()">
+          <span class="new-badge">NEW</span>
+          <img src="files/undertale-uncanny/icon.png" alt="Undertale: Uncanny">
+          <span>Undertale: Uncanny</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadBadTimeTrio()">
+          <span class="new-badge">NEW</span>
+          <img src="files/bad-time-trio/icon.png" alt="Bad Time Trio">
+          <span>Bad Time Trio</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadDeltaruneSurvivors()">
+          <span class="new-badge">NEW</span>
+          <img src="files/deltarune-survivors/tobywebicon.png" alt="Deltarune Survivors">
+          <span>Deltarune Survivors</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadFlappyFlowery()">
+          <span class="new-badge">NEW</span>
+          <img src="files/flappy-flowery/tobywebicon.png" alt="Flappy Flowery">
+          <span>Flappy Flowery</span>
+        </button>
+        <button class="game-card sound-target" data-category="other" onclick="loadFriendInsideMe()">
+          <span class="new-badge">NEW</span>
+          <img src="files/friend-inside-me/tobywebicon.webp" alt="Friend Inside Me">
+          <span>Friend Inside Me</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadRalseiGotAGun()">
+          <span class="new-badge">NEW</span>
+          <img src="files/ralsei-got-a-gun/tobywebicon.png" alt="Ralsei's Got a Gun">
+          <span>Ralsei's Got a Gun</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadKromerKollectorNeo()">
+          <span class="new-badge">NEW</span>
+          <img src="files/kromer-kollector-neo/icon.png" alt="Kromer Kollector NEO">
+          <span>Kromer Kollector NEO</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadSpamtonDrivingSchool()">
+          <span class="new-badge">NEW</span>
+          <img src="files/spamton-driving-school/icon.png" alt="Spamton Goes To Driving School">
+          <span>Spamton Driving School</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadYourTakingTooLong()">
+          <span class="new-badge">NEW</span>
+          <img src="files/taking-too-long/icon.png" alt="DELTARUNE: YOUR TAKING TOO LONG">
+          <span>YOUR TAKING TOO LONG</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadKawkawClicker()">
+          <span class="new-badge">NEW</span>
+          <img src="files/kawkaw-clicker/icon.gif" alt="KAWKAW clicker">
+          <span>KAWKAW clicker</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadLightnersLivePlus()">
+          <span class="new-badge">NEW</span>
+          <img src="files/lightners-live-plus/icon.png" alt="Deltarune: Lightners Live Plus">
+          <span>Lightners Live Plus</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadRhythmrune()">
+          <span class="new-badge">NEW</span>
+          <img src="files/rhythmrune/icon.png" alt="rhythmrune">
+          <span>rhythmrune</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadToBeReal()">
+          <span class="new-badge">NEW</span>
+          <img src="files/to-be-real/icon.png" alt="To Be Real">
+          <span>To Be Real</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadLakesideBreeze()">
+          <span class="new-badge">NEW</span>
+          <img src="files/lakeside-breeze/icon.png" alt="Deltarune Lakeside Breeze">
+          <span>Lakeside Breeze</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadUtdrBrawlers()">
+          <span class="new-badge">NEW</span>
+          <img src="files/utdr-brawlers/icon.png" alt="Undertale + Deltarune Brawlers">
+          <span>UT+DR Brawlers</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUlbRemake()">
+          <span class="new-badge">NEW</span>
+          <img src="files/ulb-remake/icon.png" alt="Undertale Last Breath Remake">
+          <span>ULB Remake</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadDeltarun()">
+          <span class="new-badge">NEW</span>
+          <img src="files/deltarun/icon.png" alt="DeltaRUN">
+          <span>DeltaRUN</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadMikeALike()">
+          <span class="new-badge">NEW</span>
+          <img src="files/mike-a-like/icon.png" alt="Serve? Strike? Mike-A-Like!!!">
+          <span>Mike-A-Like</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadSansClicker()">
+          <span class="new-badge">NEW</span>
+          <img src="files/sans-clicker/icon.png" alt="Sans Clicker">
+          <span>Sans Clicker</span>
+        </button>
         <button class="game-card sound-target" data-category="deltarune" onclick="loadDeltatraveler()">
           <img src="files/deltatraveler/icon.png" alt="DELTATRAVELER">
           <span>DELTATRAVELER</span>
@@ -3369,9 +3869,29 @@
           <img src="files/starrune/icon.png" alt="Star Rune">
           <span>Star Rune</span>
         </button>
+        <button class="game-card sound-target" data-category="kristal" onclick="loadCrockerfanDeepDreams()">
+          <span class="new-badge">NEW</span>
+          <img src="files/crockerfan-deep-dreams/icon.png" alt="Deep Dreams">
+          <span>Deep Dreams</span>
+        </button>
         <button class="game-card godhome sound-target" data-category="kristal" onclick="loadGodhome()">
           <img src="files/godhome/icon.png" alt="Godhome">
           <span class="godhome-text">Godhome</span>
+        </button>
+        <button class="game-card sound-target" data-category="kristal" onclick="loadVesselVsKris()">
+          <span class="new-badge">NEW</span>
+          <img src="files/vessel-vs-kris/icon.png" alt="Vessel Vs Kris">
+          <span>Vessel Vs Kris</span>
+        </button>
+        <button class="game-card sound-target" data-category="kristal" onclick="loadStarWalkerFight()">
+          <span class="new-badge">NEW</span>
+          <img src="files/starwalker-fight/icon.jpg" alt="StarWalker Fight">
+          <span>StarWalker Fight</span>
+        </button>
+        <button class="game-card sound-target" data-category="kristal" onclick="loadPirateGaster()">
+          <span class="new-badge">NEW</span>
+          <img src="files/pirate-gaster/icon.png" alt="Pirate Gaster">
+          <span>Pirate Gaster</span>
         </button>
         <button class="game-card pluggeddream sound-target" data-category="kristal" onclick="loadDeltarunePluggedDream()">
           <img src="files/deltarune-plugged-dream/icon.png" alt="Deltarune Plugged Dream">
@@ -3429,6 +3949,31 @@
           <img src="files/undertale-10th-anniversary/icon.svg" alt="Undertale 10th Anniversary">
           <span class="ut10th-text">Undertale 10th Anniversary</span>
         </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadSomniphobia()">
+          <span class="new-badge">NEW</span>
+          <img src="files/somniphobia/icon.png" alt="Somniphobia">
+          <span>Somniphobia</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadGettingUnderIt()">
+          <span class="new-badge">NEW</span>
+          <img src="files/getting-under-it/icon.png" alt="Getting Under It">
+          <span>Getting Under It</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadFlowersBlooms()">
+          <span class="new-badge">NEW</span>
+          <img src="files/flowers-blooms-in-your-soul/icon.png" alt="Flowers Blooms In Your Soul">
+          <span>Flowers Blooms In Your Soul</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadRalseiShooting()">
+          <span class="new-badge">NEW</span>
+          <img src="files/ralsei-shooting-simulator/icon.png" alt="Ralsei Shooting Game">
+          <span>Ralsei Shooting Game</span>
+        </button>
+        <button class="game-card sound-target" data-category="other" onclick="loadCreateYourFrisk()">
+          <span class="new-badge">NEW</span>
+          <img src="files/create-your-frisk/icon.png" alt="Create Your Frisk">
+          <span>Create Your Frisk</span>
+        </button>
       </div>
     </section>
 
@@ -3450,10 +3995,18 @@
               <img class="person-credit-image" src="files/credits/bog.png" alt="Bog profile picture">
               <span><strong>Bog</strong><small>Made the original Deltarune webport, and helps with webporting</small></span>
             </a>
-            <a class="person-credit sound-target" href="https://chatgpt.com/" target="_blank">
-              <img class="person-credit-image" src="files/credits/chatgpt.png" alt="ChatGPT logo">
-              <span><strong>ChatGPT</strong><small>Coding help :p</small></span>
+            <div class="person-credit">
+              <img class="person-credit-image" src="files/credits/krisscrossxx.png" alt="KrissCrossXX avatar">
+              <span><strong>KrissCrossXX</strong><small>Web porter</small></span>
+            </div>
+            <a class="person-credit sound-target" href="https://devin.ai/" target="_blank">
+              <img class="person-credit-image" src="files/credits/devin.png" alt="Devin logo">
+              <span><strong>Devin</strong><small>Current dev, ports and bugfixes</small></span>
             </a>
+            <div class="person-credit">
+              <img class="person-credit-image" src="files/credits/eli.png" alt="Eli profile picture">
+              <span><strong>Eli</strong><small>cool_dude_27</small></span>
+            </div>
             <a class="person-credit sound-target" href="https://deltarune.com/" target="_blank">
               <img class="person-credit-image" src="files/credits/toby-fox.png" alt="Toby Fox profile picture">
               <span><strong>Toby Fox</strong><small>Wait wtf why am I here</small></span>
@@ -3477,11 +4030,14 @@
                   <a class="game-credit-row kaizo sound-target" href="https://gamebanana.com/mods/662826" target="_blank"><img src="files/kaizo-roaring-knight/icon.png" alt=""><span><strong>Kaizo Roaring Knight</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row cyan sound-target" href="https://gamebanana.com/mods/680711" target="_blank"><img src="files/cyan-knight/icon.png" alt=""><span><strong>Cyan Knight</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row dojo sound-target" href="https://gamebanana.com/wips/98861" target="_blank"><img src="files/dojo-customizer/icon.png" alt=""><span><strong>Dojo Customizer</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row dojo sound-target" href="https://gamebanana.com/wips/98861" target="_blank"><img src="files/dojo-customizer-demo3/cover.jpg" alt=""><span><strong>Full Dojo Customizer (Every Enemy)</strong><small>Mod by Diigas</small></span></a>
                   <a class="game-credit-row bossrush sound-target" href="https://gamebanana.com/mods/608558" target="_blank"><img src="files/ultimate-boss-rush/icon.png" alt=""><span><strong>Ultimate Boss Rush</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row network sound-target" href="https://gamebanana.com/mods/601376" target="_blank"><img src="files/deltarune-network/icon.png" alt=""><span><strong>Deltarune Network</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row determinationflowery sound-target" href="https://gamebanana.com/mods/701463" target="_blank"><img src="files/determination-flowery/icon.png" alt=""><span><strong>Determination Flowery</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row violetknight sound-target" href="https://gamebanana.com/mods/700909" target="_blank"><img src="files/violet-knight/icon.png" alt=""><span><strong>Violet Knight</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row aquaoverkris sound-target" href="https://gamebanana.com/mods/690240" target="_blank"><img src="files/aqua-over-kris/icon.png" alt=""><span><strong>Aqua Over Kris</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row noelleoverkris sound-target" href="https://gamebanana.com/mods/612195" target="_blank"><img src="files/noelle-over-kris/icon.png" alt=""><span><strong>Noelle Over Kris</strong><small>Created by AndreiInvestitor</small></span></a>
+                  <a class="game-credit-row krisinaskirt sound-target" href="https://gamebanana.com/mods/698916" target="_blank"><img src="files/kris-in-a-skirt/icon.png" alt=""><span><strong>Kris In A Skirt</strong><small>Created by LeFishiousRend</small></span></a>
                   <a class="game-credit-row nobulletcooldowns sound-target" href="https://gamebanana.com/mods/587241" target="_blank"><img src="files/no-bullet-cooldowns/icon.png" alt=""><span><strong>No Bullet Cooldowns</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row offlinebingo sound-target" href="https://gamebanana.com/mods/641640" target="_blank"><img src="files/offline-bingo/icon.png" alt=""><span><strong>Offline Bingo</strong><small>Based on Deltarune Bingosync</small></span></a>
                   <a class="game-credit-row chaosrandomizer sound-target" href="https://gamebanana.com/mods/650496" target="_blank"><img src="files/chaos-randomizer/icon.png" alt=""><span><strong>Chaos Randomizer</strong><small>View the original mod</small></span></a>
@@ -3498,7 +4054,21 @@
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/JEVILSTALE/1060819" target="_blank"><img src="files/jevilstale/icon.webp" alt=""><span><strong>JEVILSTALE</strong><small>Undertale mod</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/685457" target="_blank"><img src="files/thorn-knight/icon.jpg" alt=""><span><strong>Thorn Knight</strong><small>Created by Sens2011</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/711394" target="_blank"><img src="files/side-b-extended/icon.jpg" alt=""><span><strong>Side B Extended</strong><small>Created by JonaGamerYT</small></span></a>
-                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/676327" target="_blank"><img src="files/sword-route/icon.jpg" alt=""><span><strong>Deltarune: Sword Route</strong><small>View the original mod</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/697532" target="_blank"><img src="files/a-new-dragon/icon.jpg" alt=""><span><strong>Deltarune: A New Dragon</strong><small>Created by RockmanSlayer</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/718870" target="_blank"><img src="files/knight-restoration/icon.jpg" alt=""><span><strong>Knight Restoration Project</strong><small>Created by KrisCrossXX</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/718476" target="_blank"><img src="files/undertale-aqua/icon.png" alt=""><span><strong>Undertale but You're Aqua</strong><small>Created by cool_epic_username123</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/493241" target="_blank"><img src="files/undertale-split-jump/icon.jpg" alt=""><span><strong>Undertale: Split Jump</strong><small>Created by PieCat</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/671205" target="_blank"><img src="files/undertale-choose-your-soul/icon.png" alt=""><span><strong>Undertale: Choose Your Own Soul</strong><small>Created by Stecca6663</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/428457" target="_blank"><img src="files/undertale-gaster-blaster/icon.png" alt=""><span><strong>Undertale: Gaster Blaster</strong><small>Created by BlueSheep3</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/fnaftale/1090259" target="_blank"><img src="files/fnaftale/icon.png" alt=""><span><strong>FNAFtale</strong><small>Created by YoshiReal99</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/outertale/643082" target="_blank"><img src="files/outertale/icon.png" alt=""><span><strong>Outertale</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/492847" target="_blank"><img src="files/undertale-many-souls/icon.png" alt=""><span><strong>Undertale: Many Souls</strong><small>Created by Xela2527</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/bedlump/537469" target="_blank"><img src="files/bedlump/icon.png" alt=""><span><strong>Bed Lump</strong><small>Created by BeholdMaxine</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/601488" target="_blank"><img src="files/c-undertale/icon.png" alt=""><span><strong>C!UNDERTALE</strong><small>Created by Story_Of_Undertale</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/708798" target="_blank"><img src="files/undertale-magmatomb/icon.png" alt=""><span><strong>Undertale Magmatomb</strong><small>Created by Story_Of_Undertale</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/719035" target="_blank"><img src="files/wordle-or-die/icon.png" alt=""><span><strong>Deltarune: Wordle or Die</strong><small>Created by NERS</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/612141" target="_blank"><img src="files/kris-bleeding/icon.png" alt=""><span><strong>Kris Is Bleeding</strong><small>Created by thej01, KuroSora, BlueSheep3, and mariomaker42069</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/nxrune/629072" target="_blank"><img src="files/nxrune/icon.png" alt=""><span><strong>NXRUNE</strong><small>Created by IRUZZ</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/679321" target="_blank"><img src="files/chapter1-genocide/icon.jpg" alt=""><span><strong>Chapter 1 Genocide Retake</strong><small>View the original mod</small></span></a>
                 </div>
               </section>
@@ -3506,6 +4076,10 @@
               <section class="game-credit-group">
                 <h3>Extras</h3>
                 <div class="game-credit-list">
+                  <a class="game-credit-row sound-target" href="files/deltarune-survivors/index.html"><img src="files/deltarune-survivors/tobywebicon.png" alt=""><span><strong>Deltarune Survivors</strong><small>Web port by KrissCrossXX</small></span></a>
+                  <a class="game-credit-row sound-target" href="files/flappy-flowery/index.html"><img src="files/flappy-flowery/tobywebicon.png" alt=""><span><strong>Flappy Flowery</strong><small>Web port by KrissCrossXX</small></span></a>
+                  <a class="game-credit-row sound-target" href="files/friend-inside-me/index.html"><img src="files/friend-inside-me/tobywebicon.webp" alt=""><span><strong>Friend Inside Me</strong><small>Web port by KrissCrossXX</small></span></a>
+                  <a class="game-credit-row sound-target" href="files/ralsei-got-a-gun/index.html"><img src="files/ralsei-got-a-gun/tobywebicon.png" alt=""><span><strong>Ralsei's Got a Gun</strong><small>Web port by KrissCrossXX</small></span></a>
                   <a class="game-credit-row sound-target" href="https://jcw87.github.io/c2-sans-fight/" target="_blank"><img src="files/badtimesim/icon-256.png" alt=""><span><strong>Bad Time Simulator</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row sound-target" href="https://signalsphere.itch.io/deltarune-geoguessr" target="_blank"><img src="files/deltarune-geoguessr/icon.png" alt=""><span><strong>Deltarune GeoGuessr</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row guesswho sound-target" href="https://jan-ko-pan.itch.io/jan-ko-pans-cool-deltarune-guess-who-game" target="_blank"><img src="files/deltarune-guess-who/icon.png" alt=""><span><strong>Deltarune Guess Who</strong><small>View the original game</small></span></a>
@@ -3515,8 +4089,28 @@
                   <a class="game-credit-row soulblazers sound-target" href="https://gamejolt.com/games/soulblazers/1069233" target="_blank"><img src="files/deltarune-soulblazers/icon.webp" alt=""><span><strong>Deltarune Soulblazers</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/UndertaleYellow/136925" target="_blank"><img src="files/undertale-yellow/icon.png" alt=""><span><strong>Undertale Yellow</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/undertale-red-yellow/877387" target="_blank"><img src="files/undertale-red-yellow/icon.png" alt=""><span><strong>Undertale Red &amp; Yellow</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/UTY_shadesofjustice/935169" target="_blank"><img src="files/undertale-yellow-soj/icon.png" alt=""><span><strong>Undertale Yellow: Shades of Justice</strong><small>Mod by ZenderTroop; UTY by Team UTY</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/uncanny/948260" target="_blank"><img src="files/undertale-uncanny/icon.png" alt=""><span><strong>Undertale: Uncanny</strong><small>Created by Vinesoft</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/BTTN/979674" target="_blank"><img src="files/bad-time-trio/icon.png" alt=""><span><strong>Bad Time Trio</strong><small>Undertale fan game, re-uploaded by Team LEAKED</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://jettlee.itch.io/kromer-kollector-neo" target="_blank"><img src="files/kromer-kollector-neo/icon.png" alt=""><span><strong>Kromer Kollector NEO</strong><small>Created by Jett Lee</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://sierpinski-simon.itch.io/spamton-goes-to-driving-school" target="_blank"><img src="files/spamton-driving-school/icon.png" alt=""><span><strong>Spamton Goes To Driving School</strong><small>Created by Sierpinski Simon</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://b1t-games.itch.io/deltarune-your-taking-too-long" target="_blank"><img src="files/taking-too-long/icon.png" alt=""><span><strong>YOUR TAKING TOO LONG</strong><small>Created by B1T Games</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gr0n.itch.io/kawkaw-clicker" target="_blank"><img src="files/kawkaw-clicker/icon.gif" alt=""><span><strong>KAWKAW clicker</strong><small>Created by gr0n</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://ezioeagle.itch.io/lightners-live-plus" target="_blank"><img src="files/lightners-live-plus/icon.png" alt=""><span><strong>Deltarune: Lightners Live Plus</strong><small>Created by EzioEagle</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://danielgriffiths.itch.io/rhythmrune" target="_blank"><img src="files/rhythmrune/icon.png" alt=""><span><strong>rhythmrune</strong><small>Created by Daniel Griffiths</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://wandcom.itch.io/to-be-real" target="_blank"><img src="files/to-be-real/icon.png" alt=""><span><strong>To Be Real</strong><small>Created by wandcom</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://cookieheart.itch.io/pirate-gaster-deltarune" target="_blank"><img src="files/pirate-gaster/icon.png" alt=""><span><strong>Pirate Gaster</strong><small>Created by Cookieheart</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://yaboimatteedubbz.itch.io/deltarune-lakeside-breeze" target="_blank"><img src="files/lakeside-breeze/icon.png" alt=""><span><strong>Deltarune Lakeside Breeze</strong><small>Created by Mattee</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://axolotl-champ.itch.io/undertale-deltarune-brawlers" target="_blank"><img src="files/utdr-brawlers/icon.png" alt=""><span><strong>Undertale + Deltarune Brawlers</strong><small>Created by Axolotl_Champ</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://mario1d240.github.io/undertale-last-breath-remake-bad-time-simulator/" target="_blank"><img src="files/ulb-remake/icon.png" alt=""><span><strong>Undertale Last Breath Remake</strong><small>Created by mario1D240</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://bipp-dev.itch.io/deltarun" target="_blank"><img src="files/deltarun/icon.png" alt=""><span><strong>DeltaRUN</strong><small>Created by Bipp</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://madocactus.itch.io/tennagame" target="_blank"><img src="files/mike-a-like/icon.png" alt=""><span><strong>Serve? Strike? Mike-A-Like!!!</strong><small>Directed by Mado; minigames by Azxiana</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://purp7.itch.io/sans-clicker" target="_blank"><img src="files/sans-clicker/icon.png" alt=""><span><strong>Sans Clicker</strong><small>Created by purp7</small></span></a>
                   <a class="game-credit-row sound-target" href="https://cake-logic.itch.io/deltatraveler-web-port" target="_blank"><img src="files/deltatraveler/icon.png" alt=""><span><strong>DELTATRAVELER</strong><small>Web port by Cake Logic; original game by VyletBunni</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/343672" target="_blank"><img src="files/godhome/icon.png" alt=""><span><strong>Godhome</strong><small>View the original project</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/582084" target="_blank"><img src="files/vessel-vs-kris/icon.png" alt=""><span><strong>Vessel Vs Kris</strong><small>Kristal game created by StikUL</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/701286" target="_blank"><img src="files/starwalker-fight/icon.jpg" alt=""><span><strong>StarWalker Fight</strong><small>Created by Matthew</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamejolt.com/games/crockerfan08game/1077602" target="_blank"><img src="files/crockerfan-deep-dreams/icon.png" alt=""><span><strong>Deep Dreams</strong><small>Created by Crockerfan08</small></span></a>
                   <a class="game-credit-row sound-target" href="https://gamejolt.com/games/starrune/716680" target="_blank"><img src="files/starrune/icon.png" alt=""><span><strong>Star Rune</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row pluggeddream sound-target" href="https://gamejolt.com/games/pluggeddream/1019739" target="_blank"><img src="files/deltarune-plugged-dream/icon.png" alt=""><span><strong>Deltarune Plugged Dream</strong><small>View the original game</small></span></a>
                   <div class="game-credit-row friendless"><img src="files/deltarune-friendless/icon.png" alt=""><span><strong>Deltarune Friendless</strong><small>Original page unavailable</small></span></div>
@@ -3532,6 +4126,11 @@
                   <a class="game-credit-row homesweet sound-target" href="https://html-classic.itch.zone/html/17849524/index.html?v=1782262338" target="_blank"><img src="files/home-sweet-home/icon.png" alt=""><span><strong>Home Sweet Home</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row asgoredess sound-target" href="https://html-classic.itch.zone/html/14384222/index.html" target="_blank"><img src="files/asgore-runs-over-dess/icon.png" alt=""><span><strong>Asgore Runs Over Dess</strong><small>View the original game</small></span></a>
                   <a class="game-credit-row sound-target" href="https://ut10-battle.undertale.com/" target="_blank"><img src="files/undertale-10th-anniversary/icon.svg" alt=""><span><strong>Undertale 10th Anniversary</strong><small>Official anniversary game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://cross-0673.itch.io/somniphobia" target="_blank"><img src="files/somniphobia/icon.png" alt=""><span><strong>Somniphobia</strong><small>Created by cross</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://therealbenny.itch.io/getting-under-it" target="_blank"><img src="files/getting-under-it/icon.png" alt=""><span><strong>Getting Under It</strong><small>Created by therealbenny</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://captainheartstrings.itch.io/flowers-blooms-in-your-soul" target="_blank"><img src="files/flowers-blooms-in-your-soul/icon.png" alt=""><span><strong>Flowers Blooms In Your Soul</strong><small>Created by captainheartstrings</small></span></a>
+                  <a class="game-credit-row sound-target" href="files/ralsei-shooting-simulator/index.html"><img src="files/ralsei-shooting-simulator/icon.png" alt=""><span><strong>Ralsei Shooting Game</strong><small>Created by le soule (AKA zolgut)</small></span></a>
+                  <a class="game-credit-row sound-target" href="files/create-your-frisk/index.html"><img src="files/create-your-frisk/icon.png" alt=""><span><strong>Create Your Frisk</strong><small>Engine by RhenaudTheLukark, five mods bundled</small></span></a>
                 </div>
               </section>
             </div>
@@ -3578,6 +4177,12 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="openAquaOverKrisConfirm()">
           <img src="files/aqua-over-kris/icon.png" alt="Aqua Over Kris">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openNoelleOverKrisConfirm()">
+          <img src="files/noelle-over-kris/icon.png" alt="Noelle Over Kris">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openKrisInASkirtConfirm()">
+          <img src="files/kris-in-a-skirt/icon.png" alt="Kris In A Skirt">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadNoBulletCooldowns()">
           <img src="files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
@@ -3669,6 +4274,96 @@
       <div class="changelog-list">
         <article class="changelog-entry">
           <div class="changelog-entry-header">
+            <h3>Update 1.2</h3>
+            <span class="changelog-date">In development</span>
+          </div>
+          <section class="changelog-section">
+            <h4>New Ports</h4>
+            <ul>
+              <li>Vessel Vs Kris</li>
+              <li>StarWalker Fight</li>
+              <li>Somniphobia</li>
+              <li>Deltarune Survivors</li>
+              <li>Flappy Flowery</li>
+              <li>Friend Inside Me</li>
+              <li>Ralsei's Got a Gun</li>
+              <li>Undertale: Uncanny</li>
+              <li>Bad Time Trio</li>
+              <li>Kromer Kollector NEO</li>
+              <li>Spamton Goes To Driving School</li>
+              <li>DELTARUNE: YOUR TAKING TOO LONG</li>
+              <li>KAWKAW clicker</li>
+              <li>Deltarune: Lightners Live Plus</li>
+              <li>rhythmrune</li>
+              <li>To Be Real</li>
+              <li>Pirate Gaster (Kristal)</li>
+              <li>Deltarune Lakeside Breeze</li>
+              <li>Undertale + Deltarune Brawlers</li>
+              <li>Undertale Last Breath Remake</li>
+              <li>DeltaRUN</li>
+              <li>Serve? Strike? Mike-A-Like!!!</li>
+              <li>Sans Clicker</li>
+              <li>Undertale Yellow: Shades of Justice (Pacifist-expansion mod)</li>
+              <li>Getting Under It (Unity WebGL)</li>
+              <li>Flowers Blooms In Your Soul (Ren'Py Web)</li>
+              <li>Ralsei Shooting Game (GDevelop)</li>
+              <li>Create Your Frisk — 5 mods bundled (Rouxls Kaard, VS Tung Tung Tung Sahur, Pomni Battle V2, Smurf Cat Fight, Nightmare Mode Sans)</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>New Mods</h4>
+            <ul>
+              <li>Deltarune: A New Dragon</li>
+              <li>Knight Restoration Project</li>
+              <li>Undertale but You're Aqua</li>
+              <li>Undertale: Split Jump</li>
+              <li>Undertale: Choose Your Own Soul</li>
+              <li>Undertale: Many Souls</li>
+              <li>Undertale: Gaster Blaster</li>
+              <li>Outertale</li>
+              <li>FNAFtale (William Afton Fight)</li>
+              <li>Deep Dreams (Kristal)</li>
+              <li>Kris Is Bleeding</li>
+              <li>NXRUNE — DELTARUNE Switch borders and content for Chapters 1-5</li>
+              <li>Bed Lump</li>
+              <li>Solve a Wordle Every Room or Die</li>
+              <li>Full Dojo Customizer (Every Enemy)</li>
+              <li>Noelle Over Kris (Chapters 1-5)</li>
+              <li>Kris In A Skirt (Chapters 1-5)</li>
+              <li>C!UNDERTALE</li>
+              <li>Undertale Magmatomb</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>New Features</h4>
+            <ul>
+              <li>Redesigned mobile controls with automatic touch-device detection, Auto/On/Off modes, and a selectable joystick or arrow-buttons layout.</li>
+              <li>Rebuilt the single-file launcher so it always fetches the newest Toby Web release from GitHub.</li>
+              <li>Added a community Themes page with local theme creation, previews, drafts, ZIP export, installation, a moderated public catalog, and favorites.</li>
+              <li>Added preset button layouts for themes — stack the DELTARUNE and UNDERTALE buttons centered, left, or right.</li>
+              <li>New default theme: "Halloween 2026" — animated background, music, and stacked buttons.</li>
+              <li>Added UNDERTALE Boss Saves — a picker on the Undertale page with 20 preset saves organized by route.</li>
+              <li>Added a Weird Route save option to the Chapter 3 knight-fight modals.</li>
+              <li>Raised theme upload limits to 30 MB backgrounds and 50 MB music.</li>
+              <li>Theme submissions now show a confirmation dialog when they go through.</li>
+              <li>Added a Stats tab on the Themes page — live "who's using what" and all-time leaderboards for every theme.</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>Bug Fixes</h4>
+            <ul>
+              <li>Fixed Star Rune crashing with a missing Lua bit-library error on tile maps.</li>
+              <li>Fixed Deep Dreams crashing with "attempt to yield across metamethod/C-call boundary" when a cutscene was stopped from outside a cutscene (hold-skip, map exit, debug console).</li>
+              <li>Fixed Deltarune Frostveil crashing when flipping switches (main-thread coroutine yield when a watcher event stopped the active cutscene).</li>
+              <li>Fixed community-theme styling lingering after switching back to a built-in theme.</li>
+              <li>Reworked theme button positioning into presets — the old free-drag editor was laggy and unreliable.</li>
+              <li>Fixed Pirate Gaster (and other Kristal ports) crashing on bullet-spawn waves like Kirk's "whataboutism" — the engine used a Lua 5.1 implicit vararg table this runtime lacks.</li>
+              <li>Hid Deltarune: Sword Route while a Chapter 1 crash fix is pending.</li>
+            </ul>
+          </section>
+        </article>
+        <article class="changelog-entry">
+          <div class="changelog-entry-header">
             <h3>Update 1.1</h3>
             <span class="changelog-date">September 19, 2026</span>
           </div>
@@ -3690,14 +4385,13 @@
               <li>DR Chapter 1 Noelle Edition</li>
               <li>Thorn Knight</li>
               <li>Side B Extended</li>
-              <li>Deltarune: Sword Route</li>
               <li>Deltarune Chapter 1 Genocide Retake</li>
             </ul>
           </section>
           <section class="changelog-section">
             <h4>New Features</h4>
             <ul>
-              <li>Added optional Vinetrap-style mobile controls to every game and runner, disabled by default.</li>
+              <li>Added Vinetrap-style mobile controls to every game and runner with automatic touch-device detection.</li>
               <li>Changed the default site theme to Chapter 5.</li>
               <li>Added new filters to the Mods and Extras tabs.</li>
               <li>Added a downloadable single-file launcher that loads game files from the Toby Web GitHub CDN.</li>
@@ -3706,7 +4400,6 @@
           <section class="changelog-section">
             <h4>Fixes &amp; Improvements</h4>
             <ul>
-              <li>Updated Deltarune: Sword Route to version 3.3 and fixed its Chapter 1 progression crash.</li>
               <li>Updated Chapter 5 and repaired WebGL shaders that made some areas render too dark.</li>
               <li>Removed TS!UNDERSWAP while its web runner remains unstable.</li>
               <li>Fixed the single-file launcher to keep games in-page and correctly resolve GameMaker and CDN asset paths.</li>
@@ -3765,124 +4458,20 @@
       </div>
       <div class="settings-section">
         <div class="settings-label">Mobile Controls</div>
-        <div class="presence-service-control" role="group" aria-label="Mobile controls setting">
-          <button type="button" class="presence-service-option sound-target" data-mobile-controls="on" onclick="setMobileControlsEnabled(true)" aria-pressed="false">On</button>
-          <button type="button" class="presence-service-option sound-target" data-mobile-controls="off" onclick="setMobileControlsEnabled(false)" aria-pressed="false">Off</button>
+        <div class="presence-service-control three" role="group" aria-label="Mobile controls setting">
+          <button type="button" class="presence-service-option sound-target" data-mobile-controls="auto" onclick="setMobileControlsMode('auto')" aria-pressed="false">Auto</button>
+          <button type="button" class="presence-service-option sound-target" data-mobile-controls="on" onclick="setMobileControlsMode('on')" aria-pressed="false">On</button>
+          <button type="button" class="presence-service-option sound-target" data-mobile-controls="off" onclick="setMobileControlsMode('off')" aria-pressed="false">Off</button>
         </div>
-        <p class="presence-service-note">Show touch controls inside games.</p>
+        <p class="presence-service-note">Auto shows controls on touch devices.</p>
+        <div class="presence-service-control" role="group" aria-label="Mobile control layout setting" style="margin-top:10px">
+          <button type="button" class="presence-service-option sound-target" data-mobile-controls-layout="stick" onclick="setMobileControlsLayout('stick')" aria-pressed="false">Stick</button>
+          <button type="button" class="presence-service-option sound-target" data-mobile-controls-layout="arrows" onclick="setMobileControlsLayout('arrows')" aria-pressed="false">Arrows</button>
+        </div>
+        <p class="presence-service-note">Pick a joystick or arrow buttons for touch movement.</p>
       </div>
-      <div class="settings-section background-settings">
-        <div class="settings-label">Background</div>
-        <div class="background-options" role="group" aria-label="Site Background">
-          <button type="button" class="background-option sound-target" data-background="black" onclick="setSiteBackground('black')" aria-pressed="false">
-            <span class="background-preview black"></span>
-            <span>Black</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="ch1" onclick="setSiteBackground('ch1')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch1.png')"></span>
-            <span>Chapter 1</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="ch2" onclick="setSiteBackground('ch2')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch2.png')"></span>
-            <span>Chapter 2</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="ch3" onclick="setSiteBackground('ch3')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch3.png')"></span>
-            <span>Chapter 3</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="ch4" onclick="setSiteBackground('ch4')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch4.png')"></span>
-            <span>Chapter 4</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="ch5" onclick="setSiteBackground('ch5')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ch5.png')"></span>
-            <span>Chapter 5</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="tadc" onclick="setSiteBackground('tadc')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/tadc.png')"></span>
-            <span>TADC</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="backrooms" onclick="setSiteBackground('backrooms')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/backrooms.png')"></span>
-            <span>Backrooms</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="pirate" onclick="setSiteBackground('pirate')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/pirate.png')"></span>
-            <span>Pirate</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="kendrick" onclick="setSiteBackground('kendrick')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/kendrick.png')"></span>
-            <span>Kendrick</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="jackpot" onclick="setSiteBackground('jackpot')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/jackpot.png')"></span>
-            <span>Jackpot</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="dk" onclick="setSiteBackground('dk')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/dk.png')"></span>
-            <span>DK</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="tung" onclick="setSiteBackground('tung')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/tung.png')"></span>
-            <span>Tung</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="dialtone_wrong" onclick="setSiteBackground('dialtone_wrong')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/dialtone.png')"></span>
-            <span class="background-label">Dialtone</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="dialtone_normal" onclick="setSiteBackground('dialtone_normal')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/dialtone.png')"></span>
-            <span class="background-label">Sadtone</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="mad_spam" onclick="setSiteBackground('mad_spam')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/mad-spam.png')"></span>
-            <span class="background-label">Mad-Spam</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="birdbrain" onclick="setSiteBackground('birdbrain')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/birdbrain.png')"></span>
-            <span class="background-label">Birdbrain</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="imposter" onclick="setSiteBackground('imposter')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/imposter.png')"></span>
-            <span class="background-label">Imposter</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="excuseme" onclick="setSiteBackground('excuseme')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/excuseme.png')"></span>
-            <span class="background-label">Excuseme</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="excuseme2" onclick="setSiteBackground('excuseme2')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/excuseme2.png')"></span>
-            <span class="background-label">Excuseme2</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="last_sahur" onclick="setSiteBackground('last_sahur')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/last-sahur.png')"></span>
-            <span class="background-label">Last Sahur</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="90s" onclick="setSiteBackground('90s')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/90s.png')"></span>
-            <span class="background-label">90s</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="hotline" onclick="setSiteBackground('hotline')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/hotline.png')"></span>
-            <span class="background-label">Hotline</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="knight_shanty" onclick="setSiteBackground('knight_shanty')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/knight-shanty.png')"></span>
-            <span class="background-label">Knight Shanty</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="aqua" onclick="setSiteBackground('aqua')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/aqua.png')"></span>
-            <span class="background-label">Aqua</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="washy_washy" onclick="setSiteBackground('washy_washy')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/washy-washy.png')"></span>
-            <span class="background-label">WASHY WASHY</span>
-          </button>
-          <button type="button" class="background-option sound-target" data-background="ralseis_got_a_gun" onclick="setSiteBackground('ralseis_got_a_gun')" aria-pressed="false">
-            <span class="background-preview" style="--bg-preview: url('files/backgrounds/ralseis-got-a-gun.png')"></span>
-            <span class="background-label long">Ralsei's Got A Gun</span>
-          </button>
-        </div>
+      <div class="settings-section">
+        <a class="pixel-button sound-target" href="themes.html">Themes</a>
       </div>
       <div class="settings-section">
         <button class="pixel-button sound-target" onclick="openCreditsPage()">Credits</button>
@@ -3894,10 +4483,11 @@
     <div class="modal-box">
       <h2>Are You Sure?</h2>
       <p>The included <span class="kaizo-text">Kaizo Roaring Knight</span> save is recommended for the best experience.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadKaizoRoaringKnight()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadKaizoRoaringKnightWeirdRoute()">Use Weird Route Save</button>
         <button class="pixel-button sound-target" onclick="loadKaizoRoaringKnightExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeKaizoConfirm()">Cancel</button>
       </div>
@@ -3908,10 +4498,11 @@
     <div class="modal-box">
       <h2>Are You Sure?</h2>
       <p>The included <span class="cyan-text">Cyan Knight</span> save is recommended for the best experience.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadCyanKnight()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadCyanKnightWeirdRoute()">Use Weird Route Save</button>
         <button class="pixel-button sound-target" onclick="loadCyanKnightExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeCyanConfirm()">Cancel</button>
       </div>
@@ -3922,7 +4513,7 @@
     <div class="modal-box">
       <h2>Are You Sure?</h2>
       <p>The included <span class="dojo-text">Full Dojo Customizer</span> Chapter 4 save is recommended for the best experience.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadDojoCustomizer()">Use Recommended Save</button>
@@ -3936,7 +4527,7 @@
     <div class="modal-box">
       <h2>Are You Sure?</h2>
       <p>The included Chapter 4 Dojo save is recommended for the best <span class="bossrush-text">Ultimate Boss Rush</span> experience.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadUltimateBossRush()">Use Recommended Save</button>
@@ -3946,14 +4537,29 @@
     </div>
   </div>
 
+  <div id="dojo-demo3-modal">
+    <div class="modal-box">
+      <h2>Are You Sure?</h2>
+      <p>The included <span class="dojo-text">Full Dojo Customizer</span> Chapter 4 save is recommended for Demo 3.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadDojoDemo3()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadDojoDemo3ExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeDojoDemo3Confirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div id="thorn-knight-modal">
     <div class="modal-box">
       <h2>Thorn Knight</h2>
       <p>The included Chapter 3 Knight save is recommended so you can reach the modded fight immediately.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadThornKnightRecommendedSave()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadThornKnightWeirdRoute()">Use Weird Route Save</button>
         <button class="pixel-button sound-target" onclick="loadThornKnightExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeThornKnightConfirm()">Cancel</button>
       </div>
@@ -3964,7 +4570,7 @@
     <div class="modal-box">
       <h2>Jevil Kaizo V4</h2>
       <p>The included Chapter 1 slot-2 save starts immediately before the Jevil fight.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadJevilKaizo()">Use Pre-Jevil Save</button>
@@ -3978,7 +4584,7 @@
     <div class="modal-box">
       <h2>Are You Sure?</h2>
       <p>The included <span class="determination-flowery-text">Determination Flowery</span> Chapter 5 slot-2 save is recommended for the best experience.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadDeterminationFlowery()">Use Recommended Save</button>
@@ -3992,10 +4598,11 @@
     <div class="modal-box">
       <h2>Are You Sure?</h2>
       <p>The included Kaizo Chapter 3 save is recommended for the best <span class="violet-knight-text">Violet Knight</span> experience.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadVioletKnight()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadVioletKnightWeirdRoute()">Use Weird Route Save</button>
         <button class="pixel-button sound-target" onclick="loadVioletKnightExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeVioletKnightConfirm()">Cancel</button>
       </div>
@@ -4011,6 +4618,32 @@
         <button class="pixel-button danger sound-target" onclick="startAquaOverKrisNewSave()">Start New Save</button>
         <button class="pixel-button sound-target" onclick="startAquaOverKrisExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeAquaOverKrisConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="noelle-over-kris-modal">
+    <div class="modal-box">
+      <h2>Noelle Over Kris</h2>
+      <p>This mod is best played by starting a new save.</p>
+      <p>Starting fresh wipes only your DELTARUNE save records. Using your existing save keeps them unchanged.</p>
+      <div class="modal-actions">
+        <button class="pixel-button danger sound-target" onclick="startNoelleOverKrisNewSave()">Start New Save</button>
+        <button class="pixel-button sound-target" onclick="startNoelleOverKrisExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeNoelleOverKrisConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="kris-in-a-skirt-modal">
+    <div class="modal-box">
+      <h2>Kris In A Skirt</h2>
+      <p>This mod is best played by starting a new save.</p>
+      <p>Starting fresh wipes only your DELTARUNE save records. Using your existing save keeps them unchanged.</p>
+      <div class="modal-actions">
+        <button class="pixel-button danger sound-target" onclick="startKrisInASkirtNewSave()">Start New Save</button>
+        <button class="pixel-button sound-target" onclick="startKrisInASkirtExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeKrisInASkirtConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -4032,12 +4665,28 @@
     <div class="modal-box">
       <h2>Supercharged Knight</h2>
       <p>The included Kaizo Chapter 3 save is recommended for the best <span class="supercharged-knight-text">Supercharged Knight</span> experience.</p>
-      <p>Using the recommended save wipes your current browser save. You can also keep and use your existing save.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
       <div class="modal-actions">
         <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
         <button class="pixel-button danger sound-target" onclick="loadSuperchargedKnightRecommendedSave()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadSuperchargedKnightWeirdRoute()">Use Weird Route Save</button>
         <button class="pixel-button sound-target" onclick="loadSuperchargedKnightExistingSave()">Use Existing Save</button>
         <button class="pixel-button sound-target" onclick="closeSuperchargedKnightConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="knight-restoration-modal">
+    <div class="modal-box">
+      <h2>Knight Restoration Project</h2>
+      <p>The included Kaizo Chapter 3 save is recommended for Knight Restoration Project.</p>
+      <p>Picking a save option wipes your current browser save. You can also keep and use your existing save.</p>
+      <div class="modal-actions">
+        <button class="pixel-button sound-target" onclick="saveData('all')">Back Up First</button>
+        <button class="pixel-button danger sound-target" onclick="loadKnightRestorationRecommendedSave()">Use Recommended Save</button>
+        <button class="pixel-button sound-target" onclick="loadKnightRestorationWeirdRoute()">Use Weird Route Save</button>
+        <button class="pixel-button sound-target" onclick="loadKnightRestorationExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeKnightRestorationConfirm()">Cancel</button>
       </div>
     </div>
   </div>
@@ -4135,6 +4784,15 @@
     </div>
   </div>
 
+  <div id="ut-saves-modal">
+    <div class="modal-box">
+      <button class="pixel-button modal-close sound-target" onclick="closeUtSaves()">X</button>
+      <h2>Undertale Boss Saves</h2>
+      <p>Pick a save to load straight into UNDERTALE. Saves from NICKISBAD's UNDERTALE-Save-Files pack.</p>
+      <div id="ut-saves-list">Loading saves...</div>
+    </div>
+  </div>
+
   <div id="kaizo-loading">
     <div class="modal-box" id="kaizo-loading-text">Loading...</div>
   </div>
@@ -4168,6 +4826,7 @@
     const DREAMWAKE_BASE = FILES_BASE + "deltarune-dreamwake/";
     const SOULBLAZERS_BASE = FILES_BASE + "deltarune-soulblazers/";
     const UNDERTALE_YELLOW_BASE = FILES_BASE + "undertale-yellow/";
+    const UNDERTALE_YELLOW_SOJ_BASE = FILES_BASE + "undertale-yellow-soj/";
     const PLUGGED_DREAM_CDN_BASE = FILES_BASE + "deltarune-plugged-dream/";
     const PLUGGED_DREAM_INDEX_URL = PLUGGED_DREAM_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
     const FRIENDLESS_CDN_BASE = FILES_BASE + "deltarune-friendless/";
@@ -4192,7 +4851,14 @@
     const THEME_ASSET_VERSION = "50ee38ce99b8ab2c9a689815e8bb36d0ee371885";
     const THEME_ASSET_BASE = FILES_BASE;
     const BACKGROUND_BASE = THEME_ASSET_BASE + "backgrounds/";
+    const DEFAULT_SITE_THEME = "halloween_2026";
+    const SITE_THEME_META = {
+      halloween_2026: { buttonLayout: "stacked-left", accentColor: "#ff9500", textColor: "#ffffff" },
+      dr_ch5_anim: { buttonLayout: "stacked-left" }
+    };
     const SITE_BACKGROUNDS = {
+      halloween_2026: BACKGROUND_BASE + "halloween-2026.gif",
+      dr_ch5_anim: BACKGROUND_BASE + "dr-ch5-animated.webp",
       black: "",
       ch1: BACKGROUND_BASE + "ch1.png",
       ch2: BACKGROUND_BASE + "ch2.png",
@@ -4222,6 +4888,8 @@
       ralseis_got_a_gun: FILES_BASE + "backgrounds/ralseis-got-a-gun.png"
     };
     const SITE_AUDIO_TRACKS = {
+      halloween_2026: FILES_BASE + "audios/theme-halloween-2026.mp3",
+      dr_ch5_anim: FILES_BASE + "audios/theme-ch5-animated.mp3",
       black: FILES_BASE + "audios/AUDIO_DRONE.ogg",
       ch1: THEME_ASSET_BASE + "audios/theme-ch1.mp3",
       ch2: THEME_ASSET_BASE + "audios/theme-ch2-cybers-world.mp3",
@@ -4271,6 +4939,7 @@
     const DOJO_SAVE_URL = "files/dojo-customizer/saves/filech4_0";
     const DETERMINATION_FLOWERY_SAVE_URL = "files/determination-flowery/saves/filech5_2";
     const VIOLET_KNIGHT_SAVE_URL = "files/violet-knight/saves/filech3_0";
+    const WEIRD_ROUTE_SAVE_URL = "files/kaizo-roaring-knight/saves/filech3_1";
     const DOJO_MANAGER_DIR_KEY = "/_savedata/dojo_manager";
     const DOJO_MANAGER_SAVE_FILES = [
       {
@@ -4291,6 +4960,7 @@
     const DOJO_SAVE_KEY = "/_savedata/filech4_0";
     const DETERMINATION_FLOWERY_SAVE_KEY = "/_savedata/filech5_2";
     const VIOLET_KNIGHT_SAVE_KEY = KAIZO_SAVE_KEY;
+    const WEIRD_ROUTE_SAVE_KEY = "/_savedata/filech3_1";
     const KAIZO_SAVE_MODE = 33206;
     const SAVE_DIR_MODE = 16895;
     const AUDIO_ON_ICON = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path>';
@@ -4299,7 +4969,7 @@
 
     function startAudio() {
       if (!audioStarted && audio) {
-        applySiteAudio(document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || "ch5", false);
+        applySiteAudio(document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || DEFAULT_SITE_THEME, false);
         applySiteMusicVolume();
         audio.play().catch(() => {});
         audioStarted = true;
@@ -4436,18 +5106,56 @@
       const imageUrl = SITE_BACKGROUNDS[selected];
       document.documentElement.style.setProperty("--site-bg-image", imageUrl ? 'url("' + imageUrl.replace(/"/g, '\\"') + '")' : "none");
       document.body.dataset.siteBackground = selected;
-      document.querySelectorAll(".background-option").forEach(button => {
-        const isSelected = button.dataset.background === selected;
-        button.classList.toggle("selected", isSelected);
-        button.setAttribute("aria-pressed", isSelected ? "true" : "false");
-      });
       applySiteAudio(selected, shouldPlayAudio || audioStarted);
     }
 
-    function setSiteBackground(backgroundId) {
-      const selected = Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, backgroundId) ? backgroundId : "black";
-      localStorage.setItem("dul_site_background", selected);
-      applySiteBackground(selected, true);
+    function applyHomeButtonOffsets(manifest) {
+      if (manifest && manifest.buttonLayout) document.body.dataset.buttonLayout = manifest.buttonLayout;
+      else delete document.body.dataset.buttonLayout;
+      const offsets = manifest && manifest.buttonOffsets && !manifest.buttonLayout ? manifest.buttonOffsets : {};
+      for (const key of ["deltarune", "undertale"]) {
+        const element = document.querySelector(`.home-${key}`);
+        if (!element) continue;
+        const offset = offsets[key];
+        element.style.transform = offset && (offset.x || offset.y) ? `translate(${offset.x}%, ${offset.y}%)` : "";
+      }
+    }
+
+    async function loadInstalledSiteTheme(themeId) {
+      if (Object.prototype.hasOwnProperty.call(SITE_BACKGROUNDS, themeId)) {
+        const meta = SITE_THEME_META[themeId] || null;
+        if (meta && meta.accentColor) {
+          document.documentElement.style.setProperty("--theme-hover", meta.accentColor);
+          document.querySelectorAll(".accent-flood").forEach(el => el.setAttribute("flood-color", meta.accentColor));
+          document.documentElement.style.setProperty("--theme-text", meta.textColor || "#ffffff");
+          document.body.classList.add("community-theme");
+        } else {
+          document.body.classList.remove("community-theme");
+          document.documentElement.style.removeProperty("--theme-hover");
+          document.documentElement.style.removeProperty("--theme-text");
+        }
+        applyHomeButtonOffsets(meta);
+        return;
+      }
+      try {
+        const { getInstalledTheme } = await import("./files/community-themes.mjs");
+        const item = await getInstalledTheme(themeId);
+        if (localStorage.getItem("dul_site_background") !== themeId) return;
+        if (!item) throw new Error("Selected theme is not installed.");
+        SITE_BACKGROUNDS[themeId] = URL.createObjectURL(item.background);
+        SITE_AUDIO_TRACKS[themeId] = URL.createObjectURL(item.music);
+        document.documentElement.style.setProperty("--theme-hover", item.manifest.accentColor);
+        document.querySelectorAll(".accent-flood").forEach(el => el.setAttribute("flood-color", item.manifest.accentColor));
+        document.documentElement.style.setProperty("--theme-text", item.manifest.textColor);
+        document.body.classList.add("community-theme");
+        applyHomeButtonOffsets(item.manifest);
+        applySiteBackground(themeId);
+      } catch (error) {
+        console.warn("Installed theme could not load", error);
+        localStorage.setItem("dul_site_background", DEFAULT_SITE_THEME);
+        applyHomeButtonOffsets(null);
+        applySiteBackground(DEFAULT_SITE_THEME);
+      }
     }
 
     function showPage(name) {
@@ -4490,18 +5198,37 @@
       showPage("credits");
     }
 
+    function refreshCatalogVisibility(page) {
+      const activeCategories = new Set(
+        Array.from(page.querySelectorAll(".category-filter[aria-pressed='true']"))
+          .map(filter => filter.dataset.category)
+      );
+      const search = page.querySelector(".catalog-search");
+      const query = search ? search.value.trim().toLowerCase() : "";
+      page.querySelectorAll(".game-card[data-category]").forEach(card => {
+        let visible = activeCategories.has(card.dataset.category);
+        if (visible && query) {
+          const label = card.querySelector("span:not(.new-badge)");
+          const img = card.querySelector("img");
+          const haystack = ((label ? label.textContent : "") + " " + (img ? img.alt : "")).toLowerCase();
+          visible = haystack.includes(query);
+        }
+        card.hidden = !visible;
+      });
+    }
+
     function toggleCatalogCategory(pageId, category, button) {
       const page = document.getElementById(pageId);
       if (!page) return;
       const nextPressed = button.getAttribute("aria-pressed") !== "true";
       button.setAttribute("aria-pressed", nextPressed ? "true" : "false");
-      const activeCategories = new Set(
-        Array.from(page.querySelectorAll(".category-filter[aria-pressed='true']"))
-          .map(filter => filter.dataset.category)
-      );
-      page.querySelectorAll(".game-card[data-category]").forEach(card => {
-        card.hidden = !activeCategories.has(card.dataset.category);
-      });
+      refreshCatalogVisibility(page);
+    }
+
+    function searchCatalog(pageId) {
+      const page = document.getElementById(pageId);
+      if (!page) return;
+      refreshCatalogVisibility(page);
     }
 
     async function loadRemotePage(url) {
@@ -4546,6 +5273,22 @@
       loadRemotePage(FILES_BASE + "badtimesim/index.html");
     }
 
+    function loadDeltaruneSurvivors() {
+      loadRemotePage(FILES_BASE + "deltarune-survivors/index.html");
+    }
+
+    function loadFlappyFlowery() {
+      loadRemotePage(FILES_BASE + "flappy-flowery/index.html");
+    }
+
+    function loadFriendInsideMe() {
+      loadRemotePage(FILES_BASE + "friend-inside-me/index.html");
+    }
+
+    function loadRalseiGotAGun() {
+      loadRemotePage(FILES_BASE + "ralsei-got-a-gun/index.html");
+    }
+
     function loadDeltaruneGeoGuessr() {
       loadRemotePage(GEOGUESSR_BASE + "index.html");
     }
@@ -4574,6 +5317,10 @@
       loadRemotePage(UNDERTALE_YELLOW_BASE + "index.html?v=undertale-yellow-20260901a");
     }
 
+    function loadUndertaleYellowSoj() {
+      loadRemotePage(UNDERTALE_YELLOW_SOJ_BASE + "index.html?v=soj-1.0.3");
+    }
+
     function loadUndertaleRedYellow() {
       loadRemotePage(FILES_BASE + "undertale-red-yellow/index.html?v=undertale-red-yellow-2.2-worker");
     }
@@ -4583,7 +5330,11 @@
     }
 
     function loadStarRune() {
-      loadRemotePage(FILES_BASE + "starrune/index.html?v=starrune-1.1");
+      loadRemotePage(FILES_BASE + "starrune/index.html?v=starrune-1.2");
+    }
+
+    function loadCrockerfanDeepDreams() {
+      loadRemotePage(FILES_BASE + "crockerfan-deep-dreams/index.html?v=deepdreams-1.1");
     }
 
     function loadDeltarunePluggedDream() {
@@ -4674,6 +5425,14 @@
       document.getElementById("dojo-modal").classList.remove("open");
     }
 
+    function openDojoDemo3Confirm() {
+      document.getElementById("dojo-demo3-modal").classList.add("open");
+    }
+
+    function closeDojoDemo3Confirm() {
+      document.getElementById("dojo-demo3-modal").classList.remove("open");
+    }
+
     function openBossRushConfirm() {
       document.getElementById("bossrush-modal").classList.add("open");
     }
@@ -4704,6 +5463,22 @@
 
     function closeAquaOverKrisConfirm() {
       document.getElementById("aqua-over-kris-modal").classList.remove("open");
+    }
+
+    function openNoelleOverKrisConfirm() {
+      document.getElementById("noelle-over-kris-modal").classList.add("open");
+    }
+
+    function closeNoelleOverKrisConfirm() {
+      document.getElementById("noelle-over-kris-modal").classList.remove("open");
+    }
+
+    function openKrisInASkirtConfirm() {
+      document.getElementById("kris-in-a-skirt-modal").classList.add("open");
+    }
+
+    function closeKrisInASkirtConfirm() {
+      document.getElementById("kris-in-a-skirt-modal").classList.remove("open");
     }
 
     function openFourPartyMembersConfirm() {
@@ -4819,22 +5594,46 @@
       else disconnectCloudflarePresence();
     }
 
-    function isMobileControlsEnabled() {
-      return localStorage.getItem(MOBILE_CONTROLS_STORAGE_KEY) === "on";
+    function getMobileControlsMode() {
+      const stored = localStorage.getItem(MOBILE_CONTROLS_STORAGE_KEY);
+      return ["auto", "on", "off"].includes(stored) ? stored : "auto";
     }
 
     function updateMobileControlsSetting() {
-      const enabled = isMobileControlsEnabled();
+      const mode = getMobileControlsMode();
       document.querySelectorAll("[data-mobile-controls]").forEach(button => {
-        const selected = button.dataset.mobileControls === (enabled ? "on" : "off");
+        const selected = button.dataset.mobileControls === mode;
         button.classList.toggle("selected", selected);
         button.setAttribute("aria-pressed", String(selected));
       });
     }
 
-    function setMobileControlsEnabled(enabled) {
-      localStorage.setItem(MOBILE_CONTROLS_STORAGE_KEY, enabled ? "on" : "off");
+    function setMobileControlsMode(mode) {
+      if (!["auto", "on", "off"].includes(mode)) return;
+      localStorage.setItem(MOBILE_CONTROLS_STORAGE_KEY, mode);
       updateMobileControlsSetting();
+    }
+
+    const MOBILE_CONTROLS_LAYOUT_KEY = "toby_web_mobile_controls_layout";
+
+    function getMobileControlsLayout() {
+      const stored = localStorage.getItem(MOBILE_CONTROLS_LAYOUT_KEY);
+      return ["stick", "arrows"].includes(stored) ? stored : "stick";
+    }
+
+    function updateMobileControlsLayoutSetting() {
+      const layout = getMobileControlsLayout();
+      document.querySelectorAll("[data-mobile-controls-layout]").forEach(button => {
+        const selected = button.dataset.mobileControlsLayout === layout;
+        button.classList.toggle("selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+    }
+
+    function setMobileControlsLayout(layout) {
+      if (!["stick", "arrows"].includes(layout)) return;
+      localStorage.setItem(MOBILE_CONTROLS_LAYOUT_KEY, layout);
+      updateMobileControlsLayoutSetting();
     }
 
     function setPresenceCount(value) {
@@ -4882,7 +5681,7 @@
       }
 
       socket.addEventListener("open", () => {
-        socket.send(JSON.stringify({ type: "hello", version: 3, clientId: getPresenceClientId() }));
+        socket.send(JSON.stringify({ type: "hello", version: 3, clientId: getPresenceClientId(), themeId: currentSiteThemeId() }));
         presenceHeartbeatTimer = setInterval(() => {
           if (socket === presenceSocket && socket.readyState === WebSocket.OPEN) {
             socket.send("ping");
@@ -4924,9 +5723,80 @@
       if (presenceSocket) presenceSocket.close(1000, "Page closed");
     });
 
+    const THEME_API_BASE = new URLSearchParams(location.search).get("themeApi") === "local"
+      ? "http://127.0.0.1:8787"
+      : "https://themes-api.booksforschool.online";
+
+    function currentSiteThemeId() {
+      return document.body.dataset.siteBackground || localStorage.getItem("dul_site_background") || DEFAULT_SITE_THEME;
+    }
+
+    function sendPresenceTheme() {
+      if (presenceSocket && presenceSocket.readyState === WebSocket.OPEN) {
+        presenceSocket.send(JSON.stringify({ type: "theme", themeId: currentSiteThemeId() }));
+      }
+    }
+
+    function reportThemeUsage(themeId) {
+      if (!themeId || !isPresenceEnabled() || themePreviewMode) return;
+      if (localStorage.getItem("dul_theme_usage_reported") === themeId) return;
+      localStorage.setItem("dul_theme_usage_reported", themeId);
+      fetch(`${THEME_API_BASE}/api/themes/usage`, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-toby-theme-action": "1" },
+        body: JSON.stringify({ clientId: getPresenceClientId(), themeId }),
+        keepalive: true
+      }).catch(() => {});
+    }
+
+    window.addEventListener("storage", event => {
+      if (event.key === "dul_site_background") {
+        sendPresenceTheme();
+        reportThemeUsage(localStorage.getItem("dul_site_background") || DEFAULT_SITE_THEME);
+      }
+    });
+
     function startAquaOverKrisExistingSave() {
       closeAquaOverKrisConfirm();
       showPage("aqua");
+    }
+
+    async function startNoelleOverKrisNewSave() {
+      try {
+        closeNoelleOverKrisConfirm();
+        showKaizoLoading("Starting a new DELTARUNE save...");
+        await ensureGameSaveDatabase();
+        await wipeScopedSaveRecords("deltarune");
+        hideKaizoLoading();
+        showPage("noelle-over-kris");
+      } catch (err) {
+        hideKaizoLoading();
+        alert("A new Noelle Over Kris save could not be prepared.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function startNoelleOverKrisExistingSave() {
+      closeNoelleOverKrisConfirm();
+      showPage("noelle-over-kris");
+    }
+
+    async function startKrisInASkirtNewSave() {
+      try {
+        closeKrisInASkirtConfirm();
+        showKaizoLoading("Starting a new DELTARUNE save...");
+        await ensureGameSaveDatabase();
+        await wipeScopedSaveRecords("deltarune");
+        hideKaizoLoading();
+        showPage("kris-in-a-skirt");
+      } catch (err) {
+        hideKaizoLoading();
+        alert("A new Kris In A Skirt save could not be prepared.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function startKrisInASkirtExistingSave() {
+      closeKrisInASkirtConfirm();
+      showPage("kris-in-a-skirt");
     }
 
     function openFeaturedSaveInfo() {
@@ -5477,7 +6347,7 @@
         parsed = JSON.parse(text);
       }
 
-      if (scope === "all") localStorage.clear();
+      if (scope === "all") clearSaveLocalStorage();
       for (let key in parsed.localStorage || {}) {
         if (localStorageMatchesScope(scope, key)) localStorage.setItem(key, parsed.localStorage[key]);
       }
@@ -5545,6 +6415,81 @@
       }
     }
 
+    let utSavesData = null;
+
+    async function fetchUtSaves() {
+      if (!utSavesData) {
+        const response = await fetch(FILES_BASE + "undertale-saves/saves.json");
+        if (!response.ok) throw new Error("Could not load the save list.");
+        utSavesData = await response.json();
+      }
+      return utSavesData;
+    }
+
+    async function openUtSaves() {
+      const list = document.getElementById("ut-saves-list");
+      list.textContent = "Loading saves...";
+      document.getElementById("ut-saves-modal").classList.add("open");
+      try {
+        const data = await fetchUtSaves();
+        list.textContent = "";
+        data.groups.forEach((group, groupIndex) => {
+          const section = document.createElement("div");
+          section.className = "ut-save-group";
+          const title = document.createElement("h3");
+          title.textContent = group.name;
+          section.append(title);
+          group.saves.forEach((save, saveIndex) => {
+            const row = document.createElement("div");
+            row.className = "ut-save-row";
+            const name = document.createElement("span");
+            name.className = "save-name";
+            name.textContent = save.name;
+            if (save.note) {
+              const note = document.createElement("small");
+              note.textContent = save.note;
+              name.append(note);
+            }
+            const button = document.createElement("button");
+            button.className = "save-button sound-target";
+            button.textContent = "Load";
+            button.onclick = () => loadUtSave(groupIndex, saveIndex);
+            row.append(name, button);
+            section.append(row);
+          });
+          list.append(section);
+        });
+      } catch (err) {
+        list.textContent = "Could not load saves: " + (err && err.message ? err.message : err);
+      }
+    }
+
+    function closeUtSaves() {
+      document.getElementById("ut-saves-modal").classList.remove("open");
+    }
+
+    async function loadUtSave(groupIndex, saveIndex) {
+      const save = utSavesData && utSavesData.groups[groupIndex] && utSavesData.groups[groupIndex].saves[saveIndex];
+      if (!save) return;
+      if (!confirm("Load \"" + save.name + "\"? This replaces your current UNDERTALE save.")) return;
+      try {
+        closeUtSaves();
+        showKaizoLoading("Installing " + save.name + "...");
+        await ensureGameSaveDatabase();
+        await wipeScopedSaveRecords("undertale");
+        const encoder = new TextEncoder();
+        await putSaveRecord("/_savedata/file0", { timestamp: new Date(), mode: KAIZO_SAVE_MODE, contents: encoder.encode(save.file0) });
+        if (save.ini) {
+          await putSaveRecord("/_savedata/undertale.ini", { timestamp: new Date(), mode: KAIZO_SAVE_MODE, contents: encoder.encode(save.ini) });
+        }
+        showKaizoLoading("Loading UNDERTALE...");
+        loadUndertale();
+      } catch (err) {
+        hideKaizoLoading();
+        alert("The save could not be installed.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     function loadWholeSiteData(event) {
       importScope = "all";
       loadData(event);
@@ -5553,7 +6498,7 @@
     async function wipeData(scope = "all") {
       if (!confirm("Wipe " + scope + " save data? Export a backup first if you want to keep it.")) return;
       if (scope === "all") {
-        localStorage.clear();
+        clearSaveLocalStorage();
         document.cookie.split(";").forEach(cookie => {
           const name = cookie.split("=")[0].trim();
           if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
@@ -5654,8 +6599,18 @@
       });
     }
 
-    async function wipeBrowserSaveForMod() {
+    function clearSaveLocalStorage() {
+      const kept = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (/^(dul_|toby_|tw-)/.test(key)) kept[key] = localStorage.getItem(key);
+      }
       localStorage.clear();
+      for (const key in kept) localStorage.setItem(key, kept[key]);
+    }
+
+    async function wipeBrowserSaveForMod() {
+      clearSaveLocalStorage();
       document.cookie.split(";").forEach(cookie => {
         const name = cookie.split("=")[0].trim();
         if (name) document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
@@ -5678,6 +6633,45 @@
       }
     }
 
+    async function loadKnightWithWeirdRouteSave(closeModal, label, pageUrl) {
+      try {
+        closeModal();
+        showKaizoLoading("Installing the weird route save...");
+        await wipeBrowserSaveForMod();
+        await installModSave(WEIRD_ROUTE_SAVE_URL, WEIRD_ROUTE_SAVE_KEY, "weird route");
+        showKaizoLoading("Loading " + label + "...");
+        loadRemotePage(pageUrl);
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert(label + " could not load." + "\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadKaizoRoaringKnightWeirdRoute() {
+      loadKnightWithWeirdRouteSave(closeKaizoConfirm, "Kaizo Roaring Knight", FILES_BASE + "kaizo-roaring-knight/chapter3/index.html");
+    }
+
+    function loadCyanKnightWeirdRoute() {
+      loadKnightWithWeirdRouteSave(closeCyanConfirm, "Cyan Knight", FILES_BASE + "cyan-knight/chapter3/index.html");
+    }
+
+    function loadThornKnightWeirdRoute() {
+      loadKnightWithWeirdRouteSave(closeThornKnightConfirm, "Thorn Knight", FILES_BASE + "thorn-knight/chapter3/index.html?v=2.3");
+    }
+
+    function loadVioletKnightWeirdRoute() {
+      loadKnightWithWeirdRouteSave(closeVioletKnightConfirm, "Violet Knight", FILES_BASE + "violet-knight/chapter3/index.html?v=2.1");
+    }
+
+    function loadSuperchargedKnightWeirdRoute() {
+      loadKnightWithWeirdRouteSave(closeSuperchargedKnightConfirm, "Supercharged Knight", FILES_BASE + "supercharged-knight/chapter3/index.html?v=2.0.0");
+    }
+
+    function loadKnightRestorationWeirdRoute() {
+      loadKnightWithWeirdRouteSave(closeKnightRestorationConfirm, "Knight Restoration Project", FILES_BASE + "knight-restoration/index.html?v=1.0.0");
+    }
+
     function loadKaizoRoaringKnightExistingSave() {
       loadModWithExistingSave(closeKaizoConfirm, "Kaizo Roaring Knight", FILES_BASE + "kaizo-roaring-knight/chapter3/index.html", "Kaizo Roaring Knight");
     }
@@ -5688,6 +6682,24 @@
 
     function loadSuperchargedKnightExistingSave() {
       loadModWithExistingSave(closeSuperchargedKnightConfirm, "Supercharged Knight", FILES_BASE + "supercharged-knight/chapter3/index.html?v=2.0.0", "Supercharged Knight");
+    }
+
+    function loadKnightRestorationExistingSave() {
+      loadModWithExistingSave(closeKnightRestorationConfirm, "Knight Restoration Project", FILES_BASE + "knight-restoration/index.html?v=1.0.0", "Knight Restoration Project");
+    }
+
+    async function loadKnightRestorationRecommendedSave() {
+      try {
+        closeKnightRestorationConfirm();
+        showKaizoLoading("Installing the Kaizo Chapter 3 save...");
+        await wipeBrowserSaveForMod();
+        await installModSave(KAIZO_SAVE_URL, KAIZO_SAVE_KEY, "Kaizo Chapter 3");
+        loadKnightRestoration();
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Knight Restoration Project could not load.\n\n" + (err && err.message ? err.message : err));
+      }
     }
 
     async function loadSuperchargedKnightRecommendedSave() {
@@ -5712,6 +6724,10 @@
       loadModWithExistingSave(closeDojoConfirm, "Full Dojo Customizer", FILES_BASE + "dojo-customizer/chapter4/index.html", "Full Dojo Customizer");
     }
 
+    function loadDojoDemo3ExistingSave() {
+      loadModWithExistingSave(closeDojoDemo3Confirm, "Full Dojo Customizer Demo 3", FILES_BASE + "dojo-customizer-demo3/chapter4/index.html", "Full Dojo Customizer Demo 3");
+    }
+
     function loadUltimateBossRushExistingSave() {
       loadModWithExistingSave(closeBossRushConfirm, "Ultimate Boss Rush", FILES_BASE + "ultimate-boss-rush/chapter4/index.html", "Ultimate Boss Rush");
     }
@@ -5721,7 +6737,7 @@
     }
 
     function loadVioletKnightExistingSave() {
-      loadModWithExistingSave(closeVioletKnightConfirm, "Violet Knight", FILES_BASE + "violet-knight/chapter3/index.html", "Violet Knight");
+      loadModWithExistingSave(closeVioletKnightConfirm, "Violet Knight", FILES_BASE + "violet-knight/chapter3/index.html?v=2.1", "Violet Knight");
     }
 
     async function loadKaizoRoaringKnight() {
@@ -5792,6 +6808,26 @@
       }
     }
 
+    async function loadDojoDemo3() {
+      try {
+        closeDojoDemo3Confirm();
+        showKaizoLoading("Wiping old save...");
+        await wipeBrowserSaveForMod();
+        showKaizoLoading("Installing Dojo save...");
+        await installModSave(DOJO_SAVE_URL, DOJO_SAVE_KEY, "Dojo");
+        await installModDirectory(DOJO_MANAGER_DIR_KEY);
+        for (const file of DOJO_MANAGER_SAVE_FILES) {
+          await installModSave(file.url, file.key, "Dojo manager");
+        }
+        showKaizoLoading("Loading Full Dojo Customizer Demo 3...");
+        loadRemotePage(FILES_BASE + "dojo-customizer-demo3/chapter4/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Full Dojo Customizer Demo 3 could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     async function loadJevilKaizo() {
       try {
         closeJevilKaizoConfirm();
@@ -5833,7 +6869,7 @@
         showKaizoLoading("Installing Kaizo Chapter 3 save...");
         await installModSave(VIOLET_KNIGHT_SAVE_URL, VIOLET_KNIGHT_SAVE_KEY, "Violet Knight");
         showKaizoLoading("Loading Violet Knight...");
-        loadRemotePage(FILES_BASE + "violet-knight/chapter3/index.html");
+        loadRemotePage(FILES_BASE + "violet-knight/chapter3/index.html?v=2.1");
       } catch (err) {
         hideKaizoLoading();
         gamestarted = false;
@@ -5868,16 +6904,41 @@
       showPage("chaos-randomizer");
     }
 
+    function loadKrisBleeding() {
+      showPage("kris-bleeding");
+    }
+
+    function loadNxrune() {
+      showPage("nxrune");
+    }
+
+    function loadGettingUnderIt() {
+      window.location.assign(FILES_BASE + "getting-under-it/index.html?v=1.0");
+    }
+
+    function loadFlowersBlooms() {
+      window.location.assign(FILES_BASE + "flowers-blooms-in-your-soul/index.html?v=1.0");
+    }
+
+    function loadRalseiShooting() {
+      window.location.assign(FILES_BASE + "ralsei-shooting-simulator/index.html?v=1.0");
+    }
+
+    function loadCreateYourFrisk() {
+      showPage("cyf");
+    }
+
+    function loadCyfMod(mod) {
+      const query = mod ? "?mod=" + encodeURIComponent(mod) + "&v=1.0" : "?v=1.0";
+      loadRemotePage(FILES_BASE + "create-your-frisk/index.html" + query);
+    }
+
     function loadDynamicEquips() {
       showPage("dynamic-equips");
     }
 
     function loadSideBExtended() {
       showPage("side-b-extended");
-    }
-
-    function loadSwordRoute() {
-      showPage("sword-route");
     }
 
     function loadChapter1Genocide() {
@@ -5915,6 +6976,113 @@
 
     function loadUndertaleSpamton() {
       window.location.assign(FILES_BASE + "undertale-spamton/index.html?v=1.0");
+    }
+
+    function loadUndertaleAqua() {
+      window.location.assign(FILES_BASE + "undertale-aqua/index.html?v=1.0");
+    }
+
+    function loadUndertaleSplitJump() {
+      window.location.assign(FILES_BASE + "undertale-split-jump/index.html?v=1.0");
+    }
+
+    function loadUndertaleChooseYourSoul() {
+      window.location.assign(FILES_BASE + "undertale-choose-your-soul/index.html?v=1.0");
+    }
+
+    function loadUndertaleManySouls() {
+      window.location.assign(FILES_BASE + "undertale-many-souls/index.html?v=1.0");
+    }
+
+    function loadUndertaleGasterBlaster() {
+      window.location.assign(FILES_BASE + "undertale-gaster-blaster/index.html?v=1.0");
+    }
+
+    function loadBedLump() {
+      window.location.assign(FILES_BASE + "bedlump/index.html?v=1.0");
+    }
+
+    function loadUlbRemake() {
+      loadRemotePage(FILES_BASE + "ulb-remake/index.html?v=1.0");
+    }
+    function loadDeltarun() {
+      loadRemotePage(FILES_BASE + "deltarun/index.html?v=1.0.2");
+    }
+    function loadMikeALike() {
+      loadRemotePage(FILES_BASE + "mike-a-like/index.html?v=1.02");
+    }
+    function loadSansClicker() {
+      loadRemotePage(FILES_BASE + "sans-clicker/index.html?v=1.1");
+    }
+    function loadCUndertale() {
+      loadRemotePage(FILES_BASE + "c-undertale/index.html?v=1.0");
+    }
+    function loadUndertaleMagmatomb() {
+      loadRemotePage(FILES_BASE + "undertale-magmatomb/index.html?v=1.0");
+    }
+
+    function loadWordleOrDie() {
+      window.location.assign(FILES_BASE + "wordle-or-die/index.html?v=1.2");
+    }
+
+    function loadFnaftale() {
+      window.location.assign(FILES_BASE + "fnaftale/index.html?v=1.0");
+    }
+
+    function loadOutertale() {
+      window.location.assign(FILES_BASE + "outertale/index.html?v=1.0");
+    }
+
+    function loadUndertaleUncanny() {
+      window.location.assign(FILES_BASE + "undertale-uncanny/index.html?v=1.0");
+    }
+
+    function loadBadTimeTrio() {
+      window.location.assign(FILES_BASE + "bad-time-trio/index.html?v=1.0");
+    }
+
+    function loadKromerKollectorNeo() {
+      loadRemotePage(FILES_BASE + "kromer-kollector-neo/index.html?v=1.0");
+    }
+
+    function loadSpamtonDrivingSchool() {
+      loadRemotePage(FILES_BASE + "spamton-driving-school/index.html?v=1.1");
+    }
+
+    function loadYourTakingTooLong() {
+      loadRemotePage(FILES_BASE + "taking-too-long/index.html?v=1.1");
+    }
+
+    function loadKawkawClicker() {
+      loadRemotePage(FILES_BASE + "kawkaw-clicker/index.html?v=1.0");
+    }
+
+    function loadLightnersLivePlus() {
+      loadRemotePage(FILES_BASE + "lightners-live-plus/index.html?v=1.1");
+    }
+
+    function loadRhythmrune() {
+      loadRemotePage(FILES_BASE + "rhythmrune/index.html?v=1.0");
+    }
+
+    function loadToBeReal() {
+      loadRemotePage(FILES_BASE + "to-be-real/index.html?v=1.0");
+    }
+
+    function loadPirateGaster() {
+      loadRemotePage(FILES_BASE + "pirate-gaster/index.html?v=1.0");
+    }
+
+    function loadLakesideBreeze() {
+      loadRemotePage(FILES_BASE + "lakeside-breeze/index.html?v=1.0");
+    }
+
+    function loadUtdrBrawlers() {
+      loadRemotePage(FILES_BASE + "utdr-brawlers/index.html?v=1.0");
+    }
+
+    function loadSomniphobia() {
+      loadRemotePage(FILES_BASE + "somniphobia/index.html?v=somniphobia-1.0");
     }
 
     function loadJevilStale() {
@@ -5986,6 +7154,14 @@
       document.getElementById("supercharged-knight-modal").classList.remove("open");
     }
 
+    function openKnightRestorationConfirm() {
+      document.getElementById("knight-restoration-modal").classList.add("open");
+    }
+
+    function closeKnightRestorationConfirm() {
+      document.getElementById("knight-restoration-modal").classList.remove("open");
+    }
+
     function launchSuperchargedKnight() {
       try {
         showKaizoLoading("Loading Supercharged Knight...");
@@ -6012,8 +7188,20 @@
       loadRemotePage(FILES_BASE + "side-b-extended/chapter" + chapter + "/index.html?v=2.1");
     }
 
-    function loadSwordRouteChapter(chapter) {
-      loadRemotePage(FILES_BASE + "sword-route/chapter" + chapter + "/index.html?v=3.3");
+    function loadANewDragon() {
+      loadRemotePage(FILES_BASE + "a-new-dragon/index.html?v=0.2.1");
+    }
+
+    function loadKnightRestoration() {
+      loadRemotePage(FILES_BASE + "knight-restoration/index.html?v=1.0.0");
+    }
+
+    function loadVesselVsKris() {
+      loadRemotePage(FILES_BASE + "vessel-vs-kris/index.html?v=1.0");
+    }
+
+    function loadStarWalkerFight() {
+      loadRemotePage(FILES_BASE + "starwalker-fight/index.html?v=1.2-web");
     }
 
     function loadDeltaruneNetworkChapter(chapter) {
@@ -6035,6 +7223,28 @@
         hideKaizoLoading();
         gamestarted = false;
         alert("Aqua Over Kris Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadNoelleOverKrisChapter(chapter) {
+      try {
+        showKaizoLoading("Loading Noelle Over Kris Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "noelle-over-kris/chapter" + chapter + "/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Noelle Over Kris Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadKrisInASkirtChapter(chapter) {
+      try {
+        showKaizoLoading("Loading Kris In A Skirt Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "kris-in-a-skirt/chapter" + chapter + "/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Kris In A Skirt Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
 
@@ -6070,6 +7280,30 @@
         hideKaizoLoading();
         gamestarted = false;
         alert("Chaos Randomizer Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadKrisBleedingChapter(chapter) {
+      try {
+        showKaizoLoading("Loading Kris Is Bleeding Chapter " + chapter + "...");
+        const chapterBase = FIXED_MOD_BUILD_BASE + "kris-bleeding/chapter" + chapter + "/";
+        loadRemotePage(chapterBase + "index.html", chapterBase);
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Kris Is Bleeding Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function loadNxruneChapter(chapter) {
+      try {
+        showKaizoLoading("Loading NXRUNE Chapter " + chapter + "...");
+        const chapterBase = FIXED_MOD_BUILD_BASE + "nxrune/chapter" + chapter + "/";
+        loadRemotePage(chapterBase + "index.html", chapterBase);
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("NXRUNE Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
       }
     }
 
@@ -6115,16 +7349,29 @@
       }
     });
 
-    applySiteBackground(localStorage.getItem("dul_site_background") || "ch5");
+    const themePreviewMode = new URLSearchParams(location.search).has("themePreview");
+    if (themePreviewMode) {
+      HTMLMediaElement.prototype.play = function () { return Promise.resolve(); };
+    } else {
+      if (!localStorage.getItem("dul_default_theme_halloween_2026")) {
+        localStorage.setItem("dul_default_theme_halloween_2026", "1");
+        localStorage.setItem("dul_site_background", DEFAULT_SITE_THEME);
+      }
+      const savedSiteTheme = localStorage.getItem("dul_site_background") || DEFAULT_SITE_THEME;
+      applySiteBackground(savedSiteTheme);
+      loadInstalledSiteTheme(savedSiteTheme);
+    }
     applyTabAppearance();
     updateAudioButtons();
     localStorage.removeItem("dul_presence_service");
     updatePresenceControls();
     updateMobileControlsSetting();
-    if (isPresenceEnabled()) connectCloudflarePresenceCounter();
+    updateMobileControlsLayoutSetting();
+    if (!themePreviewMode && isPresenceEnabled()) connectCloudflarePresenceCounter();
+    reportThemeUsage(currentSiteThemeId());
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "dynamic-equips", "network", "aqua", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "extras", "credits", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "dynamic-equips", "network", "aqua", "noelle-over-kris", "kris-in-a-skirt", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "nxrune", "cyf", "extras", "credits", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");

@@ -116,7 +116,7 @@
       const RUNNER_DATA_PARTS = ["runner.data"];
       const TOTAL_ASSET_PARTS = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
       const GAME_MD5 = "5bcdfe76137c2c18d0110ca03994ce9b";
-      const ASSET_VERSION = "lost-deltarune-20260801-responsive";
+      const ASSET_VERSION = "lost-deltarune-20260801-speedfix";
       const NATIVE_GAME_WIDTH = 640;
       const NATIVE_GAME_HEIGHT = 480;
       let mergedGameUrl = "";
@@ -203,6 +203,10 @@
         loadingElement.classList.add("hidden");
         canvasElement.classList.add("active");
         canvasElement.focus();
+        // The runner can size the canvas backing store while it is still
+        // display:none, locking it to 0x0 — nudge a resize so it re-reads
+        // the now-visible element and allocates a real framebuffer.
+        requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
       }
 
       async function fetchParts(parts, label, progressState) {
@@ -736,7 +740,7 @@
       function manifestFilesMD5() {
         return [
           "99c48166b13217332bc5a402e15d27b4",
-          "e061ebc57bfed7095750ce7195fe5589",
+          "b3e38f1cfa7517e286f9e0fb350f0b6e",
           "974de43c7679838b00db32032d23f470",
           "e8f1e8db8cf996f8715a6f2164c2e44e",
           "5bcdfe76137c2c18d0110ca03994ce9b"
@@ -794,6 +798,67 @@
         return 0;
       }
 
+      // The palette-swap shader in game.unx initializes its loop index from a
+      // uniform (corner.y), which strict GLSL ES 1.00 compilers reject — every
+      // part of the for-header must be constant there ("Loop index cannot be
+      // initialized/compared/modified with non-constant expression"), so the
+      // shader never compiles on WebGL1 and palette effects silently break.
+      // Rewrite it as a constant-bounded loop that early-outs with break —
+      // semantically identical: i walks corner.y → u_Uvs.w in u_pixelSize.y
+      // steps either way.
+      (function() {
+        const LOOP_RE = /for\s*\(\s*float\s+i\s*=\s*corner\.y\s*;\s*i\s*<\s*u_Uvs\.w\s*;\s*i\s*\+=\s*u_pixelSize\.y\s*\)\s*\{/;
+        const FIXED_HEAD =
+          "for(float _twi = 0.0; _twi < 1024.0; _twi += 1.0) { " +
+          "float i = corner.y + _twi * u_pixelSize.y; " +
+          "if (i >= u_Uvs.w) break;";
+        for (const proto of [
+          window.WebGLRenderingContext && WebGLRenderingContext.prototype,
+          window.WebGL2RenderingContext && WebGL2RenderingContext.prototype
+        ]) {
+          if (!proto) continue;
+          const originalShaderSource = proto.shaderSource;
+          proto.shaderSource = function(shader, source) {
+            if (typeof source === "string" && LOOP_RE.test(source)) {
+              source = source.replace(LOOP_RE, FIXED_HEAD);
+            }
+            return originalShaderSource.call(this, shader, source);
+          };
+        }
+      })();
+
+      // Watchdog: this game is built for 30fps and the runner polls
+      // screen.width once per frame (counted as window.__gmFrame). A runner
+      // bug can leave the game stepping far faster than 30fps — historically
+      // the only fix was reloading the page. Detect a sustained runaway and
+      // reload once, which restores correct timing.
+      const frameWatchdog = { last: 0, strikes: 0, armed: false };
+      setInterval(() => {
+        const frames = window.__gmFrame | 0;
+        if (!frameWatchdog.armed) {
+          frameWatchdog.armed = frames > 0;
+          frameWatchdog.last = frames;
+          return;
+        }
+        const rate = frames - frameWatchdog.last;
+        frameWatchdog.last = frames;
+        if (document.visibilityState !== "visible" || rate <= 45) {
+          frameWatchdog.strikes = 0;
+          return;
+        }
+        frameWatchdog.strikes++;
+        console.warn("Lost Deltarune: abnormal frame rate " + rate + "/s (expected ~30/s)");
+        if (frameWatchdog.strikes >= 3) {
+          let lastReload = 0;
+          try { lastReload = +sessionStorage.getItem("ld_watchdog_reload") || 0; } catch (e) {}
+          if (Date.now() - lastReload > 60000) {
+            try { sessionStorage.setItem("ld_watchdog_reload", String(Date.now())); } catch (e) {}
+            console.warn("Lost Deltarune: reloading to recover game speed");
+            location.reload();
+          }
+        }
+      }, 1000);
+
       setWadLoadCallback(function() {});
 
       prepareGameAssets()
@@ -810,6 +875,6 @@
           alert("Lost Deltarune could not load.\n\n" + (error && error.message ? error.message : error));
         });
     </script>
-    <script src="/files/mobile-controls.js" defer></script>
+    <script src="../mobile-controls.js" defer></script>
 </body>
 </html>

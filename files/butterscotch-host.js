@@ -106,12 +106,42 @@ function installKeyboard(worker, canvas, releaseDelay) {
   canvas.addEventListener("pointerdown", () => canvas.focus());
 }
 
-export async function startButterscotch({ canvas, gamePath, savePath, releaseDelay = 0 }) {
-  const worker = new Worker(new URL("./butterscotch-runner-worker.js", import.meta.url), { type: "module" });
+// Forwards pointer position + buttons to the runner as GameMaker mouse input.
+// Coordinates are sent in canvas drawing-buffer pixels (the "window" the game sees).
+function installMouse(worker, canvas) {
+  const toCanvasCoords = event => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return null;
+    return {
+      x: (event.clientX - rect.left) * (canvas.width / rect.width),
+      y: (event.clientY - rect.top) * (canvas.height / rect.height),
+    };
+  };
+  canvas.addEventListener("pointermove", event => {
+    const p = toCanvasCoords(event);
+    if (p) worker.postMessage({ type: "mouse", x: p.x, y: p.y });
+  });
+  canvas.addEventListener("pointerdown", event => {
+    const p = toCanvasCoords(event);
+    worker.postMessage({ type: "mouseButton", button: event.button, down: true, x: p?.x ?? 0, y: p?.y ?? 0 });
+    if (p) worker.postMessage({ type: "mouse", x: p.x, y: p.y });
+  });
+  canvas.addEventListener("pointerup", event => {
+    worker.postMessage({ type: "mouseButton", button: event.button, down: false });
+  });
+  canvas.addEventListener("contextmenu", event => event.preventDefault());
+}
+
+export async function startButterscotch({ canvas, gamePath, savePath, releaseDelay = 0, workerUrl }) {
+  const worker = new Worker(workerUrl ?? new URL("./butterscotch-runner-worker.js", import.meta.url), { type: "module" });
   worker.addEventListener("message", event => {
     if (event.data.type === "log") console.log(...event.data.args);
     if (event.data.type === "errorLog") console.error(...event.data.args);
+    if (event.data.type === "dumpState") window.__bsDumpState = event.data.json;
   });
+  window.__bsRequestDump = () => worker.postMessage({ type: "dumpState" });
+  window.__bsGotoRoom = (room) => worker.postMessage({ type: "gotoRoom", room });
+  window.__bsStepFrames = (frames) => worker.postMessage({ type: "stepFrames", frames });
   await waitForWorker(worker, "ready");
   const audio = await initializeAudio(worker);
   const started = waitForWorker(worker, "started");
@@ -119,6 +149,7 @@ export async function startButterscotch({ canvas, gamePath, savePath, releaseDel
   worker.postMessage({ type: "start", canvas: offscreen, gamePath, savePath }, [offscreen]);
   await started;
   installKeyboard(worker, canvas, releaseDelay);
+  installMouse(worker, canvas);
 
   window.addEventListener("pagehide", () => {
     worker.postMessage({ type: "stop" });
