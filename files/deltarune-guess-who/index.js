@@ -667,7 +667,7 @@ const Engine = (function () {
 		if (loadPromise == null) {
 			loadPath = basePath;
 			const wasmPath = loadPath === 'index'
-				? '/files/deltarune-guess-who/index.wasm'
+				? 'index.wasm'
 				: `${loadPath}.wasm`;
 			loadPromise = preloader.loadPromise(wasmPath, size, true);
 			requestAnimationFrame(preloader.animateProgress);

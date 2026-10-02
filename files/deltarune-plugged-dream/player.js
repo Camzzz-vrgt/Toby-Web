@@ -184,12 +184,38 @@ SOFTWARE.
           }
           // Fetch the package remotely
           console.log('fetching:'+uri);
-          fetch(uri, { credentials: "same-origin" })
+          var splitMatch = uri.match(/^(.*deltarune-plugged-dream\.love)(\?.*)?$/);
+          var packageRequest;
+          if (splitMatch) {
+            var suffix = splitMatch[2] || '';
+            packageRequest = (async function () {
+              var parts = [];
+              for (var part = 1; part <= 3; part++) {
+                var res = await fetch(splitMatch[1] + '.part' + part + suffix, { credentials: "same-origin" });
+                if (!res.ok)
+                  throw new Error('Could not fetch Plugged Dream package part ' + part);
+                parts.push(await res.arrayBuffer());
+              }
+              return parts;
+            })().then(function (parts) {
+              var total = parts.reduce(function (sum, part) { return sum + part.byteLength; }, 0);
+              var joined = new Uint8Array(total);
+              var offset = 0;
+              parts.forEach(function (part) {
+                joined.set(new Uint8Array(part), offset);
+                offset += part.byteLength;
+              });
+              return joined.buffer;
+            });
+          } else {
+            packageRequest = fetch(uri, { credentials: "same-origin" })
             .then(function (res) {
               if (!res.ok)
                 return reject('Could not fetch the love package');
               return res.arrayBuffer();
-            })
+            });
+          }
+          packageRequest
             .then(function (data) {
               data = new Uint8Array(data);
               if (uri.endsWith('.love') || uri.endsWith('.zip')) {

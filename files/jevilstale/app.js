@@ -3,7 +3,7 @@
 
   const GAME_ID = "jevilstale";
   const BUILD_ID = "gamejolt-1060819-1930585-butterscotch-20260915";
-  const DATA_PARTS = ["data.win"];
+  const DATA_PARTS = ["data.win.part1", "data.win.part2", "data.win.part3", "data.win.part4"];
   const LOCAL_AUDIO = ["mus_a2.ogg", "snd_wheel.ogg"];
   const AUDIO_CAPACITY_FRAMES = 1024;
 
