@@ -14,14 +14,8 @@
   <div class="loader">Loading Knight Rematch...</div>
   <script>
     (async function () {
-      const parts = [
-        "index.part001",
-        "index.part002",
-        "index.part003",
-        "index.part004",
-        "index.part005",
-        "index.part006"
-      ];
+      const parts = [];
+      for (let p = 1; p <= 13; p += 1) parts.push("index.part" + p);
       const baseTag = document.querySelector("base");
       const base = baseTag ? baseTag.href : new URL("./", location.href).href;
       const applyPixelStyle = () => {
@@ -59,6 +53,6 @@
       }
     }());
   </script>
-  <script src="/files/mobile-controls.js" defer></script>
+  <script src="../mobile-controls.js" defer></script>
 </body>
 </html>
