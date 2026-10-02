@@ -170,7 +170,7 @@
       var Module = {
         INITIAL_MEMORY: 536870912,
         preRun: [function () {
-          const partNames = [1, 2, 3, 4].map(part => `game.unx.part${part}`);
+          const partNames = [1, 2, 3, 4, 5, 6].map(part => `game.unx.part${part}`);
           Module.addRunDependency("berdly-game-archive");
           Module.addRunDependency("berdly-streamed-audio");
 

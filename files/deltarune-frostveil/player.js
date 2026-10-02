@@ -188,15 +188,16 @@ SOFTWARE.
           var packageRequest;
           if (splitMatch) {
             var suffix = splitMatch[2] || '';
-            var partRequests = [1, 2, 3].map(function (part) {
-              return fetch(splitMatch[1] + '.part' + part + suffix, { credentials: "same-origin" })
-                .then(function (res) {
-                  if (!res.ok)
-                    throw new Error('Could not fetch Frostveil package part ' + part);
-                  return res.arrayBuffer();
-                });
-            });
-            packageRequest = Promise.all(partRequests).then(function (parts) {
+            packageRequest = (async function () {
+              var parts = [];
+              for (var part = 1; part <= 7; part++) {
+                var res = await fetch(splitMatch[1] + '.part' + part + suffix, { credentials: "same-origin" });
+                if (!res.ok)
+                  throw new Error('Could not fetch Frostveil package part ' + part);
+                parts.push(await res.arrayBuffer());
+              }
+              return parts;
+            })().then(function (parts) {
               var total = parts.reduce(function (sum, part) { return sum + part.byteLength; }, 0);
               var joined = new Uint8Array(total);
               var offset = 0;
