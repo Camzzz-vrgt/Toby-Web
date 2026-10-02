@@ -151,3 +151,13 @@ function love.system.setClipboardText(text)
   cmd = string.format(cmd, text)
   return love.js.eval(cmd)
 end
+
+-- Toby Web: love.js lacks LuaJIT's global `bit` library, which Kristal's
+-- Utils.parseTileGid and some mod scripts rely on. Load the pure-Lua
+-- polyfill shipped in lua/bit.lua and expose it as the global `bit`.
+do
+  local ok, lib = pcall(require, "bit")
+  if ok and type(lib) == "table" then
+    bit = lib
+  end
+end

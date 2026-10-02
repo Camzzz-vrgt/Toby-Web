@@ -188,7 +188,8 @@ SOFTWARE.
           var packageRequest;
           if (splitMatch) {
             var suffix = splitMatch[2] || '';
-            var partRequests = [1, 2, 3, 4, 5, 6, 7, 8].map(function (part) {
+            var partNumbers = []; for (var pi = 1; pi <= 22; pi++) partNumbers.push(pi);
+            var partRequests = partNumbers.map(function (part) {
               return fetch(splitMatch[1] + '.part' + part + suffix, { credentials: "same-origin" })
                 .then(function (res) {
                   if (!res.ok)
@@ -238,6 +239,7 @@ SOFTWARE.
       var list = [ uri ];
       list.push('lua/normalize1.lua');
       list.push('lua/normalize2.lua');
+      list.push('lua/bit.lua');
       list.push('11.5/love.wasm');
       var loaded = 0;
       var cache = {};
