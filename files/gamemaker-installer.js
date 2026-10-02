@@ -27,7 +27,7 @@
     const pieces = [];
     for (const source of sources) {
       const url = new URL(source, base);
-      if (url.origin !== location.origin) throw new Error(`Non-local asset: ${source}`);
+      if (url.origin !== new URL(document.baseURI).origin) throw new Error(`Non-local asset: ${source}`);
       const response = await fetch(url, { cache: "no-store" });
       if (!response.ok) throw new Error(`${source}: HTTP ${response.status}`);
       pieces.push(await response.blob());
@@ -49,7 +49,7 @@
 
   async function install(manifestPath, onStatus) {
     if (!navigator.storage?.getDirectory) throw new Error("This browser does not support the local storage API required by the Undertale runner.");
-    const manifestUrl = new URL(manifestPath, location.href);
+    const manifestUrl = new URL(manifestPath, document.baseURI);
     const response = await fetch(manifestUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`${manifestPath}: HTTP ${response.status}`);
     const manifest = await response.json();
