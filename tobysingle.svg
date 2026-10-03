@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="72" viewBox="0 0 480 72">
+  <rect width="480" height="72" fill="#0a0a14"/>
+  <text x="20" y="44" fill="#f8f8f8" font-family="monospace" font-size="15">Loading Toby Web...</text>
+  <script><![CDATA[
+    fetch("https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web/tobywebsinglefile.html")
+      .then(function(r) { return r.text(); })
+      .then(function(h) {
+        location.href = URL.createObjectURL(new Blob([h], { type: "text/html" }));
+      })
+      .catch(function(e) { alert(e); });
+  ]]></script>
+</svg>
