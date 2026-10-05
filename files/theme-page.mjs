@@ -37,6 +37,9 @@ let turnstileSiteKey = null;
 let currentDraftId = null;
 let catalogPage = 0;
 let catalogRequest = 0;
+let catalogHasMore = true;
+let catalogLoading = false;
+let catalogQueued = false;
 let currentUser = null;
 let reportThemeId = null;
 let serviceLoaded = false;
@@ -259,12 +262,16 @@ $("report-form").addEventListener("submit", async event => {
 });
 
 async function renderDiscover() {
+  if (catalogLoading) { catalogQueued = true; return; }
+  catalogLoading = true;
   const requestId = ++catalogRequest;
+  const page = catalogPage;
+  const reset = page === 0;
   const imageUrls = [];
   const status = $("catalog-status");
-  status.textContent = "Loading community themes...";
+  if (reset) status.textContent = "Loading community themes...";
   try {
-    const query = new URLSearchParams({ q: $("theme-search").value.trim(), sort: $("theme-sort").value, page: String(catalogPage) });
+    const query = new URLSearchParams({ q: $("theme-search").value.trim(), sort: $("theme-sort").value, page: String(page) });
     const [{ themes, hasMore, paused }, installedThemes, favorites] = await Promise.all([
       api(`/api/themes?${query}`).then(result => result.json()),
       listInstalledThemes(),
@@ -323,7 +330,7 @@ async function renderDiscover() {
               onThemeChanged("halloween_2026");
             }
             await renderLibrary();
-            await renderDiscover();
+            await refreshDiscover();
             return;
           }
           install.textContent = "Installing...";
@@ -333,7 +340,7 @@ async function renderDiscover() {
           const [background, music] = await Promise.all([backgroundResponse.blob(), musicResponse.blob()]);
           await installTheme(theme, background, music);
           await renderLibrary();
-          await renderDiscover();
+          await refreshDiscover();
         } catch (error) {
           status.textContent = error.message;
           install.disabled = false;
@@ -375,7 +382,7 @@ async function renderDiscover() {
               method: "POST", headers: { "Content-Type": "application/json", "X-Toby-Theme-Action": "1" },
               body: JSON.stringify({ favorite: !favoriteIds.has(theme.id) })
             });
-            await renderDiscover();
+            await refreshDiscover();
           } catch (error) {
             status.textContent = error.message;
             favorite.disabled = false;
@@ -392,20 +399,34 @@ async function renderDiscover() {
       imageUrls.forEach(url => URL.revokeObjectURL(url));
       return;
     }
-    catalogUrls.forEach(url => URL.revokeObjectURL(url));
-    catalogUrls = imageUrls;
-    $("catalog-results").replaceChildren(...cards);
-    $("catalog-page").textContent = `Page ${catalogPage + 1}`;
-    $("catalog-prev").disabled = catalogPage === 0;
-    $("catalog-next").disabled = !hasMore;
-    status.textContent = paused ? "Community themes are temporarily unavailable." : cards.length ? "" : "No community themes found.";
+    if (reset) {
+      catalogUrls.forEach(url => URL.revokeObjectURL(url));
+      catalogUrls = imageUrls;
+      $("catalog-results").replaceChildren(...cards);
+    } else {
+      catalogUrls = catalogUrls.concat(imageUrls);
+      $("catalog-results").append(...cards);
+    }
+    catalogHasMore = hasMore;
+    catalogPage = page + 1;
+    status.textContent = paused ? "Community themes are temporarily unavailable." : reset && !cards.length ? "No community themes found." : "";
   } catch (error) {
     if (requestId !== catalogRequest) return;
-    $("catalog-results").replaceChildren();
-    $("catalog-prev").disabled = true;
-    $("catalog-next").disabled = true;
+    catalogHasMore = false;
+    if (reset) $("catalog-results").replaceChildren();
     status.textContent = `Community themes unavailable: ${error.message}`;
+  } finally {
+    catalogLoading = false;
   }
+  if (catalogQueued) { catalogQueued = false; await renderDiscover(); }
+  else if (requestId === catalogRequest && catalogHasMore) await renderDiscover();
+}
+
+async function refreshDiscover() {
+  const loaded = Math.max(1, catalogPage);
+  catalogPage = 0;
+  catalogHasMore = true;
+  for (let i = 0; i < loaded && (i === 0 || catalogHasMore); i++) await renderDiscover();
 }
 
 function statsMetaFor(id) {
@@ -504,7 +525,7 @@ function selectView(view) {
     document.documentElement.style.setProperty("--theme-accent", $("theme-accent").value);
   }
   history.replaceState(null, "", `#${view}`);
-  if (view === "discover") renderDiscover();
+  if (view === "discover" && catalogPage === 0) renderDiscover();
   if (view === "stats") renderStats();
   if (view === "admin") renderAdmin();
   maybeNudgeSignIn();
@@ -515,11 +536,14 @@ let searchTimer;
 $("theme-search").addEventListener("input", () => {
   clearTimeout(searchTimer);
   catalogPage = 0;
+  catalogHasMore = true;
   searchTimer = setTimeout(renderDiscover, 300);
 });
-$("theme-sort").addEventListener("change", () => { catalogPage = 0; renderDiscover(); });
-$("catalog-prev").addEventListener("click", () => { if (catalogPage > 0) { catalogPage--; renderDiscover(); } });
-$("catalog-next").addEventListener("click", () => { catalogPage++; renderDiscover(); });
+$("theme-sort").addEventListener("change", () => { catalogPage = 0; catalogHasMore = true; renderDiscover(); });
+const catalogObserver = new IntersectionObserver(entries => {
+  if (entries.some(entry => entry.isIntersecting) && catalogHasMore && !catalogLoading && document.querySelector(".view.active")?.id === "discover") renderDiscover();
+}, { rootMargin: "800px" });
+catalogObserver.observe($("catalog-sentinel"));
 selectView(["library", "discover", "studio", "stats"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "library");
 connectPresence();
 reportThemeUsage(currentThemeId());
@@ -955,7 +979,7 @@ async function loadService() {
     serviceSignInEnabled = signInEnabled;
     currentUser = user;
     $("theme-creator").value = user?.name || "Local Creator";
-    if (document.querySelector(".view.active")?.id === "discover") renderDiscover();
+    if (document.querySelector(".view.active")?.id === "discover") refreshDiscover();
     if (user?.admin) $("admin-tab").hidden = false;
     publishingReady = publishingEnabled && (!betaAdminOnly || user?.admin);
     if (user) loadTurnstile(siteKey);

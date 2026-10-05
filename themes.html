@@ -38,8 +38,7 @@
     .sort-control { position: relative; width: min(100%, 220px); }
     .sort-control select { max-width: none; padding-right: 36px; appearance: none; }
     .sort-control::after { content: ""; position: absolute; top: 50%; right: 14px; width: 7px; height: 7px; border-right: 2px solid #fff; border-bottom: 2px solid #fff; transform: translateY(-70%) rotate(45deg); pointer-events: none; }
-    .catalog-pages { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 18px; }
-    .catalog-pages .action { margin: 0; }
+    #catalog-sentinel { height: 1px; }
     .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
     .theme-card { min-width: 0; border: 2px solid #fff; background: #000; }
     .theme-card.active { border-color: var(--purple); }
@@ -148,7 +147,7 @@
       <h2>Discover</h2>
       <div class="toolbar"><input id="theme-search" class="search" type="search" placeholder="Search themes" aria-label="Search themes"><span class="sort-control"><select id="theme-sort" class="search" aria-label="Sort themes"><option value="newest">Newest</option><option value="alphabetical">Alphabetical</option><option value="verified">Verified</option></select></span></div>
       <div id="catalog-results" class="theme-grid"></div>
-      <nav class="catalog-pages" aria-label="Catalog pages"><button id="catalog-prev" class="action" type="button">Previous</button><span id="catalog-page">Page 1</span><button id="catalog-next" class="action" type="button">Next</button></nav>
+      <div id="catalog-sentinel" aria-hidden="true"></div>
       <p id="catalog-status" class="empty" role="status">Loading community themes...</p>
     </section>
     <section id="stats" class="view">
@@ -246,6 +245,6 @@
       });
     })();
   </script>
-  <script type="module" src="files/theme-page.mjs?v=5"></script>
+  <script type="module" src="files/theme-page.mjs?v=7"></script>
 </body>
 </html>

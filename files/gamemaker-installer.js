@@ -40,11 +40,32 @@
     return blob;
   }
 
+  function isQuotaError(error) {
+    return !!error && (error.name === "QuotaExceededError" || /quota/i.test(error.message || ""));
+  }
+
+  async function evictOtherGames(root, keepGameId) {
+    // OPFS games/ dirs are re-downloadable cache — saves/ is never touched.
+    try {
+      const gamesDir = await root.getDirectoryHandle("games");
+      for await (const name of gamesDir.keys()) {
+        if (name === keepGameId) continue;
+        try { await gamesDir.removeEntry(name, { recursive: true }); } catch (_) {}
+      }
+    } catch (_) {}
+  }
+
   async function write(root, path, blob) {
     const handle = await fileAt(root, path, true);
     const stream = await handle.createWritable();
-    try { await stream.write(blob); }
-    finally { await stream.close(); }
+    let finished = false;
+    try {
+      await stream.write(blob);
+      finished = true;
+    } finally {
+      if (finished) await stream.close();
+      else await stream.abort().catch(() => {});
+    }
   }
 
   async function install(manifestPath, onStatus) {
@@ -77,27 +98,54 @@
     }
     const total = manifest.dataParts.length + manifest.files.length;
     let completed = 0;
-    const dataHandle = await fileAt(gameDir, "data.win", true);
-    const dataStream = await dataHandle.createWritable();
+
+    const installFiles = async () => {
+      const dataHandle = await fileAt(gameDir, "data.win", true);
+      const dataStream = await dataHandle.createWritable();
+      let finished = false;
+      try {
+        for (const [index, entry] of manifest.dataParts.entries()) {
+          await dataStream.write(await download(entry, manifestUrl));
+          onStatus(`Installing game data (${index + 1}/${manifest.dataParts.length})...`, ++completed, total);
+        }
+        finished = true;
+      } finally {
+        if (finished) await dataStream.close();
+        else await dataStream.abort().catch(() => {});
+      }
+      const queue = manifest.files.slice();
+      let failure;
+      await Promise.all(Array.from({ length: Math.min(8, queue.length) }, async () => {
+        while (queue.length && !failure) {
+          const entry = queue.shift();
+          try {
+            await write(gameDir, entry.target, await download(entry, manifestUrl));
+            onStatus(`Installing local assets (${++completed - manifest.dataParts.length}/${manifest.files.length})...`, completed, total);
+          } catch (error) { failure = error; }
+        }
+      }));
+      if (failure) throw failure;
+      await write(gameDir, ".toby-web-build", manifest.buildId);
+    };
+
     try {
-      for (const [index, entry] of manifest.dataParts.entries()) {
-        await dataStream.write(await download(entry, manifestUrl));
-        onStatus(`Installing game data (${index + 1}/${manifest.dataParts.length})...`, ++completed, total);
+      await installFiles();
+    } catch (error) {
+      if (!isQuotaError(error)) throw error;
+      // OPFS is full — evict other ports' installed game data (re-downloadable
+      // cache; saves/ lives outside games/ and is untouched) and retry once.
+      await evictOtherGames(root, manifest.gameId);
+      completed = 0;
+      onStatus("Storage was full — cleared older game data, retrying install...", 0, total);
+      try {
+        await installFiles();
+      } catch (retryError) {
+        if (isQuotaError(retryError)) {
+          throw new Error("Not enough browser storage to install this game. Free disk space or clear site data for this site, then retry.");
+        }
+        throw retryError;
       }
-    } finally { await dataStream.close(); }
-    const queue = manifest.files.slice();
-    let failure;
-    await Promise.all(Array.from({ length: Math.min(8, queue.length) }, async () => {
-      while (queue.length && !failure) {
-        const entry = queue.shift();
-        try {
-          await write(gameDir, entry.target, await download(entry, manifestUrl));
-          onStatus(`Installing local assets (${++completed - manifest.dataParts.length}/${manifest.files.length})...`, completed, total);
-        } catch (error) { failure = error; }
-      }
-    }));
-    if (failure) throw failure;
-    await write(gameDir, ".toby-web-build", manifest.buildId);
+    }
   }
 
   window.TobyGameMakerInstaller = { install };

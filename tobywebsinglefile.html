@@ -615,6 +615,23 @@
       font-size: 1.05rem;
     }
 
+    #deltarune-page .webport-link {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 20;
+      min-width: 0;
+    }
+
+    #deltarune-page .webport-tag {
+      color: #fefe00;
+      border: 1px solid #fefe00;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      padding: 1px 5px;
+      line-height: 1;
+    }
+
     .save-menu {
       justify-self: end;
       display: flex;
@@ -977,6 +994,7 @@
     .game-card.pluggeddream img,
     .game-card.friendless img,
     .game-card.frostveil img,
+    .game-card.manbehindtree img,
     .game-card.differentsnowgrave img,
     .game-card.tungsahur img,
     .game-card.lambdarune img,
@@ -1141,6 +1159,16 @@
       font-size: 0.66rem;
     }
 
+    .manbehindtree-text {
+      color: #6fd06f;
+      font-size: 0.66rem;
+    }
+
+    .customdifficulty-text {
+      color: #ff6b6b;
+      font-size: 0.66rem;
+    }
+
     .differentsnowgrave-text {
       color: #f2d91d;
       font-size: 0.66rem;
@@ -1282,6 +1310,45 @@
       line-height: 1.3;
     }
 
+    #beta-testers-section {
+      margin-top: 36px;
+    }
+
+    #beta-testers-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #beta-testers-list .person-credit {
+      grid-template-columns: 44px minmax(0, auto);
+      gap: 10px;
+      padding: 6px;
+      width: auto;
+      max-width: 100%;
+    }
+
+    #beta-testers-list .person-credit strong,
+    #beta-testers-list .person-credit small {
+      overflow-wrap: anywhere;
+    }
+
+    #beta-testers-list .person-credit-image {
+      width: 44px;
+      height: 44px;
+      border-width: 1px;
+    }
+
+    #beta-testers-list .person-credit strong {
+      font-size: 0.9rem;
+    }
+
+    #beta-testers-list .person-credit small {
+      margin-top: 3px;
+      font-size: 0.62rem;
+    }
+
     .game-credits-disclosure {
       padding-top: 28px;
     }
@@ -1293,7 +1360,8 @@
       color: var(--white);
       padding: 14px;
       box-sizing: border-box;
-      cursor: pointer;
+      cursor: default;
+      pointer-events: none;
       text-align: center;
       text-transform: uppercase;
       font-size: 1.2rem;
@@ -1302,16 +1370,11 @@
 
     .game-credits-disclosure summary::-webkit-details-marker { display: none; }
 
-    .game-credits-disclosure summary:hover,
-    .game-credits-disclosure summary:focus-visible,
-    .game-credits-disclosure[open] summary {
+    .game-credits-disclosure summary {
       color: var(--yellow);
       border-color: var(--yellow);
       outline: none;
     }
-
-    .game-credits-disclosure[open] summary::after { content: "  -"; }
-    .game-credits-disclosure:not([open]) summary::after { content: "  +"; }
 
     .game-credits-content {
       display: grid;
@@ -1383,6 +1446,9 @@
     .source-link.pluggeddream, .game-credit-row.pluggeddream { --source-hover: #c217ff; }
     .source-link.friendless, .game-credit-row.friendless { --source-hover: #ff5f7f; }
     .source-link.frostveil, .game-credit-row.frostveil { --source-hover: #79cfff; }
+    .source-link.manbehindtree, .game-credit-row.manbehindtree { --source-hover: #6fd06f; }
+    .source-link.restitched, .game-credit-row.restitched { --source-hover: #ffe14a; }
+    .source-link.customdifficulty, .game-credit-row.customdifficulty { --source-hover: #ff4a4a; }
     .source-link.differentsnowgrave, .game-credit-row.differentsnowgrave { --source-hover: #f2d91d; }
     .source-link.tungsahur, .game-credit-row.tungsahur { --source-hover: #ffdf45; }
     .source-link.lambdarune, .game-credit-row.lambdarune { --source-hover: #9eff66; }
@@ -1674,6 +1740,7 @@
     #aqua-over-kris-modal,
     #noelle-over-kris-modal,
     #kris-in-a-skirt-modal,
+    #custom-difficulty-modal,
     #save-converter-modal,
     #featured-save-info-modal,
     #ut-saves-modal,
@@ -1707,6 +1774,7 @@
     #aqua-over-kris-modal.open,
     #noelle-over-kris-modal.open,
     #kris-in-a-skirt-modal.open,
+    #custom-difficulty-modal.open,
     #save-converter-modal.open,
     #featured-save-info-modal.open,
     #ut-saves-modal.open,
@@ -2784,6 +2852,20 @@
         width: min(34vw, 500px);
       }
 
+      body[data-button-layout^="stacked-"] .home-choices {
+        gap: clamp(12px, 4vh, 44px);
+      }
+
+      body[data-button-layout^="stacked-"] .home-logo-link {
+        height: auto;
+      }
+
+      body[data-button-layout^="stacked-"] .home-logo-link img {
+        width: auto;
+        max-width: min(58vw, 560px);
+        height: clamp(70px, 20vh, 132px);
+      }
+
       .home-footer {
         inset: auto 14px 12px 14px;
         min-height: 66px;
@@ -2976,20 +3058,109 @@
       }
     }
 
-    @media (max-height: 360px) {
+    @media (max-width: 760px) and (min-height: 480px) {
+      /* Mobile home: footer controls stack into two centered rows so the
+         mods/extras buttons stop clipping off the right edge. */
+      .home-footer {
+        inset: auto 12px 12px 12px;
+        min-height: 118px;
+      }
+      .home-nav-actions {
+        left: 0;
+        right: 0;
+        bottom: 54px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      .extras-home,
+      .mods-home {
+        font-size: clamp(1.5rem, 7.5vw, 2rem);
+        padding: 4px 16px;
+      }
+      .brand-links {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        justify-content: center;
+        gap: 10px;
+      }
+      .brand-link {
+        width: 50px;
+        height: 46px;
+      }
+      .brand-link img {
+        max-width: 44px;
+        max-height: 40px;
+      }
+      .online-presence {
+        font-size: 0.68rem;
+        padding: 5px 7px 4px;
+      }
+      /* Top bar: shrink the logo and corner buttons so they do not overlap. */
+      .toby-web-brand-home {
+        top: 10px;
+        left: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .toby-web-logo-home {
+        width: min(168px, 44vw);
+        min-width: 0;
+      }
+      .toby-web-byline {
+        margin-bottom: 0;
+        font-size: 0.62rem;
+      }
+      .settings-toggle {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+      }
+      .download-toggle {
+        top: 10px;
+        right: 48px;
+        width: 30px;
+        height: 30px;
+      }
+      .changelog-toggle {
+        top: 10px;
+        right: 86px;
+        font-size: 0.58rem;
+        padding: 2px 6px;
+      }
+      /* Lift the game picks clear of the stacked footer. */
       .home-choices {
-        top: 33%;
-        width: min(760px, calc(100vw - 116px));
-        grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
-        gap: clamp(16px, 5vw, 34px);
+        top: 45%;
+        gap: 20px;
+      }
+    }
+
+    @media (max-height: 460px) {
+      .home-choices {
+        top: 50%;
+        gap: clamp(8px, 3vh, 18px);
+      }
+
+      body[data-button-layout^="stacked-"] .home-choices {
+        gap: clamp(8px, 3vh, 18px);
       }
 
       .home-logo-link {
-        height: 76px;
+        height: auto;
       }
 
       .home-logo-link img {
-        width: min(38vw, 300px);
+        width: auto;
+        max-width: min(64vw, 460px);
+        height: clamp(52px, 21vh, 100px);
+      }
+
+      .toby-web-logo-home {
+        width: min(168px, 26vw);
       }
 
       .home-footer {
@@ -3004,6 +3175,233 @@
       .mods-home {
         width: auto;
         font-size: clamp(1.5rem, 7.8vh, 2rem);
+        padding: 2px 12px;
+      }
+
+      .brand-link {
+        width: 42px;
+        height: 38px;
+      }
+
+      .brand-link img {
+        max-width: 36px;
+        max-height: 32px;
+      }
+
+      .online-presence {
+        font-size: 0.68rem;
+        padding: 4px 6px 3px;
+      }
+    }
+
+    /* Short-but-wide screens (phone landscape): keep the PC layout, just scaled
+       so the fixed corner clusters don't hit the centered content. */
+    @media (max-height: 460px) and (min-width: 761px) {
+      #deltarune-page {
+        padding-top: 0;
+        overflow: auto;
+      }
+
+      #deltarune-page .subpage-header {
+        min-height: 190px;
+      }
+
+      #deltarune-page .subpage-logo {
+        padding-top: 52px;
+      }
+
+      #deltarune-page .subpage-logo img {
+        height: min(16vh, 58px) !important;
+      }
+
+      #deltarune-page .menu {
+        width: min(560px, calc(100vw - 480px));
+        margin-top: 6px;
+      }
+
+      #deltarune-page .row,
+      #deltarune-page .disabled-row {
+        min-height: 40px;
+        grid-template-columns: 1.05fr 1.22fr 42px;
+      }
+
+      #deltarune-page .chapter,
+      #deltarune-page .title,
+      #deltarune-page .disabled-title {
+        font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+      }
+
+      #deltarune-page .row img,
+      #deltarune-page .disabled-row img {
+        width: 32px;
+        height: 32px;
+      }
+
+      #deltarune-page .save-menu {
+        left: 14px;
+        bottom: 14px;
+        gap: 6px;
+      }
+
+      #deltarune-page .save-button {
+        min-width: 136px;
+        min-height: 28px;
+        font-size: 0.7rem;
+        padding: 4px 8px;
+      }
+
+      #featured-save-box {
+        top: 8px;
+        right: 8px;
+        width: 224px;
+        padding: 6px;
+        gap: 3px;
+      }
+
+      .featured-save-title {
+        font-size: 0.72rem;
+      }
+
+      .featured-save-btn {
+        min-height: 26px;
+        font-size: 0.66rem;
+      }
+
+      .undertale-game-page {
+        overflow: auto;
+      }
+
+      .undertale-game-page .logo {
+        max-width: min(320px, 48vw);
+      }
+
+      .undertale-game-page .menu {
+        width: min(420px, calc(100vw - 460px));
+        margin-top: 14px;
+      }
+
+      .undertale-game-page .row {
+        min-height: 56px;
+      }
+
+      .undertale-game-page .save-menu {
+        left: 12px;
+        bottom: 12px;
+        gap: 6px;
+      }
+
+      #undertale-saves-btn {
+        top: 10px;
+        right: 10px;
+        font-size: 0.62rem;
+        padding: 6px 10px;
+      }
+    }
+
+    /* Narrow screens: the DR/UT subpages use fixed-position button clusters that
+       collide with centered content — move everything into normal flow. */
+    @media (max-width: 760px) {
+      #deltarune-page {
+        padding: 66px 12px 28px;
+        overflow: auto;
+      }
+
+      #deltarune-page .subpage-header {
+        min-height: 0;
+        margin-bottom: 12px;
+      }
+
+      #featured-save-box {
+        position: static;
+        width: min(320px, calc(100vw - 60px));
+        margin: 0 auto 12px;
+      }
+
+      #deltarune-page .subpage-logo {
+        padding-top: 0;
+      }
+
+      #deltarune-page .subpage-logo img {
+        height: min(13vw, 64px) !important;
+      }
+
+      #deltarune-page .save-menu {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      #deltarune-page .save-button {
+        min-width: 0;
+        flex: 0 1 auto;
+        min-height: 36px;
+        font-size: 0.82rem;
+      }
+
+      #deltarune-page .menu {
+        width: min(760px, calc(100vw - 24px));
+        margin: 12px auto 0;
+      }
+
+      #deltarune-page .row,
+      #deltarune-page .disabled-row {
+        grid-template-columns: 1fr 1.3fr 44px;
+        min-height: 50px;
+      }
+
+      #deltarune-page .chapter,
+      #deltarune-page .title,
+      #deltarune-page .disabled-title {
+        font-size: clamp(1rem, 4.4vw, 1.4rem);
+      }
+
+      #deltarune-page .row img,
+      #deltarune-page .disabled-row img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .undertale-game-page.active {
+        display: block;
+      }
+
+      .undertale-game-page {
+        padding: 66px 12px 28px;
+        overflow: auto;
+      }
+
+      #undertale-saves-btn {
+        position: static;
+        display: block;
+        margin: 0 auto 14px;
+        width: fit-content;
+      }
+
+      .undertale-game-page .logo-container {
+        margin-top: 0;
+      }
+
+      .undertale-game-page .logo {
+        max-width: min(360px, 78vw);
+      }
+
+      .undertale-game-page .menu {
+        width: min(560px, calc(100vw - 24px));
+        margin: 16px auto 0;
+      }
+
+      .undertale-game-page .save-menu {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 14px;
       }
     }
 
@@ -3200,6 +3598,9 @@
           <span class="chapter">Chapter 7</span><span class="disabled-title">--</span><img src="files/icons/0.png" alt="">
         </a>
       </div>
+      <a class="webport-link save-button sound-target" href="javascript:loadDeltaruneWebport()">
+        Turg's Deltarune Web-Port<span class="webport-tag">NEW</span>
+      </a>
     </section>
 
     <section id="undertale-page" class="page classic-game-page undertale-game-page">
@@ -3417,6 +3818,11 @@
           <span class="new-badge">NEW</span>
           <img src="files/nxrune/icon.png" alt="NXRUNE">
           <span>NXRUNE</span>
+        </button>
+        <button class="game-card customdifficulty sound-target" data-category="deltarune" onclick="openCustomDifficultyConfirm()">
+          <span class="new-badge">NEW</span>
+          <img src="files/custom-difficulty/icon.png" alt="Custom Difficulty">
+          <span class="customdifficulty-text">Custom Difficulty</span>
         </button>
       </div>
     </section>
@@ -3666,6 +4072,34 @@
       </div>
     </section>
 
+    <section id="custom-difficulty-page" class="page subpage">
+      <header class="subpage-header">
+        <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
+        <div class="network-logo-card">
+          <img src="files/custom-difficulty/icon.png" alt="">
+          <span>Custom Difficulty</span>
+        </div>
+        <span></span>
+      </header>
+      <div class="menu">
+        <a href="javascript:loadCustomDifficultyChapter(1)" class="row sound-target">
+          <span class="chapter">Chapter 1</span><span class="title">The Beginning</span><img src="files/icons/1.png" alt="">
+        </a>
+        <a href="javascript:loadCustomDifficultyChapter(2)" class="row sound-target">
+          <span class="chapter">Chapter 2</span><span class="title">A Cyber's World</span><img src="files/icons/2.png" alt="">
+        </a>
+        <a href="javascript:loadCustomDifficultyChapter(3)" class="row sound-target">
+          <span class="chapter">Chapter 3</span><span class="title">Late Night</span><img src="files/icons/3.png" alt="">
+        </a>
+        <a href="javascript:loadCustomDifficultyChapter(4)" class="row sound-target">
+          <span class="chapter">Chapter 4</span><span class="title">Prophecy</span><img src="files/icons/4.png" alt="">
+        </a>
+        <a href="javascript:loadCustomDifficultyChapter(5)" class="row sound-target">
+          <span class="chapter">Chapter 5</span><span class="title">Festival Day</span><img src="files/icons/5.png" alt="">
+        </a>
+      </div>
+    </section>
+
     <section id="no-bullet-cooldowns-page" class="page subpage">
       <header class="subpage-header">
         <button class="pixel-button back-button sound-target" onclick="showPage('mods')">Back</button>
@@ -3715,6 +4149,11 @@
         <button class="game-card saveconverter sound-target" data-category="other" onclick="openSaveConverter()">
           <div class="save-converter-card-art" aria-hidden="true"><b>DELTARUNE</b><b>SAVE</b><b>CONVERTER</b></div>
           <span class="save-converter-text">Deltarune Save Converter</span>
+        </button>
+        <button class="game-card sound-target" data-category="other" onclick="loadDrUtOstPlayer()">
+          <span class="new-badge">NEW</span>
+          <img src="files/dr-ut-ost-player/icon.png" alt="DR/UT OST Player">
+          <span>DR/UT OST Player</span>
         </button>
         <button class="game-card sans sound-target" data-category="undertale" onclick="loadBadTimeSim()">
           <img src="files/badtimesim/icon-256.png" alt="Bad Time Simulator">
@@ -3975,6 +4414,61 @@
           <img src="files/create-your-frisk/icon.png" alt="Create Your Frisk">
           <span>Create Your Frisk</span>
         </button>
+        <button class="game-card manbehindtree sound-target" data-category="kristal" onclick="loadManBehindTheTree()">
+          <span class="new-badge">NEW</span>
+          <img src="files/the-man-behind-the-tree/icon.png" alt="The Man Behind the Tree">
+          <span class="manbehindtree-text">The Man Behind the Tree</span>
+        </button>
+        <button class="game-card sound-target" data-category="kristal" onclick="loadDeoxynn()">
+          <span class="new-badge">NEW</span>
+          <img src="files/deoxynn/icon.png" alt="Deoxynn">
+          <span>Deoxynn</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadSpamtonRestitched()">
+          <span class="new-badge">NEW</span>
+          <img src="files/spamton-restitched/icon.png" alt="Spamton Restitched">
+          <span>Spamton Restitched</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadUltraSansFight()">
+          <span class="new-badge">NEW</span>
+          <img src="files/ultra-sans-fight/icon.png" alt="Undertale Ultra Sans Fight">
+          <span>Undertale Ultra Sans Fight</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadWorstTimeSimulator()">
+          <span class="new-badge">NEW</span>
+          <img src="files/worst-time-simulator/icon.png" alt="Worst Time Simulator">
+          <span>Worst Time Simulator</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadSpamtonNeo()">
+          <span class="new-badge">NEW</span>
+          <img src="files/spamton-neo/icon.png" alt="Undertale: Spamton NEO">
+          <span>Undertale: Spamton NEO</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadBigShot()">
+          <span class="new-badge">NEW</span>
+          <img src="files/big-shot/icon.png" alt="BIG SHOT GAME">
+          <span>BIG SHOT GAME</span>
+        </button>
+        <button class="game-card sound-target" data-category="undertale" onclick="loadMantle()">
+          <span class="new-badge">NEW</span>
+          <img src="files/mantle/icon.png" alt="MANTLE.NES">
+          <span>MANTLE.NES</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadJojorune()">
+          <span class="new-badge">NEW</span>
+          <img src="files/jojorune-vs-dio/icon.png" alt="JOJORUNE: VS Dio">
+          <span>JOJORUNE: VS Dio</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadDreamlandSaga()">
+          <span class="new-badge">NEW</span>
+          <img src="files/dreamland-saga/icon.png" alt="Deltarune Dreamland Saga">
+          <span>Deltarune Dreamland Saga</span>
+        </button>
+        <button class="game-card sound-target" data-category="deltarune" onclick="loadMewMew()">
+          <span class="new-badge">NEW</span>
+          <img src="files/legend-of-mew-mew/icon.png" alt="Deltarune: The Legend of Mew Mew">
+          <span>The Legend of Mew Mew</span>
+        </button>
       </div>
     </section>
 
@@ -3994,7 +4488,7 @@
             </a>
             <a class="person-credit sound-target" href="https://truffled.lol/" target="_blank">
               <img class="person-credit-image" src="files/credits/bog.png" alt="Bog profile picture">
-              <span><strong>Bog</strong><small>Made the original Deltarune webport, and helps with webporting</small></span>
+              <span><strong>Bog</strong><small>Made the original Deltarune webport</small></span>
             </a>
             <div class="person-credit">
               <img class="person-credit-image" src="files/credits/krisscrossxx.png" alt="KrissCrossXX avatar">
@@ -4004,18 +4498,18 @@
               <img class="person-credit-image" src="files/credits/devin.png" alt="Devin logo">
               <span><strong>Devin</strong><small>Current dev, ports and bugfixes</small></span>
             </a>
-            <div class="person-credit">
-              <img class="person-credit-image" src="files/credits/eli.png" alt="Eli profile picture">
-              <span><strong>Eli</strong><small>cool_dude_27</small></span>
-            </div>
             <a class="person-credit sound-target" href="https://deltarune.com/" target="_blank">
               <img class="person-credit-image" src="files/credits/toby-fox.png" alt="Toby Fox profile picture">
               <span><strong>Toby Fox</strong><small>Wait wtf why am I here</small></span>
             </a>
           </div>
+          <div id="beta-testers-section" hidden>
+            <h2 class="credits-section-title">Beta Testers</h2>
+            <div class="people-credits" id="beta-testers-list"></div>
+          </div>
 
-          <details class="game-credits-disclosure">
-            <summary class="sound-target">Game Credits</summary>
+          <details class="game-credits-disclosure" open>
+            <summary tabindex="-1">Game Credits</summary>
             <div class="game-credits-content">
               <section class="game-credit-group">
                 <h3>Original Games</h3>
@@ -4039,6 +4533,7 @@
                   <a class="game-credit-row aquaoverkris sound-target" href="https://gamebanana.com/mods/690240" target="_blank"><img src="files/aqua-over-kris/icon.png" alt=""><span><strong>Aqua Over Kris</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row noelleoverkris sound-target" href="https://gamebanana.com/mods/612195" target="_blank"><img src="files/noelle-over-kris/icon.png" alt=""><span><strong>Noelle Over Kris</strong><small>Created by AndreiInvestitor</small></span></a>
                   <a class="game-credit-row krisinaskirt sound-target" href="https://gamebanana.com/mods/698916" target="_blank"><img src="files/kris-in-a-skirt/icon.png" alt=""><span><strong>Kris In A Skirt</strong><small>Created by LeFishiousRend</small></span></a>
+                  <a class="game-credit-row customdifficulty sound-target" href="https://gamebanana.com/mods/613308" target="_blank"><img src="files/custom-difficulty/icon.png" alt=""><span><strong>Custom Difficulty</strong><small>Created by Emmahaha</small></span></a>
                   <a class="game-credit-row nobulletcooldowns sound-target" href="https://gamebanana.com/mods/587241" target="_blank"><img src="files/no-bullet-cooldowns/icon.png" alt=""><span><strong>No Bullet Cooldowns</strong><small>View the original mod</small></span></a>
                   <a class="game-credit-row offlinebingo sound-target" href="https://gamebanana.com/mods/641640" target="_blank"><img src="files/offline-bingo/icon.png" alt=""><span><strong>Offline Bingo</strong><small>Based on Deltarune Bingosync</small></span></a>
                   <a class="game-credit-row chaosrandomizer sound-target" href="https://gamebanana.com/mods/650496" target="_blank"><img src="files/chaos-randomizer/icon.png" alt=""><span><strong>Chaos Randomizer</strong><small>View the original mod</small></span></a>
@@ -4132,6 +4627,18 @@
                   <a class="game-credit-row sound-target" href="https://captainheartstrings.itch.io/flowers-blooms-in-your-soul" target="_blank"><img src="files/flowers-blooms-in-your-soul/icon.png" alt=""><span><strong>Flowers Blooms In Your Soul</strong><small>Created by captainheartstrings</small></span></a>
                   <a class="game-credit-row sound-target" href="files/ralsei-shooting-simulator/index.html"><img src="files/ralsei-shooting-simulator/icon.png" alt=""><span><strong>Ralsei Shooting Game</strong><small>Created by le soule (AKA zolgut)</small></span></a>
                   <a class="game-credit-row sound-target" href="files/create-your-frisk/index.html"><img src="files/create-your-frisk/icon.png" alt=""><span><strong>Create Your Frisk</strong><small>Engine by RhenaudTheLukark, five mods bundled</small></span></a>
+                  <a class="game-credit-row manbehindtree sound-target" href="https://gamebanana.com/mods/672318" target="_blank"><img src="files/the-man-behind-the-tree/icon.png" alt=""><span><strong>The Man Behind the Tree</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row restitched sound-target" href="https://gamejolt.com/games/spamton-restitched/753983" target="_blank"><img src="files/spamton-restitched/icon.png" alt=""><span><strong>Spamton Restitched</strong><small>View the original game</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://sansfight.net/game/undertale-ultra-sans" target="_blank"><img src="files/ultra-sans-fight/icon.png" alt=""><span><strong>Undertale Ultra Sans Fight</strong><small>Scratch remake via sansfight.net</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://github.com/ByAlvaro19/deltarune" target="_blank"><img src="files/dr-ut-ost-player/icon.png" alt=""><span><strong>DR/UT OST Player</strong><small>Player by ByAlvaro19; streams YouTube</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://github.com/Omegafredo/worst-time-simulator" target="_blank"><img src="files/worst-time-simulator/icon.png" alt=""><span><strong>Worst Time Simulator</strong><small>Created by Omegafredo</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://sansfight.net/game/undertale-spamton-neo" target="_blank"><img src="files/spamton-neo/icon.png" alt=""><span><strong>Undertale: Spamton NEO</strong><small>Scratch remake via sansfight.net</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://f0nkgal.itch.io/help-me-im-stuck" target="_blank"><img src="files/big-shot/icon.png" alt=""><span><strong>BIG SHOT GAME</strong><small>Game Boy Spamton game by EM1B0R</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://drmelon.itch.io/mantle" target="_blank"><img src="files/mantle/icon.png" alt=""><span><strong>MANTLE.NES</strong><small>NES demake by DrMelon & leafcodes</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://zenlaeth.itch.io/jojorune-vs-dio" target="_blank"><img src="files/jojorune-vs-dio/icon.png" alt=""><span><strong>JOJORUNE: VS Dio</strong><small>JoJo/Deltarune crossover by Zenlaeth</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://dominosxpizza.itch.io/deltarune-chapter-kirby-fangame" target="_blank"><img src="files/dreamland-saga/icon.png" alt=""><span><strong>Deltarune Dreamland Saga</strong><small>Kirby-style fanbattle by DominosXpizza</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://thebigmigz.itch.io/deltarune-the-legend-of-mew-mew" target="_blank"><img src="files/legend-of-mew-mew/icon.png" alt=""><span><strong>Deltarune: The Legend of Mew Mew</strong><small>Scratch fan game by TheBigMigz</small></span></a>
+                  <a class="game-credit-row sound-target" href="https://gamebanana.com/mods/434334" target="_blank"><img src="files/deoxynn/icon.png" alt=""><span><strong>Deoxynn</strong><small>Kristal mod via GameBanana</small></span></a>
                 </div>
               </section>
             </div>
@@ -4185,6 +4692,9 @@
         <button class="classic-extra-btn kaizo sound-target" onclick="openKrisInASkirtConfirm()">
           <img src="files/kris-in-a-skirt/icon.png" alt="Kris In A Skirt">
         </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="openCustomDifficultyConfirm()">
+          <img src="files/custom-difficulty/icon.png" alt="Custom Difficulty">
+        </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadNoBulletCooldowns()">
           <img src="files/no-bullet-cooldowns/icon.png" alt="No Bullet Cooldowns">
         </button>
@@ -4214,6 +4724,9 @@
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadDeltaruneFrostveil()">
           <img src="files/deltarune-frostveil/icon.png" alt="Deltarune Frostveil">
+        </button>
+        <button class="classic-extra-btn kaizo sound-target" onclick="loadManBehindTheTree()">
+          <img src="files/the-man-behind-the-tree/icon.png" alt="The Man Behind the Tree">
         </button>
         <button class="classic-extra-btn kaizo sound-target" onclick="loadVsTungTungTungSahur()">
           <img src="files/vs-tung-tung-tung-sahur/icon.png" alt="VS Tung Tung Tung Sahur">
@@ -4273,6 +4786,59 @@
       <button class="pixel-button modal-close sound-target" onclick="closeChangelog()">X</button>
       <h2>Changelog</h2>
       <div class="changelog-list">
+        <article class="changelog-entry">
+          <div class="changelog-entry-header">
+            <h3>Update 1.2.1</h3>
+            <span class="changelog-date">In development</span>
+          </div>
+          <section class="changelog-section">
+            <h4>New Ports</h4>
+            <ul>
+              <li>Turg's Deltarune Web-Port — Chapters 1-5 in one build with the in-game chapter select screen</li>
+              <li>Worst Time Simulator</li>
+              <li>Undertale Ultra Sans Fight</li>
+              <li>Undertale: Spamton NEO</li>
+              <li>Deltarune Restitched (Spamton Restitched)</li>
+              <li>The Man Behind the Tree (Kristal)</li>
+              <li>Deoxynn (Kristal)</li>
+              <li>BIG SHOT GAME</li>
+              <li>MANTLE.NES</li>
+              <li>JOJORUNE: VS Dio</li>
+              <li>Deltarune Dreamland Saga</li>
+              <li>Deltarune: The Legend of Mew Mew</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>New Mods</h4>
+            <ul>
+              <li>Custom Difficulty (Chapters 1-5)</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>New Features</h4>
+            <ul>
+              <li>DR/UT OST Player in Extras — stream the full DELTARUNE and UNDERTALE soundtracks by chapter, with shuffle, repeat, and a "skip last 5 seconds" toggle.</li>
+              <li>Beta Testers section on the Credits page — automatically refreshes Discord role members, display names, and avatars every 10 minutes.</li>
+              <li>tobysingle.html and tobysingle.svg — lightweight fetch-and-run launchers that always pull the newest release.</li>
+              <li>Mobile viewport centering across all game pages — games now stay centered on phones and tablets in both orientations, fixing the URL-bar offset that pushed pages below the visible area.</li>
+              <li>Responsive home page layout — game buttons, stacked presets, and the top-bar controls now adapt properly to small screens.</li>
+              <li>Community theme catalog pagination — themes load in pages as you scroll instead of one giant fetch, with a proper "temporarily unavailable" state.</li>
+              <li>Home button in every game — a small semi-transparent button at the top-left that returns to the site menu.</li>
+            </ul>
+          </section>
+          <section class="changelog-section">
+            <h4>Bug Fixes</h4>
+            <ul>
+              <li>Fixed Undertale Magmatomb showing empty dialogue boxes — migrated to the shared butterscotch build that fixes missing text.</li>
+              <li>Fixed C!UNDERTALE missing text the same way.</li>
+              <li>Fixed Starwalker Fight crashing with missing MathUtils errors during battle waves.</li>
+              <li>Fixed Lost Deltarune crashing at the save-select screen, and running at double speed after dying and continuing.</li>
+              <li>Fixed the vanilla Undertale port freezing on boot (missing tick-worker).</li>
+              <li>Fixed browser-storage errors ("Cannot close a ERRORED writable stream") when installing butterscotch ports — it now frees cached game data and retries instead of failing.</li>
+              <li>Fixed butterscotch ports on the single-file launcher — they now open the live-site copy where cross-origin isolation works, instead of showing "The game could not start".</li>
+            </ul>
+          </section>
+        </article>
         <article class="changelog-entry">
           <div class="changelog-entry-header">
             <h3>Update 1.2</h3>
@@ -4636,6 +5202,19 @@
     </div>
   </div>
 
+  <div id="custom-difficulty-modal">
+    <div class="modal-box">
+      <h2>Custom Difficulty</h2>
+      <p>This mod is best played by starting a new save.</p>
+      <p>Starting fresh wipes only your DELTARUNE save records. Using your existing save keeps them unchanged.</p>
+      <div class="modal-actions">
+        <button class="pixel-button danger sound-target" onclick="startCustomDifficultyNewSave()">Start New Save</button>
+        <button class="pixel-button sound-target" onclick="startCustomDifficultyExistingSave()">Use Existing Save</button>
+        <button class="pixel-button sound-target" onclick="closeCustomDifficultyConfirm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div id="kris-in-a-skirt-modal">
     <div class="modal-box">
       <h2>Kris In A Skirt</h2>
@@ -4835,6 +5414,10 @@
     const FRIENDLESS_INDEX_URL = FRIENDLESS_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
     const FROSTVEIL_CDN_BASE = FILES_BASE + "deltarune-frostveil/";
     const FROSTVEIL_INDEX_URL = FROSTVEIL_CDN_BASE + "index.html?v=fit-pixel-scale-20260810";
+    const MAN_BEHIND_TREE_CDN_BASE = FILES_BASE + "the-man-behind-the-tree/";
+    const MAN_BEHIND_TREE_INDEX_URL = MAN_BEHIND_TREE_CDN_BASE + "index.html?v=tree-1.0.0-20261004";
+    const DEOXYNN_CDN_BASE = FILES_BASE + "deoxynn/";
+    const DEOXYNN_INDEX_URL = DEOXYNN_CDN_BASE + "index.html?v=deoxynn-1.0-20261005";
     const DIFFERENT_SNOWGRAVE_CDN_BASE = FILES_BASE + "a-different-snowgrave/";
     const DIFFERENT_SNOWGRAVE_INDEX_URL = DIFFERENT_SNOWGRAVE_CDN_BASE + "index.html?v=different-snowgrave-20260802-basefix";
     const LAMBDARUNE_BASE = FILES_BASE + "lambdarune/";
@@ -5170,6 +5753,7 @@
       selectedChapter = null;
       document.querySelectorAll(".page").forEach(page => { page.scrollTop = 0; });
       window.scrollTo(0, 0);
+      if (name === "credits") loadBetaTesters();
       if (history.replaceState) {
         const pageUrl = location.href.split("#")[0] + (name === "home" ? "" : "#" + name);
         history.replaceState(null, "", pageUrl);
@@ -5198,6 +5782,45 @@
     function openCreditsPage() {
       closeSettings();
       showPage("credits");
+      loadBetaTesters();
+    }
+
+    let betaTestersLoaded = false;
+    async function loadBetaTesters() {
+      if (betaTestersLoaded) return;
+      betaTestersLoaded = true;
+      const section = document.getElementById("beta-testers-section");
+      const list = document.getElementById("beta-testers-list");
+      if (!section || !list) return;
+      try {
+        const res = await fetch(`${THEME_API_BASE}/api/beta-testers`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.configured || !Array.isArray(data.testers) || !data.testers.length) return;
+        list.innerHTML = "";
+        for (const tester of data.testers) {
+          const row = document.createElement("div");
+          row.className = "person-credit";
+          const img = document.createElement("img");
+          img.className = "person-credit-image";
+          img.src = tester.avatar;
+          img.alt = `${tester.display} avatar`;
+          img.loading = "lazy";
+          img.referrerPolicy = "no-referrer";
+          img.crossOrigin = "anonymous";
+          const span = document.createElement("span");
+          const strong = document.createElement("strong");
+          strong.textContent = tester.display;
+          const small = document.createElement("small");
+          small.textContent = `@${tester.username}`;
+          span.append(strong, small);
+          row.append(img, span);
+          list.appendChild(row);
+        }
+        section.hidden = false;
+      } catch (err) {
+        /* beta tester list is optional; stay hidden on failure */
+      }
     }
 
     function refreshCatalogVisibility(page) {
@@ -5241,6 +5864,29 @@
         const response = await fetch(pageUrl);
         if (!response.ok) throw new Error("Could not load " + pageUrl);
         let html = await response.text();
+        // Pages that need cross-origin isolation (SharedArrayBuffer, OPFS, WASM
+        // threads) can never get it inside a document.write'd page — COI service
+        // workers only register same-origin, and file:// has no secure context at
+        // all. Catch every flavor: ports patched with coi-serviceworker, pages
+        // that gate on window.crossOriginIsolated, threaded Godot builds, and
+        // pages that inject COOP/COEP via their own service worker. Open the
+        // live-site copy instead, where isolation works.
+        const needsIsolation =
+          html.indexOf("coi-serviceworker") !== -1 ||
+          html.indexOf("crossOriginIsolated") !== -1 ||
+          html.indexOf("requires cross-origin isolation") !== -1 ||
+          html.indexOf("Cross-Origin-Embedder-Policy") !== -1 ||
+          /GODOT_THREADS_ENABLED\s*=\s*true/.test(html) ||
+          /getMissingFeatures\([^)]*threads\s*:\s*true/.test(html);
+        if (!window.crossOriginIsolated && needsIsolation) {
+          const liveUrl = pageUrl.replace(
+            "https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web@main/",
+            "https://toby.booksforschool.online/"
+          );
+          const win = window.open(liveUrl, "_blank");
+          if (!win) window.location.href = liveUrl;
+          return;
+        }
         const pageBase = assetBaseOverride
           ? new URL(assetBaseOverride, document.baseURI).href
           : pageUrl.slice(0, pageUrl.lastIndexOf("/") + 1);
@@ -5288,12 +5934,20 @@
       loadRemotePage(chapter === 5 ? CHAPTER5_BASE + "index.html" : FILES_BASE + "chapter" + chapter + "/index.html");
     }
 
+    function loadDeltaruneWebport() {
+      loadRemotePage(FILES_BASE + "turg-deltarune/index.html");
+    }
+
     function loadUndertale() {
       loadRemotePage(FILES_BASE + "undertale/index.html");
     }
 
     function loadBadTimeSim() {
       loadRemotePage(FILES_BASE + "badtimesim/index.html");
+    }
+
+    function loadDrUtOstPlayer() {
+      loadRemotePage(FILES_BASE + "dr-ut-ost-player/index.html");
     }
 
     function loadDeltaruneSurvivors() {
@@ -5370,6 +6024,14 @@
 
     function loadDeltaruneFrostveil() {
       loadRemotePage(FROSTVEIL_INDEX_URL, FROSTVEIL_CDN_BASE);
+    }
+
+    function loadManBehindTheTree() {
+      loadRemotePage(MAN_BEHIND_TREE_INDEX_URL, MAN_BEHIND_TREE_CDN_BASE);
+    }
+
+    function loadDeoxynn() {
+      loadRemotePage(DEOXYNN_INDEX_URL, DEOXYNN_CDN_BASE);
     }
 
     function loadDifferentSnowgrave() {
@@ -5502,6 +6164,14 @@
 
     function closeKrisInASkirtConfirm() {
       document.getElementById("kris-in-a-skirt-modal").classList.remove("open");
+    }
+
+    function openCustomDifficultyConfirm() {
+      document.getElementById("custom-difficulty-modal").classList.add("open");
+    }
+
+    function closeCustomDifficultyConfirm() {
+      document.getElementById("custom-difficulty-modal").classList.remove("open");
     }
 
     function openFourPartyMembersConfirm() {
@@ -5820,6 +6490,25 @@
     function startKrisInASkirtExistingSave() {
       closeKrisInASkirtConfirm();
       showPage("kris-in-a-skirt");
+    }
+
+    async function startCustomDifficultyNewSave() {
+      try {
+        closeCustomDifficultyConfirm();
+        showKaizoLoading("Starting a new DELTARUNE save...");
+        await ensureGameSaveDatabase();
+        await wipeScopedSaveRecords("deltarune");
+        hideKaizoLoading();
+        showPage("custom-difficulty");
+      } catch (err) {
+        hideKaizoLoading();
+        alert("A new Custom Difficulty save could not be prepared.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
+    function startCustomDifficultyExistingSave() {
+      closeCustomDifficultyConfirm();
+      showPage("custom-difficulty");
     }
 
     function openFeaturedSaveInfo() {
@@ -7052,6 +7741,42 @@
       loadRemotePage(FILES_BASE + "fnaftale/index.html?v=1.0");
     }
 
+    function loadSpamtonRestitched() {
+      loadRemotePage(FILES_BASE + "spamton-restitched/index.html?v=1.0");
+    }
+
+    function loadUltraSansFight() {
+      loadRemotePage(FILES_BASE + "ultra-sans-fight/index.html?v=1.0");
+    }
+
+    function loadWorstTimeSimulator() {
+      loadRemotePage(FILES_BASE + "worst-time-simulator/index.html?v=1.0");
+    }
+
+    function loadSpamtonNeo() {
+      loadRemotePage(FILES_BASE + "spamton-neo/index.html?v=1.0");
+    }
+
+    function loadBigShot() {
+      loadRemotePage(FILES_BASE + "big-shot/index.html?v=1.0");
+    }
+
+    function loadMantle() {
+      loadRemotePage(FILES_BASE + "mantle/index.html?v=1.0");
+    }
+
+    function loadJojorune() {
+      loadRemotePage(FILES_BASE + "jojorune-vs-dio/index.html?v=1.0");
+    }
+
+    function loadDreamlandSaga() {
+      loadRemotePage(FILES_BASE + "dreamland-saga/index.html?v=1.0");
+    }
+
+    function loadMewMew() {
+      loadRemotePage(FILES_BASE + "legend-of-mew-mew/index.html?v=1.0");
+    }
+
     function loadOutertale() {
       loadRemotePage(FILES_BASE + "outertale/index.html?v=1.0");
     }
@@ -7271,6 +7996,17 @@
       }
     }
 
+    function loadCustomDifficultyChapter(chapter) {
+      try {
+        showKaizoLoading("Loading Custom Difficulty Chapter " + chapter + "...");
+        loadRemotePage(FILES_BASE + "custom-difficulty/chapter" + chapter + "/index.html");
+      } catch (err) {
+        hideKaizoLoading();
+        gamestarted = false;
+        alert("Custom Difficulty Chapter " + chapter + " could not load.\n\n" + (err && err.message ? err.message : err));
+      }
+    }
+
     function loadNoBulletCooldownsChapter(chapter) {
       try {
         showKaizoLoading("Loading No Bullet Cooldowns Chapter " + chapter + "...");
@@ -7394,7 +8130,7 @@
     reportThemeUsage(currentSiteThemeId());
 
     const initialPage = location.hash.replace("#", "");
-    if (["home", "deltarune", "undertale", "mods", "dynamic-equips", "network", "aqua", "noelle-over-kris", "kris-in-a-skirt", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "nxrune", "cyf", "extras", "credits", "classic"].includes(initialPage)) {
+    if (["home", "deltarune", "undertale", "mods", "dynamic-equips", "network", "aqua", "noelle-over-kris", "kris-in-a-skirt", "custom-difficulty", "no-bullet-cooldowns", "offline-bingo", "chaos-randomizer", "nxrune", "cyf", "extras", "credits", "classic"].includes(initialPage)) {
       showPage(initialPage);
     } else {
       showPage("home");

@@ -1,6 +1,57 @@
 (() => {
   "use strict";
 
+  // Mobile viewport centering fix — runs even when the on-screen controls
+  // are disabled. Game pages center their canvas with vh/percent heights,
+  // but on mobile the layout viewport includes the hidden URL-bar area, so
+  // "centered" lands below (or clips past) what's actually visible. dvh
+  // tracks the real visible height; full-viewport containers are re-pinned
+  // to it so the game stays centered in both orientations.
+  if (CSS.supports("height", "100dvh")) {
+    const vpStyle = document.createElement("style");
+    vpStyle.textContent = `
+      html { height: 100dvh; }
+      body { min-height: 100dvh; }
+      #game-shell { width: min(100vw, calc(100dvh * 4 / 3)); }
+      canvas { margin: auto !important; }
+    `;
+    document.head.appendChild(vpStyle);
+    const pinViewportContainers = () => {
+      if (!document.body) return;
+      if (document.documentElement.scrollHeight > window.innerHeight * 1.05) return;
+      for (const el of [document.body, ...document.body.children]) {
+        if (el.id === "toby-mobile-controls") continue;
+        if (el.tagName === "CANVAS") continue;
+        const cs = getComputedStyle(el);
+        if (cs.aspectRatio !== "auto") continue;
+        if (el.offsetHeight < window.innerHeight * 0.9 || el.offsetWidth < window.innerWidth * 0.9) continue;
+        if (cs.position === "absolute" || cs.position === "fixed") {
+          el.style.position = "fixed";
+          el.style.inset = "0";
+        }
+        el.style.height = "100dvh";
+      }
+      // Center the main stage canvas when it sits directly on <body> —
+      // sibling flex/grid items can shove it off-center otherwise.
+      // `translate` (not `transform`) so game JS can't clobber it.
+      const stage = [...document.querySelectorAll("canvas")]
+        .filter(c => {
+          const r = c.getBoundingClientRect();
+          return r.width >= 240 && r.height >= 150;
+        })
+        .sort((a, b) => b.width * b.height - a.width * a.height)[0];
+      if (stage && stage.parentElement === document.body) {
+        stage.style.position = "fixed";
+        stage.style.left = "50vw";
+        stage.style.top = "50dvh";
+        stage.style.translate = "-50% -50%";
+        stage.style.setProperty("margin", "0", "important");
+      }
+    };
+    if (document.readyState === "complete") pinViewportContainers();
+    else addEventListener("load", () => { pinViewportContainers(); setTimeout(pinViewportContainers, 1500); });
+  }
+
   const STORAGE_KEY = "toby_web_mobile_controls";
   const LAYOUT_KEY = "toby_web_mobile_controls_layout";
   const storedMode = localStorage.getItem(STORAGE_KEY);
@@ -24,7 +75,9 @@
     return;
   }
 
-  const scriptUrl = document.currentScript?.src || location.href;
+  const scriptUrl = document.currentScript?.src
+    || document.querySelector('script[src$="mobile-controls.js"]')?.src
+    || location.href;
   const controlFontUrl = new URL("monster-friend-fore.woff2", scriptUrl).href;
   const style = document.createElement("style");
   style.textContent = `
@@ -32,6 +85,9 @@
       font-family: "Toby Mobile";
       src: url("${controlFontUrl}") format("woff2");
       font-display: swap;
+    }
+    #toby-mobile-controls, #toby-mobile-controls *, #toby-mobile-controls *::before, #toby-mobile-controls *::after {
+      all: revert;
     }
     #toby-mobile-controls {
       position: fixed;

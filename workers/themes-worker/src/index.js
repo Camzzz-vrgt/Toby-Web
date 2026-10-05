@@ -220,6 +220,54 @@ async function notifyPendingTheme(env, manifest, user) {
   } catch {}
 }
 
+function discordAvatarUrl(guildId, member) {
+  const user = member.user || {};
+  if (member.avatar) return `https://cdn.discordapp.com/guilds/${guildId}/users/${user.id}/avatars/${member.avatar}.png?size=128`;
+  if (user.avatar) return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`;
+  return `https://cdn.discordapp.com/embed/avatars/${Number((BigInt(user.id) >> 22n) % 6n)}.png`;
+}
+
+async function listBetaTesters(env) {
+  const testers = [];
+  const seen = new Set();
+  let after = "0";
+  for (let page = 0; page < 60; page++) {
+    const res = await fetch(`https://discord.com/api/v10/guilds/${env.DISCORD_GUILD_ID}/members?limit=1000&after=${after}`, {
+      headers: { authorization: `Bot ${env.DISCORD_BOT_TOKEN}` }
+    });
+    if (!res.ok) throw new HttpError(502, `Discord member list failed: ${res.status} ${await res.text()}`);
+    const members = await res.json();
+    for (const member of members) {
+      if (!member.user || seen.has(member.user.id)) continue;
+      seen.add(member.user.id);
+      if (!Array.isArray(member.roles) || !member.roles.includes(env.DISCORD_BETA_ROLE_ID)) continue;
+      testers.push({
+        username: member.user.username || "",
+        display: member.nick || member.user.global_name || member.user.username || "Unknown",
+        avatar: discordAvatarUrl(env.DISCORD_GUILD_ID, member)
+      });
+    }
+    if (members.length < 1000) break;
+    after = members[members.length - 1].user.id;
+  }
+  testers.sort((a, b) => a.display.localeCompare(b.display, undefined, { sensitivity: "base" }));
+  return testers;
+}
+
+const BETA_TESTERS_MAX_AGE = 30 * 60 * 1000;
+
+async function storedBetaTesters(env) {
+  const row = await env.DB.prepare("SELECT value, updated_at FROM moderation_settings WHERE key = 'beta_testers'").first();
+  if (!row) return null;
+  try { return { testers: JSON.parse(row.value), updatedAt: row.updated_at }; } catch { return null; }
+}
+
+async function refreshBetaTesters(env) {
+  const testers = await listBetaTesters(env);
+  await env.DB.prepare("INSERT INTO moderation_settings (key, value, updated_at) VALUES ('beta_testers', ?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at").bind(JSON.stringify(testers), Date.now()).run();
+  return testers;
+}
+
 async function route(request, env, ctx) {
   const url = new URL(request.url);
   const path = url.pathname;
@@ -288,6 +336,18 @@ async function route(request, env, ctx) {
     const usage = {};
     for (const row of rows.results) usage[row.theme_id] = row.users;
     return response({ usage });
+  }
+  if (path === "/api/beta-testers" && request.method === "GET") {
+    const canFetch = Boolean(env.DISCORD_BOT_TOKEN && env.DISCORD_GUILD_ID && env.DISCORD_BETA_ROLE_ID);
+    const stored = await storedBetaTesters(env);
+    if (stored && (!canFetch || Date.now() - stored.updatedAt < BETA_TESTERS_MAX_AGE)) {
+      return response({ testers: stored.testers, configured: true }, 200, { "cache-control": "public, max-age=300" });
+    }
+    if (!canFetch) {
+      return response({ testers: [], configured: false }, 200, { "cache-control": "public, max-age=60" });
+    }
+    const testers = await refreshBetaTesters(env);
+    return response({ testers, configured: true }, 200, { "cache-control": "public, max-age=300" });
   }
   if (path === "/api/themes/usage" && request.method === "POST") {
     ensureWriteOrigin(request, env);
@@ -510,6 +570,11 @@ export default {
     catch (error) {
       if (!(error instanceof HttpError)) console.error("Theme API error", error);
       return withCors(response({ error: error instanceof HttpError ? error.message : "Internal error." }, error instanceof HttpError ? error.status : 500), request, env);
+    }
+  },
+  async scheduled(event, env, ctx) {
+    if (env.DISCORD_BOT_TOKEN && env.DISCORD_GUILD_ID && env.DISCORD_BETA_ROLE_ID && env.DB) {
+      ctx.waitUntil(refreshBetaTesters(env).catch(error => console.error("Beta tester refresh failed", error)));
     }
   }
 };
