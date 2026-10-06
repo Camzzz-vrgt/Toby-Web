@@ -7,7 +7,10 @@ const progress = document.getElementById("progress");
 const error = document.getElementById("error");
 const startButton = document.getElementById("start");
 const retryButton = document.getElementById("retry");
-retryButton.addEventListener("click", () => location.reload());
+retryButton.addEventListener("click", async () => {
+    try { await window.TobyGameMakerInstaller.reset("install-manifest.json"); } catch (_) {}
+    location.reload();
+  });
 
 function setStatus(message, current = 0, total = 1) {
   status.textContent = message;

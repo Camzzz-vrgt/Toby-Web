@@ -162,5 +162,19 @@
     }
   }
 
-  window.TobyGameMakerInstaller = { install };
+  async function reset(manifestPath) {
+    // Wipe installed game data so the next load reinstalls from scratch.
+    // saves/<id> is intentionally left alone.
+    try {
+      const manifestUrl = new URL(manifestPath, document.baseURI);
+      const manifest = await (await fetch(manifestUrl, { cache: "no-store" })).json();
+      const root = await navigator.storage.getDirectory();
+      const gamesDir = await root.getDirectoryHandle("games").catch(() => null);
+      if (gamesDir && manifest && typeof manifest.gameId === "string") {
+        await gamesDir.removeEntry(manifest.gameId, { recursive: true });
+      }
+    } catch (_) {}
+  }
+
+  window.TobyGameMakerInstaller = { install, reset };
 })();

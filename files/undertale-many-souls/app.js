@@ -11,7 +11,10 @@
   const error = document.getElementById("error");
   const startButton = document.getElementById("start");
   const retryButton = document.getElementById("retry");
-  retryButton.addEventListener("click", () => location.reload());
+  retryButton.addEventListener("click", async () => {
+    try { await window.TobyGameMakerInstaller.reset("install-manifest.json"); } catch (_) {}
+    location.reload();
+  });
 
   let worker;
   let keyDown;
