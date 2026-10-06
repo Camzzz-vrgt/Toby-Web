@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web@95278ca727fc7b40f1311eb21a3f17c7e6a62597/">
+  <base href="https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web@a2859a30f38e76c0121cc05859230f368b7d604d/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toby Web</title>
@@ -5395,8 +5395,8 @@
     const audio = document.getElementById("drone");
     const SITE_MUSIC_VOLUME_KEY = "dul_site_music_volume";
     const TAB_APPEARANCE_KEY = "dul_tab_appearance";
-    const FILES_BASE = "https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web@95278ca727fc7b40f1311eb21a3f17c7e6a62597/files/";
-    const LARGE_FILE_FALLBACK_BASE = "https://raw.githack.com/Camzzz-vrgt/Toby-Web/95278ca727fc7b40f1311eb21a3f17c7e6a62597/files/"
+    const FILES_BASE = "https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web@a2859a30f38e76c0121cc05859230f368b7d604d/files/";
+    const LARGE_FILE_FALLBACK_BASE = "https://raw.githack.com/Camzzz-vrgt/Toby-Web/a2859a30f38e76c0121cc05859230f368b7d604d/files/"
     const DEFAULT_TAB_APPEARANCE = "toby-web";
     const TAB_APPEARANCES = {
       "toby-web": { title: "Toby Web", icon: FILES_BASE + "favicon.png" },
@@ -5893,31 +5893,6 @@
         const response = await fetch(fetchUrl);
         if (!response.ok) throw new Error("Could not load " + fetchUrl);
         let html = await response.text();
-        // Pages that need cross-origin isolation (SharedArrayBuffer, OPFS, WASM
-        // threads) can never get it inside a document.write'd page — COI service
-        // workers only register same-origin, and file:// has no secure context at
-        // all. Catch every flavor: ports patched with coi-serviceworker, pages
-        // that gate on window.crossOriginIsolated, threaded Godot builds, and
-        // pages that inject COOP/COEP via their own service worker.
-        const needsIsolation =
-          html.indexOf("coi-serviceworker") !== -1 ||
-          html.indexOf("crossOriginIsolated") !== -1 ||
-          html.indexOf("requires cross-origin isolation") !== -1 ||
-          html.indexOf("Cross-Origin-Embedder-Policy") !== -1 ||
-          /GODOT_THREADS_ENABLED\s*=\s*true/.test(html) ||
-          /getMissingFeatures\([^)]*threads\s*:\s*true/.test(html);
-        if (!window.crossOriginIsolated && needsIsolation) {
-          // When a same-origin copy exists (served from localhost, a mirror,
-          // or the site itself), navigate to it — its own service worker can
-          // isolate it like the normal launcher does. Never leave this domain.
-          gamestarted = false;
-          if (fetchUrl !== pageUrl) {
-            location.href = fetchUrl;
-            return;
-          }
-          alert("This game can't run inside the single-file launcher.\n\nIt needs browser isolation features that only exist when Toby Web is hosted on a server.");
-          return;
-        }
         const pageBase = assetBaseOverride
           ? new URL(assetBaseOverride, document.baseURI).href
           : fetchUrl.slice(0, fetchUrl.lastIndexOf("/") + 1);
