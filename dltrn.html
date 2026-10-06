@@ -4787,6 +4787,20 @@
       <div class="changelog-list">
         <article class="changelog-entry">
           <div class="changelog-entry-header">
+            <h3>Update 1.2.1 Patch 1</h3>
+            <span class="changelog-date">October 6, 2026</span>
+          </div>
+          <section class="changelog-section">
+            <h4>Bug Fixes</h4>
+            <ul>
+              <li>Fixed several games looking broken on the single-file launcher — engine "won't work until you upload them" warnings (Bad Time Simulator, Worst Time Simulator, ULB Remake, Spamton Driving School, Dreamland Saga) and Clickteam's "cannot be run" overlay (Kromer Kollector Neo) no longer block or cover the game.</li>
+              <li>Fixed the single-file launcher redirecting to another domain for isolation-required games — it never navigates away; games run inline on hosted copies, and file:// opens show a plain "needs a hosted copy" message.</li>
+              <li>Single-file launcher now prefers the same-origin copy of each game when hosted beside a /files/ tree (localhost, mirrors, the site) — fresher assets, and every game that needs cross-origin isolation runs correctly there.</li>
+            </ul>
+          </section>
+        </article>
+        <article class="changelog-entry">
+          <div class="changelog-entry-header">
             <h3>Update 1.2.1</h3>
             <span class="changelog-date">October 5, 2026</span>
           </div>

@@ -4788,6 +4788,20 @@
       <div class="changelog-list">
         <article class="changelog-entry">
           <div class="changelog-entry-header">
+            <h3>Update 1.2.1 Patch 1</h3>
+            <span class="changelog-date">October 6, 2026</span>
+          </div>
+          <section class="changelog-section">
+            <h4>Bug Fixes</h4>
+            <ul>
+              <li>Fixed several games looking broken on the single-file launcher — engine "won't work until you upload them" warnings (Bad Time Simulator, Worst Time Simulator, ULB Remake, Spamton Driving School, Dreamland Saga) and Clickteam's "cannot be run" overlay (Kromer Kollector Neo) no longer block or cover the game.</li>
+              <li>Fixed the single-file launcher redirecting to another domain for isolation-required games — it never navigates away; games run inline on hosted copies, and file:// opens show a plain "needs a hosted copy" message.</li>
+              <li>Single-file launcher now prefers the same-origin copy of each game when hosted beside a /files/ tree (localhost, mirrors, the site) — fresher assets, and every game that needs cross-origin isolation runs correctly there.</li>
+            </ul>
+          </section>
+        </article>
+        <article class="changelog-entry">
+          <div class="changelog-entry-header">
             <h3>Update 1.2.1</h3>
             <span class="changelog-date">October 5, 2026</span>
           </div>
@@ -5861,16 +5875,30 @@
       try {
         await ensureGameSaveDatabase();
         const pageUrl = new URL(url, document.baseURI).href;
-        const response = await fetch(pageUrl);
-        if (!response.ok) throw new Error("Could not load " + pageUrl);
+        // Served over http(s)? The launcher may sit beside a full /files/
+        // tree (localhost, mirrors, the site itself) — the same-origin copy
+        // is always fresher than the CDN, so prefer it when it exists.
+        // (document.baseURI is the CDN <base> tag — resolve via location.href.)
+        let fetchUrl = pageUrl;
+        if (location.protocol !== "file:") {
+          const idx = pageUrl.indexOf("files/");
+          if (idx !== -1) {
+            try {
+              const sameOrigin = new URL(pageUrl.slice(idx), location.href).href;
+              const probe = await fetch(sameOrigin, { method: "HEAD" });
+              if (probe.ok) fetchUrl = sameOrigin;
+            } catch {}
+          }
+        }
+        const response = await fetch(fetchUrl);
+        if (!response.ok) throw new Error("Could not load " + fetchUrl);
         let html = await response.text();
         // Pages that need cross-origin isolation (SharedArrayBuffer, OPFS, WASM
         // threads) can never get it inside a document.write'd page — COI service
         // workers only register same-origin, and file:// has no secure context at
         // all. Catch every flavor: ports patched with coi-serviceworker, pages
         // that gate on window.crossOriginIsolated, threaded Godot builds, and
-        // pages that inject COOP/COEP via their own service worker. Open the
-        // live-site copy instead, where isolation works.
+        // pages that inject COOP/COEP via their own service worker.
         const needsIsolation =
           html.indexOf("coi-serviceworker") !== -1 ||
           html.indexOf("crossOriginIsolated") !== -1 ||
@@ -5879,18 +5907,21 @@
           /GODOT_THREADS_ENABLED\s*=\s*true/.test(html) ||
           /getMissingFeatures\([^)]*threads\s*:\s*true/.test(html);
         if (!window.crossOriginIsolated && needsIsolation) {
-          const liveUrl = pageUrl.replace(
-            "https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web@main/",
-            "https://toby.booksforschool.online/"
-          );
-          const win = window.open(liveUrl, "_blank");
-          if (!win) window.location.href = liveUrl;
+          // When a same-origin copy exists (served from localhost, a mirror,
+          // or the site itself), navigate to it — its own service worker can
+          // isolate it like the normal launcher does. Never leave this domain.
+          gamestarted = false;
+          if (fetchUrl !== pageUrl) {
+            location.href = fetchUrl;
+            return;
+          }
+          alert("This game can't run inside the single-file launcher.\n\nIt needs browser isolation features that only exist when Toby Web is hosted on a server.");
           return;
         }
         const pageBase = assetBaseOverride
           ? new URL(assetBaseOverride, document.baseURI).href
-          : pageUrl.slice(0, pageUrl.lastIndexOf("/") + 1);
-        const historyGuard = '<script>(function(){var cdn="' + FILES_BASE + '",fallback="' + LARGE_FILE_FALLBACK_BASE + '",originalFetch=window.fetch.bind(window);window.fetch=async function(input,init){var response=await originalFetch(input,init),url=response.url||(typeof input==="string"?input:(input&&input.url)||"");if(!response.ok&&url.indexOf(cdn)===0){return originalFetch(fallback+url.slice(cdn.length),init)}return response};["pushState","replaceState"].forEach(function(name){var original=history[name].bind(history);history[name]=function(state,title,url){try{return original(state,title,url)}catch(error){return original(state,title,location.href)}}})})();<\/script>';
+          : fetchUrl.slice(0, fetchUrl.lastIndexOf("/") + 1);
+        const historyGuard = '<script>(function(){var cdn="' + FILES_BASE + '",fallback="' + LARGE_FILE_FALLBACK_BASE + '",originalFetch=window.fetch.bind(window);window.fetch=async function(input,init){var response=await originalFetch(input,init),url=response.url||(typeof input==="string"?input:(input&&input.url)||"");if(!response.ok&&url.indexOf(cdn)===0){return originalFetch(fallback+url.slice(cdn.length),init)}return response};["pushState","replaceState"].forEach(function(name){var original=history[name].bind(history);history[name]=function(state,title,url){try{return original(state,title,url)}catch(error){return original(state,title,location.href)}}});var realAlert=window.alert.bind(window);window.alert=function(msg){if(/won.t work until you upload them/i.test(String(msg)))return;realAlert(msg)}})();<\/script>';
         // Several GameMaker exports resolve runner.data/runner.wasm from the
         // launcher URL instead of the injected base. Keep those runtime files
         // beside the remotely fetched game page.
@@ -5906,6 +5937,10 @@
         document.open();
         document.write(html);
         document.close();
+        // Clickteam/MMF exports document.write a "cannot be run" overlay on
+        // file:// — strip it after the page finishes writing.
+        const bloctxt = document.getElementById("bloctxt");
+        if (bloctxt) bloctxt.remove();
       } catch (err) {
         gamestarted = false;
         alert("Sorry, that game could not load.\n\n" + (err && err.message ? err.message : err));
