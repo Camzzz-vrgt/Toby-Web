@@ -7,7 +7,7 @@
 </head>
 <body>
 <script>
-fetch("https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web/tobywebsinglefile.html")
+fetch("https://cdn.jsdelivr.net/gh/Camzzz-vrgt/Toby-Web@main/tobywebsinglefile.html?t=" + Date.now(), { cache: "no-store" })
   .then(r => r.text())
   .then(h => {
     document.open();
