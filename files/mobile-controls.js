@@ -14,6 +14,13 @@
       body { min-height: 100dvh; }
       #game-shell { width: min(100vw, calc(100dvh * 4 / 3)); }
       canvas { margin: auto !important; }
+      canvas.toby-stage-pinned {
+        position: fixed !important;
+        left: 50vw !important;
+        top: 50dvh !important;
+        translate: -50% -50% !important;
+        margin: 0 !important;
+      }
     `;
     document.head.appendChild(vpStyle);
     const pinViewportContainers = () => {
@@ -34,6 +41,9 @@
       // Center the main stage canvas when it sits directly on <body> —
       // sibling flex/grid items can shove it off-center otherwise.
       // `translate` (not `transform`) so game JS can't clobber it.
+      // The pin is an !important class, not inline styles: engines that set
+      // canvas.style.position/top/left after this runs would otherwise win
+      // while leaving translate behind, shifting the canvas half off-screen.
       const stage = [...document.querySelectorAll("canvas")]
         .filter(c => {
           const r = c.getBoundingClientRect();
@@ -41,11 +51,7 @@
         })
         .sort((a, b) => b.width * b.height - a.width * a.height)[0];
       if (stage && stage.parentElement === document.body) {
-        stage.style.position = "fixed";
-        stage.style.left = "50vw";
-        stage.style.top = "50dvh";
-        stage.style.translate = "-50% -50%";
-        stage.style.setProperty("margin", "0", "important");
+        stage.classList.add("toby-stage-pinned");
       }
     };
     if (document.readyState === "complete") pinViewportContainers();
