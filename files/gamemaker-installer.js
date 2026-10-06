@@ -12,8 +12,10 @@
   }
 
   async function fileSize(root, path) {
+    // An unreadable OPFS entry (interrupted write, storage glitch) must be
+    // treated as missing so the reinstall path can repair it.
     try { return (await (await fileAt(root, path)).getFile()).size; }
-    catch (error) { if (error.name === "NotFoundError") return -1; throw error; }
+    catch (error) { if (error.name === "NotFoundError" || error.name === "NotReadableError") return -1; throw error; }
   }
 
   async function sha256(blob) {
@@ -86,11 +88,12 @@
       if (typeof entry.target !== "string" || entry.target.split("/").some(part => !part || part === "." || part === "..")) throw new Error("Invalid target path in install manifest");
     }
     const root = await navigator.storage.getDirectory();
-    const gameDir = await directory(await directory(root, "games"), manifest.gameId);
+    const gamesDir = await directory(root, "games");
+    let gameDir = await directory(gamesDir, manifest.gameId);
     await directory(await directory(root, "saves"), manifest.gameId);
     let marker = "";
     try { marker = await (await (await fileAt(gameDir, ".toby-web-build")).getFile()).text(); }
-    catch (error) { if (error.name !== "NotFoundError") throw error; }
+    catch (error) { if (error.name !== "NotFoundError" && error.name !== "NotReadableError") throw error; }
     const dataSize = manifest.dataParts.reduce((sum, entry) => sum + entry.size, 0);
     if (marker === manifest.buildId && await fileSize(gameDir, "data.win") === dataSize) {
       const sizes = await Promise.all(manifest.files.map(entry => fileSize(gameDir, entry.target)));
@@ -131,19 +134,30 @@
     try {
       await installFiles();
     } catch (error) {
-      if (!isQuotaError(error)) throw error;
-      // OPFS is full — evict other ports' installed game data (re-downloadable
-      // cache; saves/ lives outside games/ and is untouched) and retry once.
-      await evictOtherGames(root, manifest.gameId);
-      completed = 0;
-      onStatus("Storage was full — cleared older game data, retrying install...", 0, total);
-      try {
+      if (error && error.name === "NotReadableError") {
+        // Damaged OPFS state (e.g. a writable interrupted mid-flight) —
+        // removing the game directory is the only reliable way to clear it.
+        await gamesDir.removeEntry(manifest.gameId, { recursive: true }).catch(() => {});
+        gameDir = await directory(gamesDir, manifest.gameId);
+        completed = 0;
+        onStatus("Installed data was unreadable — reinstalling...", 0, total);
         await installFiles();
-      } catch (retryError) {
-        if (isQuotaError(retryError)) {
-          throw new Error("Not enough browser storage to install this game. Free disk space or clear site data for this site, then retry.");
+      } else if (isQuotaError(error)) {
+        // OPFS is full — evict other ports' installed game data (re-downloadable
+        // cache; saves/ lives outside games/ and is untouched) and retry once.
+        await evictOtherGames(root, manifest.gameId);
+        completed = 0;
+        onStatus("Storage was full — cleared older game data, retrying install...", 0, total);
+        try {
+          await installFiles();
+        } catch (retryError) {
+          if (isQuotaError(retryError)) {
+            throw new Error("Not enough browser storage to install this game. Free disk space or clear site data for this site, then retry.");
+          }
+          throw retryError;
         }
-        throw retryError;
+      } else {
+        throw error;
       }
     }
   }
