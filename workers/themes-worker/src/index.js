@@ -13,7 +13,7 @@ function response(data, status = 200, headers = {}) {
 
 function originHeaders(request, env) {
   const origin = request.headers.get("Origin");
-  const allowed = [env.SITE_ORIGIN, "http://localhost:2000", "http://127.0.0.1:2000"];
+  const allowed = [env.SITE_ORIGIN, "https://tb-web.b-cdn.net", "http://localhost:2000", "http://127.0.0.1:2000"];
   return origin && allowed.includes(origin) ? { "access-control-allow-origin": origin, "access-control-allow-credentials": "true", "vary": "Origin" } : {};
 }
 
