@@ -1,0 +1,5 @@
+[
+null,
+{"id":1,"battlerName":"bibisvactor","characterIndex":0,"characterName":"$!kris","classId":1,"equips":[2,0,0,3,0],"faceIndex":0,"faceName":"bibiportrait","traits":[],"initialLevel":1,"maxLevel":99,"name":"크리스","nickname":"","note":"","profile":""},
+{"id":2,"battlerName":"bibisvactor","characterIndex":0,"characterName":"$noelle","classId":1,"equips":[0,0,0,0,0],"faceIndex":3,"faceName":"People3","traits":[],"initialLevel":1,"maxLevel":99,"name":"노엘","nickname":"","note":"","profile":""}
+]
