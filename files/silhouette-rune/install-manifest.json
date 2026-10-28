@@ -1,0 +1,35 @@
+{
+ "schemaVersion": 1,
+ "gameId": "silhouette-rune",
+ "buildId": "local-sr-20251025",
+ "dataParts": [
+  {
+   "source": "data.win.part1",
+   "size": 16777216,
+   "sha256": "429edc13ea704bf8f6607c7a9425cdf6dffcda610a2019451f7c40877694e4f5"
+  },
+  {
+   "source": "data.win.part2",
+   "size": 16777216,
+   "sha256": "074fbc9a22dcd261f7478f54c8aedc0a33028fd47b4e57b488c4d620c2bb4def"
+  },
+  {
+   "source": "data.win.part3",
+   "size": 16777216,
+   "sha256": "355abee4c0358bb0a1c86f7b8496fb1c9bd3514fd6ffa5b2cfafb15ff215f88a"
+  },
+  {
+   "source": "data.win.part4",
+   "size": 10850460,
+   "sha256": "3cc5690a4f4b8c304338ec1f1cfc9f04b7c5205490c8caa95c9be72e2e11ebbd"
+  }
+ ],
+ "files": [
+  {
+   "target": "options.ini",
+   "source": "options.ini",
+   "size": 40,
+   "sha256": "d2b6d2ed327bcec3e24ba0d814db911b9497ad63c69325d2b25c98b60d03a54a"
+  }
+ ]
+}

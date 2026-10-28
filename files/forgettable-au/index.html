@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>ForgettableAU-FanGame</title>
+	<style>
+		html,
+		body {
+			background: cyan;
+			width: 100%;
+			height: 100%;
+			overflow: visible;
+			padding: 0;
+			margin: 0;
+		}
+		div#gameContainer {
+			background: transparent !important;
+			position: absolute;
+		}
+		div#gameContainer canvas {
+			position: absolute;
+		}
+		div#gameContainer canvas[data-pixel-art="true"] {
+			position: absolute;
+			image-rendering: optimizeSpeed;
+			image-rendering: -webkit-crisp-edges;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -o-crisp-edges;
+			image-rendering: crisp-edges;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: optimize-contrast;
+			image-rendering: pixelated;
+			-ms-interpolation-mode: nearest-neighbor;
+		}
+	</style>
+	<script>
+		// Large assets are stored split as <name>.partN (16MiB chunks). This shim
+		// reassembles them transparently for both fetch() and XMLHttpRequest.
+		(() => {
+			const SPLIT_PARTS = {
+				"/Build/game.data": 2,
+				"/Build/game.wasm": 3,
+			};
+			const originalFetch = window.fetch.bind(window);
+			const partCountFor = (url) => {
+				const path = new URL(url, document.baseURI).pathname;
+				for (const suffix in SPLIT_PARTS) if (path.endsWith(suffix)) return SPLIT_PARTS[suffix];
+				return 0;
+			};
+			const fetchParts = (url, count) => (async () => {
+				const chunks = [];
+				for (let p = 1; p <= count; p += 1) {
+					const r = await originalFetch(url + ".part" + p);
+					if (!r.ok) throw new Error("Part fetch failed: " + r.status);
+					chunks.push(await r.arrayBuffer());
+				}
+				return new Blob(chunks, { type: "application/octet-stream" });
+			})();
+			window.fetch = async (input, init) => {
+				const url = typeof input === "string" ? input : input.url;
+				const count = partCountFor(url);
+				if (!count) return originalFetch(input, init);
+				const blob = await fetchParts(new URL(url, document.baseURI).href, count);
+				return new Response(blob, {
+					status: 200,
+					headers: { "Content-Length": String(blob.size), "Content-Type": "application/octet-stream" },
+				});
+			};
+			const origOpen = XMLHttpRequest.prototype.open;
+			const origSend = XMLHttpRequest.prototype.send;
+			const origSetHeader = XMLHttpRequest.prototype.setRequestHeader;
+			XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
+				const count = partCountFor(url);
+				if (count && async !== false) {
+					this.__splitUrl = new URL(url, document.baseURI).href;
+					this.__splitCount = count;
+					this.__splitHeaders = [];
+				}
+				return origOpen.call(this, method, url, async === undefined ? true : async, user, password);
+			};
+			XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
+				if (this.__splitCount) this.__splitHeaders.push([name, value]);
+				return origSetHeader.call(this, name, value);
+			};
+			XMLHttpRequest.prototype.send = function (body) {
+				if (!this.__splitCount) return origSend.call(this, body);
+				const xhr = this;
+				fetchParts(xhr.__splitUrl, xhr.__splitCount)
+					.then(blob => URL.createObjectURL(blob))
+					.then(blobUrl => {
+						origOpen.call(xhr, "GET", blobUrl, true);
+						xhr.__splitHeaders.forEach(([k, v]) => origSetHeader.call(xhr, k, v));
+						origSend.call(xhr, null);
+					})
+					.catch(err => {
+						if (typeof xhr.onerror === "function") xhr.onerror(err);
+						xhr.dispatchEvent(new ProgressEvent("error"));
+					});
+			};
+		})();
+	</script>
+</head>
+<body>
+	<div id="gameContainer">
+		<canvas id="unity-canvas" data-pixel-art=""></canvas>
+		<script src="Build/game.loader.js"></script>
+		<script>
+			var canvas = document.querySelector("#unity-canvas");
+			var config = {
+				dataUrl: "Build/game.data",
+				frameworkUrl: "Build/game.framework.js",
+				codeUrl: "Build/game.wasm",
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "IndieSeal",
+				productName: "ForgettableAU-FanGame",
+				productVersion: "1.0",
+			};
+			var scaleToFit;
+			try {
+				scaleToFit = !!JSON.parse("");
+			} catch (e) {
+				scaleToFit = true;
+			}
+			function progressHandler(progress) {
+				var percent = progress * 100 + '%';
+				canvas.style.background = 'linear-gradient(to right, white, white ' + percent + ', transparent ' + percent + ', transparent) no-repeat center';
+				canvas.style.backgroundSize = '100% 1rem';
+			}
+			function onResize() {
+				var container = canvas.parentElement;
+				var w;
+				var h;
+
+				if (scaleToFit) {
+					w = window.innerWidth;
+					h = window.innerHeight;
+
+					var r = 1080 / 1920;
+
+					if (w * r > window.innerHeight) {
+						w = Math.min(w, Math.ceil(h / r));
+					}
+					h = Math.floor(w * r);
+				} else {
+					w = 1920;
+					h = 1080;
+				}
+
+				container.style.width = canvas.style.width = w + "px";
+				container.style.height = canvas.style.height = h + "px";
+				container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+			}
+			createUnityInstance(canvas, config, progressHandler).then(function (instance) {
+				canvas = instance.Module.canvas;
+				onResize();
+			});
+			window.addEventListener('resize', onResize);
+			onResize();
+
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+				// Mobile device style: fill the whole browser client area with the game canvas:
+				const meta = document.createElement('meta');
+				meta.name = 'viewport';
+				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+				document.getElementsByTagName('head')[0].appendChild(meta);
+			}
+		</script>
+	</div>
+	<script src="../home-button.js"></script>
+	<script src="../mobile-controls.js" defer></script>
+</body>
+
+</html>

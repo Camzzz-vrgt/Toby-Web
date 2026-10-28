@@ -1,0 +1,30 @@
+{
+ "schemaVersion": 1,
+ "gameId": "rouxls-neo",
+ "buildId": "local-rouxls-neo-20251221",
+ "dataParts": [
+  {
+   "source": "data.win.part1",
+   "size": 16777216,
+   "sha256": "195ca23ade8fe57f6627d4139a912921054b33afc2f6b4f96e93a1f4bbd8d4f0"
+  },
+  {
+   "source": "data.win.part2",
+   "size": 16777216,
+   "sha256": "48cd5f8e55aa9de1547a6a2329290baa324abe2d1dd7bd8be47601c60e152aee"
+  },
+  {
+   "source": "data.win.part3",
+   "size": 6846472,
+   "sha256": "3433990546dd86c742b66f3c13a44723978a7f676c8677986c9866294c2cec62"
+  }
+ ],
+ "files": [
+  {
+   "target": "options.ini",
+   "source": "options.ini",
+   "size": 27,
+   "sha256": "8a8a8276fdcc014544dc5851bfd7986def326d2b6a5243d55c5da8e32531cafc"
+  }
+ ]
+}
