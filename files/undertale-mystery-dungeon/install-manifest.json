@@ -1,0 +1,75 @@
+{
+ "schemaVersion": 1,
+ "gameId": "undertale-mystery-dungeon",
+ "buildId": "local-md-20251025",
+ "dataParts": [
+  {
+   "source": "data.win.part1",
+   "size": 16777216,
+   "sha256": "33c17c142f2e74b4a73dfea86f2f7a8709fcd5856ce1d4157bc91104e4eeb139"
+  },
+  {
+   "source": "data.win.part2",
+   "size": 16777216,
+   "sha256": "a918068285dbec8f236554b87ae8bc449c7b7821a0127224c68bdde742d93bfb"
+  },
+  {
+   "source": "data.win.part3",
+   "size": 16777216,
+   "sha256": "3bd868a2c77dc5af31599be8d326ef1c4da3923fac4122c812b58da38e5ae584"
+  },
+  {
+   "source": "data.win.part4",
+   "size": 16777216,
+   "sha256": "74a22a91aab76d18067acf03d097bd20bc9e7c7518882e10c21a20985154252c"
+  },
+  {
+   "source": "data.win.part5",
+   "size": 16777216,
+   "sha256": "7cc207da1b764edbb9fd3811d1122c6ee29818b6b715408c5e4bc9c7180f1ea1"
+  },
+  {
+   "source": "data.win.part6",
+   "size": 16777216,
+   "sha256": "418ea3e0a95dddbbfb493dc0415b42b88ed38efa6b689202e74986126cfb3949"
+  },
+  {
+   "source": "data.win.part7",
+   "size": 16777216,
+   "sha256": "c50e22845ae35c45a0710c5cc6bb4bb37d71a732c6c3b0ae4ac4476012370156"
+  },
+  {
+   "source": "data.win.part8",
+   "size": 16777216,
+   "sha256": "329688d674c0503206752232a5b0427bdf6633061da428e1323257f0f1f85052"
+  },
+  {
+   "source": "data.win.part9",
+   "size": 16777216,
+   "sha256": "7f4838e7425718f723adb79c5d35d6b3b4dbf34f45ee5293f1c90b326a6c5a53"
+  },
+  {
+   "source": "data.win.part10",
+   "size": 16777216,
+   "sha256": "ca9a6d27f8ae0347ddbe3663647d94d8732c7f37c6b2d719f567b230c245eaa6"
+  },
+  {
+   "source": "data.win.part11",
+   "size": 16777216,
+   "sha256": "8489b2a00ed89de69ed0d35bba2d1beec492551d35e77d0176f34b563d6f4bcc"
+  },
+  {
+   "source": "data.win.part12",
+   "size": 15602436,
+   "sha256": "b1cf9b7ded232061115744dbfa83fe7625ff96fff13f802db58fc9b1f4fbfa7e"
+  }
+ ],
+ "files": [
+  {
+   "target": "options.ini",
+   "source": "options.ini",
+   "size": 27,
+   "sha256": "8a8a8276fdcc014544dc5851bfd7986def326d2b6a5243d55c5da8e32531cafc"
+  }
+ ]
+}
