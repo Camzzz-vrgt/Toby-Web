@@ -1,0 +1,2078 @@
+audio/music/airwaves_lofi.wav
+music -
+audio/music/anotherhim.wav
+music -
+audio/music/bigcityboard.wav
+music -
+audio/music/bigshot_lofi.wav
+music -
+audio/music/boardplz.wav
+music -
+audio/music/catswing.wav
+music -
+audio/music/cyberworld_midi.wav
+music -
+audio/music/dealgonewrong.wav
+music -
+audio/music/dialtone.wav
+music -
+audio/music/dialtone_slow.wav
+music -
+audio/music/digitalroots.wav
+music -
+audio/music/dontforget.wav
+music -
+audio/music/drone.wav
+music -
+audio/music/dump.wav
+music -
+audio/music/dump_slow.wav
+music -
+audio/music/faintcourage.wav
+music -
+audio/music/faintcourage_slow.wav
+music -
+audio/music/faintcourage_soft.wav
+music -
+audio/music/flashback.wav
+music -
+audio/music/flashback_slow.wav
+music -
+audio/music/gasterwaltz.wav
+music -
+audio/music/glowingsnow.wav
+music -
+audio/music/glowingsnow_slow.wav
+music -
+audio/music/greenroom.wav
+music -
+audio/music/greenroom_box.wav
+music -
+audio/music/heyevery.ogg
+music -
+audio/music/lostgirl.wav
+music -
+audio/music/lostgirl_slow.wav
+music -
+audio/music/nowsyourchancetobea.wav
+music -
+audio/music/paradise.wav
+music -
+audio/music/pushingbuddies.wav
+music -
+audio/music/quiz.wav
+music -
+audio/music/quiz_lofi.wav
+music -
+audio/music/sneaking.wav
+music -
+audio/music/southoftheborder.wav
+music -
+audio/music/spamton.wav
+music -
+audio/music/spamton_lofi.wav
+music -
+audio/music/spamton_slow.wav
+music -
+audio/music/sponsors.wav
+music -
+audio/music/tvworld.wav
+music -
+audio/music/untilnexttime.wav
+music -
+audio/music/volumeadjustment.wav
+music -
+audio/sfx/amb_city.wav
+music -
+audio/sfx/amb_city_quiet.wav
+music -
+audio/sfx/amb_crickets.wav
+music -
+audio/sfx/amb_lightworld.wav
+music -
+audio/sfx/amb_ocean.wav
+music -
+audio/sfx/amb_wind.wav
+music -
+audio/sfx/sfx_awkward.wav
+music -
+audio/sfx/sfx_badexplosion.wav
+music -
+audio/sfx/sfx_bark.wav
+music -
+audio/sfx/sfx_beatup.wav
+music -
+audio/sfx/sfx_beep.wav
+music -
+audio/sfx/sfx_beep_loud.wav
+music -
+audio/sfx/sfx_beep_short.wav
+music -
+audio/sfx/sfx_bump.wav
+music -
+audio/sfx/sfx_bwaa.wav
+music -
+audio/sfx/sfx_click.wav
+music -
+audio/sfx/sfx_crack.wav
+music -
+audio/sfx/sfx_crickets.wav
+music -
+audio/sfx/sfx_cymbal.wav
+music -
+audio/sfx/sfx_damage.wav
+music -
+audio/sfx/sfx_datestart.wav
+music -
+audio/sfx/sfx_defeat.wav
+music -
+audio/sfx/sfx_dig.wav
+music -
+audio/sfx/sfx_dighit.wav
+music -
+audio/sfx/sfx_ding.wav
+music -
+audio/sfx/sfx_disappear.wav
+music -
+audio/sfx/sfx_doorclose.wav
+music -
+audio/sfx/sfx_dooropen.wav
+music -
+audio/sfx/sfx_drop.wav
+music -
+audio/sfx/sfx_echo_ten.wav
+music -
+audio/sfx/sfx_echo_ten2.wav
+music -
+audio/sfx/sfx_fall.wav
+music -
+audio/sfx/sfx_fix.wav
+music -
+audio/sfx/sfx_glassbreak.wav
+music -
+audio/sfx/sfx_glassshatter.wav
+music -
+audio/sfx/sfx_gulp.wav
+music -
+audio/sfx/sfx_hangup.wav
+music -
+audio/sfx/sfx_hypnosis.wav
+music -
+audio/sfx/sfx_item.wav
+music -
+audio/sfx/sfx_knock.wav
+music -
+audio/sfx/sfx_leap.wav
+music -
+audio/sfx/sfx_lot_defeatrun.wav
+music -
+audio/sfx/sfx_lot_door.wav
+music -
+audio/sfx/sfx_lot_enter.wav
+music -
+audio/sfx/sfx_lot_escaped.wav
+music -
+audio/sfx/sfx_lot_lift.wav
+music -
+audio/sfx/sfx_lot_ouch.wav
+music -
+audio/sfx/sfx_lot_sparkle.wav
+music -
+audio/sfx/sfx_menuhover.wav
+music -
+audio/sfx/sfx_pickup.wav
+music -
+audio/sfx/sfx_pipis.wav
+music -
+audio/sfx/sfx_plop.wav
+music -
+audio/sfx/sfx_recordscratch.wav
+music -
+audio/sfx/sfx_restore.wav
+music -
+audio/sfx/sfx_rip1.wav
+music -
+audio/sfx/sfx_rip2.wav
+music -
+audio/sfx/sfx_rip3.wav
+music -
+audio/sfx/sfx_rotaryring.wav
+music -
+audio/sfx/sfx_rumble.wav
+music -
+audio/sfx/sfx_run.wav
+music -
+audio/sfx/sfx_save.wav
+music -
+audio/sfx/sfx_select.wav
+music -
+audio/sfx/sfx_shuffle.wav
+music -
+audio/sfx/sfx_silent.wav
+music -
+audio/sfx/sfx_slam.wav
+music -
+audio/sfx/sfx_slide.wav
+music -
+audio/sfx/sfx_sparkle.wav
+music -
+audio/sfx/sfx_sparkle2.wav
+music -
+audio/sfx/sfx_sparkle_help.wav
+music -
+audio/sfx/sfx_splat.wav
+music -
+audio/sfx/sfx_stardrop.wav
+music -
+audio/sfx/sfx_step1.wav
+music -
+audio/sfx/sfx_step2.wav
+music -
+audio/sfx/sfx_stepping.wav
+music -
+audio/sfx/sfx_technical.wav
+music -
+audio/sfx/sfx_tvstatic.wav
+music -
+audio/sfx/sfx_tvturnoff.wav
+music -
+audio/sfx/sfx_tvturnoff2.wav
+music -
+audio/sfx/sfx_waterwalk.wav
+music -
+audio/sfx/sfx_weird.wav
+music -
+audio/sfx/sfx_weirdeffect.wav
+music -
+audio/sfx/sfx_whip.wav
+music -
+audio/sfx/sfx_whip_hard.wav
+music -
+audio/sfx/sfx_whip_swing.wav
+music -
+audio/sfx/ten_aww.wav
+music -
+audio/sfx/ten_cheer.wav
+music -
+audio/sfx/ten_favorite.wav
+music -
+audio/sfx/ten_first.wav
+music -
+audio/sfx/ten_heyevery.wav
+music -
+audio/sfx/ten_hope.wav
+music -
+audio/sfx/ten_laughtrack.wav
+music -
+audio/sfx/ten_lightner.wav
+music -
+audio/sfx/ten_names.wav
+music -
+audio/sfx/ten_paradise.wav
+music -
+audio/sfx/ten_perfect.wav
+music -
+audio/sfx/ten_quizzes.wav
+music -
+audio/sfx/ten_rock.wav
+music -
+audio/sfx/ten_sax.wav
+music -
+audio/sfx/ten_surprise.wav
+music -
+audio/sfx/voice_lot.wav
+music -
+audio/sfx/voice_lot_end.wav
+music -
+audio/sfx/voice_spam.wav
+music -
+audio/sfx/voice_spamlaugh.wav
+music -
+audio/sfx/voice_spamlaugh_long.wav
+music -
+audio/sfx/voice_ten1.wav
+music -
+audio/sfx/voice_ten10.wav
+music -
+audio/sfx/voice_ten2.wav
+music -
+audio/sfx/voice_ten3.wav
+music -
+audio/sfx/voice_ten4.wav
+music -
+audio/sfx/voice_ten5.wav
+music -
+audio/sfx/voice_ten6.wav
+music -
+audio/sfx/voice_ten7.wav
+music -
+audio/sfx/voice_ten8.wav
+music -
+audio/sfx/voice_ten9.wav
+music -
+audio/sfx/voice_text.wav
+music -
+audio/sfx/voice_text2.wav
+music -
+audio/sfx/voice_wdg1.wav
+music -
+audio/sfx/voice_wdg2.wav
+music -
+audio/sfx/voice_wdg3.wav
+music -
+audio/sfx/voice_wdg4.wav
+music -
+audio/sfx/voice_wdg5.wav
+music -
+audio/sfx/voice_wdg6.wav
+music -
+audio/sfx/voice_wdg7.wav
+music -
+images/bg/full dark fountain 1.png
+image 1115,573
+images/bg/full dark fountain 2.png
+image 1115,573
+images/bg/full dark fountain 3.png
+image 1115,573
+images/bg/junkspam.png
+image 1920,1080
+images/bg/junkyard.png
+image 1920,1080
+images/bg/junkyard2.png
+image 1920,1080
+images/bg/junkyard3.png
+image 1920,1080
+images/bg/junkyard4.png
+image 1920,1080
+images/bg/junkyard5.png
+image 1920,1080
+images/bg/junkyard6.png
+image 1920,1080
+images/bg/park board.png
+image 1440,1080
+images/bg/park board2.png
+image 1920,1080
+images/bg/quiz board.png
+image 1440,1080
+images/bg/quiz board2.png
+image 1093,680
+images/bg/small dark fountain 1.png
+image 163,520
+images/bg/small dark fountain 2.png
+image 168,521
+images/bg/small dark fountain 3.png
+image 163,521
+images/bg/small dark fountain 4.png
+image 163,520
+images/bg/tennahouse.png
+image 1920,1080
+images/bg/tv overlay.png
+image 1920,1080
+images/blackpng.png
+image 1920,1080
+images/cg/credits dw mike.png
+image 1920,1080
+images/cg/credits dw spamton.png
+image 1920,1080
+images/cg/credits dw tenna.png
+image 1920,1080
+images/cg/credits lw mike.png
+image 1920,1080
+images/cg/credits lw spamton.png
+image 1920,1080
+images/cg/credits lw tenna.png
+image 1920,1080
+images/cg/mike date end angry.png
+image 1920,1080
+images/cg/mike date end down.png
+image 1920,1080
+images/cg/mikeend 1 angry.png
+image 1920,1080
+images/cg/mikeend 1 confused.png
+image 1920,1080
+images/cg/mikeend 1 frown.png
+image 1920,1080
+images/cg/mikeend 1 nervous.png
+image 1920,1080
+images/cg/mikeend 1 shocked.png
+image 1920,1080
+images/cg/mikeend 1 sigh.png
+image 1920,1080
+images/cg/mikeend 2 angry.png
+image 1920,1080
+images/cg/mikeend 2 avert.png
+image 1920,1080
+images/cg/mikeend 2 confused.png
+image 1920,1080
+images/cg/mikeend 2 frown.png
+image 1920,1080
+images/cg/mikeend 2 nervous.png
+image 1920,1080
+images/cg/mikeend 2 pained.png
+image 1920,1080
+images/cg/mikeend 2 panic.png
+image 1920,1080
+images/cg/mikeend 2 sigh.png
+image 1920,1080
+images/cg/mikeend 2 smile.png
+image 1920,1080
+images/cg/spam up close 1.png
+image 1920,1080
+images/cg/spamend 1 angry.png
+image 1920,1080
+images/cg/spamend 1 angrye.png
+image 1920,1080
+images/cg/spamend 1 deadpan.png
+image 1920,1080
+images/cg/spamend 1 frown.png
+image 1920,1080
+images/cg/spamend 1 glare.png
+image 1920,1080
+images/cg/spamend 1 glaree.png
+image 1920,1080
+images/cg/spamend 1 pained.png
+image 1920,1080
+images/cg/spamend 1 smile.png
+image 1920,1080
+images/cg/spamend 1 smilee.png
+image 1920,1080
+images/cg/spamend 1 static1.png
+image 1920,1080
+images/cg/spamend 1 static2.png
+image 1920,1080
+images/cg/spamend 1 struggle.png
+image 1920,1080
+images/cg/spamend 1 strugglee.png
+image 1920,1080
+images/cg/spamend 2 angry.png
+image 1920,1080
+images/cg/spamend 2 angrye.png
+image 1920,1080
+images/cg/spamend 2 deadpan.png
+image 1920,1080
+images/cg/spamend 2 frown.png
+image 1920,1080
+images/cg/spamend 2 glare.png
+image 1920,1080
+images/cg/spamend 2 glaree.png
+image 1920,1080
+images/cg/spamend 2 pained.png
+image 1920,1080
+images/cg/spamend 2 smile.png
+image 1920,1080
+images/cg/spamend 2 smilee.png
+image 1920,1080
+images/cg/spamend 2 static1.png
+image 1920,1080
+images/cg/spamend 2 static2.png
+image 1920,1080
+images/cg/spamend 2 struggle.png
+image 1920,1080
+images/cg/spamend 2 strugglee.png
+image 1920,1080
+images/cg/spamend hug fail 1.png
+image 1920,1080
+images/cg/spamend hug fail 2.png
+image 1920,1080
+images/cg/spamend hug fail 3.png
+image 1920,1080
+images/cg/spamton eyes1.png
+image 191,117
+images/cg/spamton eyes2.png
+image 191,117
+images/cg/spamton eyes3.png
+image 191,117
+images/cg/spamton eyes4.png
+image 191,117
+images/cg/spamton hand.png
+image 152,184
+images/cg/technical 01.png
+image 1440,1080
+images/cg/technical 02.png
+image 1440,1080
+images/cg/technical 03.png
+image 1440,1080
+images/cg/technical 04.png
+image 1440,1080
+images/cg/technical 05.png
+image 1440,1080
+images/cg/technical 06.png
+image 1440,1080
+images/cg/tenna sad sit.png
+image 424,448
+images/cg/tenna sad turn.png
+image 424,448
+images/cg/tenna up close anger.png
+image 1920,1080
+images/cg/tenna up close blush.png
+image 1920,1080
+images/cg/tenna up close panic.png
+image 1920,1080
+images/cg/tennaend 1.png
+image 1920,1080
+images/cg/tennaend 2 down angry.png
+image 1920,1080
+images/cg/tennaend 2 down confused.png
+image 1920,1080
+images/cg/tennaend 2 down frown.png
+image 1920,1080
+images/cg/tennaend 2 down nose.png
+image 1920,1080
+images/cg/tennaend 2 down pained.png
+image 1920,1080
+images/cg/tennaend 2 down panic.png
+image 1920,1080
+images/cg/tennaend 2 down smile.png
+image 1920,1080
+images/cg/tennaend 2 side angry.png
+image 1920,1080
+images/cg/tennaend 2 side confused.png
+image 1920,1080
+images/cg/tennaend 2 side frown.png
+image 1920,1080
+images/cg/tennaend 2 side nose.png
+image 1920,1080
+images/cg/tennaend 2 side pained.png
+image 1920,1080
+images/cg/tennaend 2 side panic.png
+image 1920,1080
+images/cg/tennaend 2 side smile.png
+image 1920,1080
+images/cg/tennaend 3.png
+image 1920,1080
+images/cg/tripleend.png
+image 1272,700
+images/cg/tv turn off1.png
+image 1920,1080
+images/cg/tv turn off2.png
+image 1920,1080
+images/cg/tv turn off3.png
+image 1920,1080
+images/cg/tv turn off4.png
+image 1920,1080
+images/cg/tv turn off5.png
+image 1920,1080
+images/cg/uniend battenna.png
+image 1920,1080
+images/cg/uniend mike.png
+image 1920,1080
+images/cg/uniend spamtat.png
+image 1920,1080
+images/cg/uniend spamtenna.png
+image 1920,1080
+images/cg/uniend spamton.png
+image 1920,1080
+images/cg/uniend tenna.png
+image 1920,1080
+images/cg/uniend triple.png
+image 1920,1080
+images/cg/uniend willo battenna.png
+image 1920,1080
+images/cg/uniend willo mike.png
+image 1920,1080
+images/cg/uniend willo spamtat.png
+image 1920,1080
+images/cg/uniend willo spamtenna.png
+image 1920,1080
+images/cg/uniend willo spamton.png
+image 1920,1080
+images/cg/uniend willo tenna.png
+image 1920,1080
+images/cg/uniend willo triple.png
+image 1920,1080
+images/cg/vess cg.png
+image 1920,1080
+images/crt overlay.png
+image 1920,2160
+images/legend of tenna/battat blush 1.png
+image 110,100
+images/legend of tenna/battat blush 2.png
+image 110,100
+images/legend of tenna/battat hurt 1.png
+image 110,100
+images/legend of tenna/battat hurt 2.png
+image 110,100
+images/legend of tenna/battat idle 1.png
+image 110,100
+images/legend of tenna/battat idle 2.png
+image 110,100
+images/legend of tenna/battat run.png
+image 110,100
+images/legend of tenna/battat walk.png
+image 110,100
+images/legend of tenna/boss empty.png
+image 55,55
+images/legend of tenna/boss full.png
+image 55,55
+images/legend of tenna/dino blush.png
+image 80,80
+images/legend of tenna/dino idle 1.png
+image 80,80
+images/legend of tenna/dino idle 2.png
+image 80,80
+images/legend of tenna/dino run 1.png
+image 80,80
+images/legend of tenna/dino run 2.png
+image 80,80
+images/legend of tenna/dino walk.png
+image 80,80
+images/legend of tenna/flower blush 1.png
+image 80,80
+images/legend of tenna/flower blush 2.png
+image 80,80
+images/legend of tenna/flower idle 1.png
+image 80,80
+images/legend of tenna/flower idle 2.png
+image 80,80
+images/legend of tenna/friend idle.png
+image 80,80
+images/legend of tenna/friend walk.png
+image 80,80
+images/legend of tenna/health empty.png
+image 55,55
+images/legend of tenna/health full.png
+image 55,55
+images/legend of tenna/hero_wit_gnr damage.png
+image 140,85
+images/legend of tenna/hero_wit_gnr damage2.png
+image 140,85
+images/legend of tenna/hero_wit_gnr flirt 1.png
+image 140,85
+images/legend of tenna/hero_wit_gnr flirt 2.png
+image 140,85
+images/legend of tenna/hero_wit_gnr flirt 3.png
+image 140,85
+images/legend of tenna/hero_wit_gnr flirt 4.png
+image 140,85
+images/legend of tenna/hero_wit_gnr flirt 5.png
+image 140,85
+images/legend of tenna/hero_wit_gnr idle.png
+image 140,85
+images/legend of tenna/hero_wit_gnr idle2.png
+image 140,85
+images/legend of tenna/hero_wit_gnr walk D 1.png
+image 140,85
+images/legend of tenna/hero_wit_gnr walk D 2.png
+image 140,85
+images/legend of tenna/hero_wit_gnr walk RL 1.png
+image 140,85
+images/legend of tenna/hero_wit_gnr walk RL 2.png
+image 140,85
+images/legend of tenna/hero_wit_gnr walk U 1.png
+image 140,85
+images/legend of tenna/hero_wit_gnr walk U 2.png
+image 140,85
+images/legend of tenna/jongler blush 1.png
+image 110,110
+images/legend of tenna/jongler blush 2.png
+image 110,110
+images/legend of tenna/jongler idle 1.png
+image 110,110
+images/legend of tenna/jongler idle 2.png
+image 110,110
+images/legend of tenna/map battle.png
+image 1040,780
+images/legend of tenna/map start.png
+image 1040,780
+images/legend of tenna/map tenna.png
+image 1040,780
+images/legend of tenna/map world.png
+image 4160,780
+images/legend of tenna/map world2.png
+image 5200,780
+images/legend of tenna/pluey blush 1.png
+image 110,100
+images/legend of tenna/pluey blush 2.png
+image 110,100
+images/legend of tenna/pluey hurt 1.png
+image 110,100
+images/legend of tenna/pluey hurt 2.png
+image 110,100
+images/legend of tenna/pluey idle 1.png
+image 110,100
+images/legend of tenna/pluey idle 2.png
+image 110,100
+images/legend of tenna/shadowguy blush.png
+image 90,90
+images/legend of tenna/shadowguy hurt.png
+image 90,90
+images/legend of tenna/shadowguy idle 1.png
+image 90,90
+images/legend of tenna/shadowguy idle 2.png
+image 90,90
+images/legend of tenna/shadowguy run 1.png
+image 90,90
+images/legend of tenna/shadowguy run 2.png
+image 90,90
+images/legend of tenna/slash 1.png
+image 45,75
+images/legend of tenna/slash 2.png
+image 45,75
+images/legend of tenna/slash 3.png
+image 45,75
+images/legend of tenna/slash 4.png
+image 45,75
+images/legend of tenna/sweat.png
+image 20,35
+images/legend of tenna/sweat2.png
+image 20,35
+images/legend of tenna/tenna hurt.png
+image 90,160
+images/legend of tenna/tenna idle 1.png
+image 90,160
+images/legend of tenna/tenna idle 2.png
+image 90,160
+images/legend of tenna/tenna idle 3.png
+image 90,160
+images/legend of tenna/tenna walk RL 1.png
+image 90,160
+images/legend of tenna/tenna walk RL 2.png
+image 90,160
+images/legend of tenna/tvtime_door h.png
+image 80,80
+images/legend of tenna/tvtime_door.png
+image 80,80
+images/legend of tenna/tvtime_house h.png
+image 1040,780
+images/legend of tenna/tvtime_house.png
+image 1040,780
+images/legend of tenna/tvtime_map.png
+image 1040,780
+images/legend of tenna/tvtime_tree1.png
+image 1040,780
+images/legend of tenna/tvtime_tree2.png
+image 1040,780
+images/legend of tenna/tvtime_tree3.png
+image 1040,780
+images/legend of tenna/tvtime_tree4.png
+image 1040,780
+images/legend of tenna/tvtime_tree5.png
+image 1040,780
+images/memoryshard/memoryshard 1 001.png
+image 1920,1080
+images/memoryshard/memoryshard 1 002.png
+image 1920,1080
+images/memoryshard/memoryshard 1 003.png
+image 1920,1080
+images/memoryshard/memoryshard 1 004.png
+image 1920,1080
+images/memoryshard/memoryshard 1 005.png
+image 1920,1080
+images/memoryshard/memoryshard 1 006.png
+image 1920,1080
+images/memoryshard/memoryshard 1 007.png
+image 1920,1080
+images/memoryshard/memoryshard 1 008.png
+image 1920,1080
+images/memoryshard/memoryshard 1 009.png
+image 1920,1080
+images/memoryshard/memoryshard 1 010.png
+image 1920,1080
+images/memoryshard/memoryshard 1 011.png
+image 1920,1080
+images/memoryshard/memoryshard 1 012.png
+image 1920,1080
+images/memoryshard/memoryshard 1 013.png
+image 1920,1080
+images/memoryshard/memoryshard 1 014.png
+image 1920,1080
+images/memoryshard/memoryshard 1 015.png
+image 1920,1080
+images/memoryshard/memoryshard 1 016.png
+image 1920,1080
+images/memoryshard/memoryshard 1 017.png
+image 1920,1080
+images/memoryshard/memoryshard 1 018.png
+image 1920,1080
+images/memoryshard/memoryshard 1 019.png
+image 1920,1080
+images/memoryshard/memoryshard 1 020.png
+image 1920,1080
+images/memoryshard/memoryshard 1 021.png
+image 1920,1080
+images/memoryshard/memoryshard 1 022.png
+image 1920,1080
+images/memoryshard/memoryshard 1 023.png
+image 1920,1080
+images/memoryshard/memoryshard 1 024.png
+image 1920,1080
+images/memoryshard/memoryshard 2 001.png
+image 1920,1080
+images/memoryshard/memoryshard 2 002.png
+image 1920,1080
+images/memoryshard/memoryshard 2 003.png
+image 1920,1080
+images/memoryshard/memoryshard 2 004.png
+image 1920,1080
+images/memoryshard/memoryshard 2 005.png
+image 1920,1080
+images/memoryshard/memoryshard 2 006.png
+image 1920,1080
+images/memoryshard/memoryshard 2 007.png
+image 1920,1080
+images/memoryshard/memoryshard 2 008.png
+image 1920,1080
+images/memoryshard/memoryshard 2 009.png
+image 1920,1080
+images/memoryshard/memoryshard 2 010.png
+image 1920,1080
+images/memoryshard/memoryshard 2 011.png
+image 1920,1080
+images/memoryshard/memoryshard 2 012.png
+image 1920,1080
+images/memoryshard/memoryshard 2 013.png
+image 1920,1080
+images/memoryshard/memoryshard 2 014.png
+image 1920,1080
+images/memoryshard/memoryshard 2 015.png
+image 1920,1080
+images/memoryshard/memoryshard 3 001.png
+image 1920,1080
+images/memoryshard/memoryshard 3 002.png
+image 1920,1080
+images/memoryshard/memoryshard 3 003.png
+image 1920,1080
+images/memoryshard/memoryshard 3 004.png
+image 1920,1080
+images/memoryshard/memoryshard 3 005.png
+image 1920,1080
+images/memoryshard/memoryshard 3 006.png
+image 1920,1080
+images/memoryshard/memoryshard 3 007.png
+image 1920,1080
+images/memoryshard/memoryshard 3 008.png
+image 1920,1080
+images/memoryshard/memoryshard 3 009.png
+image 1920,1080
+images/memoryshard/memoryshard 3 010.png
+image 1920,1080
+images/memoryshard/memoryshard 3 011.png
+image 1920,1080
+images/memoryshard/memoryshard 3 012.png
+image 1920,1080
+images/memoryshard/memoryshard 3 013.png
+image 1920,1080
+images/memoryshard/memoryshard 3 014.png
+image 1920,1080
+images/memoryshard/memoryshard 3 015.png
+image 1920,1080
+images/memoryshard/memoryshard 3 015a.png
+image 1920,1080
+images/memoryshard/memoryshard 3 016.png
+image 1920,1080
+images/memoryshard/memoryshard 3 017.png
+image 1920,1080
+images/memoryshard/memoryshard 3 018.png
+image 1920,1080
+images/memoryshard/memoryshard 3 019.png
+image 1920,1080
+images/memoryshard/memoryshard 3 020.png
+image 1920,1080
+images/memoryshard/memoryshard 3 021.png
+image 1920,1080
+images/memoryshard/memoryshard 3 022.png
+image 1920,1080
+images/memoryshard/memoryshard 3 023.png
+image 1920,1080
+images/memoryshard/memoryshard 4 001.png
+image 1920,1080
+images/memoryshard/memoryshard 4 002.png
+image 1920,1080
+images/memoryshard/memoryshard 4 003.png
+image 1920,1080
+images/memoryshard/memoryshard 4 004.png
+image 1920,1080
+images/memoryshard/memoryshard 4 005.png
+image 1920,1080
+images/memoryshard/memoryshard 4 006.png
+image 1920,1080
+images/memoryshard/memoryshard 4 007.png
+image 1920,1080
+images/memoryshard/memoryshard 4 008.png
+image 1920,1080
+images/memoryshard/memoryshard 4 009.png
+image 1920,1080
+images/memoryshard/memoryshard 4 010.png
+image 1920,1080
+images/memoryshard/memoryshard 4 011.png
+image 1920,1080
+images/memoryshard/memoryshard 4 012.png
+image 1920,1080
+images/memoryshard/memoryshard 4 013.png
+image 1920,1080
+images/memoryshard/memoryshard 4 014.png
+image 1920,1080
+images/memoryshard/memoryshard 4 015.png
+image 1920,1080
+images/memoryshard/memoryshard 4 016.png
+image 1920,1080
+images/memoryshard/memoryshard 4 017.png
+image 1920,1080
+images/memoryshard/memoryshard 4 018.png
+image 1920,1080
+images/memoryshard/memoryshard 4 019.png
+image 1920,1080
+images/memoryshard/memoryshard 4 020.png
+image 1920,1080
+images/memoryshard/memoryshard 4 021.png
+image 1920,1080
+images/memoryshard/memoryshard 4 022.png
+image 1920,1080
+images/memoryshard/memoryshard 4 023.png
+image 1920,1080
+images/memoryshard/memoryshard 5 001.png
+image 1920,1080
+images/memoryshard/memoryshard 5 002.png
+image 1920,1080
+images/memoryshard/memoryshard 5 003.png
+image 1920,1080
+images/memoryshard/memoryshard 5 004.png
+image 1920,1080
+images/memoryshard/memoryshard 5 005.png
+image 1920,1080
+images/memoryshard/memoryshard 5 006.png
+image 1920,1080
+images/memoryshard/memoryshard 5 007.png
+image 1920,1080
+images/memoryshard/memoryshard 5 008.png
+image 1920,1080
+images/memoryshard/memoryshard 5 009.png
+image 1920,1080
+images/memoryshard/memoryshard 5 010.png
+image 1920,1080
+images/memoryshard/memoryshard 5 011.png
+image 1920,1080
+images/memoryshard/memoryshard 5 012.png
+image 1920,1080
+images/memoryshard/memoryshard 5 013.png
+image 1920,1080
+images/memoryshard/memoryshard 5 014.png
+image 1920,1080
+images/memoryshard/memoryshard 5 015.png
+image 1920,1080
+images/memoryshard/memoryshard 5 016.png
+image 1920,1080
+images/memoryshard/memoryshard 5 017.png
+image 1920,1080
+images/memoryshard/memoryshard 5 018.png
+image 1920,1080
+images/memoryshard/memoryshard 6 001.png
+image 1920,1080
+images/memoryshard/memoryshard 6 002.png
+image 1920,1080
+images/memoryshard/memoryshard 6 003.png
+image 1920,1080
+images/memoryshard/memoryshard 6 004.png
+image 1920,1080
+images/memoryshard/memoryshard 6 005.png
+image 1920,1080
+images/memoryshard/memoryshard 6 006.png
+image 1920,1080
+images/memoryshard/memoryshard 6 007.png
+image 1920,1080
+images/memoryshard/memoryshard 6 008.png
+image 1920,1080
+images/memoryshard/memoryshard 6 009.png
+image 1920,1080
+images/memoryshard/memoryshard 6 010.png
+image 1920,1080
+images/memoryshard/memoryshard 6 011.png
+image 1920,1080
+images/memoryshard/memoryshard 6 012.png
+image 1920,1080
+images/memoryshard/memoryshard 6 013.png
+image 1920,1080
+images/memoryshard/memoryshard 6 014.png
+image 1920,1080
+images/memoryshard/memoryshard 6 015.png
+image 1920,1080
+images/memoryshard/memoryshard 6 016.png
+image 1920,1080
+images/memoryshard/memoryshard 6 016a.png
+image 1920,1080
+images/memoryshard/memoryshard 6 017.png
+image 1920,1080
+images/memoryshard/memoryshard 6 018.png
+image 1920,1080
+images/memoryshard/memoryshard 6 019.png
+image 1920,1080
+images/memoryshard/memoryshard 6 020.png
+image 1920,1080
+images/memoryshard/memoryshard 7 001.png
+image 1920,1080
+images/memoryshard/memoryshard 7 002.png
+image 1920,1080
+images/memoryshard/memoryshard 7 003.png
+image 1920,1080
+images/memoryshard/memoryshard 7 004.png
+image 1920,1080
+images/memoryshard/memoryshard 7 005.png
+image 1920,1080
+images/memoryshard/memoryshard 7 006.png
+image 1920,1080
+images/memoryshard/memoryshard 7 007.png
+image 1920,1080
+images/memoryshard/memoryshard 7 008.png
+image 1920,1080
+images/memoryshard/memoryshard 7 009.png
+image 1920,1080
+images/memoryshard/memoryshard 7 010.png
+image 1920,1080
+images/memoryshard/memoryshard 7 011.png
+image 1920,1080
+images/memoryshard/memoryshard 7 012.png
+image 1920,1080
+images/memoryshard/memoryshard 7 013.png
+image 1920,1080
+images/memoryshard/memoryshard 7 014.png
+image 1920,1080
+images/memoryshard/memoryshard 7 015.png
+image 1920,1080
+images/memoryshard/memoryshard 7 016.png
+image 1920,1080
+images/memoryshard/memoryshard 7 017.png
+image 1920,1080
+images/memoryshard/memoryshard 7 018.png
+image 1920,1080
+images/memoryshard/memoryshard 7 019.png
+image 1920,1080
+images/memoryshard/memoryshard 7 020.png
+image 1920,1080
+images/memoryshard/memoryshard 7 021.png
+image 1920,1080
+images/memoryshard/memoryshard 7 022.png
+image 1920,1080
+images/memoryshard/memoryshard 7 023.png
+image 1920,1080
+images/memoryshard/memoryshard 7 024.png
+image 1920,1080
+images/memoryshard/memoryshard 7 025.png
+image 1920,1080
+images/memoryshard/memoryshard 7 026.png
+image 1920,1080
+images/memoryshard/memoryshard 7 027.png
+image 1920,1080
+images/memoryshard/memoryshard 7 028.png
+image 1920,1080
+images/memoryshard/memoryshard 7 029.png
+image 1920,1080
+images/memoryshard/memoryshard 7 030.png
+image 1920,1080
+images/memoryshard/memoryshard 7 031.png
+image 1920,1080
+images/memoryshard/memoryshard 7 032.png
+image 1920,1080
+images/memoryshard/memoryshard 7 033.png
+image 1920,1080
+images/memoryshard/memoryshard 7 034.png
+image 1920,1080
+images/memoryshard/memoryshard 7 035.png
+image 1920,1080
+images/memoryshard/memoryshard 7 036.png
+image 1920,1080
+images/memoryshard/memoryshard 7 037.png
+image 1920,1080
+images/memoryshard/memoryshard 8 001.png
+image 1920,1080
+images/memoryshard/memoryshard 8 002.png
+image 1920,1080
+images/memoryshard/memoryshard 8 003.png
+image 1920,1080
+images/memoryshard/memoryshard 8 004.png
+image 1920,1080
+images/memoryshard/memoryshard 8 005.png
+image 1920,1080
+images/memoryshard/memoryshard 8 006.png
+image 1920,1080
+images/memoryshard/memoryshard 8 007.png
+image 1920,1080
+images/memoryshard/memoryshard 8 008.png
+image 1920,1080
+images/memoryshard/memoryshard 8 009.png
+image 1920,1080
+images/memoryshard/memoryshard 8 010.png
+image 1920,1080
+images/memoryshard/memoryshard 8 011.png
+image 1920,1080
+images/memoryshard/memoryshard 8 012.png
+image 1920,1080
+images/memoryshard/memoryshard 8 013.png
+image 1920,1080
+images/memoryshard/memoryshard 8 014.png
+image 1920,1080
+images/memoryshard/memoryshard 8 015.png
+image 1920,1080
+images/memoryshard/memoryshard 8 016.png
+image 1920,1080
+images/memoryshard/memoryshard 8 017.png
+image 1920,1080
+images/memoryshard/memoryshard 8 018.png
+image 1920,1080
+images/memoryshard/memoryshard 8 019.png
+image 1920,1080
+images/memoryshard/memoryshard 8 020.png
+image 1920,1080
+images/memoryshard/memoryshard 8 021.png
+image 1920,1080
+images/memoryshard/memoryshard 8 022.png
+image 1920,1080
+images/memoryshard/memoryshard 8 023.png
+image 1920,1080
+images/memoryshard/memoryshard 8 024.png
+image 1920,1080
+images/memoryshard/memoryshard 8 025.png
+image 1920,1080
+images/memoryshard/memoryshard 8 026.png
+image 1920,1080
+images/memoryshard/memoryshard 8 027.png
+image 1920,1080
+images/memoryshard/memoryshard 8 028.png
+image 1920,1080
+images/memoryshard/memoryshard 8 029.png
+image 1920,1080
+images/memoryshard/memoryshard 8 030.png
+image 1920,1080
+images/memoryshard/memoryshard 8 031.png
+image 1920,1080
+images/memoryshard/memoryshard 9 001.png
+image 1920,1080
+images/memoryshard/memoryshard 9 002.png
+image 1920,1080
+images/memoryshard/memoryshard 9 003.png
+image 1920,1080
+images/memoryshard/memoryshard 9 004.png
+image 1920,1080
+images/memoryshard/memoryshard 9 005.png
+image 1920,1080
+images/memoryshard/memoryshard 9 006.png
+image 1920,1080
+images/memoryshard/memoryshard 9 007.png
+image 1920,1080
+images/memoryshard/memoryshard 9 008.png
+image 1920,1080
+images/memoryshard/memoryshard 9 009.png
+image 1920,1080
+images/memoryshard/memoryshard 9 010.png
+image 1920,1080
+images/memoryshard/memoryshard 9 011.png
+image 1920,1080
+images/memoryshard/memoryshard 9 012.png
+image 1920,1080
+images/memoryshard/memoryshard 9 013.png
+image 1920,1080
+images/memoryshard/memoryshard 9 014.png
+image 1920,1080
+images/memoryshard/memoryshard 9 015.png
+image 1920,1080
+images/memoryshard/memoryshard 9 016.png
+image 1920,1080
+images/memoryshard/memoryshard 9 017.png
+image 1920,1080
+images/memoryshard/memoryshard 9 018.png
+image 1920,1080
+images/memoryshard/memoryshard 9 019.png
+image 1920,1080
+images/memoryshard/memoryshard 9 020.png
+image 1920,1080
+images/memoryshard/memoryshard 9 021.png
+image 1920,1080
+images/memoryshard/memoryshard 9 022.png
+image 1920,1080
+images/memoryshard/memoryshard 9 023.png
+image 1920,1080
+images/memoryshard/memoryshard 9 024.png
+image 1920,1080
+images/memoryshard/memoryshard 9 025.png
+image 1920,1080
+images/nothing.png
+image 1920,1080
+images/shops/spamshop bg.png
+image 1920,1080
+images/shops/spamshop bg2.png
+image 1920,1080
+images/shops/spamshop glitch.png
+image 380,1080
+images/shops/spamshop spamton eyes.png
+image 317,306
+images/shops/spamshop spamton laugh.png
+image 317,306
+images/shops/spamshop spamton neutral.png
+image 317,306
+images/shops/spamshop spamton static1.png
+image 317,306
+images/shops/spamshop spamton static2.png
+image 317,306
+images/shops/spamshop spamton.png
+image 1615,874
+images/shops/tenshop awkward.png
+image 256,180
+images/shops/tenshop blush.png
+image 256,180
+images/shops/tenshop frown.png
+image 256,180
+images/shops/tenshop smile.png
+image 256,180
+images/shops/tenshop.png
+image 1440,1080
+images/sprites/buttons/click here for your free prize 1 h.png
+image 1165,820
+images/sprites/buttons/click here for your free prize 1.png
+image 1165,820
+images/sprites/buttons/click here for your free prize 2 h.png
+image 1165,820
+images/sprites/buttons/click here for your free prize 2.png
+image 1165,820
+images/sprites/buttons/gp act hover.png
+image 294,84
+images/sprites/buttons/gp act idle.png
+image 294,84
+images/sprites/buttons/gp items hover.png
+image 294,84
+images/sprites/buttons/gp items idle.png
+image 294,84
+images/sprites/buttons/gp menu hover.png
+image 294,84
+images/sprites/buttons/gp menu idle.png
+image 294,84
+images/sprites/buttons/gp talk hover.png
+image 294,84
+images/sprites/buttons/gp talk idle.png
+image 294,84
+images/sprites/buttons/sp act hover.png
+image 294,84
+images/sprites/buttons/sp act idle.png
+image 294,84
+images/sprites/buttons/sp items hover.png
+image 294,84
+images/sprites/buttons/sp items idle.png
+image 294,84
+images/sprites/buttons/sp menu hover.png
+image 294,84
+images/sprites/buttons/sp menu idle.png
+image 294,84
+images/sprites/buttons/sp talk hover.png
+image 294,84
+images/sprites/buttons/sp talk idle.png
+image 294,84
+images/sprites/buttons/tn act hover.png
+image 294,84
+images/sprites/buttons/tn act idle.png
+image 294,84
+images/sprites/buttons/tn items hover.png
+image 294,84
+images/sprites/buttons/tn items idle.png
+image 294,84
+images/sprites/buttons/tn menu hover.png
+image 294,84
+images/sprites/buttons/tn menu idle.png
+image 294,84
+images/sprites/buttons/tn talk hover.png
+image 294,84
+images/sprites/buttons/tn talk idle.png
+image 294,84
+images/sprites/gaster/gaster frown.png
+image 650,977
+images/sprites/gaster/gaster frowne.png
+image 650,977
+images/sprites/gaster/gaster frowns.png
+image 650,977
+images/sprites/gaster/gaster frownse.png
+image 650,977
+images/sprites/gaster/gaster laugh.png
+image 650,977
+images/sprites/gaster/gaster neutral.png
+image 650,977
+images/sprites/gaster/gaster neutrale.png
+image 650,977
+images/sprites/gaster/gaster side.png
+image 650,977
+images/sprites/gaster/gaster smile.png
+image 650,977
+images/sprites/gaster/gaster smilee.png
+image 650,977
+images/sprites/items/baked goods h.png
+image 192,192
+images/sprites/items/baked goods.png
+image 192,192
+images/sprites/items/blanket zoom.png
+image 482,345
+images/sprites/items/blanket2 zoom.png
+image 482,345
+images/sprites/items/blue shard h.png
+image 192,192
+images/sprites/items/blue shard.png
+image 192,192
+images/sprites/items/candy h.png
+image 192,192
+images/sprites/items/candy.png
+image 192,192
+images/sprites/items/cartridge1 h.png
+image 192,192
+images/sprites/items/cartridge1.png
+image 192,192
+images/sprites/items/cartridge2 h.png
+image 192,192
+images/sprites/items/cartridge2.png
+image 192,192
+images/sprites/items/chocolate h.png
+image 192,192
+images/sprites/items/chocolate.png
+image 192,192
+images/sprites/items/coffee h.png
+image 192,192
+images/sprites/items/coffee.png
+image 192,192
+images/sprites/items/debit h.png
+image 192,192
+images/sprites/items/debit.png
+image 192,192
+images/sprites/items/dump zoom.png
+image 482,345
+images/sprites/items/dvd anime h.png
+image 192,192
+images/sprites/items/dvd anime.png
+image 192,192
+images/sprites/items/dvd cooking shows h.png
+image 192,192
+images/sprites/items/dvd cooking shows.png
+image 192,192
+images/sprites/items/dvd music videos h.png
+image 192,192
+images/sprites/items/dvd music videos.png
+image 192,192
+images/sprites/items/dvd romance shows h.png
+image 192,192
+images/sprites/items/dvd romance shows.png
+image 192,192
+images/sprites/items/endings guide.png
+image 1000,667
+images/sprites/items/eye zoom.png
+image 482,345
+images/sprites/items/figure hate h.png
+image 192,192
+images/sprites/items/figure hate.png
+image 192,192
+images/sprites/items/figure love h.png
+image 192,192
+images/sprites/items/figure love.png
+image 192,192
+images/sprites/items/flower black h.png
+image 192,192
+images/sprites/items/flower black.png
+image 192,192
+images/sprites/items/flower red h.png
+image 192,192
+images/sprites/items/flower red.png
+image 192,192
+images/sprites/items/flower white h.png
+image 192,192
+images/sprites/items/flower white.png
+image 192,192
+images/sprites/items/flower yellow h.png
+image 192,192
+images/sprites/items/flower yellow.png
+image 192,192
+images/sprites/items/freecard h.png
+image 192,192
+images/sprites/items/freecard.png
+image 192,192
+images/sprites/items/fries h.png
+image 192,192
+images/sprites/items/fries.png
+image 192,192
+images/sprites/items/garbage zoom.png
+image 482,345
+images/sprites/items/green memoryshard shatter.png
+image 208,206
+images/sprites/items/green memoryshard.png
+image 180,181
+images/sprites/items/green shard 1 h.png
+image 192,192
+images/sprites/items/green shard 1.png
+image 192,192
+images/sprites/items/green shard 2 h.png
+image 192,192
+images/sprites/items/green shard 2.png
+image 192,192
+images/sprites/items/green shard 3 h.png
+image 192,192
+images/sprites/items/green shard 3.png
+image 192,192
+images/sprites/items/hand zoom.png
+image 482,345
+images/sprites/items/loveletter h.png
+image 192,192
+images/sprites/items/loveletter.png
+image 192,192
+images/sprites/items/lump zoom1.png
+image 482,345
+images/sprites/items/lump zoom2.png
+image 482,345
+images/sprites/items/lump zoom3.png
+image 482,345
+images/sprites/items/matt zoom.png
+image 482,345
+images/sprites/items/nes h.png
+image 192,192
+images/sprites/items/nes.png
+image 192,192
+images/sprites/items/notes h.png
+image 192,192
+images/sprites/items/notes.png
+image 192,192
+images/sprites/items/pipis h.png
+image 192,192
+images/sprites/items/pipis.png
+image 192,192
+images/sprites/items/pretzels h.png
+image 192,192
+images/sprites/items/pretzels.png
+image 192,192
+images/sprites/items/red memoryshard shatter.png
+image 211,216
+images/sprites/items/red memoryshard.png
+image 176,184
+images/sprites/items/red shard 1 h.png
+image 192,192
+images/sprites/items/red shard 1.png
+image 192,192
+images/sprites/items/red shard 2 h.png
+image 192,192
+images/sprites/items/red shard 2.png
+image 192,192
+images/sprites/items/red shard 3 h.png
+image 192,192
+images/sprites/items/red shard 3.png
+image 192,192
+images/sprites/items/ring h.png
+image 192,192
+images/sprites/items/ring.png
+image 192,192
+images/sprites/items/shadow h.png
+image 192,192
+images/sprites/items/shadow.png
+image 192,192
+images/sprites/items/shovel h.png
+image 192,192
+images/sprites/items/shovel zoom.png
+image 482,345
+images/sprites/items/shovel.png
+image 192,192
+images/sprites/items/shovel2 h.png
+image 192,192
+images/sprites/items/shovel2.png
+image 192,192
+images/sprites/items/tv zoom.png
+image 482,345
+images/sprites/mike/costume anger.png
+image 738,830
+images/sprites/mike/costume down anger.png
+image 738,830
+images/sprites/mike/costume down annoyed.png
+image 738,830
+images/sprites/mike/costume down frown.png
+image 738,830
+images/sprites/mike/costume down nervous.png
+image 738,830
+images/sprites/mike/costume down smile.png
+image 738,830
+images/sprites/mike/costume pointing anger.png
+image 738,830
+images/sprites/mike/costume pointing frown.png
+image 738,830
+images/sprites/mike/costume pointing nervous.png
+image 738,830
+images/sprites/mike/costume pointing smile.png
+image 738,830
+images/sprites/mike/costume smile.png
+image 738,830
+images/sprites/mike/costume tie awkward.png
+image 738,830
+images/sprites/mike/costume tie blush.png
+image 738,830
+images/sprites/mike/costume tie frown.png
+image 738,830
+images/sprites/mike/costume tie nervous.png
+image 738,830
+images/sprites/mike/costume tie smile.png
+image 738,830
+images/sprites/mike/mike arms avert.png
+image 558,752
+images/sprites/mike/mike arms freakout.png
+image 558,752
+images/sprites/mike/mike button h.png
+image 124,267
+images/sprites/mike/mike button.png
+image 124,267
+images/sprites/mike/mike date.png
+image 200,72
+images/sprites/mike/mike side.png
+image 72,72
+images/sprites/mike/mike standing angry.png
+image 558,752
+images/sprites/mike/mike standing awkward.png
+image 558,752
+images/sprites/mike/mike standing conflicted.png
+image 558,752
+images/sprites/mike/mike standing indifferent.png
+image 558,752
+images/sprites/mike/mike standing nervous.png
+image 558,752
+images/sprites/mike/mike standing pout.png
+image 558,752
+images/sprites/mike/mike standing sigh.png
+image 558,752
+images/sprites/mike/mike standing smile.png
+image 558,752
+images/sprites/mike/mike standing wink.png
+image 558,752
+images/sprites/mike/mike tie anime.png
+image 558,752
+images/sprites/mike/mike tie avert.png
+image 558,752
+images/sprites/mike/mike tie awkward.png
+image 558,752
+images/sprites/mike/mike tie blush.png
+image 558,752
+images/sprites/mike/mike tie nervous.png
+image 558,752
+images/sprites/mike/mini icon mike.png
+image 263,422
+images/sprites/mike/pip side.png
+image 72,72
+images/sprites/souls/arrow down white.png
+image 87,100
+images/sprites/souls/arrow down.png
+image 87,100
+images/sprites/souls/arrow left white.png
+image 100,87
+images/sprites/souls/arrow left.png
+image 100,87
+images/sprites/souls/arrow right white.png
+image 100,87
+images/sprites/souls/arrow right.png
+image 100,87
+images/sprites/souls/arrow up white.png
+image 87,100
+images/sprites/souls/arrow up.png
+image 87,100
+images/sprites/souls/circle blue empty xs.png
+image 18,18
+images/sprites/souls/circle blue full xs.png
+image 18,18
+images/sprites/souls/circle red empty xs.png
+image 18,18
+images/sprites/souls/circle red full xs.png
+image 18,18
+images/sprites/souls/dice broken lg.png
+image 320,320
+images/sprites/souls/dice cracked lg.png
+image 320,320
+images/sprites/souls/dice cracked2 lg.png
+image 320,320
+images/sprites/souls/dice lg.png
+image 320,320
+images/sprites/souls/secret button1.png
+image 100,50
+images/sprites/souls/secret button2.png
+image 100,50
+images/sprites/souls/soul broken green lg.png
+image 400,320
+images/sprites/souls/soul cracked green lg.png
+image 320,320
+images/sprites/souls/soul cracked2 green lg.png
+image 320,320
+images/sprites/souls/soul green empty xs.png
+image 18,18
+images/sprites/souls/soul green full xs.png
+image 18,18
+images/sprites/souls/soul green lg.png
+image 320,320
+images/sprites/souls/soul green sm.png
+image 32,32
+images/sprites/souls/soul lg.png
+image 320,320
+images/sprites/souls/soul sketchy lg.png
+image 193,168
+images/sprites/souls/soul sketchy sm.png
+image 100,87
+images/sprites/souls/soul sketchy white lg.png
+image 193,168
+images/sprites/souls/soul sketchy white sm.png
+image 100,87
+images/sprites/souls/soul sm.png
+image 32,32
+images/sprites/souls/tv broken lg.png
+image 351,405
+images/sprites/souls/tv cracked lg.png
+image 351,405
+images/sprites/souls/tv cracked2 lg.png
+image 351,405
+images/sprites/souls/tv lg.png
+image 351,405
+images/sprites/souls/tv sm.png
+image 39,45
+images/sprites/spamton/angel down.png
+image 373,357
+images/sprites/spamton/angel green1.png
+image 373,357
+images/sprites/spamton/angel green2.png
+image 373,357
+images/sprites/spamton/angel green3.png
+image 373,357
+images/sprites/spamton/angel green4.png
+image 373,357
+images/sprites/spamton/angel still.png
+image 373,357
+images/sprites/spamton/angel up.png
+image 373,357
+images/sprites/spamton/mini icon spamton.png
+image 263,422
+images/sprites/spamton/spam button h.png
+image 133,313
+images/sprites/spamton/spam button.png
+image 133,313
+images/sprites/spamton/spam crazy anger.png
+image 505,849
+images/sprites/spamton/spam crazy avert.png
+image 505,849
+images/sprites/spamton/spam crazy frantic.png
+image 505,849
+images/sprites/spamton/spam crazy laugh.png
+image 505,849
+images/sprites/spamton/spam crazy smirk.png
+image 505,849
+images/sprites/spamton/spam panic up scream.png
+image 505,849
+images/sprites/spamton/spam panic up screame.png
+image 505,849
+images/sprites/spamton/spam slouch down frown.png
+image 505,849
+images/sprites/spamton/spam slouch down panic.png
+image 505,849
+images/sprites/spamton/spam slouch down smile.png
+image 505,849
+images/sprites/spamton/spam slouch down static 1.png
+image 505,849
+images/sprites/spamton/spam slouch down static 2.png
+image 505,849
+images/sprites/spamton/spam standing down frown.png
+image 505,849
+images/sprites/spamton/spam standing down panic.png
+image 505,849
+images/sprites/spamton/spam standing down smile.png
+image 505,849
+images/sprites/spamton/spam standing down static 1.png
+image 505,849
+images/sprites/spamton/spam standing down static 2.png
+image 505,849
+images/sprites/spamton/spam standing tilt laugh.png
+image 505,849
+images/sprites/spamton/spam standing tilt stare.png
+image 505,849
+images/sprites/spamton/spam standing up frown.png
+image 505,849
+images/sprites/spamton/spam standing up frowne.png
+image 505,849
+images/sprites/spamton/spam standing up glare.png
+image 505,849
+images/sprites/spamton/spam standing up glaree.png
+image 505,849
+images/sprites/spamton/spam standing up smile.png
+image 505,849
+images/sprites/spamton/spam standing up smirk.png
+image 505,849
+images/sprites/spamton/spam standing up smirke.png
+image 505,849
+images/sprites/spamton/spam standing up stare.png
+image 505,849
+images/sprites/spamton/spamadd side.png
+image 72,72
+images/sprites/spamton/spamglass side.png
+image 72,72
+images/sprites/spamton/spamton date.png
+image 200,72
+images/sprites/spamton/spamton side.png
+image 72,72
+images/sprites/spamton/strings.png
+image 266,1080
+images/sprites/starwalker smol h.png
+image 170,210
+images/sprites/starwalker smol.png
+image 170,210
+images/sprites/starwalker.png
+image 588,731
+images/sprites/tenna/lot tenna overlay.png
+image 408,865
+images/sprites/tenna/mini icon tenna1.png
+image 263,422
+images/sprites/tenna/mini icon tenna2.png
+image 263,422
+images/sprites/tenna/ten button h.png
+image 207,496
+images/sprites/tenna/ten button.png
+image 207,496
+images/sprites/tenna/tenna date.png
+image 200,72
+images/sprites/tenna/tenna panic flustered.png
+image 886,1200
+images/sprites/tenna/tenna panic panic.png
+image 886,1200
+images/sprites/tenna/tenna panic smpte.png
+image 886,1200
+images/sprites/tenna/tenna side.png
+image 72,72
+images/sprites/tenna/tenna slouch claw angry.png
+image 886,1200
+images/sprites/tenna/tenna slouch claw panic.png
+image 886,1200
+images/sprites/tenna/tenna slouch panic panic.png
+image 886,1200
+images/sprites/tenna/tenna slouch panic smpte.png
+image 886,1200
+images/sprites/tenna/tenna slouch panic static.png
+image 886,1200
+images/sprites/tenna/tenna slouch whisper smug.png
+image 886,1200
+images/sprites/tenna/tenna stretch raised cheer.png
+image 886,1200
+images/sprites/tenna/tenna stretch shrug smile.png
+image 886,1200
+images/sprites/tenna/tenna stretch shrug weak.png
+image 886,1200
+images/sprites/tenna/tenna upright behind angry.png
+image 886,1200
+images/sprites/tenna/tenna upright behind awkward.png
+image 886,1200
+images/sprites/tenna/tenna upright behind black.png
+image 886,1200
+images/sprites/tenna/tenna upright behind blank.png
+image 886,1200
+images/sprites/tenna/tenna upright behind confused.png
+image 886,1200
+images/sprites/tenna/tenna upright behind frown.png
+image 886,1200
+images/sprites/tenna/tenna upright behind neutral.png
+image 886,1200
+images/sprites/tenna/tenna upright behind nose.png
+image 886,1200
+images/sprites/tenna/tenna upright behind nosed.png
+image 886,1200
+images/sprites/tenna/tenna upright behind panic.png
+image 886,1200
+images/sprites/tenna/tenna upright behind smile.png
+image 886,1200
+images/sprites/tenna/tenna upright card angry.png
+image 886,1200
+images/sprites/tenna/tenna upright card awkward.png
+image 886,1200
+images/sprites/tenna/tenna upright card blank.png
+image 886,1200
+images/sprites/tenna/tenna upright card confused.png
+image 886,1200
+images/sprites/tenna/tenna upright card frown.png
+image 886,1200
+images/sprites/tenna/tenna upright card neutral.png
+image 886,1200
+images/sprites/tenna/tenna upright card panic.png
+image 886,1200
+images/sprites/tenna/tenna upright card smile.png
+image 886,1200
+images/sprites/tenna/tenna upright chest angry.png
+image 886,1200
+images/sprites/tenna/tenna upright chest awkward.png
+image 886,1200
+images/sprites/tenna/tenna upright chest blank.png
+image 886,1200
+images/sprites/tenna/tenna upright chest confused.png
+image 886,1200
+images/sprites/tenna/tenna upright chest frown.png
+image 886,1200
+images/sprites/tenna/tenna upright chest neutral.png
+image 886,1200
+images/sprites/tenna/tenna upright chest panic.png
+image 886,1200
+images/sprites/tenna/tenna upright chest smile.png
+image 886,1200
+images/sprites/tenna/tenna upright pointing oh.png
+image 886,1200
+images/sprites/tenna/tenna upright pointing smile.png
+image 886,1200
+images/sprites/tenna/tenna upright pointing weak.png
+image 886,1200
+images/sprites/tenna/tenna upright pressed smile.png
+image 886,1200
+images/sprites/text/back.png
+image 160,44
+images/sprites/text/charmer1.png
+image 279,43
+images/sprites/text/charmer2.png
+image 279,43
+images/sprites/text/charmer3.png
+image 279,43
+images/sprites/text/charmer4.png
+image 279,43
+images/sprites/text/charmer5.png
+image 279,43
+images/sprites/text/charmer6.png
+image 279,43
+images/sprites/text/charmer7.png
+image 279,43
+images/sprites/text/charmer8.png
+image 279,43
+images/sprites/text/dream.png
+image 132,38
+images/sprites/text/explosions.png
+image 266,44
+images/sprites/text/explosions1.png
+image 266,44
+images/sprites/text/explosions10.png
+image 266,44
+images/sprites/text/explosions2.png
+image 266,44
+images/sprites/text/explosions3.png
+image 266,44
+images/sprites/text/explosions4.png
+image 266,44
+images/sprites/text/explosions5.png
+image 266,44
+images/sprites/text/explosions6.png
+image 266,44
+images/sprites/text/explosions7.png
+image 266,44
+images/sprites/text/explosions8.png
+image 266,44
+images/sprites/text/explosions9.png
+image 266,44
+images/sprites/text/favorite.png
+image 140,47
+images/sprites/text/first.png
+image 88,47
+images/sprites/text/fun1.png
+image 104,55
+images/sprites/text/fun10.png
+image 104,55
+images/sprites/text/fun11.png
+image 104,55
+images/sprites/text/fun12.png
+image 104,55
+images/sprites/text/fun13.png
+image 104,55
+images/sprites/text/fun14.png
+image 104,55
+images/sprites/text/fun15.png
+image 104,55
+images/sprites/text/fun2.png
+image 104,55
+images/sprites/text/fun3.png
+image 104,55
+images/sprites/text/fun4.png
+image 104,55
+images/sprites/text/fun5.png
+image 104,55
+images/sprites/text/fun6.png
+image 104,55
+images/sprites/text/fun7.png
+image 104,55
+images/sprites/text/fun8.png
+image 104,55
+images/sprites/text/fun9.png
+image 104,55
+images/sprites/text/gameover.png
+image 326,74
+images/sprites/text/great.png
+image 125,65
+images/sprites/text/groovy.png
+image 131,50
+images/sprites/text/heartwarming reunion.png
+image 716,91
+images/sprites/text/hope1.png
+image 132,76
+images/sprites/text/hope10.png
+image 132,76
+images/sprites/text/hope11.png
+image 132,76
+images/sprites/text/hope12.png
+image 132,76
+images/sprites/text/hope13.png
+image 132,76
+images/sprites/text/hope14.png
+image 132,76
+images/sprites/text/hope15.png
+image 132,76
+images/sprites/text/hope16.png
+image 132,76
+images/sprites/text/hope17.png
+image 132,76
+images/sprites/text/hope18.png
+image 132,76
+images/sprites/text/hope19.png
+image 132,76
+images/sprites/text/hope2.png
+image 132,76
+images/sprites/text/hope20.png
+image 132,76
+images/sprites/text/hope21.png
+image 132,76
+images/sprites/text/hope22.png
+image 132,76
+images/sprites/text/hope23.png
+image 132,76
+images/sprites/text/hope24.png
+image 132,76
+images/sprites/text/hope25.png
+image 132,76
+images/sprites/text/hope26.png
+image 132,76
+images/sprites/text/hope27.png
+image 132,76
+images/sprites/text/hope28.png
+image 132,76
+images/sprites/text/hope29.png
+image 132,76
+images/sprites/text/hope3.png
+image 132,76
+images/sprites/text/hope30.png
+image 132,76
+images/sprites/text/hope31.png
+image 132,76
+images/sprites/text/hope32.png
+image 132,76
+images/sprites/text/hope33.png
+image 132,76
+images/sprites/text/hope34.png
+image 132,76
+images/sprites/text/hope35.png
+image 132,76
+images/sprites/text/hope4.png
+image 132,76
+images/sprites/text/hope5.png
+image 132,76
+images/sprites/text/hope6.png
+image 132,76
+images/sprites/text/hope7.png
+image 132,76
+images/sprites/text/hope8.png
+image 132,76
+images/sprites/text/hope9.png
+image 132,76
+images/sprites/text/jealous.png
+image 173,56
+images/sprites/text/lightner1.png
+image 225,70
+images/sprites/text/lightner2.png
+image 225,70
+images/sprites/text/love.png
+image 124,58
+images/sprites/text/lovely.png
+image 143,55
+images/sprites/text/names1.png
+image 200,55
+images/sprites/text/names2.png
+image 200,55
+images/sprites/text/paradise1.png
+image 169,34
+images/sprites/text/paradise10.png
+image 169,34
+images/sprites/text/paradise2.png
+image 169,34
+images/sprites/text/paradise3.png
+image 169,34
+images/sprites/text/paradise4.png
+image 169,34
+images/sprites/text/paradise5.png
+image 169,34
+images/sprites/text/paradise6.png
+image 169,34
+images/sprites/text/paradise7.png
+image 169,34
+images/sprites/text/paradise8.png
+image 169,34
+images/sprites/text/paradise9.png
+image 169,34
+images/sprites/text/perfect1.png
+image 160,32
+images/sprites/text/perfect10.png
+image 160,32
+images/sprites/text/perfect2.png
+image 160,32
+images/sprites/text/perfect3.png
+image 160,32
+images/sprites/text/perfect4.png
+image 160,32
+images/sprites/text/perfect5.png
+image 160,32
+images/sprites/text/perfect6.png
+image 160,32
+images/sprites/text/perfect7.png
+image 160,32
+images/sprites/text/perfect8.png
+image 160,32
+images/sprites/text/perfect9.png
+image 160,32
+images/sprites/text/quizshow.png
+image 286,80
+images/sprites/text/special.png
+image 133,80
+images/sprites/text/star.png
+image 147,60
+images/sprites/text/surprise.png
+image 236,47
+images/sprites/text/tears1.png
+image 196,42
+images/sprites/text/tears10.png
+image 196,42
+images/sprites/text/tears11.png
+image 196,42
+images/sprites/text/tears12.png
+image 196,42
+images/sprites/text/tears13.png
+image 196,42
+images/sprites/text/tears14.png
+image 196,42
+images/sprites/text/tears15.png
+image 196,42
+images/sprites/text/tears16.png
+image 196,42
+images/sprites/text/tears17.png
+image 196,42
+images/sprites/text/tears18.png
+image 196,42
+images/sprites/text/tears19.png
+image 196,42
+images/sprites/text/tears2.png
+image 196,42
+images/sprites/text/tears3.png
+image 196,42
+images/sprites/text/tears4.png
+image 196,42
+images/sprites/text/tears5.png
+image 196,42
+images/sprites/text/tears6.png
+image 196,42
+images/sprites/text/tears7.png
+image 196,42
+images/sprites/text/tears8.png
+image 196,42
+images/sprites/text/tears9.png
+image 196,42
+images/sprites/text/tv tastic.png
+image 188,65
+images/sprites/text/tv time1.png
+image 337,117
+images/sprites/text/tv time2.png
+image 337,117
+images/sprites/text/word.png
+image 136,51
+images/static overlay 1.png
+image 1920,1080
+images/static overlay 2.png
+image 1920,1080
+images/static overlay 3.png
+image 1920,1080
+images/static overlay 4.png
+image 1920,1080
+images/vignette 1.png
+image 1920,1080
+images/vignette 2.png
+image 1920,1080
