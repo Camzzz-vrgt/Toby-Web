@@ -2,18 +2,18 @@ import { installTheme, listInstalledThemes, getInstalledTheme, uninstallTheme, v
 import { validateThemeName, validateThemeDescription } from "./theme-name-policy.mjs?v=3";
 
 const official = [
+  ["egg_room", "Egg Room", "egg-room.gif"],
   ["halloween_2026", "Halloween 2026", "halloween-2026.gif"],
   ["dr_ch5_anim", "Chapter 5 Animated", "dr-ch5-animated.webp"],
   ["black", "Black", null], ["ch1", "Chapter 1", "ch1.png"], ["ch2", "Chapter 2", "ch2.png"],
-  ["ch3", "Chapter 3", "ch3.png"], ["ch4", "Chapter 4", "ch4.png"], ["ch5", "Chapter 5", "ch5.png"],
+  ["ch5", "Chapter 5", "ch5.png"],
   ["tadc", "TADC", "tadc.png"], ["backrooms", "Backrooms", "backrooms.png"], ["pirate", "Pirate", "pirate.png"],
   ["kendrick", "Kendrick", "kendrick.png"], ["jackpot", "Jackpot", "jackpot.png"], ["dk", "DK", "dk.png"],
-  ["tung", "Tung", "tung.png"], ["dialtone_wrong", "Dialtone", "dialtone.png"], ["dialtone_normal", "Sadtone", "dialtone.png"],
+  ["tung", "Tung", "tung.png"],
   ["mad_spam", "Mad-Spam", "mad-spam.png"], ["birdbrain", "Birdbrain", "birdbrain.png"], ["imposter", "Imposter", "imposter.png"],
   ["excuseme", "Excuseme", "excuseme.png"], ["excuseme2", "Excuseme2", "excuseme2.png"], ["last_sahur", "Last Sahur", "last-sahur.png"],
   ["90s", "90s", "90s.png"], ["hotline", "Hotline", "hotline.png"], ["knight_shanty", "Knight Shanty", "knight-shanty.png"],
-  ["aqua", "Aqua", "aqua.png"], ["washy_washy", "WASHY WASHY", "washy-washy.png"],
-  ["ralseis_got_a_gun", "Ralsei's Got A Gun", "ralseis-got-a-gun.png"]
+  ["aqua", "Aqua", "aqua.png"], ["washy_washy", "WASHY WASHY", "washy-washy.png"]
 ];
 
 const $ = id => document.getElementById(id);
@@ -176,8 +176,8 @@ function makeCard({ id, name, image, badge, creator, installed = false }) {
     remove.addEventListener("click", async () => {
       await uninstallTheme(id);
       if (localStorage.getItem("dul_site_background") === id) {
-        localStorage.setItem("dul_site_background", "halloween_2026");
-        onThemeChanged("halloween_2026");
+        localStorage.setItem("dul_site_background", "egg_room");
+        onThemeChanged("egg_room");
       }
       await renderLibrary();
     });
@@ -326,8 +326,8 @@ async function renderDiscover() {
           if (installedIds.has(theme.id)) {
             await uninstallTheme(theme.id);
             if (localStorage.getItem("dul_site_background") === theme.id) {
-              localStorage.setItem("dul_site_background", "halloween_2026");
-              onThemeChanged("halloween_2026");
+              localStorage.setItem("dul_site_background", "egg_room");
+              onThemeChanged("egg_room");
             }
             await renderLibrary();
             await refreshDiscover();

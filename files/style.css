@@ -26,7 +26,7 @@ body {
 }
 
 a {
-  color: inherit !important;
+  color: inherit;
   text-decoration: none !important;
   outline: none !important;
   display: block;

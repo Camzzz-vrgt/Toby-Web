@@ -10,6 +10,10 @@ files/fnaftale-candidate/
 files/fnaftale-rawtest/
 files/fnaftale-runner-test/
 
+# Unreleased ports — work-in-progress, not linked in the launcher yet
+files/dr-survey-program/
+files/icebound/
+
 # Downloaded local tooling cache
 tools/utmt-cli/
 

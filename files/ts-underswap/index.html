@@ -107,20 +107,28 @@
     <script>
       // The Windows build uses a native DLL only for Discord Rich Presence.
       // The YoYo web runner resolves those exports as global JavaScript functions.
-      // Keep gameplay intact while treating presence as unavailable in browsers.
-      globalThis.init = () => 0;
+      // Browsers cannot talk to a desktop Discord client, so these stubs keep the
+      // game's presence feature "initialized" (the YES prompt works, in-game state
+      // tracks) and mirror the latest activity into the page title so it is
+      // still visible somewhere.
+      const presenceState = { details: "", state: "" };
+      const presenceApplyTitle = () => {
+        const parts = [presenceState.details, presenceState.state].filter(s => typeof s === "string" && s.length > 0);
+        document.title = parts.length ? "TS!UNDERSWAP - " + parts.join(" / ") : "TS!UNDERSWAP";
+      };
+      globalThis.init = () => 1;
       globalThis.update = () => 0;
-      globalThis.get_error = () => 0;
-      globalThis.update_activity = () => 0;
-      globalThis.set_state = () => 0;
-      globalThis.set_details = () => 0;
-      globalThis.reset = () => 0;
-      globalThis.get_initialized = () => 0;
+      globalThis.get_error = () => "";
+      globalThis.update_activity = () => { presenceApplyTitle(); return 0; };
+      globalThis.set_state = (s) => { presenceState.state = s || ""; presenceApplyTitle(); return 0; };
+      globalThis.set_details = (s) => { presenceState.details = s || ""; presenceApplyTitle(); return 0; };
+      globalThis.reset = () => { presenceState.details = ""; presenceState.state = ""; presenceApplyTitle(); return 0; };
+      globalThis.get_initialized = () => 1;
 
       const GAME_PARTS = ["game.unx"];
       const RUNNER_DATA_PARTS = ["runner.data"];
       let totalAssetParts = GAME_PARTS.length + RUNNER_DATA_PARTS.length;
-      const GAME_MD5 = "12fc1d30df4254d7675f40a82a1b0b9d";
+      const GAME_MD5 = "e94c209cac66de8abcf9e8ce225760ba";
       const ASSET_VERSION = "ts-underswap-2-1-2-20260917-runner-fix";
       const NATIVE_GAME_WIDTH = 640;
       const NATIVE_GAME_HEIGHT = 480;

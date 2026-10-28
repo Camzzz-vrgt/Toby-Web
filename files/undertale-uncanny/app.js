@@ -1,4 +1,4 @@
-import { startButterscotch } from "../butterscotch-host.js";
+import { ensureRunnerIsolation, startButterscotch } from "../butterscotch-host.js";
 
 const canvas = document.getElementById("game");
 const loading = document.getElementById("loading");
@@ -41,6 +41,7 @@ async function startGame() {
 }
 
 async function boot() {
+  await ensureRunnerIsolation();
   if (!window.crossOriginIsolated || typeof SharedArrayBuffer === "undefined") {
     throw new Error("The runner needs cross-origin isolation. Reload once; if this remains, use Toby Web through HTTPS or start-local.bat.");
   }

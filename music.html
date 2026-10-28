@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music Library - Toby Web</title>
+<style>
+  :root { color-scheme: dark; --white: #fff; --yellow: var(--theme-accent, #ffff00); }
+  * { box-sizing: border-box; }
+  html { background: #090910; }
+  body { margin: 0; color: var(--white); background: #090910; letter-spacing: 0; }
+  header { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 12px 24px; border-bottom: 2px solid #fff; background: #000; }
+  h1 { margin: 0; font-size: 30px; line-height: 1; }
+  h2 { font-size: 18px; margin: 0; }
+  p { line-height: 1.6; margin: 0 0 14px; color: #d7d7d7; }
+  a { color: var(--yellow); }
+  .back, .btn { display: inline-block; border: 2px solid #fff; border-radius: 0; background: #000; color: #fff; padding: 8px 12px; text-decoration: none; text-transform: uppercase; cursor: pointer; font: inherit; font-size: 15px; }
+  .back:hover, .btn:hover { color: var(--yellow); border-color: var(--yellow); }
+  .btn.danger:hover { color: #ff5a5a; border-color: #ff5a5a; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  main { padding: 20px 24px 60px; }
+  .summary { border: 2px solid var(--white); background: #000; padding: 12px 18px; margin: 0 0 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .summary .big { font-size: 26px; color: var(--yellow); white-space: nowrap; }
+  .summary .grow { flex: 1 1 200px; min-width: 200px; }
+  .bar { height: 12px; border: 2px solid var(--white); background: #111; }
+  .bar i { display: block; height: 100%; background: var(--yellow); width: 0; }
+  .games { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .game { border: 2px solid var(--white); background: #000; padding: 13px 16px; }
+  .game-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; cursor: pointer; }
+  .game-head:hover h2 { color: var(--yellow); }
+  .game-head .count { color: #9a9a9a; font-size: 15px; white-space: nowrap; }
+  .game-head .count.full { color: var(--yellow); }
+  .game .bar { margin: 9px 0 3px; }
+  .songs { display: none; margin-top: 12px; max-height: 260px; overflow: auto; border-top: 1px solid #ffffff22; padding-top: 10px; }
+  .game.open .songs { display: block; }
+  .song { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 14px; color: #6f6f6f; }
+  .song.have { color: var(--yellow); }
+  .song .nm { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .song .rm { border: none; background: none; color: #ff5a5a; cursor: pointer; font: inherit; font-size: 14px; display: none; }
+  .song.have .rm { display: inline; }
+  .song .rm:hover { color: #fff; }
+  .status { min-height: 22px; margin: 0 0 14px; color: var(--yellow); }
+  .note { color: #8f8f8f; font-size: 14px; margin-top: 26px; line-height: 1.6; }
+  input[type=file] { display: none; }
+  @media (max-width: 640px) { header { padding: 10px 14px; } h1 { font-size: 24px; } main { padding: 14px 14px 50px; } .games { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <a class="back" id="backBtn">&lt; Back</a>
+  <h1>Music Library</h1>
+  <div class="actions">
+    <button class="btn" id="pickFiles">Import songs</button>
+    <button class="btn" id="pickFolder">Import folder</button>
+    <button class="btn" id="pickZip">Import .zip</button>
+    <input type="file" id="fileInput" multiple accept=".ogg,.wav,.mp3,.flac,.m4a,audio/*">
+    <input type="file" id="dirInput" webkitdirectory>
+    <input type="file" id="zipInput" accept=".zip,application/zip">
+  </div>
+</header>
+<main>
+  <p>Music owned by Materia Music was removed from this site. If you own the soundtracks, you can restore them here &mdash; upload your own copies and the games will play them again. Everything stays in <strong>your browser</strong>; nothing is uploaded anywhere.</p>
+
+  <div class="summary">
+    <span class="big" id="totals">0 / 0</span>
+    <div class="grow"><div class="bar"><i id="totalBar"></i></div></div>
+    <button class="btn" id="expandAll">Expand all</button>
+    <button class="btn danger" id="clearAll">Clear library</button>
+  </div>
+  <div class="status" id="status"></div>
+
+  <div class="games" id="games"></div>
+
+  <p class="note">Files are matched to games by filename and folder &mdash; keep the original names and folder structure (for example <code>mus/hangout.ogg</code> style names from a DELTARUNE install, or <code>mus_*.ogg</code> from UNDERTALE). Mods that reuse chapter music are restored automatically. Requires a browser with IndexedDB; the library is local to this device and this browser only.</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var FB = (typeof window !== 'undefined' && window.FILES_BASE) || null;
+  var BASE = FB ? FB.replace(/\/?$/, '/') : 'files/';
+  var MANIFEST_URL = FB ? FB + 'music-manifest.json' : 'files/music-manifest.json';
+  var FONT_URL = BASE + 'font.otf';
+  var DB_NAME = 'toby-music', STORE = 'files';
+  var AUDIO_EXT = /\.(ogg|wav|mp3|flac|m4a)$/i;
+
+  /* load the site font when served from a foreign base */
+  try {
+    var st = document.createElement('style');
+    st.textContent = '@font-face{font-family:Deltarune;src:url("' + FONT_URL + '") format("opentype");font-display:swap}body{font-family:Deltarune,monospace}';
+    document.head.appendChild(st);
+  } catch (e) {}
+
+  var back = document.getElementById('backBtn');
+  back.setAttribute('href', FB ? '#' : 'index.html');
+  back.addEventListener('click', function (ev) {
+    if (FB) { ev.preventDefault(); location.reload(); }
+  });
+
+  /* Ask for persistent storage up-front — keeps the library from being
+     evicted and raises the quota on browsers that grant it. */
+  try {
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+  } catch (e) {}
+
+  var dbPromise = null;
+  function idb() {
+    if (!dbPromise) dbPromise = new Promise(function (res, rej) {
+      var rq = indexedDB.open(DB_NAME, 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore(STORE); };
+      rq.onsuccess = function () { res(rq.result); };
+      rq.onerror = function () { rej(rq.error); };
+    });
+    return dbPromise;
+  }
+  function tx(mode, fn) {
+    return idb().then(function (db) {
+      return new Promise(function (res, rej) {
+        var t = db.transaction(STORE, mode);
+        var s = t.objectStore(STORE);
+        var out = fn(s);
+        t.oncomplete = function () { res(out); };
+        t.onerror = function () { rej(t.error); };
+      });
+    });
+  }
+  function del(key) { return tx('readwrite', function (s) { s.delete(key); }); }
+  function clearAll() { return tx('readwrite', function (s) { s.clear(); }); }
+  function allKeys() {
+    return idb().then(function (db) {
+      return new Promise(function (res) {
+        var rq = db.transaction(STORE, 'readonly').objectStore(STORE).getAllKeys();
+        rq.onsuccess = function () { res(rq.result || []); };
+        rq.onerror = function () { res([]); };
+      });
+    });
+  }
+
+  var manifest = null;
+  var have = new Set();
+  var status = document.getElementById('status');
+
+  function basename(p) { return p.split(/[\\/]/).pop(); }
+
+  function refresh() {
+    return allKeys().then(function (keys) {
+      have = new Set(keys);
+      render();
+    });
+  }
+
+  function render() {
+    var games = document.getElementById('games');
+    games.innerHTML = '';
+    var tot = 0, got = 0;
+    manifest.groups.forEach(function (g) {
+      var n = 0;
+      g.files.forEach(function (f) { if (have.has(g.key + '|' + f)) n++; });
+      tot += g.files.length; got += n;
+      var card = document.createElement('div');
+      card.className = 'game';
+      card.innerHTML =
+        '<div class="game-head"><h2>' + g.title + '</h2>' +
+        '<span class="count' + (n === g.files.length && n ? ' full' : '') + '">' + n + ' / ' + g.files.length + '</span></div>' +
+        '<div class="bar"><i style="width:' + (g.files.length ? Math.round(100 * n / g.files.length) : 0) + '%"></i></div>';
+      var songs = document.createElement('div');
+      songs.className = 'songs';
+      g.files.forEach(function (f) {
+        var has = have.has(g.key + '|' + f);
+        var row = document.createElement('div');
+        row.className = 'song' + (has ? ' have' : '');
+        row.innerHTML = '<span class="nm">' + f + '</span>' +
+          (has ? '<button class="rm" title="Remove">x</button>' : '');
+        if (has) row.querySelector('.rm').addEventListener('click', function (ev) {
+          ev.stopPropagation();
+          del(g.key + '|' + f).then(refresh);
+        });
+        songs.appendChild(row);
+      });
+      card.querySelector('.game-head').addEventListener('click', function () {
+        card.classList.toggle('open');
+      });
+      card.appendChild(songs);
+      games.appendChild(card);
+    });
+    document.getElementById('totals').textContent = got + ' / ' + tot;
+    document.getElementById('totalBar').style.width = (tot ? Math.round(100 * got / tot) : 0) + '%';
+  }
+
+  /* Which library keys a file satisfies. Path hints: a folder named after a
+     group (chapter1, undertale, a mod dir) pins the file to that group, so
+     same-named variants across games don't cross-pollute. Falls back to
+     matching every group that needs the name. */
+  function keysFor(name, relPath) {
+    var base = basename(name);
+    if (!AUDIO_EXT.test(base)) return [];
+    var segs = (relPath || name).toLowerCase().split(/[\\/]/);
+    var hinted = manifest.groups.filter(function (g) {
+      return segs.indexOf(g.key) >= 0 ||
+        (g.key === 'undertale' && segs.some(function (s) { return s.indexOf('undertale') >= 0; }));
+    });
+    var keys = [];
+    var scan = function (groups) {
+      groups.forEach(function (g) {
+        if (g.files.indexOf(base) >= 0) keys.push(g.key + '|' + base);
+      });
+    };
+    scan(hinted.length ? hinted : manifest.groups);
+    if (!keys.length) scan(manifest.groups);
+    return keys;
+  }
+
+  /* Chunked batch writer — one IndexedDB transaction per 500 entries instead
+     of one per song; thousands of separate transactions stall big imports. */
+  function putMany(pairs, onProgress) {
+    if (!pairs.length) return Promise.resolve(0);
+    return idb().then(function (db) {
+      return new Promise(function (res, rej) {
+        var CHUNK = 500, i = 0;
+        (function next() {
+          var slice = pairs.slice(i, i + CHUNK);
+          if (!slice.length) { res(i); return; }
+          var t = db.transaction(STORE, 'readwrite');
+          var s = t.objectStore(STORE);
+          slice.forEach(function (kv) { s.put(kv[1], kv[0]); });
+          t.oncomplete = function () {
+            i += CHUNK;
+            if (onProgress) onProgress(Math.min(i, pairs.length), pairs.length);
+            next();
+          };
+          t.onerror = function () { rej(t.error); };
+          t.onabort = function () { rej(t.error); };
+        })();
+      });
+    });
+  }
+
+  function importFiles(files, label) {
+    var list = [].slice.call(files || []);
+    if (!list.length) return Promise.resolve();
+    status.textContent = 'Importing ' + list.length + ' item' + (list.length > 1 ? 's' : '') + label + '...';
+    var matched = 0, skipped = 0, pairs = [];
+    list.forEach(function (file) {
+      var keys = keysFor(file.name, file.webkitRelativePath || file.name);
+      if (keys.length) { matched++; keys.forEach(function (k) { pairs.push([k, file]); }); }
+      else skipped++;
+    });
+    if (!pairs.length) {
+      status.textContent = 'Done: no files matched any required song.';
+      return Promise.resolve();
+    }
+    return putMany(pairs, function (i, total) {
+      status.textContent = 'Writing ' + i + ' / ' + total + ' songs to the library...';
+    }).then(function () {
+      status.textContent = 'Done: ' + matched + ' song' + (matched === 1 ? '' : 's') + ' added to the library' +
+        (skipped ? ', ' + skipped + ' file' + (skipped === 1 ? '' : 's') + ' did not match any required song' : '') + '.';
+      return refresh();
+    });
+  }
+
+  /* -------- streaming zip reader (stored + deflate entries) --------
+     Reads only headers into memory; song payloads stay as file.slice()
+     Blob views so multi-GB zips never get buffered whole. */
+  function inflateBlob(blob) {
+    var ds = new DecompressionStream('deflate-raw');
+    return new Response(blob.stream().pipeThrough(ds)).blob();
+  }
+  function u16(d, o) { return d.getUint16(o, true); }
+  function u32(d, o) { return d.getUint32(o, true); }
+  function readZip(file) {
+    var tailStart = Math.max(0, file.size - 131072);
+    return file.slice(tailStart).arrayBuffer().then(function (tb) {
+      var t = new DataView(tb), e = t.byteLength - 22, eocd = -1;
+      while (e >= 0) { if (u32(t, e) === 0x06054b50) { eocd = e; break; } e--; }
+      if (eocd < 0) throw new Error('not a zip');
+      var count = u16(t, eocd + 10), cdOff = u32(t, eocd + 16), cdSize = u32(t, eocd + 12);
+      if (count === 0xffff || cdOff === 0xffffffff || cdSize === 0xffffffff) throw new Error('zip64 not supported');
+      return file.slice(cdOff, cdOff + cdSize).arrayBuffer().then(function (cb) {
+        return { cd: new DataView(cb), count: count };
+      });
+    }).then(function (r) {
+      var d = r.cd, off = 0, jobs = [];
+      var job = function (name, lho, csize, method) {
+        return file.slice(lho, lho + 30).arrayBuffer().then(function (hb) {
+          var h = new DataView(hb);
+          var dataOff = lho + 30 + u16(h, 26) + u16(h, 28);
+          var blob = file.slice(dataOff, dataOff + csize);
+          return { name: name, blob: method === 8 ? inflateBlob(blob) : Promise.resolve(blob) };
+        });
+      };
+      for (var i = 0; i < r.count; i++) {
+        if (u32(d, off) !== 0x02014b50) break;
+        var method = u16(d, off + 10), csize = u32(d, off + 20), usize = u32(d, off + 24);
+        var nl = u16(d, off + 28), el = u16(d, off + 30), cl = u16(d, off + 32);
+        var lho = u32(d, off + 42);
+        /* ZIP64 extra field (tag 0x0001): real values stored in order
+           usize, csize, lho — only for fields that were saturated. */
+        if (usize === 0xffffffff || csize === 0xffffffff || lho === 0xffffffff) {
+          var ex = off + 46 + nl, exEnd = ex + el;
+          while (ex + 4 <= exEnd) {
+            var tag = u16(d, ex), esz = u16(d, ex + 2);
+            if (tag === 0x0001) {
+              var p = ex + 4;
+              if (usize === 0xffffffff) { usize = Number(d.getBigUint64(p, true)); p += 8; }
+              if (csize === 0xffffffff) { csize = Number(d.getBigUint64(p, true)); p += 8; }
+              if (lho === 0xffffffff) { lho = Number(d.getBigUint64(p, true)); }
+              break;
+            }
+            ex += 4 + esz;
+          }
+        }
+        var name = new TextDecoder().decode(new Uint8Array(d.buffer, off + 46, nl));
+        if (name.slice(-1) !== '/' && AUDIO_EXT.test(name)) jobs.push(job(name, lho, csize, method));
+        off += 46 + nl + el + cl;
+      }
+      return Promise.all(jobs);
+    }).then(function (items) {
+      return Promise.all(items.map(function (it) {
+        return it.blob.then(function (b) { return { name: it.name, blob: b }; });
+      }));
+    });
+  }
+
+  document.getElementById('pickFiles').addEventListener('click', function () { document.getElementById('fileInput').click(); });
+  document.getElementById('pickFolder').addEventListener('click', function () { document.getElementById('dirInput').click(); });
+  document.getElementById('pickZip').addEventListener('click', function () { document.getElementById('zipInput').click(); });
+  document.getElementById('fileInput').addEventListener('change', function (ev) { importFiles(ev.target.files, ''); ev.target.value = ''; });
+  document.getElementById('dirInput').addEventListener('change', function (ev) { importFiles(ev.target.files, ' from folder'); ev.target.value = ''; });
+  document.getElementById('zipInput').addEventListener('change', function (ev) {
+    var f = ev.target.files && ev.target.files[0];
+    ev.target.value = '';
+    if (!f) return;
+    status.textContent = 'Reading zip...';
+    readZip(f).then(function (entries) {
+      status.textContent = 'Matching ' + entries.length + ' songs from zip...';
+      var matched = 0, skipped = 0, jobs = [];
+      entries.forEach(function (en) {
+        var keys = keysFor(en.name, en.name);
+        if (!keys.length) { skipped++; return; }
+        matched++;
+        jobs.push(Promise.resolve(en.blob).then(function (b) {
+          return keys.map(function (k) { return [k, b]; });
+        }));
+      });
+      return Promise.all(jobs).then(function (lists) {
+        var pairs = [];
+        lists.forEach(function (l) { pairs.push.apply(pairs, l); });
+        return putMany(pairs, function (i, total) {
+          status.textContent = 'Writing ' + i + ' / ' + total + ' songs to the library...';
+        }).then(function () {
+          status.textContent = 'Done: ' + matched + ' song' + (matched === 1 ? '' : 's') + ' added to the library' +
+            (skipped ? ', ' + skipped + ' skipped (no matching song)' : '') + '.';
+        });
+      });
+    }).then(refresh).catch(function (e) {
+      console.error('zip import failed:', e);
+      status.textContent = (e && (e.name === 'QuotaExceededError' || e.code === 22))
+        ? 'Ran out of browser storage space — the library could not be fully written. Free up disk space or try a smaller set.'
+        : 'Could not read that zip file.';
+    });
+  });
+
+  document.getElementById('expandAll').addEventListener('click', function () {
+    var cards = document.querySelectorAll('.game');
+    var anyClosed = [].some.call(cards, function (c) { return !c.classList.contains('open'); });
+    [].forEach.call(cards, function (c) { c.classList.toggle('open', anyClosed); });
+  });
+  document.getElementById('clearAll').addEventListener('click', function () {
+    if (!confirm('Remove every uploaded song from the library?')) return;
+    clearAll().then(refresh).then(function () { status.textContent = 'Library cleared.'; });
+  });
+
+  fetch(MANIFEST_URL).then(function (r) { return r.json(); }).then(function (m) {
+    manifest = m;
+    return refresh();
+  }).catch(function () {
+    status.textContent = 'Could not load the song list.';
+  });
+})();
+</script>
+</body>
+</html>

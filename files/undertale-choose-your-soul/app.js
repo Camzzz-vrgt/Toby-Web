@@ -102,6 +102,7 @@
 
   async function boot() {
     if (!window.crossOriginIsolated || typeof SharedArrayBuffer === "undefined") {
+      if (window.TobyRunnerCOIReloadPending) return;
       throw new Error("The runner needs cross-origin isolation. Reload once; if this remains, use Toby Web through HTTPS or start-local.bat.");
     }
     if (!HTMLCanvasElement.prototype.transferControlToOffscreen) {

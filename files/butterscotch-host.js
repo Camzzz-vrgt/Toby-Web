@@ -1,3 +1,44 @@
+const COI_SW_NAME = "coi-serviceworker.js";
+const COI_RETRY_KEY = "tobyweb.butterscotch.coiRetries";
+const COI_MAX_RETRIES = 6;
+
+if (typeof window !== "undefined" && window.crossOriginIsolated) {
+  try { sessionStorage.removeItem(COI_RETRY_KEY); } catch (_) {}
+}
+
+// Resolves when the page is isolated enough for SharedArrayBuffer. When it is
+// not, this (re)registers the per-game coi-serviceworker.js and reloads; while
+// a reload is pending the returned promise never settles, so callers can
+// `await` it before showing their "needs cross-origin isolation" error without
+// the error flashing during a recovery that would have succeeded.
+export async function ensureRunnerIsolation() {
+  if (window.crossOriginIsolated && typeof SharedArrayBuffer !== "undefined") {
+    try { sessionStorage.removeItem(COI_RETRY_KEY); } catch (_) {}
+    return;
+  }
+  const canRetry = location.protocol !== "file:" &&
+    window.isSecureContext !== false &&
+    "serviceWorker" in navigator;
+  if (!canRetry) return;
+  let retries = 0;
+  try { retries = Number(sessionStorage.getItem(COI_RETRY_KEY)) || 0; } catch (_) {}
+  if (retries >= COI_MAX_RETRIES) {
+    try { sessionStorage.removeItem(COI_RETRY_KEY); } catch (_) {}
+    return;
+  }
+  try { sessionStorage.setItem(COI_RETRY_KEY, String(retries + 1)); } catch (_) {}
+  try {
+    await navigator.serviceWorker.register(
+      new URL(COI_SW_NAME, location.href), { updateViaCache: "none" });
+    await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise(resolve => setTimeout(resolve, 8000)),
+    ]);
+  } catch (_) {}
+  location.reload();
+  return new Promise(() => {});
+}
+
 function waitForWorker(worker, expectedType) {
   return new Promise((resolve, reject) => {
     const onMessage = event => {

@@ -1,6 +1,6 @@
 // Toby Web — in-game "home" button.
 // Shared script included at the bottom of every game runner page. Injects a
-// small semi-transparent launcher-styled button at the top-left that returns
+// small semi-transparent launcher-styled button at the top-right that returns
 // to the site's main menu (top-level), never to a game-internal menu.
 // Inside the single-file launcher (file:// document.write context — the
 // launcher's own globals survive on window) it reloads to restore the menu.
@@ -37,11 +37,13 @@
   var style = document.createElement("style");
   style.textContent =
     "@font-face{font-family:'Monster Friend';src:url('" + filesBase + "monster-friend-fore.woff2') format('woff2');font-display:swap;}" +
-    ".toby-home-btn{position:fixed;top:8px;left:8px;z-index:2147483647;margin:0;" +
+    ".toby-home-btn{position:fixed!important;top:8px!important;right:8px!important;left:auto!important;" +
+    "width:auto!important;max-width:none!important;min-width:0!important;height:auto!important;" +
+    "z-index:2147483647;margin:0;float:none!important;" +
     "border:2px solid #fff;background:rgba(0,0,0,.55);color:#fff;" +
     "font-family:'Monster Friend','Deltarune',monospace;font-size:11px;" +
     "text-transform:uppercase;letter-spacing:0;padding:4px 9px;cursor:pointer;" +
-    "line-height:1;display:inline-flex;align-items:center;user-select:none;-webkit-user-select:none;}" +
+    "line-height:1;display:inline-flex!important;align-items:center;user-select:none;-webkit-user-select:none;}" +
     ".toby-home-btn:hover{color:#ffff00;border-color:#ffff00;}";
 
   var btn = document.createElement("button");

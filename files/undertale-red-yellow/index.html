@@ -44,8 +44,9 @@
 <body>
   <canvas id="canvas" width="640" height="480" tabindex="0"></canvas>
   <div id="status">Preparing Undertale Red &amp; Yellow...</div>
+  <script src="coi-serviceworker.js"></script>
   <script type="module">
-    import { startButterscotch } from "../butterscotch-host.js";
+    import { ensureRunnerIsolation, startButterscotch } from "../butterscotch-host.js";
 
     const VERSION = "undertale-red-yellow-butterscotch-v2";
     const status = document.querySelector("#status");
@@ -143,15 +144,17 @@
     }
 
     async function startGame() {
-      await stageGameFiles();
+      await ensureRunnerIsolation();
       if (!window.crossOriginIsolated) {
         throw new Error("This game requires cross-origin isolation. Start Toby Web with start-local.bat.");
       }
+      await stageGameFiles();
       setStatus("Launching Undertale Red & Yellow...");
       window.__tobyWebRedYellowHost = await startButterscotch({
         canvas,
         gamePath: "/butterscotch/games/undertale-red-yellow/data.win",
         savePath: "/butterscotch/saves/undertale-red-yellow",
+        workerUrl: new URL("runner-worker.js", import.meta.url),
       });
       window.__tobyWebRedYellowReady = true;
       status.dataset.ready = "true";
