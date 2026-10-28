@@ -1,0 +1,5 @@
+[
+null,
+{"id":1,"battlerName":"sword_hero","characterIndex":6,"characterName":"$swordhero","classId":1,"equips":[2,2],"faceIndex":0,"faceName":"heroportrait","traits":[{"code":52,"dataId":1,"value":1},{"code":22,"dataId":0,"value":1},{"code":23,"dataId":5,"value":0.5}],"initialLevel":1,"maxLevel":10,"name":" ","nickname":"크리스","note":"//localStorage.setItem(\"title_0\", \"true\");\n//$gameVariables.setValue(21, Number(localStorage.getItem(\"DC\") || 0));\n","profile":"검 공격의 전문가."},
+{"id":2,"battlerName":"white_cloak","characterIndex":5,"characterName":"$cloak","classId":2,"equips":[3,3],"faceIndex":0,"faceName":"cloakportrait","traits":[{"code":52,"dataId":2,"value":1},{"code":22,"dataId":0,"value":1},{"code":23,"dataId":5,"value":0.5}],"initialLevel":4,"maxLevel":10,"name":" ","nickname":"노엘","note":"","profile":"고통을 받아들여 강해진다."}
+]
